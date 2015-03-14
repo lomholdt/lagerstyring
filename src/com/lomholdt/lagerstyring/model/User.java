@@ -6,13 +6,6 @@ public class User {
 	String username;
 	String role;
 	
-	public User(int id, String username, String role) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.role = role;
-	}
-
 	public int getId() {
 		return id;
 	}

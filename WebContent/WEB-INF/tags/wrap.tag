@@ -11,12 +11,10 @@
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 		<script type="text/javascript" src="//code.jquery.com/jquery-2.1.3.min.js"></script>
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-		<title>${title}</title>
+		<title>LAGERSTYRING - ${title}</title>
 	</head>
 	<body>
-	
 	<c:import url="/views/nav.jsp" />
-    
     <div class="container">
 		<jsp:doBody/>
     </div><!-- /.container -->

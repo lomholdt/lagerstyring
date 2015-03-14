@@ -1,6 +1,7 @@
 package com.lomholdt.lagerstyring.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,17 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.lomholdt.lagerstyring.model.LoginStatements;
+import com.lomholdt.lagerstyring.model.User;
+
 /**
- * Servlet implementation class PageController
+ * Servlet implementation class LoginController
  */
-@WebServlet("/")
-public class PageController extends HttpServlet {
+@WebServlet("/login")
+public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PageController() {
+    public LoginController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,13 +33,7 @@ public class PageController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession s = request.getSession();
-		if(s.getAttribute("user") == null){
-			System.out.println("user is null...");
-			response.sendRedirect("login");
-			return;
-		}
-		RequestDispatcher view = request.getRequestDispatcher("views/index.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("views/login/login.jsp");
 		view.forward(request, response);
 	}
 
@@ -43,7 +41,21 @@ public class PageController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		LoginStatements ls = new LoginStatements();
+		String email = request.getParameter("username");
+		String password = request.getParameter("password");
+		
+		if(ls.login(email, password)) {
+			User currentUser = ls.getUser(email);
+			HttpSession session = request.getSession();
+			session.setAttribute("user", currentUser);
+			response.sendRedirect(""); // main page
+		}
+		else {
+			request.setAttribute("error", "Username or password was incorrect");
+			RequestDispatcher view = request.getRequestDispatcher("views/login/login.jsp");
+			view.forward(request, response);
+		}
 	}
 
 }

@@ -15,6 +15,7 @@
          <ul class="nav navbar-nav">
          	<li><a href="#">OPTÆLLING</a></li>
          	<li><a href="#">FLYT VARE</a></li>
+         	<li><p class="navbar-text">Logged in as ${user.username}</p></li>
          </ul>
        </div><!--/.nav-collapse -->
      </div>

@@ -64,3 +64,9 @@ CREATE TABLE IF NOT EXISTS inventory (
  INSERT DUMMY DATA HERE
  *****************************************************/
 
+
+INSERT INTO companies (name) VALUES ("LagerStyring A/S");
+INSERT INTO users (username, password, company_id) VALUES ("admin", "abc", 1);
+
+
+
