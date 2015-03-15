@@ -13,9 +13,12 @@
        </div>
        <div id="navbar" class="collapse navbar-collapse">
          <ul class="nav navbar-nav">
+         <c:if test="${user ne null}"> <!-- VI ER LOGGET IND -->
          	<li><a href="#">OPTÆLLING</a></li>
          	<li><a href="#">FLYT VARE</a></li>
-         	<li><p class="navbar-text">Logged in as ${user.username}</p></li>
+         	<li><a href="logout">Log ud</a></li>
+         	<li><p class="navbar-text">Logged in as ${user.username}</p></li>         
+         </c:if>
          </ul>
        </div><!--/.nav-collapse -->
      </div>

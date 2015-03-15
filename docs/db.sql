@@ -66,7 +66,4 @@ CREATE TABLE IF NOT EXISTS inventory (
 
 
 INSERT INTO companies (name) VALUES ("LagerStyring A/S");
-INSERT INTO users (username, password, company_id) VALUES ("admin", "abc", 1);
-
-
-
+INSERT INTO users (username, password, company_id) VALUES ("admin", "abcDEF123#", 1);

@@ -8,6 +8,20 @@
     <servlet-name>PageController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.PageController</servlet-class>
   </servlet>
+    <servlet-mapping>
+    <servlet-name>PageController</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>LogoutController</servlet-name>
+    <servlet-class>com.lomholdt.lagerstyring.controller.LogoutController</servlet-class>
+  </servlet>
+    <servlet-mapping>
+    <servlet-name>LogoutController</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  
+  
   
   <servlet-mapping>
     <servlet-name>default</servlet-name>

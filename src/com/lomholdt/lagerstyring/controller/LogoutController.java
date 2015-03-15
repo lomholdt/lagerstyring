@@ -2,7 +2,6 @@ package com.lomholdt.lagerstyring.controller;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,18 +10,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class PageController
+ * Servlet implementation class LogoutController
  */
-@WebServlet("/PageController")
-public class PageController extends HttpServlet {
+@WebServlet("/LogoutController")
+public class LogoutController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PageController() {
+    public LogoutController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -30,13 +28,8 @@ public class PageController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession s = request.getSession();
-		if(s.getAttribute("user") == null){
-			System.out.println("user is null...");
-			response.sendRedirect("login");
-			return;
-		}
-		RequestDispatcher view = request.getRequestDispatcher("views/index.jsp");
-		view.forward(request, response);
+		s.invalidate();
+		response.sendRedirect("");
 	}
 
 	/**
