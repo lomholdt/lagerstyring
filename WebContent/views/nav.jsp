@@ -14,8 +14,8 @@
        <div id="navbar" class="collapse navbar-collapse">
          <ul class="nav navbar-nav">
          <c:if test="${user ne null}"> <!-- VI ER LOGGET IND -->
-         	<li><a href="count">OPTÆLLING</a></li>
-         	<li><a href="#">FLYT VARE</a></li>
+         	<li><a href="count">Optælling</a></li>
+         	<li><a href="move">Flyt Vare</a></li>
          	<c:if test="${user.role eq 'manager'}">
          	<li><a href="inventory">Tilføj Ny Vare</a></li>
          	</c:if>

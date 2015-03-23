@@ -1,7 +1,6 @@
 package com.lomholdt.lagerstyring.controller;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -19,18 +18,19 @@ import com.lomholdt.lagerstyring.model.Storage;
 import com.lomholdt.lagerstyring.model.User;
 
 /**
- * Servlet implementation class OpenStorageController
+ * Servlet implementation class CloseStorageController
  */
-@WebServlet("/OpenStorageController")
-public class OpenStorageController extends HttpServlet {
+@WebServlet("/CloseStorageController")
+public class CloseStorageController extends HttpServlet {
 	Authenticator auth = new Authenticator();
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public OpenStorageController() {
+    public CloseStorageController() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -40,7 +40,7 @@ public class OpenStorageController extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		if(user == null || !auth.is("user", user.getId())){
-			FlashMessage.setFlashMessage(request, "error", "You Do not have permission to see this page.");
+			FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
 			response.sendRedirect("");
 			return;
 		}
@@ -48,8 +48,8 @@ public class OpenStorageController extends HttpServlet {
 		String storageId = request.getParameter("sid");
 		if(storageId != null && !storageId.isEmpty()){
 			InventoryStatements is = new InventoryStatements();
-			if(is.storageIsOpen(Integer.parseInt(storageId))){
-				FlashMessage.setFlashMessage(request, "error", "The storage is already open");
+			if(!is.storageIsOpen(Integer.parseInt(storageId))){
+				FlashMessage.setFlashMessage(request, "error", "The storage is already closed");
 				response.sendRedirect("count");
 				return;
 			}
@@ -61,7 +61,7 @@ public class OpenStorageController extends HttpServlet {
 			response.sendRedirect("count");
 		}
 		
-		RequestDispatcher view = request.getRequestDispatcher("views/storage/open.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("views/storage/close.jsp");
 		view.forward(request, response);
 	}
 
@@ -82,11 +82,11 @@ public class OpenStorageController extends HttpServlet {
 		if(sid == null || sid.isEmpty()) {
 			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
 			response.sendRedirect("count");
-			return;
 		}
 
 
 		Map<String, String[]> m  = request.getParameterMap();
+		// Sloppy but working method for ensuring no empty input
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
 			if(entry.getValue()[0].equals("")){
 				request.setAttribute("sid", sid);
@@ -97,6 +97,7 @@ public class OpenStorageController extends HttpServlet {
 		}
 
 		InventoryStatements is = new InventoryStatements();
+		// Update all the values
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
 			if(entry.getKey().equals("sid")) continue;
 			// TODO Need to secure that updated id's belong to the user updating!
@@ -104,11 +105,7 @@ public class OpenStorageController extends HttpServlet {
 		}
 		is.changeStorageStatus(Integer.parseInt(sid));
 
-		
-		FlashMessage.setFlashMessage(request, "msg", "Lageret er nu åbnet");
+		FlashMessage.setFlashMessage(request, "msg", "Lageret er nu lukket");
 		response.sendRedirect("count");
-		
-
 	}
-
 }

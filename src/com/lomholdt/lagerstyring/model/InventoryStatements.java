@@ -2,8 +2,6 @@ package com.lomholdt.lagerstyring.model;
 
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class InventoryStatements extends DBMain {
 	
@@ -160,5 +158,23 @@ public class InventoryStatements extends DBMain {
     	}
     	return 0;	
 	}
-		
+	
+	public ArrayList<Station> getStations(int companyId){
+		ArrayList<Station> al = new ArrayList<Station>();
+    	try {
+    		pstmt = c.preparedStatement("SELECT stations.id ,stations.name FROM stations WHERE stations.company_id = ?;");
+    		pstmt.setInt(1, companyId);
+    		rs = pstmt.executeQuery();
+    		while(rs.next()) {
+    			Station s = new Station();
+    			s.setId(rs.getInt("id"));
+    			s.setName(rs.getString("name"));
+    			al.add(s);
+    		}
+    	}
+    	catch(Exception e1) {
+    		e1.printStackTrace();
+    	}
+    	return al;	
+	}
 }

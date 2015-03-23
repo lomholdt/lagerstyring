@@ -25,6 +25,7 @@ import com.lomholdt.lagerstyring.model.User;
 public class AddInventoryController extends HttpServlet {
 	Authenticator auth = new Authenticator();
 	private static final long serialVersionUID = 1L;
+	private static final String NO_PERMISSION_MESSAGE = "You do not have permission to see this page.";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -40,7 +41,7 @@ public class AddInventoryController extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		if(user == null || !auth.is("manager", user.getId())){
-			FlashMessage.setFlashMessage(request, "error", "You Do not have permission to see this page.");
+			FlashMessage.setFlashMessage(request, "error", NO_PERMISSION_MESSAGE);
 			response.sendRedirect("");
 			return;
 		}
@@ -63,7 +64,7 @@ public class AddInventoryController extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		if(user == null || !auth.is("manager", user.getId())){
-			FlashMessage.setFlashMessage(request, "error", "You Do not have permission to see this page.");
+			FlashMessage.setFlashMessage(request, "error", NO_PERMISSION_MESSAGE);
 			response.sendRedirect("");
 			return;
 		}

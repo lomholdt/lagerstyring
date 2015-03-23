@@ -36,7 +36,15 @@
     <servlet-name>OpenStorageController</servlet-name>
     <url-pattern>/open</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
+    <servlet-name>CloseStorageController</servlet-name>
+    <servlet-class>com.lomholdt.lagerstyring.controller.CloseStorageController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CloseStorageController</servlet-name>
+    <url-pattern>/close</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>InventoryCountController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.InventoryCountController</servlet-class>
   </servlet>
@@ -44,8 +52,30 @@
     <servlet-name>InventoryCountController</servlet-name>
     <url-pattern>/count</url-pattern>
   </servlet-mapping>
-  
-  
+  <servlet>
+    <servlet-name>MoveInventoryController</servlet-name>
+    <servlet-class>com.lomholdt.lagerstyring.controller.MoveInventoryController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MoveInventoryController</servlet-name>
+    <url-pattern>/move</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <servlet-name>MoveInController</servlet-name>
+    <servlet-class>com.lomholdt.lagerstyring.controller.MoveInController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MoveInController</servlet-name>
+    <url-pattern>/movein</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <servlet-name>MoveOutController</servlet-name>
+    <servlet-class>com.lomholdt.lagerstyring.controller.MoveOutController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MoveOutController</servlet-name>
+    <url-pattern>/moveout</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>*.css</url-pattern>
