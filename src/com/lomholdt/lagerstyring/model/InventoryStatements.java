@@ -112,7 +112,48 @@ public class InventoryStatements extends DBMain {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
+		return false;	
+	}
+	
+	public boolean incrementUnits(int inventoryId, int amount){
+		try {
+			pstmt = c.preparedStatement("UPDATE inventory SET units = units + ? WHERE inventory.id = ?");
+			pstmt.setInt(1, amount);
+			pstmt.setInt(2, inventoryId);
+			pstmt.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;	
+	}
+	
+	public boolean decrementUnits(int inventoryId, int amount){
+		try {
+			pstmt = c.preparedStatement("UPDATE inventory SET units = units - ? WHERE inventory.id = ?");
+			pstmt.setInt(1, amount);
+			pstmt.setInt(2, inventoryId);
+			pstmt.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;	
+	}
+	
+	public int currentInventoryUnits(int inventoryId){
+    	try {
+    		pstmt = c.preparedStatement("SELECT inventory.units FROM inventory WHERE inventory.id = ?;");
+    		pstmt.setInt(1, inventoryId);
+    		rs = pstmt.executeQuery();
+    		if(rs.next()) {
+    			return rs.getInt("units");
+    		}
+    	}
+    	catch(Exception e1) {
+    		e1.printStackTrace();
+    	}
+    	return 0;	
 		
 	}
 	
@@ -175,6 +216,24 @@ public class InventoryStatements extends DBMain {
     	catch(Exception e1) {
     		e1.printStackTrace();
     	}
-    	return al;	
+    	return al;
+	}
+	
+	public Station getStation(int stationId){
+    	try {
+    		pstmt = c.preparedStatement("SELECT stations.id ,stations.name FROM stations WHERE stations.id = ?;");
+    		pstmt.setInt(1, stationId);
+    		rs = pstmt.executeQuery();
+    		if(rs.next()) {
+    			Station s = new Station();
+    			s.setId(rs.getInt("id"));
+    			s.setName(rs.getString("name"));
+    			return s;
+    		}
+    	}
+    	catch(Exception e1) {
+    		e1.printStackTrace();
+    	}
+    	return null;
 	}
 }

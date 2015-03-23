@@ -1,11 +1,13 @@
 package com.lomholdt.lagerstyring.model;
 
+import java.util.Set;
+
 public class User {
 	
 	private int id;
 	private int companyId;
 	private String username;
-	private String role;
+	private Set<String> roles;
 	
 	
 	public int getId() {
@@ -24,12 +26,12 @@ public class User {
 		this.username = username;
 	}
 
-	public String getRole() {
-		return role;
+	public Set<String> getRoles() {
+		return roles;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRole(Set<String> roles) {
+		this.roles = roles;
 	}
 
 	public int getCompanyId() {

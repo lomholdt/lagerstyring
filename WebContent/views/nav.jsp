@@ -16,7 +16,7 @@
          <c:if test="${user ne null}"> <!-- VI ER LOGGET IND -->
          	<li><a href="count">Optælling</a></li>
          	<li><a href="move">Flyt Vare</a></li>
-         	<c:if test="${user.role eq 'manager'}">
+         	<c:if test="${user.roles.contains('manager')}">
          	<li><a href="inventory">Tilføj Ny Vare</a></li>
          	</c:if>
          	<li><a href="logout">Log ud</a></li>

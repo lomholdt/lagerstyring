@@ -3,6 +3,8 @@ package com.lomholdt.lagerstyring.model;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.lomholdt.lagerstyring.model.User;
 
@@ -41,6 +43,21 @@ public class LoginStatements extends DBMain {
         return result.toString();
     }
     
+    public Set<String> getUserRoles(int userId){
+		Set<String> s = new HashSet<String>();
+    	try{
+			PreparedStatement pstmt = c.preparedStatement("SELECT roles.role FROM roles WHERE roles.user_id = ?");
+			pstmt.setInt(1, userId);
+			rs = pstmt.executeQuery();
+			while(rs.next()){
+				s.add(rs.getString("role"));
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		return s;
+    }
+    
 	public User getUser(String email){
 		try{
 			PreparedStatement pstmt = c.preparedStatement("SELECT users.id, users.username, users.company_id, roles.role FROM users, roles WHERE users.username=? AND roles.user_id=users.id");
@@ -51,7 +68,9 @@ public class LoginStatements extends DBMain {
 				currentUser.setId(rs.getInt("id"));
 				currentUser.setUsername(rs.getString("username"));
 				currentUser.setCompanyId(rs.getInt("company_id"));
-				currentUser.setRole(rs.getString("role"));
+				
+				Set<String> roles = getUserRoles(rs.getInt("id"));
+				currentUser.setRole(roles);
 				return currentUser;
 			}
 		} catch (Exception e){

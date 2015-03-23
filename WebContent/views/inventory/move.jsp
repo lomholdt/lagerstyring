@@ -18,11 +18,11 @@
 			<span>Lukket</span>
 		</c:otherwise>
 	</c:choose>
-	<form method="GET" action="open">
+	<form method="GET" action="moveout">
 		<input type="hidden" value="${storage.id}" name="sid">
 		<button type="submit" class="btn btn-success">Afgang</button>
 	</form>
-	<form method="GET" action="close">
+	<form method="GET" action="movein">
 		<input type="hidden" value="${storage.id}" name="sid">
 		<button type="submit" class="btn btn-danger">Tilgang</button>
 	</form>
