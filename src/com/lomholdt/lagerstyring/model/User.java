@@ -2,9 +2,11 @@ package com.lomholdt.lagerstyring.model;
 
 public class User {
 	
-	int id;
-	String username;
-	String role;
+	private int id;
+	private int companyId;
+	private String username;
+	private String role;
+	
 	
 	public int getId() {
 		return id;
@@ -28,5 +30,13 @@ public class User {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public int getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
 	}
 }

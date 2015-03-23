@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.lomholdt.lagerstyring.model.FlashMessage;
+
 /**
  * Servlet implementation class PageController
  */
@@ -29,12 +31,19 @@ public class PageController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		FlashMessage.getFlashMessage(request, "error");
 		HttpSession s = request.getSession();
 		if(s.getAttribute("user") == null){
-			System.out.println("user is null...");
+			FlashMessage.setFlashMessage(request, "error", (String)request.getAttribute("error"));
+			System.out.println("user is not logged in...");
 			response.sendRedirect("login");
 			return;
 		}
+		
+		
+		
+		
+		
 		RequestDispatcher view = request.getRequestDispatcher("views/index.jsp");
 		view.forward(request, response);
 	}

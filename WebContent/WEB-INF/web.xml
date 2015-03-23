@@ -8,7 +8,7 @@
     <servlet-name>PageController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.PageController</servlet-class>
   </servlet>
-    <servlet-mapping>
+  <servlet-mapping>
     <servlet-name>PageController</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
@@ -16,11 +16,34 @@
     <servlet-name>LogoutController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.LogoutController</servlet-class>
   </servlet>
-    <servlet-mapping>
+  <servlet-mapping>
     <servlet-name>LogoutController</servlet-name>
     <url-pattern>/logout</url-pattern>
   </servlet-mapping>
-  
+  <servlet>
+    <servlet-name>AddInventoryController</servlet-name>
+    <servlet-class>com.lomholdt.lagerstyring.controller.AddInventoryController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddInventoryController</servlet-name>
+    <url-pattern>/inventory</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>OpenStorageController</servlet-name>
+    <servlet-class>com.lomholdt.lagerstyring.controller.OpenStorageController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OpenStorageController</servlet-name>
+    <url-pattern>/open</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <servlet-name>InventoryCountController</servlet-name>
+    <servlet-class>com.lomholdt.lagerstyring.controller.InventoryCountController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InventoryCountController</servlet-name>
+    <url-pattern>/count</url-pattern>
+  </servlet-mapping>
   
   
   <servlet-mapping>

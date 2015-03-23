@@ -1,3 +1,7 @@
+/*****************************************************
+ LAGERSYSTEM SQL
+ *****************************************************/
+ 
 /*
  The users table
  */
@@ -8,7 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
 	company_id int(11) NOT NULL,
 	created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id),
-	FOREIGN KEY (company_id) REFERENCES companies(id)
+	FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*
@@ -59,11 +63,21 @@ CREATE TABLE IF NOT EXISTS inventory (
 	FOREIGN KEY (storage_id) REFERENCES storages(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+/*
+ Stations to move inventory to fx. Bar 1, Bar 2 etc.  
+ */
+CREATE TABLE IF NOT EXISTS stations (
+	id int(11) NOT NULL AUTO_INCREMENT,
+	name varchar(500) NOT NULL,
+	company_id int(11) NOT NULL,
+	PRIMARY KEY (id), 
+	FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE
+)
+
+
 
 /*****************************************************
  INSERT DUMMY DATA HERE
  *****************************************************/
-
-
 INSERT INTO companies (name) VALUES ("LagerStyring A/S");
 INSERT INTO users (username, password, company_id) VALUES ("admin", "abcDEF123#", 1);
