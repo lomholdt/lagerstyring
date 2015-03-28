@@ -3,21 +3,40 @@
 
 
 <add:wrap title="Åben Lager">
-<h1>Åben Lager - ${storage.name}</h1>
+
 <c:if test="${msg != null}"><div class="alert alert-success">${msg}</div></c:if>
 <c:if test="${error != null}"><div class="alert alert-danger">${error}</div></c:if>
 
-
-
-<form method="POST" action="open">
-<c:forEach var="inventory" items="${storage.inventory}">
-	<div class="form-group">
-		${inventory.name}
-		<input type="number" class="form-control" placeholder="Antal" name="${inventory.id}" min="0" value="${inventory.units}">
+  <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+            	<form method="POST" action="open">
+	                    <div class="panel panel-default">
+	                        <div class="panel-heading"><h3 class="panel-title">Åbn ${storage.name}</h3></div>
+	                        	<div class="panel-body">
+	               					<p class="lead">Antal varer på lager</p>
+	            					<div class="row">
+							            <div class="col-sm-8 col-sm-offset-2">
+											<c:forEach var="inventory" items="${storage.inventory}">
+												<div class="form-group">
+													<label for="${inventory.id}">${inventory.name}</label>
+													<input type="number" class="form-control" placeholder="Antal" name="${inventory.id}" min="0" value="${inventory.units}">
+												</div>
+											</c:forEach>
+							           </div>
+	                				</div>
+	                			</div>
+					            <div class="panel-footer">
+					              	<p class="lead">Godkend åbning</p>
+					                <div class="row">
+					            		<div class="col-sm-8 col-sm-offset-2">
+					            		<input type="hidden" value="${storage.id}" name="sid">
+										<button type="submit" class="btn btn-primary">Åben Lager</button>
+										<a class="btn btn-default" href="count" role="button">Annullér</a>
+					               		</div>
+					               </div>
+					            </div>
+	                        </div>
+	           </form>
+            </div>
 	</div>
-</c:forEach>
-<input type="hidden" value="${storage.id}" name="sid">
-<button type="submit" class="btn btn-success">Åben Lager</button>
-</form>
-
 </add:wrap>
