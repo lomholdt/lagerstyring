@@ -7,8 +7,6 @@
 <c:if test="${msg != null}"><div class="alert alert-success">${msg}</div></c:if>
 <c:if test="${error != null}"><div class="alert alert-danger">${error}</div></c:if>
 
-
-
 <form method="POST" action="movein">
 <c:forEach var="inventory" items="${storage.inventory}">
 	<div class="form-group">
@@ -25,7 +23,5 @@
 	<button type="submit" class="btn btn-success" name="stationId" value="${station.id}">${station.name}</button>
 </c:forEach>
 
-
 </form>
-
 </moveIn:wrap>

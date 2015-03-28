@@ -13,7 +13,7 @@
 <c:forEach var="inventory" items="${storage.inventory}">
 	<div class="form-group">
 		${inventory.name}
-		<input type="number" class="form-control" placeholder="Antal" name="${inventory.id}" min="0"  value="0">
+		<input type="number" class="form-control" placeholder="Antal" name="${inventory.id}" min="0" max="${inventory.units}" value="0">
 	</div>
 </c:forEach>
 
