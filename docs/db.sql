@@ -93,4 +93,4 @@ CREATE TABLE IF NOT EXISTS log(
  INSERT DUMMY DATA HERE
  *****************************************************/
 INSERT INTO companies (name) VALUES ("LagerStyring A/S");
-INSERT INTO users (username, password, company_id) VALUES ("admin", "abcDEF123#", 1);
+INSERT INTO users (username, password, company_id) VALUES ("admin", "3c11440050cbedc97d35541159636783b81482d81880a4ef22cc7e6c460bdcb8", 1);
