@@ -24,14 +24,18 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
        <div id="navbar" class="collapse navbar-collapse">
          <ul class="nav navbar-nav navbar-right">
          <c:if test="${user ne null}"> <!-- VI ER LOGGET IND -->
-         	<li><a href="count">Optælling</a></li>
+         	<li><a href="count">Lageroptælling</a></li>
          	<li><a href="move">Flyt Vare</a></li>
          	<c:if test="${user.roles.contains('manager')}">
          	<li><a href="inventory">Tilføj Ny Vare</a></li>
          	</c:if>
+         	<c:if test="${user.roles.contains('admin')}">
+         		<li><a href="admin">Admin Panel</a>
+         	</c:if>
          	<li><a href="logout">Log ud</a></li>
          	<li><a>Logged in as ${user.username}</a></li>
          </c:if>
+         
          </ul>
        </div><!--/.nav-collapse -->
      </div>

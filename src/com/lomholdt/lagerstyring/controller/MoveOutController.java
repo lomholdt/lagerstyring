@@ -105,17 +105,17 @@ public class MoveOutController extends HttpServlet {
 		
 		InventoryStatements is = new InventoryStatements();
 		// Must ensure no impossible decrements and ignore empty and 0 input
-		for(Map.Entry<String, String[]> entry : m.entrySet()){
-			if(entry.getKey().equals("sid") || entry.getKey().equals("stationId")) continue;
-			if(entry.getValue()[0].equals("0") || entry.getValue()[0].isEmpty()) continue;
-			int newValue = is.currentInventoryUnits(Integer.parseInt(entry.getKey())) - Integer.parseInt(entry.getValue()[0]);
-			if (newValue < 0){
-				// CANNOT DECREMENT TO LESS THAN ZERO - ABORT
-				FlashMessage.setFlashMessage(request, "error", "Cannot decrement to less than 0");
-				response.sendRedirect("move"); 
-				return;
-			}
-		}
+//		for(Map.Entry<String, String[]> entry : m.entrySet()){
+//			if(entry.getKey().equals("sid") || entry.getKey().equals("stationId")) continue;
+//			if(entry.getValue()[0].equals("0") || entry.getValue()[0].isEmpty()) continue;
+//			int newValue = is.currentInventoryUnits(Integer.parseInt(entry.getKey())) - Integer.parseInt(entry.getValue()[0]);
+//			if (newValue < 0){
+//				// CANNOT DECREMENT TO LESS THAN ZERO - ABORT
+//				FlashMessage.setFlashMessage(request, "error", "Cannot decrement to less than 0");
+//				response.sendRedirect("move"); 
+//				return;
+//			}
+//		}
 		
 		// Update the values that are not zero
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
