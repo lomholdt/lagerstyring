@@ -39,13 +39,7 @@ public class PageController extends HttpServlet {
 			response.sendRedirect("login");
 			return;
 		}
-		
-		
-		
-		
-		
-		RequestDispatcher view = request.getRequestDispatcher("views/index.jsp");
-		view.forward(request, response);
+		response.sendRedirect("count");
 	}
 
 	/**

@@ -1,4 +1,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%
+
+String uri = request.getRequestURI();
+String pageName = uri.substring(uri.lastIndexOf("/")+1);
+
+%>
+
+
+
 <nav class="navbar navbar-default navbar-fluid">
      <div class="container">
        <div class="navbar-header">
@@ -20,7 +30,7 @@
          	<li><a href="inventory">Tilføj Ny Vare</a></li>
          	</c:if>
          	<li><a href="logout">Log ud</a></li>
-         	<li><a>Logged in as ${user.username}</a></li>         
+         	<li><a>Logged in as ${user.username}</a></li>
          </c:if>
          </ul>
        </div><!--/.nav-collapse -->

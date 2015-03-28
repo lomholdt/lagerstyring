@@ -20,6 +20,21 @@ public class InventoryStatements extends DBMain {
 		return false;
 	}
 	
+	public boolean addToLog(String name, int units, int storageId, int stationId){
+		try {
+			PreparedStatement pstmt = c.preparedStatement("INSERT INTO log (name, units, storage_id, station_id) VALUES (?, ?, ?, ?)");
+			pstmt.setString(1, name);
+			pstmt.setInt(2, units);
+			pstmt.setInt(3, storageId);
+			pstmt.setInt(4, stationId);
+			pstmt.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	public boolean inventoryExists(String inventory, int storageId){
 		try {
 			PreparedStatement pstmt = c.preparedStatement("SELECT inventory.name FROM inventory WHERE inventory.name = ? AND inventory.storage_id = ?;");

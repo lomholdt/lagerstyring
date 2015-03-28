@@ -55,8 +55,8 @@ public class MoveInController extends HttpServlet {
 				response.sendRedirect("move");
 				return;
 			}
-			Storage storage = is.getStorageWithInventory(Integer.parseInt(storageId));
-			ArrayList<Station> stations = is.getStations(user.getCompanyId());
+			Storage storage = is.getStorageWithInventory(Integer.parseInt(storageId)); // retrieve storage with inventory
+			ArrayList<Station> stations = is.getStations(user.getCompanyId()); // get the stations
 			request.setAttribute("stations", stations);
 			request.setAttribute("storage", storage);
 		}

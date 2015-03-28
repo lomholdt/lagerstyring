@@ -60,7 +60,7 @@
     <servlet-name>MoveInventoryController</servlet-name>
     <url-pattern>/move</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>MoveInController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.MoveInController</servlet-class>
   </servlet>
@@ -68,13 +68,21 @@
     <servlet-name>MoveInController</servlet-name>
     <url-pattern>/movein</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>MoveOutController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.MoveOutController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>MoveOutController</servlet-name>
     <url-pattern>/moveout</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <servlet-name>AdminController</servlet-name>
+    <servlet-class>com.lomholdt.lagerstyring.controller.AdminController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminController</servlet-name>
+    <url-pattern>/admin</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>default</servlet-name>

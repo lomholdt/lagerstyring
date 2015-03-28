@@ -77,14 +77,13 @@ CREATE TABLE IF NOT EXISTS stations (
 CREATE TABLE IF NOT EXISTS log(
 	id int(11) NOT NULL AUTO_INCREMENT,
 	name varchar(500) NOT NULL,
-	units int(11) DEFAULT 0,
+	units int(11) NOT NULL,
 	created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	storage_id int(11) NOT NULL,
 	station_id int(11) NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (storage_id) REFERENCES storages(id),
 	FOREIGN KEY (station_id) REFERENCES stations(id)
-
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
