@@ -1,24 +1,59 @@
 package com.lomholdt.lagerstyring.model;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
 
 public class InventoryStatements extends DBMain {
 	
-	public boolean addInventory(String name, int units, int storageId){
+//	public boolean addInventory(String name, int units, int storageId){
+//		try {
+//			PreparedStatement pstmt = c.preparedStatement("INSERT INTO inventory (name, units, storage_id) VALUES (?, ?, ?)");
+//			pstmt.setString(1, name);
+//			pstmt.setInt(2, units);
+//			pstmt.setInt(3, storageId);
+//			pstmt.executeUpdate();
+//			
+//			return true;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return false;
+//	}
+	
+	
+	
+	public boolean addInventory(String name, int units, int storageId) throws Exception{
+		Connection connection = c.getCon();
 		try {
-			PreparedStatement pstmt = c.preparedStatement("INSERT INTO inventory (name, units, storage_id) VALUES (?, ?, ?)");
-			pstmt.setString(1, name);
-			pstmt.setInt(2, units);
-			pstmt.setInt(3, storageId);
-			pstmt.executeUpdate();
-			
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO inventory (name, units, storage_id) VALUES (?, ?, ?)");
+			try {
+				// Do stuff with the statement
+				statement.setString(1, name);
+				statement.setInt(2, units);
+				statement.setInt(3, storageId);
+				statement.executeUpdate();
+				return true;
+			} finally {
+				System.out.println("Closing statement");
+				statement.close();
+			}
+		} finally {
+			System.out.println("Closing connection");
+			connection.close();
 		}
-		return false;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public boolean addToLog(String name, int units, int storageId, int stationId){
 		try {

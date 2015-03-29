@@ -89,7 +89,11 @@ public class AddInventoryController extends HttpServlet {
 			return;
 		}
 
-		is.addInventory(name, Integer.parseInt(units), storageId);
+		try {
+			is.addInventory(name, Integer.parseInt(units), storageId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		request.setAttribute("msg", "Succesfully added " + name + " to " + storage);		
 		doGet(request, response);
 	}
