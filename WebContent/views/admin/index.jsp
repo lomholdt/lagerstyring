@@ -13,7 +13,7 @@
 	<div class="form-group">
 		<input type="text" class="form-control" placeholder="Firmanavn" name="companyName">
 	</div>
-<button type="submit" class="btn btn-success">Opret Ny Virksomhed</button>
+<button type="submit" class="btn btn-primary">Opret Ny Virksomhed</button>
 </form>
 
 <h5>Alle virksomheder: </h5>
@@ -36,6 +36,12 @@
 		</select>
 	</div>
 
+	<div class="form-group">
+		<select class="form-control" name="role">
+			<option value="manager">Manager</option>
+			<option value="user">Runner</option>
+		</select>
+	</div>
 
 	<div class="form-group">
 		<input type="text" class="form-control" placeholder="username" name="username">
@@ -43,7 +49,8 @@
 	<div class="form-group">
 		<input type="text" class="form-control" placeholder="password" name="password">
 	</div>
-<button type="submit" class="btn btn-success">Opret Ny Bruger</button>
+
+<button type="submit" class="btn btn-primary">Opret Ny Bruger</button>
 </form>
 
 
