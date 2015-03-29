@@ -3,7 +3,11 @@
 
 
 <add:wrap title="Tilføj Ny Vare">
-<h1>Tilføj Ny Vare</h1>
+
+<div class="row">
+ <div class="col-sm-8">
+ <h1>Indstillinger</h1>
+ <h2>Tilføj vare</h2>
 <c:if test="${msg != null}"><div class="alert alert-success">${msg}</div></c:if>
 <c:if test="${error != null}"><div class="alert alert-danger">${error}</div></c:if>
 
@@ -23,5 +27,9 @@
 	</div>
 <button type="submit" class="btn btn-success">Indsæt Ny Vare</button>
 </form>
+ </div>
+</div>
+
+
 
 </add:wrap>
