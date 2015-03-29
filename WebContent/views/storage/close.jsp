@@ -32,8 +32,8 @@
 					                <div class="row">
 					            		<div class="col-sm-8 col-sm-offset-2">
 					            		<input type="hidden" value="${storage.id}" name="sid">
-										<button type="submit" class="btn btn-primary">Luk lager</button>
-										<a class="btn btn-default" href="count" role="button">Annullér</a>
+										<button type="submit" class="btn btn-primary btn-lg">Luk lager</button>
+										<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
 					               		</div>
 					               </div>
 					            </div>

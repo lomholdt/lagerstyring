@@ -30,9 +30,9 @@
 					            		<div class="col-sm-8 col-sm-offset-2">
 					            		<input type="hidden" value="${storage.id}" name="sid">
 										<c:forEach var="station" items="${stations}">
-											<button type="submit" class="btn btn-primary" name="stationId" value="${station.id}">${station.name}</button>
+											<button type="submit" class="btn btn-primary btn-lg" name="stationId" value="${station.id}">${station.name}</button>
 										</c:forEach>
-										<a class="btn btn-default" href="count" role="button">Annullér</a>
+										<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
 					               		</div>
 					               </div>
 					            </div>
