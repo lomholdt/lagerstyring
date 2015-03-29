@@ -14,6 +14,7 @@ import com.lomholdt.lagerstyring.model.AdminStatements;
 import com.lomholdt.lagerstyring.model.Authenticator;
 import com.lomholdt.lagerstyring.model.FlashMessage;
 import com.lomholdt.lagerstyring.model.User;
+import com.lomholdt.lagerstyring.model.UserStatements;
 
 /**
  * Servlet implementation class AdminController
@@ -66,6 +67,12 @@ public class AdminController extends HttpServlet {
 		}
 		
 		String companyName = request.getParameter("companyName");
+		String userCompany = request.getParameter("userCompany");
+		String userRole = request.getParameter("userRole");
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		
+		
 		
 		if(companyName != null && !companyName.isEmpty()){
 			// Create new company;
@@ -79,11 +86,34 @@ public class AdminController extends HttpServlet {
 			doGet(request, response);
 			return;
 		}
-		
-		
-		
-		
-		
+		else if (userCompany != null && !userCompany.isEmpty() &&
+				userRole != null && !userRole.isEmpty() && 
+				username != null && !username.isEmpty() &&
+				password != null && !password.isEmpty()){
+			UserStatements us = new UserStatements();
+			try {
+				System.out.println("Testing if user exists");
+				if(!us.userExists(username)){
+					// add the new user 
+					int companyId = us.getCompanyId(userCompany);
+					us.addUserToCompany(companyId, userRole, username, password);
+					us.addRoleToUser(username, userRole);
+					request.setAttribute("msg", "user succesfully added.");
+					doGet(request, response);
+					return;
+				}
+				else{
+					request.setAttribute("error", "Username already exists");
+					doGet(request, response);
+					return;
+					
+				}
+			} catch (Exception e) {	
+				e.printStackTrace();
+			}
+		}
+		request.setAttribute("error", "Something went wrong. Please try again.");
+		doGet(request, response);
 	}
 
 }

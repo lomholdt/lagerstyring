@@ -1,6 +1,5 @@
 package com.lomholdt.lagerstyring.model;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.util.HashSet;
@@ -12,7 +11,7 @@ public class LoginStatements extends DBMain {
 	    
     public boolean login(String username, String pwd) {
     	try {
-			pwd = hash256(pwd);
+			pwd = Hash.hash256(pwd);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
@@ -30,17 +29,6 @@ public class LoginStatements extends DBMain {
     		e1.printStackTrace();
     	}
     	return false;
-    }
-    
-	public static String hash256(String data) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(data.getBytes());
-        return bytesToHex(md.digest());
-    }
-    public static String bytesToHex(byte[] bytes) {
-        StringBuffer result = new StringBuffer();
-        for (byte byt : bytes) result.append(Integer.toString((byt & 0xff) + 0x100, 16).substring(1));
-        return result.toString();
     }
     
     public Set<String> getUserRoles(int userId){

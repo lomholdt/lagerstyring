@@ -28,7 +28,7 @@
 <form method="POST" action="admin">
 	
 	<div class="form-group">
-		<select class="form-control" name="storage">
+		<select class="form-control" name="userCompany">
 		<c:forEach var="company" items="${companies}">
 			<option>${company}</option>
 		</c:forEach>
@@ -37,7 +37,7 @@
 	</div>
 
 	<div class="form-group">
-		<select class="form-control" name="role">
+		<select class="form-control" name="userRole">
 			<option value="manager">Manager</option>
 			<option value="user">Runner</option>
 		</select>
