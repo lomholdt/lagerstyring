@@ -54,5 +54,25 @@
 </form>
 
 
+<h3>Tilføj station til virksomhed</h3>
+<form method="POST" action="admin">
+	
+	<div class="form-group">
+		<select class="form-control" name="stationCompany">
+		<c:forEach var="company" items="${companies}">
+			<option>${company}</option>
+		</c:forEach>
+
+		</select>
+	</div>
+
+	<div class="form-group">
+		<input type="text" class="form-control" placeholder="Station" name="newStationName">
+	</div>
+
+<button type="submit" class="btn btn-primary">Opret Ny Station</button>
+</form>
+
+
 
 </admin:wrap>

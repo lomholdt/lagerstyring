@@ -71,6 +71,8 @@ public class AdminController extends HttpServlet {
 		String userRole = request.getParameter("userRole");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		String stationCompany = request.getParameter("stationCompany");
+		String newStationName = request.getParameter("newStationName");
 		
 		
 		
@@ -112,6 +114,24 @@ public class AdminController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		else if(stationCompany != null && !stationCompany.isEmpty() && 
+				newStationName != null && !newStationName.isEmpty()){
+			System.out.println("Trying to add new station.");
+			try {
+				new AdminStatements().addStationToCompany(stationCompany, newStationName, "primary");
+				request.setAttribute("msg", "Station " + newStationName + " succesfully added to " + stationCompany);
+				doGet(request, response);
+				return;
+				
+			} catch (Exception e) {
+				request.setAttribute("error", "An error occured while adding new station");
+				doGet(request, response);
+				return;
+			}
+		}
+		
+		
+		
 		request.setAttribute("error", "Something went wrong. Please try again.");
 		doGet(request, response);
 	}
