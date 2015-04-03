@@ -73,7 +73,7 @@
 								<div class="form-group">
 									<label for="from">Fra</label> <input type="date"
 										class="form-control input-lg" name="from"
-										placeholder="dd-mm- yyy">
+										value="${storage.openedAtHtml}">
 								</div>
 							</div>
 							<div class="col-sm-4">
