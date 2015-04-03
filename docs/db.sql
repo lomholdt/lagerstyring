@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS storages (
 	company_id int(11) NOT NULL,
 	is_open boolean NOT NULL,
 	created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updated_at timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+	updated_at timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id),
 	FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -75,16 +75,27 @@ CREATE TABLE IF NOT EXISTS stations (
 	FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE IF NOT EXISTS log(
+CREATE TABLE IF NOT EXISTS inventory_log(
 	id int(11) NOT NULL AUTO_INCREMENT,
 	name varchar(500) NOT NULL,
 	units int(11) NOT NULL,
 	created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	storage_id int(11) NOT NULL,
 	station_id int(11) NOT NULL,
+	performed_action varchar(500) NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (storage_id) REFERENCES storages(id),
 	FOREIGN KEY (station_id) REFERENCES stations(id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS storage_log(
+	id int(11) NOT NULL AUTO_INCREMENT,
+	name varchar(500) NOT NULL,
+	created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	storage_id int(11) NOT NULL,
+	performed_action varchar(500) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (storage_id) REFERENCES storages(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
