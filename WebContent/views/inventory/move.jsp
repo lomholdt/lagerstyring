@@ -7,7 +7,7 @@
 <c:if test="${msg != null}"><div class="alert alert-success">${msg}</div></c:if>
 <c:if test="${error != null}"><div class="alert alert-danger">${error}</div></c:if>
 
-	<div class="page-header"><h1>Flyt Vare</h1></div>
+<h1>Flyt Vare</h1>
 		<div class="row">
 				<c:forEach var="storage" items="${storages}">
 					<div class="col-sm-6">

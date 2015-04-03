@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 
 .panel {
- border-radius: 4px;
+ border-radius: 0px;
 }
 
 .panel-default {
@@ -17,7 +17,7 @@ and open the template in the editor.
 }
 
 .panel-heading {
-  padding: 14px 14px;
+  padding: 12px 12px;
   border-bottom: 1px solid transparent;
   border-top-right-radius: 0px;
   border-top-left-radius: 0px;
@@ -83,7 +83,7 @@ font-weight: bold;
 
 body {
     font-family: "Raleway", Helvetica, Arial, sans-serif;
-    background-color: #F1F1F1; 
+    background-color: #fafafa; 
    }
    
 .panel-footer {
@@ -148,7 +148,15 @@ button {
   margin-top: 0px;
 }
 
-
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.3333333;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: .2rem
+}
 
 .btn-default {
   color: #333333;
@@ -177,19 +185,36 @@ button {
 
 // Overskrift
 
-.page-header {
-  padding-bottom: 9px;
-  margin: 40px 0 20px;
-  border-bottom: none;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: inherit;
+  font-weight: 200;
+  line-height: 1.1;
+  color: inherit;
 }
 
 h1,
 .h1 {
-  font-size: 42px;
-  font-weight: 200;
-  color: #525252;
-  
+  font-size: 40px;
 }
+
+h1 {
+  font-weight: 200;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  color: #525252;
+}
+
 
 .lead {
   margin-bottom: 20px;
@@ -216,4 +241,13 @@ h1,
   background-color: #5fcf80;
 }
 
+.label-danger{
+	background-color: #ec5872;
+}
 
+hr {
+
+border-color: #dddddd;
+border-bottom: 1px solid transparent;
+
+}

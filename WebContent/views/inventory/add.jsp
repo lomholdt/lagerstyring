@@ -10,7 +10,7 @@
 
   <div class="row">
             <div class="col-sm-8 col-sm-offset-2">
-            <div class="page-header"><h1>Indstillinger</h1></div>
+            <h1>Indstillinger</h1>
             	<form method="POST" action="inventory">
 	                    <div class="panel panel-default">
 	                        <div class="panel-heading"><h3 class="panel-title">Tilføj vare</h3></div>

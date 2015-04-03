@@ -79,7 +79,8 @@
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label for="to">Til</label> <input type="date"
-										class="form-control input-lg" name="to" value="${storage.openedAtHtml}">
+										class="form-control input-lg" name="to"
+										value="${storage.openedAtHtml}">
 								</div>
 							</div>
 						</div>
@@ -111,24 +112,59 @@
 										class="btn btn-primary btn-lg btn-block">Se lager
 										rapport</button>
 								</div>
-
-								<c:if test="${logResults.size() gt 0}">
-									<c:forEach var="loggedStation" items="${logResults}">
-		                                   		${loggedStation.station.name}
-		                                   		<c:forEach var="loggedInventory"
-											items="${loggedStation.loggedInventory}">
-											<div>
-												<span>${loggedInventory.createdAt.time}</span> <span>${loggedInventory.name}</span>
-												<span>${loggedInventory.units}</span> <span>${loggedInventory.performedAction}</span>
-											</div>
-										</c:forEach>
-									</c:forEach>
-								</c:if>
 							</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</form>
+	</div>
+	<div class="row">
+		<div class="col-sm-8 col-sm-offset-2">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Lager rapport</h3>
+				</div>
+				<div class="panel-body">
+					<c:if test="${logResults.size() gt 0}">
+						<c:forEach var="loggedStation" items="${logResults}">
+							<div class="row">
+								<div class="col-sm-10 col-sm-offset-1">
+									<h4>${loggedStation.station.name}</h4>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-10 col-sm-offset-1">
+									<table class="table table-striped">
+										<thead>
+											<tr>
+												<th>Tidspunkt</th>
+												<th>Varenavn</th>
+												<th>Antal</th>
+												<th>Handling</th>
+											</tr>
+										</thead>
+											<tbody>
+										<c:forEach var="loggedInventory"
+											items="${loggedStation.loggedInventory}">
+												<tr>
+													<td>${loggedInventory.createdAt.time}</td>
+													<td>${loggedInventory.name}</td>
+													<td>${loggedInventory.units}</td>
+													<td>${loggedInventory.performedAction}</td>
+												</tr>
+										</c:forEach>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="row"><hr></div>
+						</c:forEach>
+					</c:if>
+				</div>
+			</div>
+		</div>
 	</div>
 </add:wrap>
