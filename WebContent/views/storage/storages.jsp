@@ -17,7 +17,7 @@
 		                           <div class="col-sm-12"><h3 class="panel-title">${storage.name} 
 			                           <c:choose>
 											<c:when test="${storage.isOpen()}">
-												<span class="label label-success pull-right">Åbent</span>
+												<span class="label label-success pull-right">Åbent ${storage.openedAt.time}</span>
 											</c:when>
 											<c:otherwise>
 												<span class="label label-danger pull-right">Lukket</span>

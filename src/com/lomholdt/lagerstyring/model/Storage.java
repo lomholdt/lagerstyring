@@ -1,6 +1,9 @@
 package com.lomholdt.lagerstyring.model;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Storage {
 	
@@ -9,6 +12,7 @@ public class Storage {
 	private int companyId;
 	private boolean isOpen;
 	private ArrayList<Inventory> inventory = new ArrayList<Inventory>();
+	private Calendar openedAt;
 	
 	public int getId() {
 		return id;
@@ -39,5 +43,12 @@ public class Storage {
 	}
 	public void addToInventory(Inventory inv) {
 		inventory.add(inv);
+	}
+	public Calendar getOpenedAt() {
+		return openedAt;
+	}
+	public void setOpenedAt(Timestamp updatedAt) {
+		openedAt = Calendar.getInstance();
+		openedAt.setTime(new Date(updatedAt.getTime()));
 	}
 }
