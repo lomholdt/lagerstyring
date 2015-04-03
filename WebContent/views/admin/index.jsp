@@ -20,7 +20,7 @@
 <button type="submit" class="btn btn-primary btn-lg">Opret Ny Virksomhed</button>
 </form>
 
-<table class="table table-striped">
+<table class="table table-borded">
     <thead>
        <tr>
        <th>Virksomheder</th>
@@ -64,14 +64,13 @@
 		<input type="text" class="form-control" placeholder="password" name="password">
 	</div>
 
-<button type="submit" class="btn btn-primary btn-lg"">Opret Ny Bruger</button>
+<button type="submit" class="btn btn-primary btn-lg">Opret Ny Bruger</button>
 </form>
 
 <hr>
 
 <h3>Tilføj station til virksomhed</h3>
 <form method="POST" action="admin">
-	
 	<div class="form-group">
 		<select class="form-control" name="stationCompany">
 		<c:forEach var="company" items="${companies}">
@@ -91,7 +90,7 @@
 		<input type="text" class="form-control" placeholder="Station" name="newStationName">
 	</div>
 
-<button type="submit" class="btn btn-primary btn-lg"">Opret Ny Station</button>
+<button type="submit" class="btn btn-primary btn-lg">Opret Ny Station</button>
 </form>
 
 	</div>

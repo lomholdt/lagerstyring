@@ -105,7 +105,7 @@ public class OpenStorageController extends HttpServlet {
 		is.changeStorageStatus(Integer.parseInt(sid));
 
 		
-		FlashMessage.setFlashMessage(request, "msg", "Lageret er nu Ã¥bnet");
+		FlashMessage.setFlashMessage(request, "msg", "Lageret er nu Œbnet");
 		response.sendRedirect("count");
 		
 
