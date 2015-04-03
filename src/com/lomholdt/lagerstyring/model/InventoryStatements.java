@@ -42,7 +42,7 @@ public class InventoryStatements extends DBMain {
 			}
 		} finally {
 			System.out.println("Closing connection");
-			connection.close();
+//			connection.close();
 		}
 	}
 	

@@ -3,6 +3,16 @@
  *****************************************************/
  
 /*
+ Contains the customers company name
+ */
+CREATE TABLE IF NOT EXISTS companies (
+	id int(11) NOT NULL AUTO_INCREMENT,
+	name varchar(1000) NOT NULL,
+	created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*
  The users table
  */
 CREATE TABLE IF NOT EXISTS users (
@@ -23,16 +33,6 @@ CREATE TABLE IF NOT EXISTS roles (
 	role varchar(100) NOT NULL,
 	PRIMARY KEY (user_id, role), 
 	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*
- Contains the customers company name
- */
-CREATE TABLE IF NOT EXISTS companies (
-	id int(11) NOT NULL AUTO_INCREMENT,
-	name varchar(1000) NOT NULL,
-	created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*
@@ -93,3 +93,9 @@ CREATE TABLE IF NOT EXISTS log(
  *****************************************************/
 INSERT INTO companies (name) VALUES ("LagerStyring A/S");
 INSERT INTO users (username, password, company_id) VALUES ("admin", "3c11440050cbedc97d35541159636783b81482d81880a4ef22cc7e6c460bdcb8", 1);
+INSERT INTO roles (user_id, role) VALUES (LAST_INSERT_ID(), "admin");
+INSERT INTO roles (user_id, role) VALUES (LAST_INSERT_ID(), "manager");
+INSERT INTO roles (user_id, role) VALUES (LAST_INSERT_ID(), "user");
+
+
+
