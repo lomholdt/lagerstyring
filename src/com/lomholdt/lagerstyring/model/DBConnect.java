@@ -18,10 +18,10 @@ public class DBConnect {
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionDBName = "lagerstyring";
 			String connectionUrl = "jdbc:mysql://localhost:3306/" + connectionDBName;
-//			String connectionUser = "jonas";
-//			String connectionPassword = "28608374";
-			String connectionUser = "root";
-			String connectionPassword = "";
+			String connectionUser = "jonas";
+			String connectionPassword = "28608374";
+//			String connectionUser = "root";
+//			String connectionPassword = "";
 			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
 		} catch (Exception e) {
 			e.printStackTrace();

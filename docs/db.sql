@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS stations (
 	id int(11) NOT NULL AUTO_INCREMENT,
 	name varchar(500) NOT NULL,
 	company_id int(11) NOT NULL,
+	importance varchar(100) NOT NULL,
 	PRIMARY KEY (id), 
 	FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

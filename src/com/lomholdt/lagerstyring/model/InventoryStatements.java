@@ -250,11 +250,12 @@ public class InventoryStatements extends DBMain {
     	return 0;	
 	}
 	
-	public ArrayList<Station> getStations(int companyId){
+	public ArrayList<Station> getStations(int companyId, String importance){
 		ArrayList<Station> al = new ArrayList<Station>();
     	try {
-    		pstmt = c.preparedStatement("SELECT stations.id ,stations.name FROM stations WHERE stations.company_id = ?;");
+    		pstmt = c.preparedStatement("SELECT stations.id ,stations.name FROM stations WHERE stations.company_id = ? AND stations.importance = ?;");
     		pstmt.setInt(1, companyId);
+    		pstmt.setString(2, importance);
     		rs = pstmt.executeQuery();
     		while(rs.next()) {
     			Station s = new Station();

@@ -56,8 +56,10 @@ public class MoveOutController extends HttpServlet {
 				return;
 			}
 			Storage storage = is.getStorageWithInventory(Integer.parseInt(storageId));
-			ArrayList<Station> stations = is.getStations(user.getCompanyId());
-			request.setAttribute("stations", stations);
+			ArrayList<Station> primaryStations = is.getStations(user.getCompanyId(), "primary");
+			ArrayList<Station> secondaryStations = is.getStations(user.getCompanyId(), "secondary");
+			request.setAttribute("primaryStations", primaryStations);
+			request.setAttribute("secondaryStations", secondaryStations);
 			request.setAttribute("storage", storage);
 		}
 		else{

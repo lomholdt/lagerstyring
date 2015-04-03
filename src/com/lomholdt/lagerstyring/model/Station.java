@@ -4,6 +4,7 @@ public class Station {
 	
 	private int id;
 	private String name;
+	private String importance;
 	
 	public int getId() {
 		return id;
@@ -16,5 +17,11 @@ public class Station {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getImportance() {
+		return importance;
+	}
+	public void setImportance(String importance) {
+		this.importance = importance;
 	}
 }
