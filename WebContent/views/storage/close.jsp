@@ -79,8 +79,7 @@
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label for="to">Til</label> <input type="date"
-										class="form-control input-lg" name="to"
-										placeholder="dd-mm-yyy">
+										class="form-control input-lg" name="to" value="${storage.openedAtHtml}">
 								</div>
 							</div>
 						</div>
