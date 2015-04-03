@@ -15,6 +15,7 @@ import javax.websocket.SendResult;
 import com.lomholdt.lagerstyring.model.Authenticator;
 import com.lomholdt.lagerstyring.model.FlashMessage;
 import com.lomholdt.lagerstyring.model.InventoryStatements;
+import com.lomholdt.lagerstyring.model.Station;
 import com.lomholdt.lagerstyring.model.Storage;
 import com.lomholdt.lagerstyring.model.User;
 
@@ -83,6 +84,10 @@ public class AddInventoryController extends HttpServlet {
 		// We can safely add the item to the storage
 		InventoryStatements is = new InventoryStatements();
 		int storageId = is.getStorageId(user.getCompanyId(), storage);
+		ArrayList<Station> primaryStations = is.getStations(user.getCompanyId(), "primary");
+		ArrayList<Station> secondaryStations = is.getStations(user.getCompanyId(), "secondary");
+		request.setAttribute("primaryStations", primaryStations);
+		request.setAttribute("secondaryStations", secondaryStations);
 		if(is.inventoryExists(name, storageId)){
 			request.setAttribute("error", "The item " + name + " already exists in " + storage);		
 			doGet(request, response);
