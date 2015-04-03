@@ -20,7 +20,7 @@
 												<span class="label label-success pull-right">Åbent ${storage.openedAt.time}</span>
 											</c:when>
 											<c:otherwise>
-												<span class="label label-danger pull-right">Lukket</span>
+												<span class="label label-danger pull-right">Lukket ${storage.openedAt.time}</span>
 											</c:otherwise>
 										</c:choose> </h3> 
 									</div>
@@ -35,7 +35,7 @@
 										</form>
 									</div>
 									<div class="col-xs-6">
-									<form method="GET" action="close">
+										<form method="GET" action="close">
 												<input type="hidden" value="${storage.id}" name="sid">
 												<button type="submit" class="btn btn-default btn-lg btn-block">Luk Lager</button>
 										</form>

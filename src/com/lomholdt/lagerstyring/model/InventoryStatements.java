@@ -110,7 +110,7 @@ public class InventoryStatements extends DBMain {
 	
 	public Storage getStorage(int storageId){
 		try {
-			pstmt = c.preparedStatement("SELECT storages.id, storages.name, storages.company_id, storages.is_open FROM storages WHERE storages.id = ?;");
+			pstmt = c.preparedStatement("SELECT storages.id, storages.name, storages.company_id, storages.is_open, storages.updated_at FROM storages WHERE storages.id = ?;");
     		pstmt.setInt(1, storageId);
     		rs = pstmt.executeQuery();
     		if(rs.next()){
@@ -119,7 +119,8 @@ public class InventoryStatements extends DBMain {
     			st.setName(rs.getString("name"));
     			st.setCompanyId(rs.getInt("company_id"));
     			st.setIsOpen(rs.getBoolean("is_open"));
-
+    			st.setOpenedAt(rs.getTimestamp("updated_at"));
+    			
     			return st;
     		}
     		
