@@ -110,6 +110,16 @@ public class MoveInController extends HttpServlet {
 			if(!entry.getValue()[0].equals("0") && !entry.getValue()[0].isEmpty()){
 				// INCREMENT THIS AMOUNT FROM DATABASE
 				is.incrementUnits(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
+				try {
+					is.addToInventoryLog(is.getInventoryName(Integer.parseInt(entry.getKey())), 
+							Integer.parseInt(entry.getValue()[0]), 
+							Integer.parseInt(storageId), 
+							Integer.parseInt(stationId),
+							"Tilgang");
+				} catch (Exception e) {
+					System.out.println("Could not add to log");
+					e.printStackTrace();
+				}
 			}
 		}
 

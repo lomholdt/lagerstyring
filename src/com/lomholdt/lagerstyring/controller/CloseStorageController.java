@@ -1,6 +1,7 @@
 package com.lomholdt.lagerstyring.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -15,9 +16,12 @@ import javax.servlet.http.HttpSession;
 import com.lomholdt.lagerstyring.model.Authenticator;
 import com.lomholdt.lagerstyring.model.FlashMessage;
 import com.lomholdt.lagerstyring.model.InventoryStatements;
+import com.lomholdt.lagerstyring.model.LoggedInventory;
+import com.lomholdt.lagerstyring.model.LoggedStation;
 import com.lomholdt.lagerstyring.model.Station;
 import com.lomholdt.lagerstyring.model.Storage;
 import com.lomholdt.lagerstyring.model.User;
+import com.lomholdt.lagerstyring.model.UserStatements;
 
 /**
  * Servlet implementation class CloseStorageController
@@ -62,7 +66,15 @@ public class CloseStorageController extends HttpServlet {
 			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
 			response.sendRedirect("count");
 		}
-		InventoryStatements is=new InventoryStatements();
+		// We are good - Perform action on storage
+		
+		String search = request.getParameter("search");
+		if (search != null && !search.isEmpty()){
+			ArrayList<LoggedStation> ls = logResults(request, response, user);
+			request.setAttribute("logResults", ls);
+		}
+				
+		InventoryStatements is = new InventoryStatements();
 		ArrayList<Station> primaryStations = is.getStations(user.getCompanyId(), "primary");
 		ArrayList<Station> secondaryStations = is.getStations(user.getCompanyId(), "secondary");
 		request.setAttribute("primaryStations", primaryStations);
@@ -90,6 +102,7 @@ public class CloseStorageController extends HttpServlet {
 			response.sendRedirect("count");
 		}
 
+		
 
 		Map<String, String[]> m  = request.getParameterMap();
 		// Sloppy but working method for ensuring no empty input
@@ -110,8 +123,63 @@ public class CloseStorageController extends HttpServlet {
 			is.updateUnitsAt(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
 		}
 		is.changeStorageStatus(Integer.parseInt(sid));
+		
+		is.getStorage(Integer.parseInt(sid));
+		try {
+			is.addToStorageLog(is.getStorageName(Integer.parseInt(sid)), Integer.parseInt(sid), "Luk");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		FlashMessage.setFlashMessage(request, "msg", "Lageret er nu lukket");
 		response.sendRedirect("count");
 	}
+	
+	public ArrayList<LoggedStation> logResults(HttpServletRequest request, HttpServletResponse response, User user) throws IOException{
+		ArrayList<LoggedStation> loggedStations = new ArrayList<LoggedStation>();
+		String search = request.getParameter("search");
+		String from = request.getParameter("from");
+		String to = request.getParameter("to");
+		String inventoryName = request.getParameter("inventoryName");
+		
+		
+		if(search == null || search.isEmpty() || 
+				from == null || from.isEmpty() ||
+				to == null || to.isEmpty()){
+			System.out.println("Returning null");
+			return null;
+		}
+		
+		// Let's proceed
+//		if (inventoryName.equals("allStations")){
+//			// fetch log with all stations
+//		}
+		
+		
+		
+		InventoryStatements is = new InventoryStatements();
+		UserStatements us = new UserStatements();
+		
+		
+		
+		try {			
+			Date fromDate = java.sql.Date.valueOf(from);
+			Date toDate = java.sql.Date.valueOf(to);
+
+			ArrayList<Station> stations = is.getStations(us.getCompanyId(user.getId()), "primary");
+			for (Station station : stations) {
+				
+				System.out.println(fromDate);
+				System.out.println(toDate);
+				
+				LoggedStation ls = is.getLoggedItems(fromDate, toDate, inventoryName, station.getId());
+				if (ls.getLoggedInventory().size() != 0) loggedStations.add(ls);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return loggedStations;
+	}
+	
 }

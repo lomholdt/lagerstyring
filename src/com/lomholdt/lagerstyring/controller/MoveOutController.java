@@ -126,12 +126,25 @@ public class MoveOutController extends HttpServlet {
 			if(!entry.getValue()[0].equals("0") && !entry.getValue()[0].isEmpty()){
 				// DECREMENT THIS AMOUNT FROM DATABASE
 				is.decrementUnits(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
+				try {
+					is.addToInventoryLog(is.getInventoryName(Integer.parseInt(entry.getKey())), 
+							-Integer.parseInt(entry.getValue()[0]), 
+							Integer.parseInt(storageId), 
+							Integer.parseInt(stationId),
+							"Afgang");
+				} catch (Exception e) {
+					System.out.println("Could not add to log");
+					e.printStackTrace();
+				}
 			}
 		}
+		
 
 		String msg = "Afgang gennemført fra " + is.getStorage(Integer.parseInt(storageId)).getName() + " til " + is.getStation(Integer.parseInt(stationId)).getName();
 		FlashMessage.setFlashMessage(request, "msg", msg);
 		response.sendRedirect("move");	
 	}
+	
+	
 
 }

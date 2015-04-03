@@ -103,6 +103,13 @@ public class OpenStorageController extends HttpServlet {
 			is.updateUnitsAt(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
 		}
 		is.changeStorageStatus(Integer.parseInt(sid));
+		
+		is.getStorage(Integer.parseInt(sid));
+		try {
+			is.addToStorageLog(is.getStorageName(Integer.parseInt(sid)), Integer.parseInt(sid), "Ã…ben");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		
 		FlashMessage.setFlashMessage(request, "msg", "Lageret er nu Œbnet");

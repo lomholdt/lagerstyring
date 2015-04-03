@@ -1,9 +1,9 @@
 package com.lomholdt.lagerstyring.model;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 
@@ -42,33 +42,140 @@ public class InventoryStatements extends DBMain {
 				statement.close();
 			}
 		} finally {
-			System.out.println("Closing connection");
+			//System.out.println("Closing connection");
 //			connection.close();
 		}
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	public boolean addToLog(String name, int units, int storageId, int stationId){
+	public LoggedStation getLoggedItems(Date from, Date to, String inventory, int stationId) throws Exception{
+		LoggedStation ls = new LoggedStation();
+		ls.setStation(getStation(stationId));
+		Connection connection = c.getCon();
 		try {
-			PreparedStatement pstmt = c.preparedStatement("INSERT INTO log (name, units, storage_id, station_id) VALUES (?, ?, ?, ?)");
+			PreparedStatement statement = connection.prepareStatement(""
+					+ "SELECT inventory_log.created_at, inventory_log.name, inventory_log.units, inventory_log.performed_action "
+					+ "FROM inventory_log "
+					+ "WHERE inventory_log.created_at > ? "
+					+ "AND inventory_log.station_id = ?");
+			statement.setDate(1, from);
+			statement.setInt(2, stationId);
+			
+			// TODO add the rest of the parameters
+			
+			try {
+				rs = statement.executeQuery();
+				while (rs.next()){
+					System.out.println("Adding inventory");
+					LoggedInventory li = new LoggedInventory();
+					li.setCreatedAt(rs.getTimestamp("created_at"));
+					li.setName(rs.getString("name"));
+					li.setUnits(rs.getInt("units"));
+					li.setPerformedAction(rs.getString("performed_action"));
+					
+					ls.addToLoggedInventory(li);
+				}
+			}
+			catch(Exception e){
+				System.out.println("Error getting logged items.");
+				e.printStackTrace();
+			}
+			finally {
+				System.out.println("Closing statement");
+				statement.close();
+			}
+		}
+		catch(Exception e){
+			System.out.println("Could not get logged items.");
+			e.printStackTrace();
+		}
+		return ls;
+		
+	}
+	
+	public boolean addToStorageLog(String name, int storageId, String performed_action) throws Exception{
+		Connection connection = c.getCon();
+		try {
+			PreparedStatement pstmt = connection.prepareStatement("INSERT INTO storage_log (name, storage_id, performed_action) VALUES (?, ?, ?)");
+			pstmt.setString(1, name);
+			pstmt.setInt(2, storageId);
+			pstmt.setString(3, performed_action);
+			pstmt.executeUpdate();
+			return true;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally{
+			pstmt.close();
+		}
+		return false;
+		
+	}
+	
+	public String getStorageName(int storageId) throws Exception{
+		Connection connection = c.getCon();
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT storages.name FROM storages WHERE storages.id = ?;");
+			try {
+				statement.setInt(1, storageId);
+				rs = statement.executeQuery();
+				if (rs.next()){
+					return rs.getString("name");
+				}
+			} finally {
+				System.out.println("Closing statement");
+				statement.close();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+
+	public boolean addToInventoryLog(String name, int units, int storageId, int stationId, String performed_action) throws Exception{
+		Connection connection = c.getCon();
+		try {
+			PreparedStatement pstmt = connection.prepareStatement("INSERT INTO inventory_log (name, units, storage_id, station_id, performed_action) VALUES (?, ?, ?, ?, ?)");
 			pstmt.setString(1, name);
 			pstmt.setInt(2, units);
 			pstmt.setInt(3, storageId);
 			pstmt.setInt(4, stationId);
+			pstmt.setString(5, performed_action);
 			pstmt.executeUpdate();
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
+		finally{
+			pstmt.close();
+		}
 		return false;
+	}
+	
+	public String getInventoryName(int inventoryId) throws Exception{
+		Connection connection = c.getCon();
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT inventory.name FROM inventory WHERE inventory.id = ?;");
+			try {
+				statement.setInt(1, inventoryId);
+				rs = statement.executeQuery();
+				if (rs.next()){
+					return rs.getString("name");
+				}
+			} finally {
+				System.out.println("Closing statement");
+				statement.close();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public boolean inventoryExists(String inventory, int storageId){
@@ -141,10 +248,10 @@ public class InventoryStatements extends DBMain {
 				iv.setId(rs.getInt("id"));
 				iv.setName(rs.getString("name"));
 				iv.setUnits(rs.getInt("units"));
+				iv.setCreatedAt(rs.getTimestamp("created_at"));
+				iv.setUpdatedAt(rs.getTimestamp("updated_at"));
+				iv.setStorageId(rs.getInt("storage_id"));
 				
-				// Add date later
-				
-				iv.setStorage_id(rs.getInt("storage_id"));				
 				st.addToInventory(iv);
 			}
 			return st;
