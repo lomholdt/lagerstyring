@@ -1,5 +1,7 @@
 package com.lomholdt.lagerstyring.model;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Inventory {
@@ -7,9 +9,10 @@ public class Inventory {
 	private int id;
 	private String name;
 	private int units;
-	private Date createdAt;
-	private Date updatedAt;
-	private int storage_id;
+	private Calendar createdAt;
+	private Calendar updatedAt;
+	private int storageId;
+	
 	public int getId() {
 		return id;
 	}
@@ -28,23 +31,25 @@ public class Inventory {
 	public void setUnits(int units) {
 		this.units = units;
 	}
-	public Date getCreatedAt() {
+	public Calendar getCreatedAt() {
 		return createdAt;
 	}
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = Calendar.getInstance();
+		this.createdAt.setTime(new Date(createdAt.getTime()));
 	}
-	public Date getUpdatedAt() {
+	public Calendar getUpdatedAt() {
 		return updatedAt;
 	}
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
+	public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = Calendar.getInstance();
+		this.updatedAt.setTime(new Date(updatedAt.getTime()));
 	}
-	public int getStorage_id() {
-		return storage_id;
+	public int getStorageId() {
+		return storageId;
 	}
-	public void setStorage_id(int storage_id) {
-		this.storage_id = storage_id;
+	public void setStorageId(int storageId) {
+		this.storageId = storageId;
 	}
 
 }

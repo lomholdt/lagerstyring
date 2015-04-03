@@ -76,7 +76,7 @@
     <servlet-name>MoveOutController</servlet-name>
     <url-pattern>/moveout</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>AdminController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.AdminController</servlet-class>
   </servlet>
