@@ -106,6 +106,7 @@ button {
 }
 
 .btn {
+	
   display: inline-block;
   margin-bottom: 2px;
   font-weight: 600;
@@ -138,7 +139,6 @@ button {
   font-weight: 600;
   line-height: 1.3333333;
   border-radius: 6px;
-  letter-spacing: .2rem
 }
 
 .btn-listtype {
@@ -154,6 +154,7 @@ button {
   color: #333333;
   background-color: #ffffff;
   border-color: #cccccc;
+  letter-spacing: .2rem;
 }
 
 .btn-primary {
@@ -177,9 +178,9 @@ button {
 // Overskrift
 
 .page-header {
-  padding-bottom: 7px;
+  padding-bottom: 9px;
   margin: 40px 0 20px;
-  border-bottom: 0px solid #F1F1F1;
+  border-bottom: none;
 }
 
 h1,
@@ -187,6 +188,7 @@ h1,
   font-size: 42px;
   font-weight: 200;
   color: #525252;
+  
 }
 
 .lead {

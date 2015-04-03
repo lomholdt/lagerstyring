@@ -123,7 +123,7 @@ public class MoveInController extends HttpServlet {
 			}
 		}
 
-		String msg = "Tilgang gennemf√∏rt fra " + is.getStation(Integer.parseInt(stationId)).getName() + " til " + is.getStorage(Integer.parseInt(storageId)).getName();
+		String msg = "Tilgang gennemført fra " + is.getStation(Integer.parseInt(stationId)).getName() + " til " + is.getStorage(Integer.parseInt(storageId)).getName();
 		FlashMessage.setFlashMessage(request, "msg", msg);
 		response.sendRedirect("move");	
 	}

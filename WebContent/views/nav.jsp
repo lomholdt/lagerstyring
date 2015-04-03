@@ -34,8 +34,8 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
           	<ul class="dropdown-menu" role="menu">
             <c:if test="${user.roles.contains('admin')}">
          		<li><a href="admin">Admin Panel</a>
+         		 <li class="divider"></li>
          	</c:if>
-            <li class="divider"></li>
             <li><a href="logout">Log ud</a></li>
           </ul>
         </li>
