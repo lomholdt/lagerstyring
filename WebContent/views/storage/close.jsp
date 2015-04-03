@@ -19,10 +19,14 @@
 	            					<div class="row">
 							            <div class="col-sm-8 col-sm-offset-2">
 											<c:forEach var="inventory" items="${storage.inventory}">
-												<div class="form-group">
+												<c:if test="${inventory.units >= 0}"> <div class="form-group">
 													<label for="${inventory.id}">${inventory.name}</label>
-													<input type="number" class="form-control" placeholder="Antal" name="${inventory.id}" value="${inventory.units}">
-												</div>
+													<input type="number" class="form-control" name="${inventory.id}" min="0" value="${inventory.units}">
+												</div></c:if>
+												<c:if test="${inventory.units < 0}"> <div class="form-group has-error">
+													<label for="${inventory.id}">${inventory.name}</label>
+													<input type="number" class="form-control" name="${inventory.id}" min="0" value="${inventory.units}">
+												</div></c:if>
 											</c:forEach>
 							           </div>
 	                				</div>

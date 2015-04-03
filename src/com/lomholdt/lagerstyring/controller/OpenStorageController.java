@@ -112,7 +112,7 @@ public class OpenStorageController extends HttpServlet {
 		}
 
 		
-		FlashMessage.setFlashMessage(request, "msg", "Lageret er nu Ã¥bnet");
+		FlashMessage.setFlashMessage(request, "msg", "Lageret er nu Œbnet");
 		response.sendRedirect("count");
 		
 
