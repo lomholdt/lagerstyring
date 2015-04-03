@@ -41,4 +41,58 @@
 	           </form>
             </div>
 	</div>
+	<div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                    <h3 class="panel-title">Logbog</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p class="lead">Søg i logbogen</p>
+                            <div class="row">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                     <div class="form-group">
+                                        <label for="fra">Fra</label>
+                                        <input type="number" class="form-control input-lg" name="fra" placeholder="dd-mm- yyy">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="til">Til</label>
+                                        <input type="number" class="form-control input-lg" name="til" placeholder="dd-mm-yyy">
+                                   </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                <div class="form-group">
+                                        <label for="varenavn">Varenavn</label>
+                                        <select class="form-control" name="Varenavn">
+                                          <option>Alle varer</option>
+                                          <c:forEach var="inventory" items="${storage.inventory}">
+											<option>${inventory.name}</option>
+											</c:forEach>
+                                        </select>
+                                   </div>
+                                    <div class="form-group">
+                                        <label for="station">Station</label>
+                                        <select class="form-control" name="station">
+                                          <option>Alle stationer</option>
+   										<c:forEach var="primaryStation" items="${primaryStations}">
+											<option>${primaryStation.name}</option>
+										</c:forEach>
+										<c:forEach var="secondaryStation" items="${secondaryStations}">
+											<option>${secondaryStation.name}</option>
+										</c:forEach>
+                                        </select>
+                                   </div>
+                                    <div class="form-group">
+                                    <button type="submit" name="Search" class="btn btn-primary btn-lg btn-block">Se lager rapport</button>
+                                   </div>
+                                </div>
+                            </div>
+                    </div>    
+                </div>
+            </div>
+       </div>  
 </add:wrap>

@@ -1,6 +1,7 @@
 package com.lomholdt.lagerstyring.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.lomholdt.lagerstyring.model.Authenticator;
 import com.lomholdt.lagerstyring.model.FlashMessage;
 import com.lomholdt.lagerstyring.model.InventoryStatements;
+import com.lomholdt.lagerstyring.model.Station;
 import com.lomholdt.lagerstyring.model.Storage;
 import com.lomholdt.lagerstyring.model.User;
 
@@ -60,7 +62,11 @@ public class CloseStorageController extends HttpServlet {
 			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
 			response.sendRedirect("count");
 		}
-		
+		InventoryStatements is=new InventoryStatements();
+		ArrayList<Station> primaryStations = is.getStations(user.getCompanyId(), "primary");
+		ArrayList<Station> secondaryStations = is.getStations(user.getCompanyId(), "secondary");
+		request.setAttribute("primaryStations", primaryStations);
+		request.setAttribute("secondaryStations", secondaryStations);
 		RequestDispatcher view = request.getRequestDispatcher("views/storage/close.jsp");
 		view.forward(request, response);
 	}
