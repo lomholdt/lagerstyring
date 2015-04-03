@@ -65,6 +65,12 @@
 
 		</select>
 	</div>
+	<div class="form-group">
+		<select class="form-control" name="newStationImportance">
+			<option value="primary">Primary</option>
+			<option value="secondary">Secondary</option>
+		</select>
+	</div>
 
 	<div class="form-group">
 		<input type="text" class="form-control" placeholder="Station" name="newStationName">

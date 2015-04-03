@@ -73,6 +73,7 @@ public class AdminController extends HttpServlet {
 		String password = request.getParameter("password");
 		String stationCompany = request.getParameter("stationCompany");
 		String newStationName = request.getParameter("newStationName");
+		String newStationImportance = request.getParameter("newStationImportance");
 		
 		
 		
@@ -115,11 +116,12 @@ public class AdminController extends HttpServlet {
 			}
 		}
 		else if(stationCompany != null && !stationCompany.isEmpty() && 
-				newStationName != null && !newStationName.isEmpty()){
+				newStationName != null && !newStationName.isEmpty() &&
+				newStationImportance != null && !newStationImportance.isEmpty()){
 			System.out.println("Trying to add new station.");
 			try {
-				if(new AdminStatements().addStationToCompany(stationCompany, newStationName, "primary")){
-					request.setAttribute("msg", "Station " + newStationName + " succesfully added to " + stationCompany);
+				if(new AdminStatements().addStationToCompany(stationCompany, newStationName, newStationImportance)){
+					request.setAttribute("msg", newStationImportance + " station " + newStationName + " succesfully added to " + stationCompany);
 					doGet(request, response);
 					return;
 				}
