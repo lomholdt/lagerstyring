@@ -29,10 +29,21 @@
 					                <div class="row">
 					            		<div class="col-sm-8 col-sm-offset-2">
 					            		<input type="hidden" value="${storage.id}" name="sid">
-										<c:forEach var="station" items="${stations}">
-											<button type="submit" class="btn btn-primary btn-lg" name="stationId" value="${station.id}">${station.name}</button>
+										<c:forEach var="primaryStation" items="${primaryStations}">
+											<button type="submit" class="btn btn-primary btn-lg" name="stationId" value="${primaryStation.id}">${primaryStation.name}</button>
 										</c:forEach>
-										<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
+					               		</div>
+					               </div>
+					           </div>
+					            <div class="panel-footer">
+					              	<p class="lead">Diverse</p>
+					                <div class="row">
+					            		<div class="col-sm-8 col-sm-offset-2">
+					            		<input type="hidden" value="${storage.id}" name="sid">
+										<c:forEach var="secondaryStation" items="${secondaryStations}">
+											<button type="submit" class="btn btn-default btn-lg" name="stationId" value="${secondaryStation.id}">${secondaryStation.name}</button>
+										</c:forEach>
+										<a class="btn btn-default btn-lg" href="move" role="button">Annullér</a>
 					               		</div>
 					               </div>
 					            </div>
