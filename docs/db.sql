@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS inventory (
 	name varchar(500) NOT NULL,
 	units int(11) DEFAULT 0,
 	created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updated_at timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+	updated_at timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	storage_id int(11) NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (storage_id) REFERENCES storages(id) ON DELETE CASCADE
