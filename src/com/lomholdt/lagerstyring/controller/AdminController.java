@@ -118,10 +118,16 @@ public class AdminController extends HttpServlet {
 				newStationName != null && !newStationName.isEmpty()){
 			System.out.println("Trying to add new station.");
 			try {
-				new AdminStatements().addStationToCompany(stationCompany, newStationName, "primary");
-				request.setAttribute("msg", "Station " + newStationName + " succesfully added to " + stationCompany);
-				doGet(request, response);
-				return;
+				if(new AdminStatements().addStationToCompany(stationCompany, newStationName, "primary")){
+					request.setAttribute("msg", "Station " + newStationName + " succesfully added to " + stationCompany);
+					doGet(request, response);
+					return;
+				}
+				else{
+					request.setAttribute("error", "Station already exists");
+					doGet(request, response);
+					return;
+				}
 				
 			} catch (Exception e) {
 				request.setAttribute("error", "An error occured while adding new station");
