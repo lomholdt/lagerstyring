@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 
@@ -48,7 +49,7 @@ public class InventoryStatements extends DBMain {
 	}
 	
 	
-	public LoggedStation getLoggedItems(Date from, Date to, String inventoryName, int stationId, int storageId) throws Exception{
+	public LoggedStation getLoggedItems(Timestamp from, Timestamp to, String inventoryName, int stationId, int storageId) throws Exception{
 		System.out.println("Fired inventory specifik query");
 		
 		LoggedStation ls = new LoggedStation();
@@ -61,8 +62,8 @@ public class InventoryStatements extends DBMain {
 					+ "WHERE inventory_log.created_at >= ? "
 					+ "AND inventory_log.created_at <= ? "
 					+ "AND inventory_log.station_id = ? AND inventory_log.name = ? AND inventory_log.storage_id = ?");
-			statement.setDate(1, from);
-			statement.setDate(2, to);
+			statement.setTimestamp(1, from);
+			statement.setTimestamp(2, to);
 			statement.setInt(3, stationId);
 			statement.setString(4, inventoryName);
 			statement.setInt(5, storageId);
@@ -98,7 +99,7 @@ public class InventoryStatements extends DBMain {
 		
 	}
 	
-	public LoggedStation getLoggedItems(Date from, Date to, int stationId, int storageId) throws Exception{
+	public LoggedStation getLoggedItems(Timestamp from, Timestamp to, int stationId, int storageId) throws Exception{
 		LoggedStation ls = new LoggedStation();
 		ls.setStation(getStation(stationId));
 		Connection connection = c.getCon();
@@ -109,12 +110,10 @@ public class InventoryStatements extends DBMain {
 					+ "WHERE inventory_log.created_at >= ? "
 					+ "AND inventory_log.created_at <= ? "
 					+ "AND inventory_log.station_id = ? AND inventory_log.storage_id = ?");
-			statement.setDate(1, from);
-			statement.setDate(2, to);
+			statement.setTimestamp(1, from);
+			statement.setTimestamp(2, to);
 			statement.setInt(3, stationId);
 			statement.setInt(4, storageId);
-			
-			// TODO add the rest of the parameters
 			
 			try {
 				rs = statement.executeQuery();
