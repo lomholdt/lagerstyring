@@ -22,8 +22,8 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
          
        </div>
        <div id="navbar" class="collapse navbar-collapse">
-         <ul class="nav navbar-nav navbar-right">
-         <c:if test="${user ne null}"> <!-- VI ER LOGGET IND -->
+       <c:if test="${user ne null}"> <!-- VI ER LOGGET IND -->
+         <ul class="nav navbar-nav">
          	<li <c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/lagerstyring/count')}"> class="active"</c:if>><a href="count">Lageroptælling</a></li>
          	<li <c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/lagerstyring/move')}"> class="active"</c:if>><a href="move">Flyt Vare</a></li>
          	<c:if test="${user.roles.contains('manager')}">
@@ -39,9 +39,11 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
             <li><a href="logout">Log ud</a></li>
           </ul>
         </li>
-         </c:if>
+         </ul>
+         <ul class="nav navbar-nav navbar-right">
          
          </ul>
+         </c:if>
        </div><!--/.nav-collapse -->
      </div>
 </nav>
