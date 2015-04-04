@@ -6,15 +6,14 @@
 	<h3>Arkiv</h3>
 
 	<div class="row">
-		<form action="close">
-			<input type="hidden" name="sid" value="${storage.id}">
+		<form action="archive">
 			<div class="col-sm-8 col-sm-offset-2">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Logbog - Arkiv</h3>
+						<h3 class="panel-title">Arkiv</h3>
 					</div>
 					<div class="panel-body">
-						<p class="lead">Søg i logbogen</p>
+						<p class="lead">Søg i arkivet</p>
 						<div class="row">
 							<div class="col-sm-4 col-sm-offset-2">
 								<div class="form-group">
@@ -34,6 +33,15 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-8 col-sm-offset-2">
+								<div class="form-group">
+									<label for="inventoryName">Lager</label> <select
+										class="form-control" name="storageName">
+										<option value="allInventory">Alle varer</option>
+										<c:forEach var="storage" items="${storages}">
+											<option value="${inventory.name}">${inventory.name}</option>
+										</c:forEach>
+									</select>
+								</div>
 								<div class="form-group">
 									<label for="inventoryName">Varenavn</label> <select
 										class="form-control" name="inventoryName">
@@ -57,8 +65,7 @@
 								</div>
 								<div class="form-group">
 									<button type="submit" name="search" value="log"
-										class="btn btn-primary btn-lg btn-block">Se lager
-										rapport</button>
+										class="btn btn-primary btn-lg btn-block">Se lager rapport</button>
 								</div>
 							</div>
 						</div>

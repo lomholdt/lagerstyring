@@ -67,24 +67,8 @@
 						<h3 class="panel-title">Logbog</h3>
 					</div>
 					<div class="panel-body">
-						<p class="lead">Søg i logbogen</p>
-						<div class="row">
-							<div class="col-sm-4 col-sm-offset-2">
-								<div class="form-group">
-									<label for="from">Fra</label> <input type="date"
-										class="form-control input-lg" name="from"
-										value="${storage.openedAtHtml}">
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label for="to">Til</label> <input type="date"
-										class="form-control input-lg" name="to"
-										value="${storage.openedAtHtml}">
-								</div>
-							</div>
-						</div>
-						<div class="row">
+						<p class="lead">Søg i logbogen (fra ${fromTimestamp} til ${toTimestamp})</p>
+						<div class="row">		
 							<div class="col-sm-8 col-sm-offset-2">
 								<div class="form-group">
 									<label for="inventoryName">Varenavn</label> <select
