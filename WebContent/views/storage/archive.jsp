@@ -3,11 +3,10 @@
 
 <archive:wrap title="Arkiv">
 
-	<h3>Arkiv</h3>
-
 	<div class="row">
 		<form action="archive">
 			<div class="col-sm-8 col-sm-offset-2">
+			<h1>Arkiv</h1>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">Arkiv</h3>

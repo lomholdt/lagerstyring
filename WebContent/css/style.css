@@ -104,6 +104,15 @@ font-weight: bold;
 }
 
 
+.navbar-center
+{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    margin: auto;
+}
+
 body {
     font-family: "Raleway", Helvetica, Arial, sans-serif;
     background-color: #F1F1F1; 
