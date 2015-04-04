@@ -51,6 +51,8 @@ public class AddInventoryController extends HttpServlet {
 		ArrayList<Storage> storages = new InventoryStatements().getStorages(user.getCompanyId());
 		if (storages.size() == 0){
 			// Throw user to create storage site if he has no storages created
+			FlashMessage.setFlashMessage(request, "error", "You have no storages. Please create one first.");
+			response.sendRedirect("count");
 			return;
 		}
 		request.setAttribute("storages", storages);		

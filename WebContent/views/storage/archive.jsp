@@ -2,9 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <archive:wrap title="Arkiv">
-
 	<div class="row">
-		<form action="archive">
+		<form action="archive" method="POST">
 			<div class="col-sm-8 col-sm-offset-2">
 			<h1>Arkiv</h1>
 				<div class="panel panel-default">
@@ -34,10 +33,10 @@
 							<div class="col-sm-8 col-sm-offset-2">
 								<div class="form-group">
 									<label for="inventoryName">Lager</label> <select
-										class="form-control" name="storageName">
-										<option value="allInventory">Alle varer</option>
+										class="form-control" name="storageId">
+										<option value="allStorages">Alle Lagre</option>
 										<c:forEach var="storage" items="${storages}">
-											<option value="${inventory.name}">${inventory.name}</option>
+											<option value="${storage.id}">${storage.name}</option>
 										</c:forEach>
 									</select>
 								</div>
@@ -45,7 +44,7 @@
 									<label for="inventoryName">Varenavn</label> <select
 										class="form-control" name="inventoryName">
 										<option value="allInventory">Alle varer</option>
-										<c:forEach var="inventory" items="${storage.inventory}">
+										<c:forEach var="inventory" items="${allInventory}">
 											<option value="${inventory.name}">${inventory.name}</option>
 										</c:forEach>
 									</select>
@@ -75,6 +74,7 @@
 		</form>
 	</div>
 	<c:if test="${logResults.size() gt 0}">
+	<c:forEach var="storage" items="${logResults}">	
 		<div class="row">
 			<div class="col-sm-8 col-sm-offset-2">
 				<div class="panel panel-default">
@@ -82,7 +82,7 @@
 						<h3 class="panel-title">Lager rapport</h3>
 					</div>
 					<div class="panel-body">
-						<c:forEach var="loggedStation" items="${logResults}">
+						<c:forEach var="loggedStation" items="${storage}">
 							<div class="row">
 								<div class="col-sm-10 col-sm-offset-1">
 									<h4>${loggedStation.station.name}</h4>
@@ -122,5 +122,6 @@
 				</div>
 			</div>
 		</div>
+		</c:forEach>
 	</c:if>
 </archive:wrap>
