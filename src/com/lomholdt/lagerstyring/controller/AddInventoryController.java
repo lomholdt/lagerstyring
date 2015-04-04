@@ -55,7 +55,7 @@ public class AddInventoryController extends HttpServlet {
 			response.sendRedirect("count");
 			return;
 		}
-		request.setAttribute("storages", storages);		
+		request.setAttribute("storages", storages);
 		RequestDispatcher view = request.getRequestDispatcher("views/inventory/add.jsp");
 		view.forward(request, response);
 	}

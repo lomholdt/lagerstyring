@@ -73,15 +73,15 @@
 		</form>
 	</div>
 	<c:if test="${logResults.size() gt 0}">
-	<c:forEach var="storage" items="${logResults}">	
+	<c:forEach var="loggedStorage" items="${logResults}">
 		<div class="row">
 			<div class="col-sm-8 col-sm-offset-2">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Lager rapport</h3>
+						<h3 class="panel-title">Lager rapport: ${loggedStorage.storage.name}</h3>
 					</div>
 					<div class="panel-body">
-						<c:forEach var="loggedStation" items="${storage}">
+						<c:forEach var="loggedStation" items="${loggedStorage.loggedStations}">
 							<div class="row">
 								<div class="col-sm-10 col-sm-offset-1">
 									<h4>${loggedStation.station.name}</h4>

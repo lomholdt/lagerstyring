@@ -1,6 +1,8 @@
 package com.lomholdt.lagerstyring.controller;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,6 +22,7 @@ import com.lomholdt.lagerstyring.model.FlashMessage;
 import com.lomholdt.lagerstyring.model.Inventory;
 import com.lomholdt.lagerstyring.model.InventoryStatements;
 import com.lomholdt.lagerstyring.model.LoggedStation;
+import com.lomholdt.lagerstyring.model.LoggedStorage;
 import com.lomholdt.lagerstyring.model.Station;
 import com.lomholdt.lagerstyring.model.Storage;
 import com.lomholdt.lagerstyring.model.User;
@@ -85,11 +88,9 @@ public class ArchiveController extends HttpServlet {
 			return;
 		}
 		
-		
-		
 		String storageId = request.getParameter("storageId");
 		InventoryStatements is = new InventoryStatements();
-		ArrayList<ArrayList<LoggedStation>> al = new ArrayList<ArrayList<LoggedStation>>();
+		ArrayList<LoggedStorage> al = new ArrayList<LoggedStorage>();
 		
 		if(storageId == null || storageId.isEmpty()){
 			request.setAttribute("error", "No storage selected.");
@@ -103,12 +104,22 @@ public class ArchiveController extends HttpServlet {
 			ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
 			for (Storage storage : storages) {
 				ArrayList<LoggedStation> ls = getLogResults(request, response, user, Integer.toString(storage.getId()));
-				al.add(ls);
+				if (ls.size() > 0){
+					LoggedStorage lStorage = new LoggedStorage();
+					lStorage.setStorage(storage);
+					lStorage.setLoggedStation(ls);
+					al.add(lStorage);					
+				}
 			}
 		}
 		else{
 			ArrayList<LoggedStation> ls = getLogResults(request, response, user, storageId);
-			al.add(ls);
+			if (ls.size() > 0){
+				LoggedStorage lStorage = new LoggedStorage();
+				lStorage.setStorage(is.getStorage(Integer.parseInt(storageId)));
+				lStorage.setLoggedStation(ls);
+				al.add(lStorage);
+			}
 		}
 		request.setAttribute("logResults", al);
 		RequestDispatcher view = request.getRequestDispatcher("views/storage/archive.jsp");
@@ -140,9 +151,16 @@ public class ArchiveController extends HttpServlet {
 		Timestamp fromDate = new Timestamp(java.sql.Date.valueOf(from).getTime());
 		Timestamp toDate = new Timestamp(java.sql.Date.valueOf(to).getTime());
 		
-		Storage s = is.getStorage(Integer.parseInt(storageId));
-		fromDate.setTime(s.getOpenedAt().getTimeInMillis());
+		//Storage s = is.getStorage(Integer.parseInt(storageId));
+		fromDate.setHours(0);
+		fromDate.setMinutes(0);
+		fromDate.setSeconds(0);
+		
+		toDate.setDate(java.sql.Date.valueOf(to).getDay());
 		toDate.setTime(Calendar.getInstance().getTimeInMillis());
+		
+		System.out.println(fromDate);
+		System.out.println(toDate);
 		
 		try {			
 

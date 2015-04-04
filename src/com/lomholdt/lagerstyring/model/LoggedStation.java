@@ -18,6 +18,5 @@ public class LoggedStation {
 	}
 	public void addToLoggedInventory(LoggedInventory inventory) {
 		loggedInventory.add(inventory);
-	}
-	
+	}	
 }
