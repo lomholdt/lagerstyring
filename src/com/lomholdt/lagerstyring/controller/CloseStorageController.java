@@ -70,7 +70,7 @@ public class CloseStorageController extends HttpServlet {
 		
 		String search = request.getParameter("search");
 		if (search != null && !search.isEmpty()){
-			ArrayList<LoggedStation> ls = logResults(request, response, user);
+			ArrayList<LoggedStation> ls = logResults(request, response, user, storageId);
 			request.setAttribute("logResults", ls);
 		}
 				
@@ -135,19 +135,23 @@ public class CloseStorageController extends HttpServlet {
 		response.sendRedirect("count");
 	}
 	
-	public ArrayList<LoggedStation> logResults(HttpServletRequest request, HttpServletResponse response, User user) throws IOException{
+	
+	
+	
+	public ArrayList<LoggedStation> logResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
 		ArrayList<LoggedStation> loggedStations = new ArrayList<LoggedStation>();
 		String search = request.getParameter("search");
 		String from = request.getParameter("from");
 		String to = request.getParameter("to");
 		String inventoryName = request.getParameter("inventoryName");
+		String stationName = request.getParameter("stationName");
 		
 		
 		if(search == null || search.isEmpty() || 
 				from == null || from.isEmpty() ||
 				to == null || to.isEmpty()){
 			System.out.println("Returning null");
-			return null;
+			return loggedStations;
 		}
 		
 		// Let's proceed
@@ -159,21 +163,30 @@ public class CloseStorageController extends HttpServlet {
 		
 		InventoryStatements is = new InventoryStatements();
 		UserStatements us = new UserStatements();
-		
+		Date fromDate = java.sql.Date.valueOf(from);
+		Date toDate = java.sql.Date.valueOf(to);
 		
 		
 		try {			
-			Date fromDate = java.sql.Date.valueOf(from);
-			Date toDate = java.sql.Date.valueOf(to);
 
 			ArrayList<Station> stations = is.getStations(us.getCompanyId(user.getId()), "primary");
 			for (Station station : stations) {
+				LoggedStation ls;
+						
+				if (!inventoryName.equals("allInventory")){
+					ls = is.getLoggedItems(fromDate, toDate, inventoryName, station.getId(), Integer.parseInt(storageId));
+				}
+				else{
+					ls = is.getLoggedItems(fromDate, toDate, station.getId(), Integer.parseInt(storageId));					
+				}
 				
-				System.out.println(fromDate);
-				System.out.println(toDate);
 				
-				LoggedStation ls = is.getLoggedItems(fromDate, toDate, inventoryName, station.getId());
-				if (ls.getLoggedInventory().size() != 0) loggedStations.add(ls);
+				if(!stationName.equals("allStations")){
+					if (ls.getLoggedInventory().size() != 0 && station.getName().equals(stationName)) loggedStations.add(ls);
+				}
+				else{					
+					if (ls.getLoggedInventory().size() != 0) loggedStations.add(ls);					
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

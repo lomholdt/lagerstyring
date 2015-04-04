@@ -91,7 +91,7 @@
 										class="form-control" name="inventoryName">
 										<option value="allInventory">Alle varer</option>
 										<c:forEach var="inventory" items="${storage.inventory}">
-											<option value="${inventory.id}">${inventory.name}</option>
+											<option value="${inventory.name}">${inventory.name}</option>
 										</c:forEach>
 									</select>
 								</div>
@@ -120,14 +120,14 @@
 			</div>
 		</form>
 	</div>
-	<div class="row">
-		<div class="col-sm-8 col-sm-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">Lager rapport</h3>
-				</div>
-				<div class="panel-body">
-					<c:if test="${logResults.size() gt 0}">
+	<c:if test="${logResults.size() gt 0}">
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Lager rapport</h3>
+					</div>
+					<div class="panel-body">
 						<c:forEach var="loggedStation" items="${logResults}">
 							<div class="row">
 								<div class="col-sm-10 col-sm-offset-1">
@@ -146,25 +146,27 @@
 												<th>Handling</th>
 											</tr>
 										</thead>
-											<tbody>
-										<c:forEach var="loggedInventory"
-											items="${loggedStation.loggedInventory}">
+										<tbody>
+											<c:forEach var="loggedInventory"
+												items="${loggedStation.loggedInventory}">
 												<tr>
 													<td>${loggedInventory.createdAt.time}</td>
 													<td>${loggedInventory.name}</td>
 													<td>${loggedInventory.units}</td>
 													<td>${loggedInventory.performedAction}</td>
 												</tr>
-										</c:forEach>
+											</c:forEach>
 										</tbody>
 									</table>
 								</div>
 							</div>
-							<div class="row"><hr></div>
+							<div class="row">
+								<hr>
+							</div>
 						</c:forEach>
-					</c:if>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</c:if>
 </add:wrap>
