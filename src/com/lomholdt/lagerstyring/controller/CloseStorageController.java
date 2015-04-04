@@ -2,7 +2,9 @@ package com.lomholdt.lagerstyring.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -140,32 +142,35 @@ public class CloseStorageController extends HttpServlet {
 	
 	public ArrayList<LoggedStation> logResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
 		ArrayList<LoggedStation> loggedStations = new ArrayList<LoggedStation>();
-		String search = request.getParameter("search");
-		String from = request.getParameter("from");
-		String to = request.getParameter("to");
+//		String search = request.getParameter("search");
+		//String from = request.getParameter("from");
+		//String to = request.getParameter("to");
 		String inventoryName = request.getParameter("inventoryName");
 		String stationName = request.getParameter("stationName");
 		
 		
-		if(search == null || search.isEmpty() || 
-				from == null || from.isEmpty() ||
-				to == null || to.isEmpty()){
-			System.out.println("Returning null");
-			return loggedStations;
-		}
-		
-		// Let's proceed
-//		if (inventoryName.equals("allStations")){
-//			// fetch log with all stations
+//		if(search == null || search.isEmpty() || 
+//				from == null || from.isEmpty() ||
+//				to == null || to.isEmpty()){
+//			System.out.println("Returning null");
+//			return loggedStations;
 //		}
-		
-		
-		
+				
 		InventoryStatements is = new InventoryStatements();
 		UserStatements us = new UserStatements();
-		Date fromDate = java.sql.Date.valueOf(from);
-		Date toDate = java.sql.Date.valueOf(to);
 		
+//		Timestamp fromDate = new Timestamp(java.sql.Date.valueOf(from).getTime());
+//		Timestamp toDate = new Timestamp(java.sql.Date.valueOf(to).getTime());
+		
+		Storage s = is.getStorage(Integer.parseInt(storageId));
+		Timestamp fromDate = new Timestamp(s.getOpenedAt().getTimeInMillis());
+		Timestamp toDate = new Timestamp(Calendar.getInstance().getTimeInMillis());
+		
+		request.setAttribute("fromTimestamp", fromDate);
+		request.setAttribute("toTimestamp", toDate);
+		
+//		System.out.println(fromDate);
+//		System.out.println(toDate);
 		
 		try {			
 
