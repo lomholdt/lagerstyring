@@ -186,6 +186,30 @@ public class InventoryStatements extends DBMain {
 		return null;
 	}
 	
+	public ArrayList<Inventory> getAllInventory(int companyId) throws Exception{
+		Connection connection = c.getCon();
+		ArrayList<Inventory> al = new ArrayList<Inventory>();
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT DISTINCT inventory.id, inventory.name FROM inventory, storages WHERE storages.company_id = ? AND storages.id = inventory.storage_id;");
+			try {
+				statement.setInt(1, companyId);
+				rs = statement.executeQuery();
+				while (rs.next()){
+					Inventory i = new Inventory();
+					i.setId(rs.getInt("id"));
+					i.setName(rs.getString("name"));
+					al.add(i);
+				}
+			} finally {
+				statement.close();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return al;
+	}
+	
 	
 
 	public boolean addToInventoryLog(String name, int units, int storageId, int stationId, String performed_action) throws Exception{

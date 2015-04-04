@@ -72,7 +72,7 @@ public class CloseStorageController extends HttpServlet {
 		
 		String search = request.getParameter("search");
 		if (search != null && !search.isEmpty()){
-			ArrayList<LoggedStation> ls = logResults(request, response, user, storageId);
+			ArrayList<LoggedStation> ls = getLogResults(request, response, user, storageId);
 			request.setAttribute("logResults", ls);
 		}
 				
@@ -140,7 +140,7 @@ public class CloseStorageController extends HttpServlet {
 	
 	
 	
-	public ArrayList<LoggedStation> logResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
+	public ArrayList<LoggedStation> getLogResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
 		ArrayList<LoggedStation> loggedStations = new ArrayList<LoggedStation>();
 //		String search = request.getParameter("search");
 		//String from = request.getParameter("from");

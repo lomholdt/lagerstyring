@@ -13,8 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
+
 import com.lomholdt.lagerstyring.model.Authenticator;
 import com.lomholdt.lagerstyring.model.FlashMessage;
+import com.lomholdt.lagerstyring.model.Inventory;
 import com.lomholdt.lagerstyring.model.InventoryStatements;
 import com.lomholdt.lagerstyring.model.LoggedStation;
 import com.lomholdt.lagerstyring.model.Station;
@@ -50,6 +53,22 @@ public class ArchiveController extends HttpServlet {
 			return;
 		}
 		
+		
+		try {
+			InventoryStatements is = new InventoryStatements();
+			ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
+			ArrayList<Station> primaryStations = is.getStations(user.getCompanyId(), "primary");
+			ArrayList<Station> secondaryStations = is.getStations(user.getCompanyId(), "secondary");
+			ArrayList<Inventory> allInventory;
+			allInventory = is.getAllInventory(user.getCompanyId());
+			request.setAttribute("storages", storages);	
+			request.setAttribute("allInventory", allInventory);
+			request.setAttribute("primaryStations", primaryStations);
+			request.setAttribute("secondaryStations", secondaryStations);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		RequestDispatcher view = request.getRequestDispatcher("views/storage/archive.jsp");
 		view.forward(request, response);
 	}
@@ -58,12 +77,48 @@ public class ArchiveController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		if(user == null || !auth.is("user", user.getId())){
+			FlashMessage.setFlashMessage(request, "error", "You Do not have permission to see this page.");
+			response.sendRedirect("");
+			return;
+		}
+		
+		
+		
+		String storageId = request.getParameter("storageId");
+		InventoryStatements is = new InventoryStatements();
+		ArrayList<ArrayList<LoggedStation>> al = new ArrayList<ArrayList<LoggedStation>>();
+		
+		if(storageId == null || storageId.isEmpty()){
+			request.setAttribute("error", "No storage selected.");
+			RequestDispatcher view = request.getRequestDispatcher("views/storage/archive.jsp");
+			view.forward(request, response);
+		}
+		
+		
+		if(storageId.equals("allStorages")){
+			// get all storages
+			ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
+			for (Storage storage : storages) {
+				ArrayList<LoggedStation> ls = getLogResults(request, response, user, Integer.toString(storage.getId()));
+				al.add(ls);
+			}
+		}
+		else{
+			ArrayList<LoggedStation> ls = getLogResults(request, response, user, storageId);
+			al.add(ls);
+		}
+		request.setAttribute("logResults", al);
+		RequestDispatcher view = request.getRequestDispatcher("views/storage/archive.jsp");
+		view.forward(request, response);
+		
 	}
 	
 	
 	
-	public ArrayList<LoggedStation> logResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
+	public ArrayList<LoggedStation> getLogResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
 		ArrayList<LoggedStation> loggedStations = new ArrayList<LoggedStation>();
 		String search = request.getParameter("search");
 		String from = request.getParameter("from");
