@@ -48,7 +48,9 @@ public class InventoryStatements extends DBMain {
 	}
 	
 	
-	public LoggedStation getLoggedItems(Date from, Date to, String inventory, int stationId) throws Exception{
+	public LoggedStation getLoggedItems(Date from, Date to, String inventoryName, int stationId, int storageId) throws Exception{
+		System.out.println("Fired inventory specifik query");
+		
 		LoggedStation ls = new LoggedStation();
 		ls.setStation(getStation(stationId));
 		Connection connection = c.getCon();
@@ -56,10 +58,61 @@ public class InventoryStatements extends DBMain {
 			PreparedStatement statement = connection.prepareStatement(""
 					+ "SELECT inventory_log.created_at, inventory_log.name, inventory_log.units, inventory_log.performed_action "
 					+ "FROM inventory_log "
-					+ "WHERE inventory_log.created_at > ? "
-					+ "AND inventory_log.station_id = ?");
+					+ "WHERE inventory_log.created_at >= ? "
+					+ "AND inventory_log.created_at <= ? "
+					+ "AND inventory_log.station_id = ? AND inventory_log.name = ? AND inventory_log.storage_id = ?");
 			statement.setDate(1, from);
-			statement.setInt(2, stationId);
+			statement.setDate(2, to);
+			statement.setInt(3, stationId);
+			statement.setString(4, inventoryName);
+			statement.setInt(5, storageId);
+			// TODO add the rest of the parameters
+			
+			try {
+				rs = statement.executeQuery();
+				while (rs.next()){
+					System.out.println("Adding inventory");
+					LoggedInventory li = new LoggedInventory();
+					li.setCreatedAt(rs.getTimestamp("created_at"));
+					li.setName(rs.getString("name"));
+					li.setUnits(rs.getInt("units"));
+					li.setPerformedAction(rs.getString("performed_action"));
+					
+					ls.addToLoggedInventory(li);
+				}
+			}
+			catch(Exception e){
+				System.out.println("Error getting logged items.");
+				e.printStackTrace();
+			}
+			finally {
+				System.out.println("Closing statement");
+				statement.close();
+			}
+		}
+		catch(Exception e){
+			System.out.println("Could not get logged items.");
+			e.printStackTrace();
+		}
+		return ls;
+		
+	}
+	
+	public LoggedStation getLoggedItems(Date from, Date to, int stationId, int storageId) throws Exception{
+		LoggedStation ls = new LoggedStation();
+		ls.setStation(getStation(stationId));
+		Connection connection = c.getCon();
+		try {
+			PreparedStatement statement = connection.prepareStatement(""
+					+ "SELECT inventory_log.created_at, inventory_log.name, inventory_log.units, inventory_log.performed_action "
+					+ "FROM inventory_log "
+					+ "WHERE inventory_log.created_at >= ? "
+					+ "AND inventory_log.created_at <= ? "
+					+ "AND inventory_log.station_id = ? AND inventory_log.storage_id = ?");
+			statement.setDate(1, from);
+			statement.setDate(2, to);
+			statement.setInt(3, stationId);
+			statement.setInt(4, storageId);
 			
 			// TODO add the rest of the parameters
 			
