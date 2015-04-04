@@ -83,7 +83,7 @@ font-weight: bold;
 
 body {
     font-family: "Raleway", Helvetica, Arial, sans-serif;
-    background-color: #fafafa; 
+    background-color: #F1F1F1; 
    }
    
 .panel-footer {
@@ -161,7 +161,7 @@ button {
 .btn-default {
   color: #333333;
   background-color: #ffffff;
-  border-color: #cccccc;
+  border-color: #bbb;
   letter-spacing: .2rem;
 }
 
