@@ -137,7 +137,7 @@
 
 							<div class="row">
 								<div class="col-sm-10 col-sm-offset-1">
-									<table class="table table-striped">
+									<table class="table table-striped" data-sortable>
 										<thead>
 											<tr>
 												<th>Tidspunkt</th>
