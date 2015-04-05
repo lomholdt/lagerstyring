@@ -128,7 +128,16 @@ public class ArchiveController extends HttpServlet {
 	}
 	
 	
-	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @param user
+	 * @param storageId
+	 * @param importance
+	 * @return
+	 * @throws IOException
+	 */
 	public ArrayList<LoggedStation> getLogResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
 		ArrayList<LoggedStation> loggedStations = new ArrayList<LoggedStation>();
 		String search = request.getParameter("search");
@@ -165,6 +174,8 @@ public class ArchiveController extends HttpServlet {
 		try {			
 
 			ArrayList<Station> stations = is.getStations(us.getCompanyId(user.getId()), "primary");
+			ArrayList<Station> secondaryStations = is.getStations(us.getCompanyId(user.getId()), "secondary");
+			stations.addAll(secondaryStations);
 			for (Station station : stations) {
 				LoggedStation ls;
 						
@@ -174,8 +185,6 @@ public class ArchiveController extends HttpServlet {
 				else{
 					ls = is.getLoggedItems(fromDate, toDate, station.getId(), Integer.parseInt(storageId));					
 				}
-				
-				
 				if(!stationName.equals("allStations")){
 					if (ls.getLoggedInventory().size() != 0 && station.getName().equals(stationName)) loggedStations.add(ls);
 				}
@@ -186,10 +195,6 @@ public class ArchiveController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return loggedStations;
 	}
-	
-	
-
 }

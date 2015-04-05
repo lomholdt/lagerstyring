@@ -9,15 +9,16 @@ import com.lomholdt.lagerstyring.model.User;
 
 public class LoginStatements extends DBMain {
 	    
-    public boolean login(String username, String pwd) {
+    public boolean login(String username, String pwd, String companyName) {
     	try {
 			pwd = Hash.hash256(pwd);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
     	try {
-    		pstmt = c.preparedStatement("SELECT username, password FROM users WHERE username =?;");
+    		pstmt = c.preparedStatement("SELECT users.username, users.password, companies.name AS company FROM users, companies WHERE username = ? AND companies.name = ?;");
     		pstmt.setString(1, username);
+    		pstmt.setString(2, companyName);
     		rs = pstmt.executeQuery();
     		if(rs.next()) {
     			if(rs.getString("password").equals(pwd)) {

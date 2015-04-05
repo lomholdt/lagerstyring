@@ -96,11 +96,11 @@ public class AdminController extends HttpServlet {
 			UserStatements us = new UserStatements();
 			try {
 				System.out.println("Testing if user exists");
-				if(!us.userExists(username)){
+				if(!us.userExists(username, userCompany)){
 					// add the new user 
 					int companyId = us.getCompanyId(userCompany);
 					us.addUserToCompany(companyId, userRole, username, password);
-					us.addRoleToUser(username, userRole);
+					us.addRoleToUser(username, companyId, userRole);
 					request.setAttribute("msg", "user succesfully added.");
 					doGet(request, response);
 					return;

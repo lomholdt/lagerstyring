@@ -142,9 +142,6 @@ public class CloseStorageController extends HttpServlet {
 	
 	public ArrayList<LoggedStation> getLogResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
 		ArrayList<LoggedStation> loggedStations = new ArrayList<LoggedStation>();
-//		String search = request.getParameter("search");
-		//String from = request.getParameter("from");
-		//String to = request.getParameter("to");
 		String inventoryName = request.getParameter("inventoryName");
 		String stationName = request.getParameter("stationName");
 		
@@ -158,10 +155,7 @@ public class CloseStorageController extends HttpServlet {
 				
 		InventoryStatements is = new InventoryStatements();
 		UserStatements us = new UserStatements();
-		
-//		Timestamp fromDate = new Timestamp(java.sql.Date.valueOf(from).getTime());
-//		Timestamp toDate = new Timestamp(java.sql.Date.valueOf(to).getTime());
-		
+
 		Storage s = is.getStorage(Integer.parseInt(storageId));
 		Timestamp fromDate = new Timestamp(s.getOpenedAt().getTimeInMillis());
 		Timestamp toDate = new Timestamp(Calendar.getInstance().getTimeInMillis());
@@ -169,12 +163,11 @@ public class CloseStorageController extends HttpServlet {
 		request.setAttribute("fromTimestamp", fromDate);
 		request.setAttribute("toTimestamp", toDate);
 		
-//		System.out.println(fromDate);
-//		System.out.println(toDate);
-		
 		try {			
 
 			ArrayList<Station> stations = is.getStations(us.getCompanyId(user.getId()), "primary");
+			ArrayList<Station> secondaryStations = is.getStations(us.getCompanyId(user.getId()), "secondary");
+			stations.addAll(secondaryStations);
 			for (Station station : stations) {
 				LoggedStation ls;
 						

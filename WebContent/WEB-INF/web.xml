@@ -28,6 +28,14 @@
     <servlet-name>AddInventoryController</servlet-name>
     <url-pattern>/inventory</url-pattern>
   </servlet-mapping>
+    <servlet>
+    <servlet-name>DeleteInventoryController</servlet-name>
+    <servlet-class>com.lomholdt.lagerstyring.controller.DeleteInventoryController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteInventoryController</servlet-name>
+    <url-pattern>/delete</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>OpenStorageController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.OpenStorageController</servlet-class>
@@ -76,7 +84,7 @@
     <servlet-name>MoveOutController</servlet-name>
     <url-pattern>/moveout</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>ArchiveController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.ArchiveController</servlet-class>
   </servlet>

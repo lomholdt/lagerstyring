@@ -47,14 +47,22 @@ public class AddInventoryController extends HttpServlet {
 			return;
 		}
 		// User is allowed to be here
-		
-		ArrayList<Storage> storages = new InventoryStatements().getStorages(user.getCompanyId());
+		InventoryStatements is = new InventoryStatements();
+		ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
 		if (storages.size() == 0){
 			// Throw user to create storage site if he has no storages created
 			FlashMessage.setFlashMessage(request, "error", "You have no storages. Please create one first.");
 			response.sendRedirect("count");
 			return;
 		}
+		
+		try {
+			// get the inventory for deletion
+			request.setAttribute("allInventory", is.getAllInventory(user.getCompanyId()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		request.setAttribute("storages", storages);
 		RequestDispatcher view = request.getRequestDispatcher("views/inventory/add.jsp");
 		view.forward(request, response);

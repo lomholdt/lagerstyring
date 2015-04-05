@@ -16,7 +16,7 @@
             		<div class="col-sm-10 col-sm-offset-1">       
 						<form method="POST" action="login">
 						<div class="form-group">
-							<input type="text" id="company" class="form-control" placeholder="Company" name="Company"><br>
+							<input type="text" id="company" class="form-control" placeholder="Company" name="companyName"><br>
 							<input type="text" id="username" class="form-control" placeholder="Username" name="username"><br>
 							<input type="password" id="password" class="form-control" placeholder="Password" name="password"><br>
 							</div>

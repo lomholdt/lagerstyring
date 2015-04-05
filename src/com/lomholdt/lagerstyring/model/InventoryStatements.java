@@ -268,6 +268,18 @@ public class InventoryStatements extends DBMain {
 		
 	}
 	
+	public boolean deleteInventory(int inventoryId){
+		try {
+			PreparedStatement pstmt = c.preparedStatement("DELETE FROM inventory WHERE inventory.id = ?");
+			pstmt.setInt(1, inventoryId);
+			pstmt.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;	
+	}
+	
 	public ArrayList<Storage> getStorages(int companyId){
 		ArrayList<Storage> al = new ArrayList<Storage>();
     	try {

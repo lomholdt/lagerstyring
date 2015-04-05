@@ -40,12 +40,13 @@ public class UserStatements extends DBMain {
 		}
 	}
 	
-	public int getUserId(String username) throws Exception{
+	public int getUserId(String username, int companyId) throws Exception{
 		Connection connection = c.getCon();
 		try {
-			PreparedStatement statement = connection.prepareStatement("SELECT users.id FROM users WHERE users.username = ?");
+			PreparedStatement statement = connection.prepareStatement("SELECT users.id FROM users WHERE users.username = ? AND users.company_id = ?");
 			try {
 				statement.setString(1, username);
+				statement.setInt(2, companyId);
 				rs = statement.executeQuery();
 				if (rs.next()) return rs.getInt("id");
 				return 0;
@@ -59,27 +60,28 @@ public class UserStatements extends DBMain {
 		}
 	}
 	
-	public boolean userExists(String username) throws Exception{
+	public boolean userExists(String username, String userCompany) throws Exception{
 		Connection connection = c.getCon();
 		try {
-			PreparedStatement statement = connection.prepareStatement("SELECT users.username FROM users WHERE users.username = ?");
+			PreparedStatement statement = connection.prepareStatement("SELECT users.username, users.company_id FROM users WHERE users.username = ? AND users.company_id = (SELECT companies.id FROM companies WHERE companies.name = ?)");
 			try {
 				statement.setString(1, username);
+				statement.setString(2, userCompany);
 				rs = statement.executeQuery();
 				if (rs.next()) return true;
 				return false;
 			} finally {
-				System.out.println("Closing statement");
+//				System.out.println("Closing statement");
 				statement.close();
 			}
 		} finally {
-			System.out.println("Closing connection");
+//			System.out.println("Closing connection");
 //			connection.close();
 		}
 	}
 	
-	public void addRoleToUser(String username, String maxRole) throws Exception{
-		int userId = getUserId(username);
+	public void addRoleToUser(String username, int companyId, String maxRole) throws Exception{
+		int userId = getUserId(username, companyId);
 		addRoleToUserHelper(userId, "user");
 		if(maxRole.equals("manager")) addRoleToUserHelper(userId, "manager");
 	}
@@ -121,11 +123,6 @@ public class UserStatements extends DBMain {
 //			connection.close();
 		}
 	}
-	
-	
-	
-	
-	
 }
 
 
