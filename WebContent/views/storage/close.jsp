@@ -67,7 +67,7 @@
 						<h3 class="panel-title">Logbog</h3>
 					</div>
 					<div class="panel-body">
-						<p class="lead">Søg i logbogen (fra ${fromTimestamp} til ${toTimestamp})</p>
+						<p class="lead">Søg i logbogen <c:if test="${fromTimestamp ne null}">(fra ${fromTimestamp} til ${toTimestamp})</c:if></p>
 						<div class="row">		
 							<div class="col-sm-8 col-sm-offset-2">
 								<div class="form-group">

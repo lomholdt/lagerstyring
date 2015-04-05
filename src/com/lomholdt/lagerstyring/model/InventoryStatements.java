@@ -46,6 +46,36 @@ public class InventoryStatements extends DBMain {
 		}
 	}
 	
+	public ArrayList<LogBook> getLogBooks(int storageId, Timestamp from, Timestamp to) throws Exception{
+		ArrayList<LogBook> al = new ArrayList<LogBook>();
+		Connection connection = c.getCon();
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT archive_log.storage_id, archive_log.name, archive_log.opened_at, archive_log.closed_at FROM archive_log WHERE archive_log.storage_id = ? AND archive_log.opened_at >= ? AND archive_log.closed_at <= ? ORDER BY archive_log.closed_at DESC");
+			try {
+				statement.setInt(1, storageId);
+				statement.setTimestamp(2, from);
+				statement.setTimestamp(3, to);
+				rs = statement.executeQuery();
+				while (rs.next()){
+					if (!rs.getString("closed_at").equals("0000-00-00 00:00:00")){
+						LogBook lb = new LogBook();
+						lb.setName(rs.getString("name"));
+						lb.setStorageId(rs.getInt("storage_id"));
+						lb.setOpenedAt(rs.getTimestamp("opened_at"));
+						lb.setClosedAt(rs.getTimestamp("closed_at"));
+						al.add(lb);						
+					}
+				}
+			} finally {
+				System.out.println("Closing statement");
+				statement.close();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return al;
+	}
 	
 	public void openArchiveLog(String storageName, int storageId) throws Exception{
 		Connection connection = c.getCon();
@@ -317,6 +347,26 @@ public class InventoryStatements extends DBMain {
 			e.printStackTrace();
 		}
 		return false;	
+	}
+	
+	public int getFirstStorageId(int companyId) throws Exception{
+		Connection connection = c.getCon();
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT storages.id FROM storages WHERE storages.company_id = ? ORDER BY id ASC LIMIT 1");
+			try {
+				statement.setInt(1, companyId);
+				rs = statement.executeQuery();
+				if (rs.next()){
+					return rs.getInt("id");
+				}
+			} finally {
+				statement.close();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return 0;
 	}
 	
 	public ArrayList<Storage> getStorages(int companyId){

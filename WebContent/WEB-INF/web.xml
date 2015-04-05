@@ -21,6 +21,35 @@
     <url-pattern>/logout</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>ArchiveChooserController</servlet-name>
+    <servlet-class>com.lomholdt.lagerstyring.controller.ArchiveChooserController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ArchiveChooserController</servlet-name>
+    <url-pattern>/choose</url-pattern>
+  </servlet-mapping>
+  
+  
+    <servlet>
+    <servlet-name>ReportController</servlet-name>
+    <servlet-class>com.lomholdt.lagerstyring.controller.ReportController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReportController</servlet-name>
+    <url-pattern>/report</url-pattern>
+  </servlet-mapping>
+  
+  
+  
+  <servlet>
+    <servlet-name>PeriodController</servlet-name>
+    <servlet-class>com.lomholdt.lagerstyring.controller.PeriodController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PeriodController</servlet-name>
+    <url-pattern>/period</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>AddInventoryController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.AddInventoryController</servlet-class>
   </servlet>
@@ -28,7 +57,7 @@
     <servlet-name>AddInventoryController</servlet-name>
     <url-pattern>/inventory</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>DeleteInventoryController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.DeleteInventoryController</servlet-class>
   </servlet>

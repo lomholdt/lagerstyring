@@ -46,11 +46,12 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-8 col-sm-offset-2">
-							<div class="btn-group-vertical btn-block" role="group">
-							  <button type="button" class="btn btn-logbog btn-sm">01/04/2015 - 02/04/2015</button>
-							  <button type="button" class="btn btn-logbog btn-sm">02/04/2015 - 03/04/2015</button>
-							  <button type="button" class="btn btn-logbog btn-sm">06/04/2015 - 07/04/2015</button>
-							</div>
+								<select class="form-control" name="periods">
+									<c:forEach var="logBook" items="${logBooks}">
+										<option value="${logBook.openedAt.toString()}&${logBook.closedAt.toString()}">${logBook.openedAt.toString()} - ${logBook.closedAt.toString()}</option>
+									
+									</c:forEach>
+								</select>
 							</div>
 						</div>
 						<div class="row"><hr></div>
