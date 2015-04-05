@@ -72,7 +72,8 @@ font-weight: bold;
   border-color: #FFFFFF;
 }
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-  background-color: #FFFFFF;
+  background-color: #5fcf80;
+
 }
 
 .navbar-default .navbar-brand {
@@ -80,6 +81,37 @@ font-weight: bold;
     font-weight: 700;
 }
 
+.nav > li > a:hover,
+.nav > li > a:focus {
+  text-decoration: none;
+  background-color: #eeeeee;
+}
+.nav > li.disabled > a {
+  color: #777777;
+}
+.nav > li.disabled > a:hover,
+.nav > li.disabled > a:focus {
+  color: #777777;
+  text-decoration: none;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+  background-color: #eeeeee;
+  border-color: #337ab7;
+}
+
+
+.navbar-center
+{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    margin: auto;
+}
 
 body {
     font-family: "Raleway", Helvetica, Arial, sans-serif;
@@ -221,7 +253,7 @@ h1 {
   font-size: 14px;
   font-weight: 600;
   line-height: 1.4;
-  color: #B2BAC2;
+  color: #919496;
 }
 
 .label {
@@ -251,3 +283,5 @@ border-color: #dddddd;
 border-bottom: 1px solid transparent;
 
 }
+
+

@@ -23,8 +23,9 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
 
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
-			<ul class="nav navbar-nav navbar-right">
-				<c:if test="${user ne null}">
+			<c:if test="${user ne null}">
+				<ul class="nav navbar-nav navbar-right">
+
 					<!-- VI ER LOGGET IND -->
 					<li
 						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/lagerstyring/count')}"> class="active"</c:if>><a
@@ -51,9 +52,9 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
 							</c:if>
 							<li><a href="logout">Log ud</a></li>
 						</ul></li>
-				</c:if>
 
-			</ul>
+				</ul>
+			</c:if>
 		</div>
 		<!--/.nav-collapse -->
 	</div>
