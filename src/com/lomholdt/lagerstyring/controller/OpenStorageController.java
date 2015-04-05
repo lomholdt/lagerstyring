@@ -1,7 +1,6 @@
 package com.lomholdt.lagerstyring.controller;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -106,13 +105,15 @@ public class OpenStorageController extends HttpServlet {
 		
 		is.getStorage(Integer.parseInt(sid));
 		try {
-			is.addToStorageLog(is.getStorageName(Integer.parseInt(sid)), Integer.parseInt(sid), "Åben");
+			String storageName = is.getStorageName(Integer.parseInt(sid));
+			is.addToStorageLog(storageName, Integer.parseInt(sid), "Åben");
+			is.openArchiveLog(storageName, Integer.parseInt(sid));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		
-		FlashMessage.setFlashMessage(request, "msg", "Lageret er nu �bnet");
+		FlashMessage.setFlashMessage(request, "msg", "Lageret er nu Åbnet");
 		response.sendRedirect("count");
 		
 

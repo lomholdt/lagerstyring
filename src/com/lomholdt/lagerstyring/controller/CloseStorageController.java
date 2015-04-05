@@ -126,9 +126,10 @@ public class CloseStorageController extends HttpServlet {
 		}
 		is.changeStorageStatus(Integer.parseInt(sid));
 		
-		is.getStorage(Integer.parseInt(sid));
+		//is.getStorage(Integer.parseInt(sid));
 		try {
 			is.addToStorageLog(is.getStorageName(Integer.parseInt(sid)), Integer.parseInt(sid), "Luk");
+			is.closeArchiveLog(Integer.parseInt(sid));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

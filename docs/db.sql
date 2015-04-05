@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS inventory_log(
 	station_id int(11) NOT NULL,
 	performed_action varchar(500) NOT NULL,
 	PRIMARY KEY (id),
-	FOREIGN KEY (storage_id) REFERENCES storages(id),
+	FOREIGN KEY (storage_id) REFERENCES storages(id) ON DELETE CASCADE,
 	FOREIGN KEY (station_id) REFERENCES stations(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -95,8 +95,19 @@ CREATE TABLE IF NOT EXISTS storage_log(
 	storage_id int(11) NOT NULL,
 	performed_action varchar(500) NOT NULL,
 	PRIMARY KEY (id),
-	FOREIGN KEY (storage_id) REFERENCES storages(id)
+	FOREIGN KEY (storage_id) REFERENCES storages(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS archive_log(
+	id int(11) NOT NULL AUTO_INCREMENT,
+	name varchar(500) NOT NULL,
+	storage_id int(11) NOT NULL,
+	opened_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	closed_at timestamp DEFAULT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (storage_id) REFERENCES storages(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 
 

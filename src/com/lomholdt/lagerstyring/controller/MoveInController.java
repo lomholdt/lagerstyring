@@ -103,6 +103,25 @@ public class MoveInController extends HttpServlet {
 		Map<String, String[]> m  = request.getParameterMap();
 		InventoryStatements is = new InventoryStatements();
 		
+		
+		
+//		boolean allIsEmpty = true;
+//		for(Map.Entry<String, String[]> entry : m.entrySet()){
+////			if(entry.getKey().equals("sid") || entry.getKey().equals("stationId")) continue;
+//			if(!entry.getValue()[0].isEmpty()) break;
+//			
+//		}
+//		
+//		FlashMessage.setFlashMessage(request, "error", "Cannot decrement to less than 0");
+//		response.sendRedirect("move"); 
+		
+		
+		
+		
+		
+		
+		
+		
 		// Update the values that are not zero
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
 			if(entry.getKey().equals("sid") || entry.getKey().equals("stationId")) continue;

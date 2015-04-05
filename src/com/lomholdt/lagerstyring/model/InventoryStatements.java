@@ -1,9 +1,7 @@
 package com.lomholdt.lagerstyring.model;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -47,6 +45,47 @@ public class InventoryStatements extends DBMain {
 //			connection.close();
 		}
 	}
+	
+	
+	public void openArchiveLog(String storageName, int storageId) throws Exception{
+		Connection connection = c.getCon();
+		try {
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO archive_log (name, storage_id) VALUES (?, ?)");
+			try {
+				// Do stuff with the statement
+				statement.setString(1, storageName);
+				statement.setInt(2, storageId);
+				statement.executeUpdate();
+			} finally {
+				System.out.println("Closing statement");
+				statement.close();
+			}				
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}	
+	}
+	
+	public void closeArchiveLog(int storageId) throws Exception{
+		Connection connection = c.getCon();
+		try {
+			PreparedStatement statement = connection.prepareStatement("UPDATE archive_log SET closed_at = NOW() WHERE archive_log.storage_id = ? ORDER BY archive_log.opened_at DESC LIMIT 1;");
+			try {
+				// Do stuff with the statement
+				statement.setInt(1, storageId);
+				statement.executeUpdate();
+			} finally {
+				System.out.println("Closing statement");
+				statement.close();
+			}				
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}	
+		
+	}
+	
+	
 	
 	
 	public LoggedStation getLoggedItems(Timestamp from, Timestamp to, String inventoryName, int stationId, int storageId) throws Exception{
