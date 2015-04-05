@@ -59,7 +59,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<form action="close">
+		<form action="close#rapport">
 			<input type="hidden" name="sid" value="${storage.id}">
 			<div class="col-sm-8 col-sm-offset-2">
 				<div class="panel panel-default">
@@ -67,7 +67,7 @@
 						<h3 class="panel-title">Logbog</h3>
 					</div>
 					<div class="panel-body">
-						<p class="lead">Søg i logbogen (fra ${fromTimestamp} til ${toTimestamp})</p>
+						<p class="lead">Søg i logbog</p>
 						<div class="row">		
 							<div class="col-sm-8 col-sm-offset-2">
 								<div class="form-group">
@@ -93,7 +93,7 @@
 								</div>
 								<div class="form-group">
 									<button type="submit" name="search" value="log"
-										class="btn btn-primary btn-lg btn-block">Se lager
+										class="btn btn-primary btn-lg btn-block">Vis lager
 										rapport</button>
 								</div>
 							</div>
@@ -104,12 +104,13 @@
 			</div>
 		</form>
 	</div>
+	<a id="rapport"></a>
 	<c:if test="${logResults.size() gt 0}">
 		<div class="row">
 			<div class="col-sm-8 col-sm-offset-2">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Lager rapport</h3>
+						<h3 class="panel-title">Lager rapport<span class="label label-success pull-right">${fromTimestamp}</span></h3>
 					</div>
 					<div class="panel-body">
 						<c:forEach var="loggedStation" items="${logResults}">

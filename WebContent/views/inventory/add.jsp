@@ -47,13 +47,12 @@
 						</div>
 					</div>
 				</div>
-
 				<div class="panel-footer">
 					<p class="lead">Vareliste</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<form action="delete" method="POST">
-								<table class="table table-condensed table-striped">
+								<table class="table table-condensed table-striped table-hover">
 										<thead>
 											<tr>
 												<th>Vare</th>
@@ -62,11 +61,9 @@
 										</thead>
 										<tbody>
 											<c:forEach var="inventory" items="${allInventory}">
-												<tr>
-													<td> ${inventory.name}</td>
-													<td><div class="checkbox">
-														<label> <input type="checkbox" name="i" value="${inventory.id}"></label>
-													</div></td>
+												<tr>													
+													<td><label for="${inventory.name}">${inventory.name}</label></td>
+													<td><input type="checkbox" id="${inventory.name}" name="i" value="${inventory.id}"></td>
 												</tr>
 											</c:forEach>
 										</tbody>
