@@ -15,15 +15,16 @@
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2">
 			<h1>Indstillinger</h1>
-			<form method="POST" action="inventory">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">Tilføj vare</h3>
-					</div>
-					<div class="panel-body">
-						<p class="lead">Indsæt ny vare</p>
-						<div class="row">
-							<div class="col-sm-8 col-sm-offset-2">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Tilføj vare</h3>
+				</div>
+
+				<div class="panel-body">
+					<p class="lead">Indsæt ny vare</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<form method="POST" action="inventory">
 								<div class="form-group">
 									<select class="form-control" name="storage">
 										<c:forEach var="storage" items="${storages}">
@@ -43,26 +44,33 @@
 									<button type="submit" class="btn btn-primary btn-lg">Indsæt
 										Ny Vare</button>
 								</div>
-							</div>
+							</form>
 						</div>
 					</div>
 				</div>
-			</form>
-		</div>
-	</div>
-	<div class="row">
-		<div class="panel-footer">
-			<p class="lead">Slet Vare</p>
-			<div class="row">
-				<div class="col-sm-8 col-sm-offset-2">
-					<form action="delete" method="POST">
-						<c:forEach var="inventory" items="${allInventory}">
-							<input type="checkbox" name="i" value="${inventory.id}"> ${inventory.name}<br>
-						</c:forEach>
-						<input type="submit" class="btn btn-danger" value="Slet">
-					</form>
+
+				<div class="panel-footer">
+					<p class="lead">Slet Vare</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<form action="delete" method="POST">
+								<c:forEach var="inventory" items="${allInventory}">
+
+									<div class="checkbox">
+										<label> <input type="checkbox" name="i"
+											value="${inventory.id}"> ${inventory.name}
+										</label>
+									</div>
+								</c:forEach>
+								<div class="form-group">
+									<input type="submit" class="btn btn-danger" value="Slet">
+								</div>
+							</form>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 </add:wrap>
