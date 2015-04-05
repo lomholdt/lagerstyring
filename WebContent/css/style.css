@@ -181,7 +181,7 @@ button {
 
 .btn-sm {
   padding: 6px 12px;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   line-height: 1.3333333;
   border-radius: 6px;
@@ -206,21 +206,23 @@ button {
 }
 
 .btn-logbog{
-    background: #5fcf80;
+    background: #919496;
     color: #ffffff;
-    border-color:#5fcf80;
+    border-color:#919496;
     letter-spacing: .2rem;
     margin-bottom: 2px;
 }
  
 .btn-logbog:hover, .btn-logbog:focus, .btn-logbog:active, .btn-logbog.active, .open > .dropdown-toggle.btn-logbog {
-    background: #50B56D;
-    border-color:#50B56D;
+    background: #5fcf80;
+    border-color:#5fcf80;
+    color: #ffffff;
 }
  
 .btn-logbog:active, .btn-logbog.active {
     background: #5fcf80;
     box-shadow: none;
+    color: #ffffff;
 } 
 
  
