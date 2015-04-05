@@ -11,24 +11,7 @@
 						<h3 class="panel-title">Arkiv</h3>
 					</div>
 					<div class="panel-body">
-						<p class="lead">Søg i arkivet</p>
-						<div class="row">
-							<div class="col-sm-4 col-sm-offset-2">
-								<div class="form-group">
-									<label for="from">Fra</label> 
-									<input type="date"
-										class="form-control input-lg" name="from"
-										value="${storage.openedAtHtml}">
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label for="to">Til</label> <input type="date"
-										class="form-control input-lg" name="to"
-										value="${storage.openedAtHtml}">
-								</div>
-							</div>
-						</div>
+						<p class="lead">Vælg lager</p>
 						<div class="row">
 							<div class="col-sm-8 col-sm-offset-2">
 								<div class="form-group">
@@ -40,6 +23,40 @@
 										</c:forEach>
 									</select>
 								</div>
+								</div>
+							</div>
+							<div class="row"><hr></div>
+							<p class="lead">Vælg periode</p>
+						<div class="row">
+							<div class="col-sm-4 col-sm-offset-2">
+								<div class="form-group">
+									<label for="from">Fra</label> 
+									<input type="date"
+										class="form-control" name="from"
+										value="${storage.openedAtHtml}">
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="to">Til</label> <input type="date"
+										class="form-control" name="to"
+										value="${storage.openedAtHtml}">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-8 col-sm-offset-2">
+							<div class="btn-group-vertical btn-block" role="group">
+							  <button type="button" class="btn btn-logbog btn-sm">01/04/2015 - 02/04/2015</button>
+							  <button type="button" class="btn btn-logbog btn-sm">02/04/2015 - 03/04/2015</button>
+							  <button type="button" class="btn btn-logbog btn-sm">06/04/2015 - 07/04/2015</button>
+							</div>
+							</div>
+						</div>
+						<div class="row"><hr></div>
+						<p class="lead">Filter</p>
+						<div class="row">
+							<div class="col-sm-8 col-sm-offset-2">
 								<div class="form-group">
 									<label for="inventoryName">Varenavn</label> <select
 										class="form-control" name="inventoryName">

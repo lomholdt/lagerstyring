@@ -140,7 +140,6 @@ button {
 .btn {
 	
   display: inline-block;
-  margin-bottom: 2px;
   font-weight: 600;
   text-transform: uppercase;
   text-align: center;
@@ -182,7 +181,7 @@ button {
 
 .btn-sm {
   padding: 6px 12px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   line-height: 1.3333333;
   border-radius: 6px;
@@ -195,14 +194,35 @@ button {
   background-color: #ffffff;
   border-color: #bbb;
   letter-spacing: .2rem;
+  margin-bottom: 2px;
 }
 
 .btn-primary {
     background: #5fcf80;
     color: #ffffff;
     border-color:#5fcf80;
-    letter-spacing: .2rem
+    letter-spacing: .2rem;
+    margin-bottom: 2px;
 }
+
+.btn-logbog{
+    background: #5fcf80;
+    color: #ffffff;
+    border-color:#5fcf80;
+    letter-spacing: .2rem;
+    margin-bottom: 2px;
+}
+ 
+.btn-logbog:hover, .btn-logbog:focus, .btn-logbog:active, .btn-logbog.active, .open > .dropdown-toggle.btn-logbog {
+    background: #50B56D;
+    border-color:#50B56D;
+}
+ 
+.btn-logbog:active, .btn-logbog.active {
+    background: #5fcf80;
+    box-shadow: none;
+} 
+
  
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
     background: #50B56D;
@@ -282,6 +302,11 @@ hr {
 border-color: #dddddd;
 border-bottom: 1px solid transparent;
 
+}
+
+.btn-group-vertical{
+	
+	
 }
 
 
