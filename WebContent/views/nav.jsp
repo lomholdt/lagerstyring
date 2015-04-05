@@ -35,7 +35,7 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
 						href="move">Flyt Vare</a></li>
 					<li
 						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/lagerstyring/archive')}"> class="active"</c:if>><a
-						href="archive">Arkiv</a></li>
+						href="archive">Rapport</a></li>
 					<c:if test="${user.roles.contains('manager')}">
 						<li
 							<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/lagerstyring/inventory')}"> class="active"</c:if>><a

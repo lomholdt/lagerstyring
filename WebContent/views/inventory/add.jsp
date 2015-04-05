@@ -17,11 +17,11 @@
 			<h1>Indstillinger</h1>
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Tilføj vare</h3>
+					<h3 class="panel-title">Opret vare</h3>
 				</div>
 
 				<div class="panel-body">
-					<p class="lead">Indsæt ny vare</p>
+					<p class="lead">Tilføj vare</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<form method="POST" action="inventory">
@@ -41,8 +41,7 @@
 										name="units">
 								</div>
 								<div class="form-group">
-									<button type="submit" class="btn btn-primary btn-lg">Indsæt
-										Ny Vare</button>
+									<button type="submit" class="btn btn-primary btn-lg">Tilføj vare</button>
 								</div>
 							</form>
 						</div>
@@ -50,20 +49,30 @@
 				</div>
 
 				<div class="panel-footer">
-					<p class="lead">Slet Vare</p>
+					<p class="lead">Vareliste</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<form action="delete" method="POST">
-								<c:forEach var="inventory" items="${allInventory}">
-
-									<div class="checkbox">
-										<label> <input type="checkbox" name="i"
-											value="${inventory.id}"> ${inventory.name}
-										</label>
-									</div>
-								</c:forEach>
+								<table class="table table-condensed table-striped">
+										<thead>
+											<tr>
+												<th>Vare</th>
+												<th>Marker</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="inventory" items="${allInventory}">
+												<tr>
+													<td> ${inventory.name}</td>
+													<td><div class="checkbox">
+														<label> <input type="checkbox" name="i" value="${inventory.id}"></label>
+													</div></td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
 								<div class="form-group">
-									<input type="submit" class="btn btn-danger" value="Slet">
+									<input type="submit" class="btn btn-danger btn-lg" value="Slet valgte">
 								</div>
 							</form>
 						</div>

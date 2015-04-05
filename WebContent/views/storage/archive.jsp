@@ -1,11 +1,11 @@
 <%@ taglib prefix="archive" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<archive:wrap title="Arkiv">
+<archive:wrap title="Rapporter">
 	<div class="row">
 		<form action="archive" method="POST">
 			<div class="col-sm-8 col-sm-offset-2">
-			<h1>Arkiv</h1>
+			<h1>Rapporter</h1>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">Arkiv</h3>
