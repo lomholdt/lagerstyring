@@ -13,7 +13,7 @@
 	            					<div class="row">
 							            <div class="col-sm-8 col-sm-offset-2">
 										<div class="form-group">
-												<label for="inventoryName">Lager</label> <select class="form-control" name="storageId">
+										 <select class="form-control" name="storageId">
 													<!--  <option value="allStorages">Alle Lagre</option> -->
 													<c:forEach var="storage" items="${storages}">
 														<option value="${storage.id}">${storage.name}</option>

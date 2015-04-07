@@ -8,34 +8,9 @@ and open the template in the editor.
     Author     : martinhaun
 */
 
-.panel {
- border-radius: 0px;
-}
-
-.panel-default {
-  border-color: #dddddd;
-}
-
-.panel-heading {
-  padding: 12px 12px;
-  border-bottom: 1px solid transparent;
-  border-top-right-radius: 0px;
-  border-top-left-radius: 0px;
-}
-
-.panel-default > .panel-heading {
-  color: #333333;
-  background-color: #34495e;
-  border-color: #dddddd;
-}
-
-.panel-title {
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 20px;
-  color: #fff;
-  font-weight: 200;
-}
+/*
+1.-------NAVIBAR--------
+*/
 
 .navbar-default {
     
@@ -113,125 +88,81 @@ font-weight: bold;
     margin: auto;
 }
 
+
+
+/*
+2.-------BODY--------
+*/
+
 body {
     font-family: "Raleway", Helvetica, Arial, sans-serif;
     background-color: #F1F1F1; 
+    color: #222;
    }
-   
-.panel-footer {
-  padding: 10px 15px;
-  background-color: #FFFFFF;
-  border-top: 1px solid #dddddd;
-  border-bottom-right-radius: 3px;
-  border-bottom-left-radius: 3px;
+
+/*
+3.-------HEADINGS--------
+*/
+
+h1 {
+  font-weight: 200;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  color: #525252;
+}
+
+.lead {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #919496;
 }
 
 
-//knappe lir
+/*
+4.-------PANELS--------
+*/
 
+.panel {
+ border-radius: 0px;
+}
+
+.panel-default > .panel-heading {
+  color: #333333;
+  background-color: #34495e;
+}
+
+.panel-heading {
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+}
+
+.panel-title {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 200;
+}
+
+.panel-footer {
+  background-color: #FFFFFF;
+}
+
+/*
+4.-------Knapper--------
+*/
 
 .btn {
 	
-  display: inline-block;
-  font-weight: 600;
   text-transform: uppercase;
-  text-align: center;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-      touch-action: manipulation;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  white-space: nowrap;
-  padding: 6px 12px;
-  font-size: 12px;
-  line-height: 1.42857143;
-  border-radius: 4px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.btn:focus, .btn:active:focus, .btn.active:focus {
-    outline: 0 none;
-}
- 
-.btn-lg {
-  padding: 12px 24px;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.3333333;
-  border-radius: 6px;
-}
-
-.btn-listtype {
-  margin-bottom: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
-  margin-top: 0px;
-}
-
-.btn-sm {
-  padding: 5px 10px;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.5;
-  border-radius: 3px;
-  text-transform: uppercase;
-  letter-spacing: .2rem
-}
-
-
-.btn-default {
-  color: #333333;
-  background-color: #ffffff;
-  border-color: #bbb;
-  letter-spacing: .2rem;
-  margin-bottom: 2px;
-   text-transform: uppercase;
+  letter-spacing: .1rem;
 }
 
 .btn-primary {
     background: #5fcf80;
     color: #ffffff;
     border-color:#5fcf80;
-    letter-spacing: .2rem;
-    margin-bottom: 2px;
-     text-transform: uppercase;
 }
 
-.btn-panel {
-  padding: 5px 10px;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 1;
-  border-radius: 3px;
-  text-transform: uppercase;
-  letter-spacing: .2rem
-}
-
-.btn-logbog{
-    background: #919496;
-    color: #ffffff;
-    border-color:#919496;
-    letter-spacing: .2rem;
-    margin-bottom: 2px;
-}
- 
-.btn-logbog:hover, .btn-logbog:focus, .btn-logbog:active, .btn-logbog.active, .open > .dropdown-toggle.btn-logbog {
-    background: #5fcf80;
-    border-color:#5fcf80;
-    color: #ffffff;
-}
- 
-.btn-logbog:active, .btn-logbog.active {
-    background: #5fcf80;
-    box-shadow: none;
-    color: #ffffff;
-} 
-
- 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
     background: #50B56D;
     border-color:#50B56D;
@@ -242,59 +173,20 @@ body {
     box-shadow: none;
 }
 
-
-// Overskrift
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6 {
-  font-family: inherit;
-  font-weight: 200;
-  line-height: 1.1;
-  color: inherit;
-}
-
-h1,
-.h1 {
-  font-size: 40px;
-}
-
-h1 {
-  font-weight: 200;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  color: #525252;
-}
-
-
-.lead {
-  margin-bottom: 20px;
-  font-size: 14px;
+.btn-lg {
+  font-size: 12px;
   font-weight: 600;
-  line-height: 1.4;
-  color: #919496;
 }
+
+/*
+4.-------Labels--------
+*/
 
 .label {
-  display: inline;
-  padding: .3em .6em 0.3em;
+  padding: 0.4em 0.6em 0.3em;
   font-size: 12px;
-  font-weight: 300;
-  line-height: 1;
-  color: #fff;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: baseline;
-  border-radius: 0em;
+  font-weight: 400;
+  line-height: 1.33;
 }
 
 .label-success {
@@ -303,18 +195,6 @@ h1 {
 
 .label-danger{
 	background-color: #ec5872;
-}
-
-hr {
-
-border-color: #dddddd;
-border-bottom: 1px solid transparent;
-
-}
-
-.btn-group-vertical{
-	
-	
 }
 
 

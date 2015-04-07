@@ -31,13 +31,13 @@
 									<div class="col-xs-6">
 										<form method="GET" action="moveout">
 												<input type="hidden" value="${storage.id}" name="sid">
-												<button type="submit" class="btn btn-primary btn-lg btn-block">Afgang <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></button>
+												<button type="submit" class="btn btn-primary btn-lg btn-block">Afgang <span class="glyphicon glyphicon-log-out"></span></button>
 										</form>
 									</div>
 									<div class="col-xs-6">
 									<form method="GET" action="movein">
 												<input type="hidden" value="${storage.id}" name="sid">
-												<button type="submit" class="btn btn-default btn-lg btn-block">Tilgang <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button>
+												<button type="submit" class="btn btn-default btn-lg btn-block">Tilgang <span class="glyphicon glyphicon-log-in"></span></button>
 										</form>
 									</div>
 								</div>

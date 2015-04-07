@@ -37,8 +37,8 @@
 										name="name">
 								</div>
 								<div class="form-group">
-									<input type="number" class="form-control" placeholder="Antal"
-										name="units">
+									<input type="hidden" class="form-control" placeholder="Antal"
+										name="units" value="0">
 								</div>
 								<div class="form-group">
 									<button type="submit" class="btn btn-primary btn-lg">Tilføj vare</button>

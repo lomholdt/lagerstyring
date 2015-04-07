@@ -10,7 +10,7 @@
             <div class="col-sm-8 col-sm-offset-2">
             	<form method="POST" action="movein">
 	                    <div class="panel panel-default">
-	                        <div class="panel-heading"><h3 class="panel-title">Tilgang til ${storage.name} </h3></div>
+	                        <div class="panel-heading"><h3 class="panel-title">Tilgang: ${storage.name} </h3></div>
 	                        	<div class="panel-body">
 	               					<p class="lead">Antal varer til tilgang</p>
 	            					<div class="row">
@@ -28,10 +28,15 @@
 					              	<p class="lead">Godkend station</p>
 					                <div class="row">
 					            		<div class="col-sm-8 col-sm-offset-2">
+					            		
 					            		<input type="hidden" value="${storage.id}" name="sid">
+					            		<div class="form-inline">
 										<c:forEach var="primaryStation" items="${primaryStations}">
-											<button type="submit" class="btn btn-primary btn-lg" name="stationId" value="${primaryStation.id}">${primaryStation.name}</button>
+										<div class="form-group">
+											<button type="submit" class="btn btn-primary btn-lg btn-block" name="stationId" value="${primaryStation.id}">${primaryStation.name}</button>
+											</div>
 										</c:forEach>
+										</div>
 					               		</div>
 					               </div>
 					           </div>
@@ -40,10 +45,16 @@
 					                <div class="row">
 					            		<div class="col-sm-8 col-sm-offset-2">
 					            		<input type="hidden" value="${storage.id}" name="sid">
+					            		<div class="form-inline">
 										<c:forEach var="secondaryStation" items="${secondaryStations}">
-											<button type="submit" class="btn btn-default btn-lg" name="stationId" value="${secondaryStation.id}">${secondaryStation.name}</button>
+										<div class="form-group">
+											<button type="submit" class="btn btn-default btn-lg  btn-block" name="stationId" value="${secondaryStation.id}">${secondaryStation.name}</button>
+										</div>
 										</c:forEach>
+										</div>
+										<div class="form-group">
 										<a class="btn btn-default btn-lg" href="move" role="button">Annullér</a>
+										</div>
 					               		</div>
 					               </div>
 					            </div>

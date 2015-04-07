@@ -18,7 +18,7 @@
 			<form method="POST" action="close">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Luk ${storage.name}</h3>
+						<h3 class="panel-title">Luk: ${storage.name}</h3>
 					</div>
 					<div class="panel-body">
 						<p class="lead">Antal varer på lager</p>
@@ -47,10 +47,10 @@
 						<p class="lead">Godkend lukning</p>
 						<div class="row">
 							<div class="col-sm-8 col-sm-offset-2">
+							<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
 								<input type="hidden" value="${storage.id}" name="sid">
 								<button type="submit" class="btn btn-primary btn-lg">Luk
 									lager</button>
-								<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
 							</div>
 						</div>
 					</div>

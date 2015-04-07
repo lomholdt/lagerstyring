@@ -9,13 +9,16 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-md-2">
-							<h5>Lager</h5>
+						<div class="form-group">
+							<h4>Lager</h4>
 							<a class="btn btn-default btn-sm" href="choose" role="button">Skift<span
 								class="glyphicon glyphicon-remove"></span></a>
+					    </div>
 						</div>
 						<div class="col-md-5">
-							<h5>Rapport arkiv</h5>
+
 							<form class="form-inline" method="GET" action="period">
+							<h4>Rapport arkiv</h4>
 								<div class="form-group">
 									<label for="from">Fra</label>
 									<input type="date" class="form-control input-sm" name="from"
@@ -31,9 +34,9 @@
 									class="btn btn-primary btn-sm">Søg</button>
 							</form>
 						</div>
-						<form class="form-inline" method="POST" action="period">
 							<div class="col-md-5">
-								<h5>Vælg rapport</h5>
+							<form class="form-inline" method="POST" action="period">
+								<h4>Vælg rapport</h4>
 								<div class="form-group">
 									<select class="form-control input-sm" name="periods">
 										<c:forEach var="logBook" items="${logBooks}">
@@ -50,8 +53,9 @@
 									<button type="submit" name="search" value="log"
 										class="btn btn-primary btn-sm">Se rapport</button>
 								</div>
+								</form>
 							</div>
-						</form>
+						
 					</div>
 				</div>
 			</div>
@@ -66,7 +70,7 @@
 				<div class="col-sm-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-						<h3 class="panel-title">${loggedStorage.storage.name}<span onclick="window.print()" class="btn btn-default btn-panel pull-right">Udskriv</span></h3>
+						<h3 class="panel-title">${loggedStorage.storage.name}<span onclick="window.print()" class="btn btn-default btn-xs pull-right">Udskriv</span></h3>
 						</div>
 						<div class="panel-body">
 							<c:forEach var="loggedStation"
