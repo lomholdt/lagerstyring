@@ -55,7 +55,6 @@ font-weight: bold;
 .navbar-default .navbar-brand {
     color: #34495e;
     font-weight: 700;
-    margin-left: -20px;
 }
 
 .nav > li > a:hover,
