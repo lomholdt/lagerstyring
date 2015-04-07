@@ -3,137 +3,113 @@
 
 <period:wrap title="Vælg Periode">
 
-
-	<form method="GET" action="period">
-
-		<div class="row">
-			<hr>
-		</div>
-		<p class="lead">Vælg periode</p>
-		<div class="row">
-			<div class="col-sm-4 col-sm-offset-2">
-				<div class="form-group">
-					<label for="from">Fra</label> <input type="date"
-						class="form-control" name="from" value="${storage.openedAtHtml}">
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label for="to">Til</label> <input type="date" class="form-control"
-						name="to" value="${storage.openedAtHtml}">
-				</div>
-				<input type="hidden" value="${param.storageId}" name="storageId">
-			</div>
-			<div class="col-sm-8 col-sm-offset-2">
-				<div class="form-group">
-					<button type="submit" name="search" value="log"
-						class="btn btn-primary btn-lg btn-block">Søg</button>
-				</div>
-			</div>
-		</div>
-	</form>
-
-
-	<form method="POST" action="period">
-		<div class="row">
-			<div class="col-sm-8 col-sm-offset-2">
-				<select class="form-control" name="periods">
-					<c:forEach var="logBook" items="${logBooks}">
-						<option
-							value="${logBook.openedAt.toString()}&${logBook.closedAt.toString()}">${logBook.openedAt.toString()}
-							- ${logBook.closedAt.toString()}</option>
-
-					</c:forEach>
-				</select> <input type="hidden" value="${param.storageId}" name="storageId">
-			</div>
-		</div>
-		<div class="row">
-			<hr>
-		</div>
-		<p class="lead">Filter</p>
-		<div class="row">
-			<div class="col-sm-8 col-sm-offset-2">
-				<div class="form-group">
-					<label for="inventoryName">Varenavn</label> <select
-						class="form-control" name="inventoryName">
-						<option value="allInventory">Alle varer</option>
-						<c:forEach var="inventory" items="${allInventory}">
-							<option value="${inventory.name}">${inventory.name}</option>
-						</c:forEach>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="station">Station</label> <select class="form-control"
-						name="stationName">
-						<option value="allStations">Alle stationer</option>
-						<c:forEach var="primaryStation" items="${primaryStations}">
-							<option value="${primaryStation.name}">${primaryStation.name}</option>
-						</c:forEach>
-						<c:forEach var="secondaryStation" items="${secondaryStations}">
-							<option value="${secondaryStation.name}">${secondaryStation.name}</option>
-						</c:forEach>
-					</select>
-				</div>
-				<div class="form-group">
-					<button type="submit" name="search" value="log"
-						class="btn btn-primary btn-lg btn-block">Se lager rapport</button>
-				</div>
-			</div>
-		</div>
-	</form>
-
-
-
-
-<c:if test="${logResults.size() gt 0}">
-	<c:forEach var="loggedStorage" items="${logResults}">
-		<div class="row">
-			<div class="col-sm-8 col-sm-offset-2">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">Lager rapport: ${loggedStorage.storage.name}</h3><a onclick="window.print()">Udskriv</a>
-					</div>
-					<div class="panel-body">
-						<c:forEach var="loggedStation" items="${loggedStorage.loggedStations}">
-							<div class="row">
-								<div class="col-sm-10 col-sm-offset-1">
-									<h4>${loggedStation.station.name}</h4>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-2">
+							<h5>Lager</h5>
+							<a class="btn btn-default btn-sm" href="choose" role="button">Skift<span
+								class="glyphicon glyphicon-remove"></span></a>
+						</div>
+						<div class="col-md-5">
+							<h5>Rapport arkiv</h5>
+							<form class="form-inline" method="GET" action="period">
+								<div class="form-group">
+									<label for="from">Fra</label>
+									<input type="date" class="form-control input-sm" name="from"
+										value="${storage.openedAtHtml}">
+								</div>
+								<div class="form-group form-group-sm">
+									<label for="to">Til</label> <input type="date"
+										class="form-control input-sm" name="to"
+										value="${storage.openedAtHtml}">
+								</div>
+								<input type="hidden" value="${param.storageId}" name="storageId">
+								<button type="submit" name="search" value="log"
+									class="btn btn-primary btn-sm">Søg</button>
+							</form>
+						</div>
+						<form class="form-inline" method="POST" action="period">
+							<div class="col-md-5">
+								<h5>Vælg rapport</h5>
+								<div class="form-group">
+									<select class="form-control input-sm" name="periods">
+										<c:forEach var="logBook" items="${logBooks}">
+											<option
+												value="${logBook.openedAt.toString()}&${logBook.closedAt.toString()}">${logBook.openedAt.toString()}
+												- ${logBook.closedAt.toString()}</option>
+										</c:forEach>
+									</select> <input type="hidden" value="${param.storageId}"
+										name="storageId"> <input type="hidden"
+										value="allInventory" name="inventoryName"> <input
+										type="hidden" value="allStations" name="stationName">
+								</div>
+								<div class="form-group">
+									<button type="submit" name="search" value="log"
+										class="btn btn-primary btn-sm">Se rapport</button>
 								</div>
 							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-							<div class="row">
-								<div class="col-sm-10 col-sm-offset-1">
-									<table class="table table-striped" data-sortable>
-										<thead>
-											<tr>
-												<th>Tidspunkt</th>
-												<th>Varenavn</th>
-												<th>Antal</th>
-												<th>Handling</th>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach var="loggedInventory"
-												items="${loggedStation.loggedInventory}">
+
+
+	<c:if test="${logResults.size() gt 0}">
+		<c:forEach var="loggedStorage" items="${logResults}">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+						<h3 class="panel-title">${loggedStorage.storage.name}<span onclick="window.print()" class="btn btn-default btn-panel pull-right">Udskriv</span></h3>
+						</div>
+						<div class="panel-body">
+							<c:forEach var="loggedStation"
+								items="${loggedStorage.loggedStations}">
+								<div class="row">
+									<div class="col-sm-10 col-sm-offset-1">
+										<h4>${loggedStation.station.name}</h4>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-sm-10 col-sm-offset-1">
+										<table class="table table-striped" data-sortable>
+											<thead>
 												<tr>
-													<td>${loggedInventory.createdAt.time}</td>
-													<td>${loggedInventory.name}</td>
-													<td>${loggedInventory.units}</td>
-													<td>${loggedInventory.performedAction}</td>
+													<th>Tidspunkt</th>
+													<th>Varenavn</th>
+													<th>Antal</th>
+													<th>Handling</th>
 												</tr>
-											</c:forEach>
-										</tbody>
-									</table>
+											</thead>
+											<tbody>
+												<c:forEach var="loggedInventory"
+													items="${loggedStation.loggedInventory}">
+													<tr>
+														<td>${loggedInventory.createdAt.time}</td>
+														<td>${loggedInventory.name}</td>
+														<td>${loggedInventory.units}</td>
+														<td>${loggedInventory.performedAction}</td>
+													</tr>
+												</c:forEach>
+											</tbody>
+										</table>
+									</div>
 								</div>
-							</div>
-							<div class="row">
-								<hr>
-							</div>
-						</c:forEach>
+								<div class="row">
+									<hr>
+								</div>
+							</c:forEach>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 		</c:forEach>
 	</c:if>
 
