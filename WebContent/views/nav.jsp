@@ -24,23 +24,20 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
 			<c:if test="${user ne null}">
+			
 				<ul class="nav navbar-nav navbar-right">
 
 					<!-- VI ER LOGGET IND -->
 					<li
 						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/lagerstyring/count')}"> class="active"</c:if>><a
-						href="count">Lageroptælling</a></li>
+						href="count"><span class="glyphicon glyphicon-ok-circle"></span> Lageroptælling</a></li>
 					<li
 						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/lagerstyring/move')}"> class="active"</c:if>><a
-						href="move">Flyt Vare</a></li>
+						href="move"><span class="glyphicon glyphicon-transfer"></span> Flyt Vare</a></li>
 					<li
 						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/lagerstyring/choose')}"> class="active"</c:if>><a
-						href="choose">Rapport</a></li>
-					<c:if test="${user.roles.contains('manager')}">
-						<li
-							<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/lagerstyring/inventory')}"> class="active"</c:if>><a
-							href="inventory">Indstillinger</a></li>
-					</c:if>
+						href="choose"><span class="glyphicon glyphicon-print"></span> Rapport</a></li>
+					
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-expanded="false">${user.username}
 							<span class="caret"></span>
@@ -48,6 +45,10 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
 						<ul class="dropdown-menu" role="menu">
 							<c:if test="${user.roles.contains('admin')}">
 								<li><a href="admin">Admin Panel</a>
+								<li class="divider"></li>
+							</c:if>
+							<c:if test="${user.roles.contains('manager')}">
+								<li><a href="inventory">Indstillinger</a></li>
 								<li class="divider"></li>
 							</c:if>
 							<li><a href="logout">Log ud</a></li>

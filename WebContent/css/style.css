@@ -12,6 +12,7 @@ and open the template in the editor.
 1.-------NAVIBAR--------
 */
 
+
 .navbar-default {
     
  background-color: #FFFFFF;  
@@ -54,6 +55,7 @@ font-weight: bold;
 .navbar-default .navbar-brand {
     color: #34495e;
     font-weight: 700;
+    margin-left: -20px;
 }
 
 .nav > li > a:hover,
@@ -71,21 +73,18 @@ font-weight: bold;
   background-color: transparent;
   cursor: not-allowed;
 }
+
+.nav>li {
+  position: relative;
+  display: block;
+  
+}
+
 .nav .open > a,
 .nav .open > a:hover,
 .nav .open > a:focus {
   background-color: #eeeeee;
   border-color: #337ab7;
-}
-
-
-.navbar-center
-{
-    position: absolute;
-    width: 100%;
-    left: 0;
-    text-align: center;
-    margin: auto;
 }
 
 
