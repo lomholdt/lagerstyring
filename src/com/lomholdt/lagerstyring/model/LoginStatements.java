@@ -12,11 +12,13 @@ public class LoginStatements extends DBMain {
     public boolean login(String username, String pwd, String companyName) {
 		
     	try {
+    		int companyId = new UserStatements().getCompanyId(companyName);
+    		System.out.println("Got company Id: " + companyId);
     		Connection connection = c.getCon();
     		pwd = Hash.hash256(pwd);
-    		pstmt = connection.prepareStatement("SELECT users.username, users.password, companies.name AS company FROM users, companies WHERE username = ? AND companies.name = ?;");
+    		pstmt = connection.prepareStatement("SELECT users.username, users.password, companies.name AS company FROM users, companies WHERE users.username = ? AND users.company_id = ? AND users.company_id = companies.id");
     		pstmt.setString(1, username);
-    		pstmt.setString(2, companyName);
+    		pstmt.setInt(2, companyId);
     		rs = pstmt.executeQuery();
     		if(rs.next()) {
     			if(rs.getString("password").equals(pwd)) {
@@ -46,17 +48,19 @@ public class LoginStatements extends DBMain {
 		return s;
     }
     
-	public User getUser(String email) throws Exception{
+	public User getUser(String username, String companyName) throws Exception{
 		Connection connection = c.getCon();
 		try{
-			PreparedStatement pstmt = connection.prepareStatement("SELECT users.id, users.username, users.company_id, roles.role FROM users, roles WHERE users.username=? AND roles.user_id=users.id");
-			pstmt.setString(1, email);
+			PreparedStatement pstmt = connection.prepareStatement("SELECT users.id, users.username, users.company_id, companies.name AS companyName FROM users, companies WHERE users.username = ? AND users.company_id = companies.id AND companies.name = ?");
+			pstmt.setString(1, username);
+			pstmt.setString(2, companyName);
 			rs = pstmt.executeQuery();
 			if(rs.next()){
 				User currentUser = new User();
 				currentUser.setId(rs.getInt("id"));
 				currentUser.setUsername(rs.getString("username"));
 				currentUser.setCompanyId(rs.getInt("company_id"));
+				currentUser.setCompanyName("companyName");
 				
 				Set<String> roles = getUserRoles(rs.getInt("id"));
 				currentUser.setRole(roles);

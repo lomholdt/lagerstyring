@@ -6,9 +6,9 @@ public class User {
 	
 	private int id;
 	private int companyId;
+	private String companyName;
 	private String username;
 	private Set<String> roles;
-	
 	
 	public int getId() {
 		return id;
@@ -40,5 +40,13 @@ public class User {
 
 	public void setCompanyId(int companyId) {
 		this.companyId = companyId;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 }
