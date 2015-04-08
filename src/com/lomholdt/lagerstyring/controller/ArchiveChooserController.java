@@ -45,16 +45,16 @@ public class ArchiveChooserController extends HttpServlet {
 			return;
 		}
 		
-		InventoryStatements is = new InventoryStatements();
-		ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
-		request.setAttribute("storages", storages);	
-		
-		RequestDispatcher view = request.getRequestDispatcher("views/archive/choose.jsp");
-		view.forward(request, response);
-		
-		
-		
-		
+		try {
+			InventoryStatements is = new InventoryStatements();
+			ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
+			request.setAttribute("storages", storages);	
+			
+			RequestDispatcher view = request.getRequestDispatcher("views/archive/choose.jsp");
+			view.forward(request, response);			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**

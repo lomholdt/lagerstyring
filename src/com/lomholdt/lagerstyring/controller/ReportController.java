@@ -36,7 +36,6 @@ public class ReportController extends HttpServlet {
      */
     public ReportController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -70,24 +69,33 @@ public class ReportController extends HttpServlet {
 		
 		if(storageId.equals("allStorages")){
 			// get all storages
-			ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
-			for (Storage storage : storages) {
-				ArrayList<LoggedStation> ls = getLogResults(request, response, user, Integer.toString(storage.getId()));
-				if (ls.size() > 0){
-					LoggedStorage lStorage = new LoggedStorage();
-					lStorage.setStorage(storage);
-					lStorage.setLoggedStation(ls);
-					al.add(lStorage);
-				}
+			try {
+				ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
+				for (Storage storage : storages) {
+					ArrayList<LoggedStation> ls = getLogResults(request, response, user, Integer.toString(storage.getId()));
+					if (ls.size() > 0){
+						LoggedStorage lStorage = new LoggedStorage();
+						lStorage.setStorage(storage);
+						lStorage.setLoggedStation(ls);
+						al.add(lStorage);
+					}
+				}				
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		else{
 			ArrayList<LoggedStation> ls = getLogResults(request, response, user, storageId);
 			if (ls.size() > 0){
-				LoggedStorage lStorage = new LoggedStorage();
-				lStorage.setStorage(is.getStorage(Integer.parseInt(storageId)));
-				lStorage.setLoggedStation(ls);
-				al.add(lStorage);
+				try {
+					LoggedStorage lStorage = new LoggedStorage();
+					lStorage.setStorage(is.getStorage(Integer.parseInt(storageId)));
+					lStorage.setLoggedStation(ls);
+					al.add(lStorage);					
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
 			}
 		}
 		request.setAttribute("logResults", al);
@@ -138,9 +146,7 @@ public class ReportController extends HttpServlet {
 //		toDate.setDate(java.sql.Date.valueOf(to).getDay());
 //		toDate.setTime(Calendar.getInstance().getTimeInMillis());
 		
-		System.out.println(fromDate);
-		System.out.println(toDate);
-		
+
 		try {			
 
 			ArrayList<Station> stations = is.getStations(us.getCompanyId(user.getId()), "primary");

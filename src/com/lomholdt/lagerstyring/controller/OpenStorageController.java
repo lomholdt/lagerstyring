@@ -47,13 +47,21 @@ public class OpenStorageController extends HttpServlet {
 		String storageId = request.getParameter("sid");
 		if(storageId != null && !storageId.isEmpty()){
 			InventoryStatements is = new InventoryStatements();
-			if(is.storageIsOpen(Integer.parseInt(storageId))){
-				FlashMessage.setFlashMessage(request, "error", "The storage is already open");
-				response.sendRedirect("count");
-				return;
+			try {
+				if(is.storageIsOpen(Integer.parseInt(storageId))){
+					FlashMessage.setFlashMessage(request, "error", "The storage is already open");
+					response.sendRedirect("count");
+					return;
+				}
+				Storage storage = is.getStorageWithInventory(Integer.parseInt(storageId));
+				request.setAttribute("storage", storage);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			Storage storage = is.getStorageWithInventory(Integer.parseInt(storageId));
-			request.setAttribute("storage", storage);
 		}
 		else{
 			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
@@ -98,25 +106,24 @@ public class OpenStorageController extends HttpServlet {
 		InventoryStatements is = new InventoryStatements();
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
 			if(entry.getKey().equals("sid")) continue;
-			// TODO Need to secure that updated id's belong to the user updating!
-			is.updateUnitsAt(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
+			try {
+				// TODO Need to secure that updated id's belong to the user updating!
+				is.updateUnitsAt(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		is.changeStorageStatus(Integer.parseInt(sid));
-		
-		is.getStorage(Integer.parseInt(sid));
 		try {
+			is.changeStorageStatus(Integer.parseInt(sid));			
+			is.getStorage(Integer.parseInt(sid));
 			String storageName = is.getStorageName(Integer.parseInt(sid));
 			is.addToStorageLog(storageName, Integer.parseInt(sid), "Åben");
 			is.openArchiveLog(storageName, Integer.parseInt(sid));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		
 		FlashMessage.setFlashMessage(request, "msg", "Lageret er nu Åbnet");
 		response.sendRedirect("count");
-		
-
 	}
 
 }

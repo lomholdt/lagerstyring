@@ -95,7 +95,6 @@ public class AdminController extends HttpServlet {
 				password != null && !password.isEmpty()){
 			UserStatements us = new UserStatements();
 			try {
-				System.out.println("Testing if user exists");
 				if(!us.userExists(username, userCompany)){
 					// add the new user 
 					int companyId = us.getCompanyId(userCompany);
@@ -118,7 +117,6 @@ public class AdminController extends HttpServlet {
 		else if(stationCompany != null && !stationCompany.isEmpty() && 
 				newStationName != null && !newStationName.isEmpty() &&
 				newStationImportance != null && !newStationImportance.isEmpty()){
-			System.out.println("Trying to add new station.");
 			try {
 				if(new AdminStatements().addStationToCompany(stationCompany, newStationName, newStationImportance)){
 					request.setAttribute("msg", newStationImportance + " station " + newStationName + " succesfully added to " + stationCompany);

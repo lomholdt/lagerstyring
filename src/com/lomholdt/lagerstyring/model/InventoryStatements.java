@@ -2,28 +2,12 @@ package com.lomholdt.lagerstyring.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
 
 public class InventoryStatements extends DBMain {
-	
-//	public boolean addInventory(String name, int units, int storageId){
-//		try {
-//			PreparedStatement pstmt = c.preparedStatement("INSERT INTO inventory (name, units, storage_id) VALUES (?, ?, ?)");
-//			pstmt.setString(1, name);
-//			pstmt.setInt(2, units);
-//			pstmt.setInt(3, storageId);
-//			pstmt.executeUpdate();
-//			
-//			return true;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return false;
-//	}
-	
-	
 	
 	public boolean addInventory(String name, int units, int storageId) throws Exception{
 		Connection connection = c.getCon();
@@ -37,13 +21,13 @@ public class InventoryStatements extends DBMain {
 				statement.executeUpdate();
 				return true;
 			} finally {
-				System.out.println("Closing statement");
 				statement.close();
 			}
-		} finally {
-			//System.out.println("Closing connection");
-//			connection.close();
 		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	public ArrayList<LogBook> getLogBooks(int storageId, Timestamp from, Timestamp to) throws Exception{
@@ -141,7 +125,6 @@ public class InventoryStatements extends DBMain {
 			try {
 				rs = statement.executeQuery();
 				while (rs.next()){
-					System.out.println("Adding inventory");
 					LoggedInventory li = new LoggedInventory();
 					li.setCreatedAt(rs.getTimestamp("created_at"));
 					li.setName(rs.getString("name"));
@@ -156,7 +139,6 @@ public class InventoryStatements extends DBMain {
 				e.printStackTrace();
 			}
 			finally {
-				System.out.println("Closing statement");
 				statement.close();
 			}
 		}
@@ -323,28 +305,34 @@ public class InventoryStatements extends DBMain {
 		return null;
 	}
 	
-	public boolean inventoryExists(String inventory, int storageId){
+	public boolean inventoryExists(String inventory, int storageId) throws Exception{
+		Connection connection = c.getCon();
 		try {
-			PreparedStatement pstmt = c.preparedStatement("SELECT inventory.name FROM inventory WHERE inventory.name = ? AND inventory.storage_id = ?;");
+			PreparedStatement pstmt = connection.prepareStatement("SELECT inventory.name FROM inventory WHERE inventory.name = ? AND inventory.storage_id = ?;");
 			pstmt.setString(1, inventory);
 			pstmt.setInt(2, storageId);
 			rs = pstmt.executeQuery();
 			if (rs.next()) return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			pstmt.close();
 		}
 		return false;
 		
 	}
 	
-	public boolean deleteInventory(int inventoryId){
+	public boolean deleteInventory(int inventoryId) throws SQLException{
 		try {
-			PreparedStatement pstmt = c.preparedStatement("DELETE FROM inventory WHERE inventory.id = ?");
+			Connection connection = c.getCon();
+			PreparedStatement pstmt = connection.prepareStatement("DELETE FROM inventory WHERE inventory.id = ?");
 			pstmt.setInt(1, inventoryId);
 			pstmt.executeUpdate();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			pstmt.close();
 		}
 		return false;	
 	}
@@ -369,10 +357,11 @@ public class InventoryStatements extends DBMain {
 		return 0;
 	}
 	
-	public ArrayList<Storage> getStorages(int companyId){
+	public ArrayList<Storage> getStorages(int companyId) throws Exception{
 		ArrayList<Storage> al = new ArrayList<Storage>();
+		Connection connection = c.getCon();
     	try {
-    		pstmt = c.preparedStatement("SELECT storages.id, storages.name, storages.company_id, storages.is_open, storages.updated_at FROM storages WHERE company_id = ?;");
+    		pstmt = connection.prepareStatement("SELECT storages.id, storages.name, storages.company_id, storages.is_open, storages.updated_at FROM storages WHERE company_id = ?;");
     		pstmt.setInt(1, companyId);
     		rs = pstmt.executeQuery();
     		while(rs.next()) {
@@ -389,12 +378,16 @@ public class InventoryStatements extends DBMain {
     	catch(Exception e1) {
     		e1.printStackTrace();
     	}
+    	finally{
+    		pstmt.close();
+    	}
     	return al;
     }
 	
-	public Storage getStorage(int storageId){
+	public Storage getStorage(int storageId) throws Exception{
+		Connection connection = c.getCon();
 		try {
-			pstmt = c.preparedStatement("SELECT storages.id, storages.name, storages.company_id, storages.is_open, storages.updated_at FROM storages WHERE storages.id = ?;");
+			pstmt = connection.prepareStatement("SELECT storages.id, storages.name, storages.company_id, storages.is_open, storages.updated_at FROM storages WHERE storages.id = ?;");
     		pstmt.setInt(1, storageId);
     		rs = pstmt.executeQuery();
     		if(rs.next()){
@@ -410,14 +403,17 @@ public class InventoryStatements extends DBMain {
     		
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally{
+			pstmt.close();
 		}
 		return null;
 	}
 	
-	public Storage getStorageWithInventory(int storageId){
+	public Storage getStorageWithInventory(int storageId) throws Exception{
+		Connection connection = c.getCon();
 		try {
 			Storage st = getStorage(storageId);
-			pstmt = c.preparedStatement("SELECT inventory.id, inventory.name, inventory.units, inventory.created_at, inventory.updated_at, inventory.storage_id FROM inventory WHERE inventory.storage_id = ?");
+			pstmt = connection.prepareStatement("SELECT inventory.id, inventory.name, inventory.units, inventory.created_at, inventory.updated_at, inventory.storage_id FROM inventory WHERE inventory.storage_id = ?");
 			pstmt.setInt(1, storageId);
 			rs = pstmt.executeQuery();
 			while(rs.next()){
@@ -434,53 +430,65 @@ public class InventoryStatements extends DBMain {
 			return st;
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			pstmt.close();
 		}
 		return null;
 	}
 	
-	public boolean updateUnitsAt(int inventoryId, int newAmount){
+	public boolean updateUnitsAt(int inventoryId, int newAmount) throws Exception{
+		Connection connection = c.getCon();
 		try {
-			pstmt = c.preparedStatement("UPDATE inventory SET units = ? WHERE inventory.id = ?");
+			pstmt = connection.prepareStatement("UPDATE inventory SET units = ? WHERE inventory.id = ?");
 			pstmt.setInt(1, newAmount);
 			pstmt.setInt(2, inventoryId);
 			pstmt.executeUpdate();
 			return true;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally {
+			pstmt.close();
 		}
 		return false;	
 	}
 	
-	public boolean incrementUnits(int inventoryId, int amount){
+	public boolean incrementUnits(int inventoryId, int amount) throws Exception{
+		Connection connection = c.getCon();
 		try {
-			pstmt = c.preparedStatement("UPDATE inventory SET units = units + ? WHERE inventory.id = ?");
+			pstmt = connection.prepareStatement("UPDATE inventory SET units = units + ? WHERE inventory.id = ?");
 			pstmt.setInt(1, amount);
 			pstmt.setInt(2, inventoryId);
 			pstmt.executeUpdate();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			pstmt.close();
 		}
 		return false;	
 	}
 	
-	public boolean decrementUnits(int inventoryId, int amount){
+	public boolean decrementUnits(int inventoryId, int amount) throws Exception{
+		Connection connection = c.getCon();
 		try {
-			pstmt = c.preparedStatement("UPDATE inventory SET units = units - ? WHERE inventory.id = ?");
+			pstmt = connection.prepareStatement("UPDATE inventory SET units = units - ? WHERE inventory.id = ?");
 			pstmt.setInt(1, amount);
 			pstmt.setInt(2, inventoryId);
 			pstmt.executeUpdate();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			pstmt.close();
 		}
 		return false;	
 	}
 	
-	public int currentInventoryUnits(int inventoryId){
+	public int currentInventoryUnits(int inventoryId) throws Exception{
+		Connection connection = c.getCon();
     	try {
-    		pstmt = c.preparedStatement("SELECT inventory.units FROM inventory WHERE inventory.id = ?;");
+    		pstmt = connection.prepareStatement("SELECT inventory.units FROM inventory WHERE inventory.id = ?;");
     		pstmt.setInt(1, inventoryId);
     		rs = pstmt.executeQuery();
     		if(rs.next()) {
@@ -489,14 +497,17 @@ public class InventoryStatements extends DBMain {
     	}
     	catch(Exception e1) {
     		e1.printStackTrace();
+    	} finally {
+    		pstmt.close();
     	}
     	return 0;	
 		
 	}
 	
-	public boolean storageIsOpen(int storageId){
+	public boolean storageIsOpen(int storageId) throws Exception{
+		Connection connection = c.getCon();
     	try {
-    		pstmt = c.preparedStatement("SELECT storages.is_open FROM storages WHERE storages.id = ?;");
+    		pstmt = connection.prepareStatement("SELECT storages.is_open FROM storages WHERE storages.id = ?;");
     		pstmt.setInt(1, storageId);
     		rs = pstmt.executeQuery();
     		if(rs.next()) {
@@ -505,14 +516,17 @@ public class InventoryStatements extends DBMain {
     	}
     	catch(Exception e1) {
     		e1.printStackTrace();
+    	} finally {
+    		pstmt.close();
     	}
     	return false;	
 	}
 	
-	public void changeStorageStatus(int storageId){
+	public void changeStorageStatus(int storageId) throws Exception{
+		Connection connection = c.getCon();
 		try {
 			boolean status =  (storageIsOpen(storageId)) ? false : true;
-			pstmt = c.preparedStatement("UPDATE storages SET is_open = ? WHERE storages.id = ?");
+			pstmt = connection.prepareStatement("UPDATE storages SET is_open = ? WHERE storages.id = ?");
 			pstmt.setBoolean(1, status);
 			pstmt.setInt(2, storageId);
 			pstmt.executeUpdate();
@@ -521,9 +535,10 @@ public class InventoryStatements extends DBMain {
 		}
 	}
 	
-	public int getStorageId(int companyId, String storageName){
+	public int getStorageId(int companyId, String storageName) throws Exception{
+		Connection connection = c.getCon();
     	try {
-    		pstmt = c.preparedStatement("SELECT storages.id FROM storages WHERE company_id = ? AND storages.name = ?;");
+    		pstmt = connection.prepareStatement("SELECT storages.id FROM storages WHERE company_id = ? AND storages.name = ?;");
     		pstmt.setInt(1, companyId);
     		pstmt.setString(2, storageName);
     		rs = pstmt.executeQuery();
@@ -533,14 +548,17 @@ public class InventoryStatements extends DBMain {
     	}
     	catch(Exception e1) {
     		e1.printStackTrace();
+    	} finally {
+    		pstmt.close();
     	}
     	return 0;	
 	}
 	
-	public ArrayList<Station> getStations(int companyId, String importance){
+	public ArrayList<Station> getStations(int companyId, String importance) throws Exception{
 		ArrayList<Station> al = new ArrayList<Station>();
+		Connection connection = c.getCon();
     	try {
-    		pstmt = c.preparedStatement("SELECT stations.id ,stations.name FROM stations WHERE stations.company_id = ? AND stations.importance = ?;");
+    		pstmt = connection.prepareStatement("SELECT stations.id ,stations.name FROM stations WHERE stations.company_id = ? AND stations.importance = ?;");
     		pstmt.setInt(1, companyId);
     		pstmt.setString(2, importance);
     		rs = pstmt.executeQuery();
@@ -553,13 +571,16 @@ public class InventoryStatements extends DBMain {
     	}
     	catch(Exception e1) {
     		e1.printStackTrace();
+    	} finally {
+    		pstmt.close();
     	}
     	return al;
 	}
 	
-	public Station getStation(int stationId){
+	public Station getStation(int stationId) throws Exception{
+		Connection connection = c.getCon();
     	try {
-    		pstmt = c.preparedStatement("SELECT stations.id ,stations.name FROM stations WHERE stations.id = ?;");
+    		pstmt = connection.prepareStatement("SELECT stations.id ,stations.name FROM stations WHERE stations.id = ?;");
     		pstmt.setInt(1, stationId);
     		rs = pstmt.executeQuery();
     		if(rs.next()) {
@@ -571,6 +592,8 @@ public class InventoryStatements extends DBMain {
     	}
     	catch(Exception e1) {
     		e1.printStackTrace();
+    	} finally {
+    		pstmt.close();
     	}
     	return null;
 	}

@@ -46,26 +46,26 @@ public class AddInventoryController extends HttpServlet {
 			response.sendRedirect("");
 			return;
 		}
-		// User is allowed to be here
-		InventoryStatements is = new InventoryStatements();
-		ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
-		if (storages.size() == 0){
-			// Throw user to create storage site if he has no storages created
-			FlashMessage.setFlashMessage(request, "error", "You have no storages. Please create one first.");
-			response.sendRedirect("count");
-			return;
-		}
 		
 		try {
+			// User is allowed to be here
+			InventoryStatements is = new InventoryStatements();
+			ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
+			if (storages.size() == 0){
+				// Throw user to create storage site if he has no storages created
+				FlashMessage.setFlashMessage(request, "error", "You have no storages. Please create one first.");
+				response.sendRedirect("count");
+				return;
+			}
+			request.setAttribute("storages", storages);
+			RequestDispatcher view = request.getRequestDispatcher("views/inventory/add.jsp");
 			// get the inventory for deletion
 			request.setAttribute("allInventory", is.getAllInventory(user.getCompanyId()));
+			view.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		request.setAttribute("storages", storages);
-		RequestDispatcher view = request.getRequestDispatcher("views/inventory/add.jsp");
-		view.forward(request, response);
 	}
 
 	/**
@@ -92,19 +92,18 @@ public class AddInventoryController extends HttpServlet {
 		
 		
 		// We can safely add the item to the storage
-		InventoryStatements is = new InventoryStatements();
-		int storageId = is.getStorageId(user.getCompanyId(), storage);
-		ArrayList<Station> primaryStations = is.getStations(user.getCompanyId(), "primary");
-		ArrayList<Station> secondaryStations = is.getStations(user.getCompanyId(), "secondary");
-		request.setAttribute("primaryStations", primaryStations);
-		request.setAttribute("secondaryStations", secondaryStations);
-		if(is.inventoryExists(name, storageId)){
-			request.setAttribute("error", "The item " + name + " already exists in " + storage);		
-			doGet(request, response);
-			return;
-		}
-
 		try {
+			InventoryStatements is = new InventoryStatements();
+			int storageId = is.getStorageId(user.getCompanyId(), storage);
+			ArrayList<Station> primaryStations = is.getStations(user.getCompanyId(), "primary");
+			ArrayList<Station> secondaryStations = is.getStations(user.getCompanyId(), "secondary");
+			request.setAttribute("primaryStations", primaryStations);
+			request.setAttribute("secondaryStations", secondaryStations);
+			if(is.inventoryExists(name, storageId)){
+				request.setAttribute("error", "The item " + name + " already exists in " + storage);		
+				doGet(request, response);
+				return;
+			}
 			is.addInventory(name, Integer.parseInt(units), storageId);
 		} catch (Exception e) {
 			e.printStackTrace();

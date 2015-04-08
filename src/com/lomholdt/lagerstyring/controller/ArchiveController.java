@@ -86,10 +86,7 @@ public class ArchiveController extends HttpServlet {
 			
 			Timestamp from = Timestamp.valueOf(fromDate + " 00:00:00");
 			Timestamp to = Timestamp.valueOf(toDate + " 23:59:59");
-			
-			System.out.println(from);
-			System.out.println(to);
-			
+						
 			ArrayList<LogBook> al = is.getLogBooks(Integer.parseInt(storageId), from, to);
 			request.setAttribute("logBooks", al);			
 			
@@ -127,33 +124,35 @@ public class ArchiveController extends HttpServlet {
 			view.forward(request, response);
 		}
 		
-		
-		if(storageId.equals("allStorages")){
-			// get all storages
-			ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
-			for (Storage storage : storages) {
-				ArrayList<LoggedStation> ls = getLogResults(request, response, user, Integer.toString(storage.getId()));
+		try {
+			if(storageId.equals("allStorages")){
+				// get all storages
+				ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
+				for (Storage storage : storages) {
+					ArrayList<LoggedStation> ls = getLogResults(request, response, user, Integer.toString(storage.getId()));
+					if (ls.size() > 0){
+						LoggedStorage lStorage = new LoggedStorage();
+						lStorage.setStorage(storage);
+						lStorage.setLoggedStation(ls);
+						al.add(lStorage);
+					}
+				}
+			}
+			else{
+				ArrayList<LoggedStation> ls = getLogResults(request, response, user, storageId);
 				if (ls.size() > 0){
 					LoggedStorage lStorage = new LoggedStorage();
-					lStorage.setStorage(storage);
+					lStorage.setStorage(is.getStorage(Integer.parseInt(storageId)));
 					lStorage.setLoggedStation(ls);
 					al.add(lStorage);
 				}
 			}
+			request.setAttribute("logResults", al);
+			RequestDispatcher view = request.getRequestDispatcher("views/storage/archive.jsp");
+			view.forward(request, response);			
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
-		else{
-			ArrayList<LoggedStation> ls = getLogResults(request, response, user, storageId);
-			if (ls.size() > 0){
-				LoggedStorage lStorage = new LoggedStorage();
-				lStorage.setStorage(is.getStorage(Integer.parseInt(storageId)));
-				lStorage.setLoggedStation(ls);
-				al.add(lStorage);
-			}
-		}
-		request.setAttribute("logResults", al);
-		RequestDispatcher view = request.getRequestDispatcher("views/storage/archive.jsp");
-		view.forward(request, response);
-		
 	}
 	
 	
@@ -187,7 +186,6 @@ public class ArchiveController extends HttpServlet {
 		if(search == null || search.isEmpty() || 
 				from == null || from.isEmpty() ||
 				to == null || to.isEmpty()){
-			System.out.println("Returning null");
 			return loggedStations;
 		}
 				
@@ -204,9 +202,6 @@ public class ArchiveController extends HttpServlet {
 //		
 //		toDate.setDate(java.sql.Date.valueOf(to).getDay());
 //		toDate.setTime(Calendar.getInstance().getTimeInMillis());
-		
-		System.out.println(fromDate);
-		System.out.println(toDate);
 		
 		try {			
 

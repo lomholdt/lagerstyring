@@ -56,13 +56,21 @@ public class CloseStorageController extends HttpServlet {
 		String storageId = request.getParameter("sid");
 		if(storageId != null && !storageId.isEmpty()){
 			InventoryStatements is = new InventoryStatements();
-			if(!is.storageIsOpen(Integer.parseInt(storageId))){
-				FlashMessage.setFlashMessage(request, "error", "The storage is already closed");
-				response.sendRedirect("count");
-				return;
+			try {
+				if(!is.storageIsOpen(Integer.parseInt(storageId))){
+					FlashMessage.setFlashMessage(request, "error", "The storage is already closed");
+					response.sendRedirect("count");
+					return;
+				}
+				Storage storage = is.getStorageWithInventory(Integer.parseInt(storageId));
+				request.setAttribute("storage", storage);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			Storage storage = is.getStorageWithInventory(Integer.parseInt(storageId));
-			request.setAttribute("storage", storage);
 		}
 		else{
 			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
@@ -76,13 +84,17 @@ public class CloseStorageController extends HttpServlet {
 			request.setAttribute("logResults", ls);
 		}
 				
-		InventoryStatements is = new InventoryStatements();
-		ArrayList<Station> primaryStations = is.getStations(user.getCompanyId(), "primary");
-		ArrayList<Station> secondaryStations = is.getStations(user.getCompanyId(), "secondary");
-		request.setAttribute("primaryStations", primaryStations);
-		request.setAttribute("secondaryStations", secondaryStations);
-		RequestDispatcher view = request.getRequestDispatcher("views/storage/close.jsp");
-		view.forward(request, response);
+		try {
+			InventoryStatements is = new InventoryStatements();
+			ArrayList<Station> primaryStations = is.getStations(user.getCompanyId(), "primary");
+			ArrayList<Station> secondaryStations = is.getStations(user.getCompanyId(), "secondary");
+			request.setAttribute("primaryStations", primaryStations);
+			request.setAttribute("secondaryStations", secondaryStations);
+			RequestDispatcher view = request.getRequestDispatcher("views/storage/close.jsp");
+			view.forward(request, response);			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -117,17 +129,17 @@ public class CloseStorageController extends HttpServlet {
 			}
 		}
 
-		InventoryStatements is = new InventoryStatements();
-		// Update all the values
-		for(Map.Entry<String, String[]> entry : m.entrySet()){
-			if(entry.getKey().equals("sid")) continue;
-			// TODO Need to secure that updated id's belong to the user updating!
-			is.updateUnitsAt(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
-		}
-		is.changeStorageStatus(Integer.parseInt(sid));
 		
 		//is.getStorage(Integer.parseInt(sid));
 		try {
+			InventoryStatements is = new InventoryStatements();
+			// Update all the values
+			for(Map.Entry<String, String[]> entry : m.entrySet()){
+				if(entry.getKey().equals("sid")) continue;
+				// TODO Need to secure that updated id's belong to the user updating!
+				is.updateUnitsAt(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
+			}
+			is.changeStorageStatus(Integer.parseInt(sid));
 			is.addToStorageLog(is.getStorageName(Integer.parseInt(sid)), Integer.parseInt(sid), "Luk");
 			is.closeArchiveLog(Integer.parseInt(sid));
 		} catch (Exception e) {
@@ -157,14 +169,14 @@ public class CloseStorageController extends HttpServlet {
 		InventoryStatements is = new InventoryStatements();
 		UserStatements us = new UserStatements();
 
-		Storage s = is.getStorage(Integer.parseInt(storageId));
-		Timestamp fromDate = new Timestamp(s.getOpenedAt().getTimeInMillis());
-		Timestamp toDate = new Timestamp(Calendar.getInstance().getTimeInMillis());
-		
-		request.setAttribute("fromTimestamp", fromDate);
-		request.setAttribute("toTimestamp", toDate);
 		
 		try {			
+			Storage s = is.getStorage(Integer.parseInt(storageId));
+			Timestamp fromDate = new Timestamp(s.getOpenedAt().getTimeInMillis());
+			Timestamp toDate = new Timestamp(Calendar.getInstance().getTimeInMillis());
+			
+			request.setAttribute("fromTimestamp", fromDate);
+			request.setAttribute("toTimestamp", toDate);
 
 			ArrayList<Station> stations = is.getStations(us.getCompanyId(user.getId()), "primary");
 			ArrayList<Station> secondaryStations = is.getStations(us.getCompanyId(user.getId()), "secondary");

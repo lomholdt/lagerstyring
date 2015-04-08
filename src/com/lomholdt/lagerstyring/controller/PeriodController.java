@@ -73,7 +73,6 @@ public class PeriodController extends HttpServlet {
 			}
 			
 			if(fromDate == null || fromDate.isEmpty() && toDate == null || toDate.isEmpty()){
-				System.out.println("Setting automatic date parameter");
 				// default the dates
 				Calendar cal = Calendar.getInstance();
 				cal.add(Calendar.MONTH, -1);
@@ -87,8 +86,7 @@ public class PeriodController extends HttpServlet {
 			Timestamp from = Timestamp.valueOf(fromDate + " 00:00:00");
 			Timestamp to = Timestamp.valueOf(toDate + " 23:59:59");
 			
-			System.out.println(from);
-			System.out.println(to);
+
 			
 			ArrayList<LogBook> al = is.getLogBooks(Integer.parseInt(storageId), from, to);
 			request.setAttribute("logBooks", al);			
@@ -126,29 +124,38 @@ public class PeriodController extends HttpServlet {
 		
 		if(storageId.equals("allStorages")){
 			// get all storages
-			ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
-			for (Storage storage : storages) {
-				ArrayList<LoggedStation> ls = getLogResults(request, response, user, Integer.toString(storage.getId()));
-				if (ls.size() > 0){
-					LoggedStorage lStorage = new LoggedStorage();
-					lStorage.setStorage(storage);
-					lStorage.setLoggedStation(ls);
-					al.add(lStorage);
-				}
+			try {
+				ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
+				for (Storage storage : storages) {
+					ArrayList<LoggedStation> ls = getLogResults(request, response, user, Integer.toString(storage.getId()));
+					if (ls.size() > 0){
+						LoggedStorage lStorage = new LoggedStorage();
+						lStorage.setStorage(storage);
+						lStorage.setLoggedStation(ls);
+						al.add(lStorage);
+					}
+				}				
+			} catch (Exception e) {
+				// TODO: handle exception
 			}
 		}
 		else{
 			ArrayList<LoggedStation> ls = getLogResults(request, response, user, storageId);
 			if (ls.size() > 0){
-				LoggedStorage lStorage = new LoggedStorage();
-				lStorage.setStorage(is.getStorage(Integer.parseInt(storageId)));
-				lStorage.setLoggedStation(ls);
-				al.add(lStorage);
+				try {
+					LoggedStorage lStorage = new LoggedStorage();
+					lStorage.setStorage(is.getStorage(Integer.parseInt(storageId)));
+					lStorage.setLoggedStation(ls);
+					al.add(lStorage);					
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 			}
 		}
 		request.setAttribute("logResults", al);
-		RequestDispatcher view = request.getRequestDispatcher("views/archive/period.jsp");
-		view.forward(request, response);
+		doGet(request, response);
+//		RequestDispatcher view = request.getRequestDispatcher("views/archive/period.jsp");
+//		view.forward(request, response);
 		
 		
 		
@@ -211,8 +218,6 @@ public class PeriodController extends HttpServlet {
 //		toDate.setDate(java.sql.Date.valueOf(to).getDay());
 //		toDate.setTime(Calendar.getInstance().getTimeInMillis());
 		
-		System.out.println(fromDate);
-		System.out.println(toDate);
 		
 		try {			
 
