@@ -8,14 +8,14 @@
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<div class="row">
-						<div class="col-md-2">
+						<div class="col-sm-2">
 						<div class="form-group">
 							<h4>Lager</h4>
 							<a class="btn btn-default btn-sm" href="choose" role="button">Skift<span
 								class="glyphicon glyphicon-remove"></span></a>
 					    </div>
 						</div>
-						<div class="col-md-5">
+						<div class="col-sm-5">
 
 							<form class="form-inline" method="GET" action="period">
 							<h4>Rapport arkiv</h4>
@@ -24,7 +24,7 @@
 									<input type="date" class="form-control input-sm" name="from"
 										value="${storage.openedAtHtml}">
 								</div>
-								<div class="form-group form-group-sm">
+								<div class="form-group">
 									<label for="to">Til</label> <input type="date"
 										class="form-control input-sm" name="to"
 										value="${storage.openedAtHtml}">
@@ -34,7 +34,7 @@
 									class="btn btn-primary btn-sm">Søg</button>
 							</form>
 						</div>
-							<div class="col-md-5">
+							<div class="col-sm-5">
 							<form class="form-inline" method="POST" action="period">
 								<h4>Vælg rapport</h4>
 								<div class="form-group">
@@ -51,7 +51,7 @@
 								</div>
 								<div class="form-group">
 									<button type="submit" name="search" value="log"
-										class="btn btn-primary btn-sm">Se rapport</button>
+										class="btn btn-primary btn-sm">Vælg</button>
 								</div>
 								</form>
 							</div>

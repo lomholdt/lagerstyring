@@ -51,11 +51,13 @@
 										</div>
 										</c:forEach>
 										</div>
-										<a class="btn btn-default btn-lg" href="move" role="button">Annullér</a>
 					               		</div>
 					               </div>
 					            </div>
 	                        </div>
+	                        <div class="form-group">
+										<a class="btn btn-default btn-lg" href="move" role="button">Annullér</a>
+										</div>
 	           </form>
             </div>
 	</div>
