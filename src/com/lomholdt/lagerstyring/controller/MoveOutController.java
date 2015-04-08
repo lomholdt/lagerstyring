@@ -32,7 +32,6 @@ public class MoveOutController extends HttpServlet {
      */
     public MoveOutController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -50,17 +49,30 @@ public class MoveOutController extends HttpServlet {
 		String storageId = request.getParameter("sid");
 		if(storageId != null && !storageId.isEmpty()){
 			InventoryStatements is = new InventoryStatements();
-			if(!is.storageIsOpen(Integer.parseInt(storageId))){
-				FlashMessage.setFlashMessage(request, "error", "The storage is not open.");
-				response.sendRedirect("move");
-				return;
+			try {
+				if(!is.storageIsOpen(Integer.parseInt(storageId))){
+					FlashMessage.setFlashMessage(request, "error", "The storage is not open.");
+					response.sendRedirect("move");
+					return;
+				}
+			} catch (NumberFormatException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-			Storage storage = is.getStorageWithInventory(Integer.parseInt(storageId));
-			ArrayList<Station> primaryStations = is.getStations(user.getCompanyId(), "primary");
-			ArrayList<Station> secondaryStations = is.getStations(user.getCompanyId(), "secondary");
-			request.setAttribute("primaryStations", primaryStations);
-			request.setAttribute("secondaryStations", secondaryStations);
-			request.setAttribute("storage", storage);
+			try {
+				Storage storage = is.getStorageWithInventory(Integer.parseInt(storageId));
+				ArrayList<Station> primaryStations = is.getStations(user.getCompanyId(), "primary");
+				ArrayList<Station> secondaryStations = is.getStations(user.getCompanyId(), "secondary");
+				request.setAttribute("primaryStations", primaryStations);
+				request.setAttribute("secondaryStations", secondaryStations);
+				request.setAttribute("storage", storage);				
+			} catch (Exception e) {
+				System.out.println("Error in move out controller");
+				e.printStackTrace();
+			}
 		}
 		else{
 			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
@@ -87,15 +99,12 @@ public class MoveOutController extends HttpServlet {
 		String storageId = request.getParameter("sid");
 		String stationId = request.getParameter("stationId");
 		
-		
-		System.out.println(storageId);
 		if(storageId == null || storageId.isEmpty()) {
 			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
 			response.sendRedirect("move");
 			return;
 		}
 		else if(stationId == null || stationId.isEmpty()){
-			System.out.println(stationId);
 			FlashMessage.setFlashMessage(request, "error", "No station was chosen, please try again.");
 			response.sendRedirect("move");
 			return;
@@ -125,26 +134,31 @@ public class MoveOutController extends HttpServlet {
 			// TODO Need to secure that updated id's belong to the user updating!
 			if(!entry.getValue()[0].equals("0") && !entry.getValue()[0].isEmpty()){
 				// DECREMENT THIS AMOUNT FROM DATABASE
-				is.decrementUnits(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
 				try {
+					is.decrementUnits(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
 					is.addToInventoryLog(is.getInventoryName(Integer.parseInt(entry.getKey())), 
 							-Integer.parseInt(entry.getValue()[0]), 
 							Integer.parseInt(storageId), 
 							Integer.parseInt(stationId),
 							"Afgang");
 				} catch (Exception e) {
-					System.out.println("Could not add to log");
 					e.printStackTrace();
 				}
 			}
 		}
 		
 
-		String msg = "Afgang gennemført fra " + is.getStorage(Integer.parseInt(storageId)).getName() + " til " + is.getStation(Integer.parseInt(stationId)).getName();
-		FlashMessage.setFlashMessage(request, "msg", msg);
-		response.sendRedirect("move");	
+		try {
+			String msg = "Afgang gennemført fra " + is.getStorage(Integer.parseInt(storageId)).getName() + " til " + is.getStation(Integer.parseInt(stationId)).getName();
+			FlashMessage.setFlashMessage(request, "msg", msg);
+			response.sendRedirect("move");	
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	
-
 }

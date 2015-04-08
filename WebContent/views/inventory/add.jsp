@@ -61,7 +61,7 @@
 										</thead>
 										<tbody>
 											<c:forEach var="inventory" items="${allInventory}">
-												<tr>													
+												<tr>					
 													<td><label for="${inventory.name}">${inventory.name}</label></td>
 													<td><input type="checkbox" id="${inventory.name}" name="i" value="${inventory.id}"></td>
 												</tr>

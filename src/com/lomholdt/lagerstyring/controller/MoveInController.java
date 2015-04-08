@@ -50,17 +50,29 @@ public class MoveInController extends HttpServlet {
 		String storageId = request.getParameter("sid");
 		if(storageId != null && !storageId.isEmpty()){
 			InventoryStatements is = new InventoryStatements();
-			if(!is.storageIsOpen(Integer.parseInt(storageId))){
-				FlashMessage.setFlashMessage(request, "error", "The storage is not open.");
-				response.sendRedirect("move");
-				return;
+			try {
+				if(!is.storageIsOpen(Integer.parseInt(storageId))){
+					FlashMessage.setFlashMessage(request, "error", "The storage is not open.");
+					response.sendRedirect("move");
+					return;
+				}
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			Storage storage = is.getStorageWithInventory(Integer.parseInt(storageId)); // retrieve storage with inventory
-			ArrayList<Station> primaryStations = is.getStations(user.getCompanyId(), "primary");
-			ArrayList<Station> secondaryStations = is.getStations(user.getCompanyId(), "secondary");
-			request.setAttribute("primaryStations", primaryStations);
-			request.setAttribute("secondaryStations", secondaryStations);
-			request.setAttribute("storage", storage);
+			try {
+				Storage storage = is.getStorageWithInventory(Integer.parseInt(storageId)); // retrieve storage with inventory
+				ArrayList<Station> primaryStations = is.getStations(user.getCompanyId(), "primary");
+				ArrayList<Station> secondaryStations = is.getStations(user.getCompanyId(), "secondary");
+				request.setAttribute("primaryStations", primaryStations);
+				request.setAttribute("secondaryStations", secondaryStations);
+				request.setAttribute("storage", storage);				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		else{
 			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
@@ -128,8 +140,8 @@ public class MoveInController extends HttpServlet {
 			// TODO Need to secure that updated id's belong to the user updating!
 			if(!entry.getValue()[0].equals("0") && !entry.getValue()[0].isEmpty()){
 				// INCREMENT THIS AMOUNT FROM DATABASE
-				is.incrementUnits(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
 				try {
+					is.incrementUnits(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
 					is.addToInventoryLog(is.getInventoryName(Integer.parseInt(entry.getKey())), 
 							Integer.parseInt(entry.getValue()[0]), 
 							Integer.parseInt(storageId), 
@@ -142,9 +154,17 @@ public class MoveInController extends HttpServlet {
 			}
 		}
 
-		String msg = "Tilgang gennemført fra " + is.getStation(Integer.parseInt(stationId)).getName() + " til " + is.getStorage(Integer.parseInt(storageId)).getName();
-		FlashMessage.setFlashMessage(request, "msg", msg);
-		response.sendRedirect("move");	
+		try {
+			String msg = "Tilgang gennemført fra " + is.getStation(Integer.parseInt(stationId)).getName() + " til " + is.getStorage(Integer.parseInt(storageId)).getName();
+			FlashMessage.setFlashMessage(request, "msg", msg);
+			response.sendRedirect("move");	
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

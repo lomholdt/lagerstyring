@@ -44,15 +44,19 @@ public class LoginController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		FlashMessage.getFlashMessage(request, "error");
 		LoginStatements ls = new LoginStatements();
-		String email = request.getParameter("username");
+		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String companyName = request.getParameter("companyName");
 		
-		if(ls.login(email, password, companyName)) {
-			User currentUser = ls.getUser(email);
-			HttpSession session = request.getSession();
-			session.setAttribute("user", currentUser);
-			response.sendRedirect(""); // main page
+		if(ls.login(username, password, companyName)) {
+			try {
+				User currentUser = ls.getUser(username, companyName);
+				HttpSession session = request.getSession();
+				session.setAttribute("user", currentUser);
+				response.sendRedirect(""); // main page				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		else {
 			request.setAttribute("error", "Company, username or password was incorrect");

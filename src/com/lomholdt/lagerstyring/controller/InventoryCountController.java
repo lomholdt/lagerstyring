@@ -48,12 +48,16 @@ public class InventoryCountController extends HttpServlet {
 		
 		// get storages for logged in user
 		
-		InventoryStatements is = new InventoryStatements();
-		ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
-		
-		request.setAttribute("storages", storages);
-		RequestDispatcher view = request.getRequestDispatcher("views/storage/storages.jsp");
-		view.forward(request, response);
+		try {
+			InventoryStatements is = new InventoryStatements();
+			ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
+			
+			request.setAttribute("storages", storages);
+			RequestDispatcher view = request.getRequestDispatcher("views/storage/storages.jsp");
+			view.forward(request, response);			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

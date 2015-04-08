@@ -98,5 +98,39 @@ public class AdminStatements extends DBMain {
 		}
 		return false;
 	}
+	
+	public boolean storageExists(String companyName, String storageName) throws Exception{
+		Connection connection = c.getCon();
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT storages.name, storages.company_id FROM storages, companies WHERE storages.name = ? AND companies.name = ? AND storages.company_id = companies.id");
+			try {
+				// Do stuff with the statement
+				statement.setString(1, storageName);
+				statement.setString(2, companyName);
+				rs = statement.executeQuery();
+				if (rs.next()){
+					return true;					
+				}
+			} finally {
+				statement.close();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public void createNewStorage(String storageName, int companyId) throws Exception {
+		Connection connection = c.getCon();
+		try {
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO storages(name, company_id, is_open) VALUES(?, ?, 0)");
+			statement.setString(1, storageName);
+			statement.setInt(2, companyId);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }
