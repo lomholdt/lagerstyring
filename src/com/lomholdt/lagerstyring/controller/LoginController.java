@@ -55,7 +55,7 @@ public class LoginController extends HttpServlet {
 				session.setAttribute("user", currentUser);
 				response.sendRedirect(""); // main page				
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 		}
 		else {

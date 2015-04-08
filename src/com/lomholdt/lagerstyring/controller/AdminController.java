@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.lomholdt.lagerstyring.model.AdminStatements;
 import com.lomholdt.lagerstyring.model.Authenticator;
 import com.lomholdt.lagerstyring.model.FlashMessage;
+import com.lomholdt.lagerstyring.model.InventoryStatements;
 import com.lomholdt.lagerstyring.model.User;
 import com.lomholdt.lagerstyring.model.UserStatements;
 
@@ -74,6 +75,8 @@ public class AdminController extends HttpServlet {
 		String stationCompany = request.getParameter("stationCompany");
 		String newStationName = request.getParameter("newStationName");
 		String newStationImportance = request.getParameter("newStationImportance");
+		String storageCompany = request.getParameter("storageCompany");
+		String newStorageName = request.getParameter("newStorageName");
 		
 		
 		
@@ -133,6 +136,26 @@ public class AdminController extends HttpServlet {
 				request.setAttribute("error", "An error occured while adding new station");
 				doGet(request, response);
 				return;
+			}
+		}
+		else if (storageCompany != null && !storageCompany.isEmpty() &&
+				newStorageName != null && !newStorageName.isEmpty()){
+			try {
+				// create the new storage for the company if it does not exists
+				AdminStatements as = new AdminStatements();
+				if(!as.storageExists(storageCompany, newStorageName)){
+					int companyId = new UserStatements().getCompanyId(storageCompany);
+					as.createNewStorage(newStorageName, companyId);
+					request.setAttribute("msg", "Succesfully added " + newStorageName + " to " + storageCompany);
+					doGet(request, response);
+					return;
+				}
+				
+			} catch (Exception e) {
+				request.setAttribute("error", "An error occured while adding new storage");
+				doGet(request, response);
+				return;
+				
 			}
 		}
 		

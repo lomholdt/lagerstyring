@@ -99,9 +99,6 @@ public class InventoryStatements extends DBMain {
 		
 	}
 	
-	
-	
-	
 	public LoggedStation getLoggedItems(Timestamp from, Timestamp to, String inventoryName, int stationId, int storageId) throws Exception{
 		System.out.println("Fired inventory specifik query");
 		

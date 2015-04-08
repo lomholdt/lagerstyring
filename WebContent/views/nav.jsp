@@ -39,7 +39,7 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
 						href="choose"><span class="glyphicon glyphicon-print"></span> Rapport</a></li>
 					
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-expanded="false">${user.username} @ ${user.companyId}
+						data-toggle="dropdown" role="button" aria-expanded="false">${user.username} @ ${user.companyName}
 							<span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu" role="menu">
