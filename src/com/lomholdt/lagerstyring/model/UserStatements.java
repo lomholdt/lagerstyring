@@ -6,9 +6,10 @@ import java.sql.SQLException;
 
 public class UserStatements extends DBMain {
 	
-	public int getCompanyId(int userId){
+	public int getCompanyId(int userId) throws Exception{
+		Connection connection = c.getCon();
     	try {
-    		pstmt = c.preparedStatement("SELECT users.company_id FROM users WHERE users.id = ?");
+    		pstmt = connection.prepareStatement("SELECT users.company_id FROM users WHERE users.id = ?");
     		pstmt.setInt(1, userId);
     		rs = pstmt.executeQuery();
     		if(rs.next()) {
@@ -29,15 +30,13 @@ public class UserStatements extends DBMain {
 				statement.setString(1, companyName);
 				rs = statement.executeQuery();
 				if (rs.next()) return rs.getInt("id");
-				return 0;
 			} finally {
-				System.out.println("Closing statement");
 				statement.close();
 			}
-		} finally {
-			System.out.println("Closing connection");
-//			connection.close();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
+		return 0;
 	}
 	
 	public int getUserId(String username, int companyId) throws Exception{
@@ -49,15 +48,13 @@ public class UserStatements extends DBMain {
 				statement.setInt(2, companyId);
 				rs = statement.executeQuery();
 				if (rs.next()) return rs.getInt("id");
-				return 0;
 			} finally {
-				System.out.println("Closing statement");
 				statement.close();
 			}
-		} finally {
-			System.out.println("Closing connection");
-//			connection.close();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
+		return 0;
 	}
 	
 	public boolean userExists(String username, String userCompany) throws Exception{
@@ -69,15 +66,13 @@ public class UserStatements extends DBMain {
 				statement.setString(2, userCompany);
 				rs = statement.executeQuery();
 				if (rs.next()) return true;
-				return false;
 			} finally {
-//				System.out.println("Closing statement");
 				statement.close();
 			}
-		} finally {
-//			System.out.println("Closing connection");
-//			connection.close();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
+		return false;
 	}
 	
 	public void addRoleToUser(String username, int companyId, String maxRole) throws Exception{
@@ -95,12 +90,10 @@ public class UserStatements extends DBMain {
 				statement.setString(2, maxRole);
 				statement.executeUpdate();
 			} finally {
-				System.out.println("Closing statement");
 				statement.close();
 			}
-		} finally {
-			System.out.println("Closing connection");
-//			connection.close();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -115,12 +108,10 @@ public class UserStatements extends DBMain {
 				statement.executeUpdate();
 
 			} finally {
-				System.out.println("Closing statement");
 				statement.close();
 			}
-		} finally {
-			System.out.println("Closing connection");
-//			connection.close();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
