@@ -319,19 +319,17 @@ public class InventoryStatements extends DBMain {
 		
 	}
 	
-	public boolean deleteInventory(int inventoryId) throws SQLException{
+	public void deleteInventory(int inventoryId) throws Exception{
+		Connection connection = c.getCon();
 		try {
-			Connection connection = c.getCon();
 			PreparedStatement pstmt = connection.prepareStatement("DELETE FROM inventory WHERE inventory.id = ?");
 			pstmt.setInt(1, inventoryId);
 			pstmt.executeUpdate();
-			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			pstmt.close();
-		}
-		return false;	
+//			pstmt.close();
+		}	
 	}
 	
 	public int getFirstStorageId(int companyId) throws Exception{

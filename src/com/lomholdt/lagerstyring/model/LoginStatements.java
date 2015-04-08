@@ -60,7 +60,7 @@ public class LoginStatements extends DBMain {
 				currentUser.setId(rs.getInt("id"));
 				currentUser.setUsername(rs.getString("username"));
 				currentUser.setCompanyId(rs.getInt("company_id"));
-				currentUser.setCompanyName("companyName");
+				currentUser.setCompanyName(rs.getString("companyName"));
 				
 				Set<String> roles = getUserRoles(rs.getInt("id"));
 				currentUser.setRole(roles);
