@@ -36,7 +36,7 @@ public class DeleteInventoryController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		
 	}
 
 	/**
@@ -54,12 +54,13 @@ public class DeleteInventoryController extends HttpServlet {
 		String[] inventoryIds = request.getParameterValues("i");
 		
 		if (inventoryIds != null && inventoryIds.length > 0){
-			// does user own the item he is trying to delete? IF NOT THROW HIM OUT!
-			InventoryStatements is = new InventoryStatements();
+			// TODO does user own the item he is trying to delete? IF NOT THROW HIM OUT!
 			try {
+				InventoryStatements is = new InventoryStatements();
 				String deleteMsg = "";
 				for (String inventoryId : inventoryIds) {
 					String inventoryName = is.getInventoryName(Integer.parseInt(inventoryId));
+					System.out.println("Got Inventory Id: " + inventoryId);
 					is.deleteInventory(Integer.parseInt(inventoryId));
 					deleteMsg += inventoryName + " <br>";
 				}
@@ -67,7 +68,6 @@ public class DeleteInventoryController extends HttpServlet {
 				response.sendRedirect("inventory");					
 				return;
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

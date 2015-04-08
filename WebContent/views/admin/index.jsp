@@ -104,14 +104,6 @@
 					Ny Station</button>
 			</form>
 
-		</div>
-
-
-
-
-
-	</div>
-	<div class="row">
 		<h3>Tilføj lager til virksomhed</h3>
 		
 		<form method="POST" action="admin">
@@ -131,6 +123,13 @@
 				<button type="submit" class="btn btn-primary btn-lg">Opret
 					Nyt Lager</button>
 		</form>
+		</div>
+
+
+
+
+
 	</div>
+
 
 </admin:wrap>
