@@ -42,7 +42,7 @@ public class InventoryCountController extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		if(user == null || !auth.is("user", user.getId())){
 			FlashMessage.setFlashMessage(request, "error", "You Do not have permission to see this page.");
-			response.sendRedirect("");
+			response.sendRedirect("login");
 			return;
 		}
 		

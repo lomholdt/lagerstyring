@@ -53,7 +53,7 @@ public class LoginController extends HttpServlet {
 				User currentUser = ls.getUser(username, companyName);
 				HttpSession session = request.getSession();
 				session.setAttribute("user", currentUser);
-				response.sendRedirect(""); // main page				
+				response.sendRedirect("count"); // main page				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
