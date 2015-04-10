@@ -15,7 +15,7 @@
 
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2">
-			<form method="POST" action="close">
+			<form class="form-horizontal" method="POST" action="close">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">Luk: ${storage.name}</h3>
@@ -23,21 +23,23 @@
 					<div class="panel-body">
 						<p class="lead">Antal varer på lager</p>
 						<div class="row">
-							<div class="col-sm-8 col-sm-offset-2">
+							<div class="col-sm-10 col-sm-offset-1">
 								<c:forEach var="inventory" items="${storage.inventory}">
 									<c:if test="${inventory.units >= 0}">
 										<div class="form-group">
-											<label for="${inventory.id}">${inventory.name}</label> <input
-												type="number" class="form-control" name="${inventory.id}"
-												min="0" value="${inventory.units}">
-										</div>
+										<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label> 
+										<div class="col-sm-8">
+										<input type="number" class="form-control" placeholder="Antal" name="${inventory.id}" min="0" value="${inventory.units}">
+									 </div>
+									</div>
 									</c:if>
 									<c:if test="${inventory.units < 0}">
 										<div class="form-group has-error">
-											<label for="${inventory.id}">${inventory.name}</label> <input
-												type="number" class="form-control" name="${inventory.id}"
-												min="0" value="${inventory.units}">
-										</div>
+										<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label> 
+										<div class="col-sm-8">
+										<input type="number" class="form-control" placeholder="Antal" name="${inventory.id}" min="0" value="${inventory.units}">
+									 </div>
+									</div>
 									</c:if>
 								</c:forEach>
 							</div>
