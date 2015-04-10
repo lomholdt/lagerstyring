@@ -113,7 +113,7 @@ h1 {
   font-size: 14px;
   font-weight: 600;
   line-height: 1.4;
-  color: #919496;
+  color: #B2BAC2;
 }
 
 
@@ -172,6 +172,7 @@ h1 {
 }
 
 .btn-lg {
+  padding: 12px 24px;
   font-size: 12px;
   font-weight: 600;
 }

@@ -17,7 +17,7 @@
 			<div class="col-sm-6 col-sm-offset-1">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Tilgang: ${storage.name}</h3>
+						<h3 class="panel-title">Tilgang - ${storage.name}</h3>
 					</div>
 					<div class="panel-body">
 						<p class="lead">Antal varer til tilgang</p>
@@ -40,7 +40,7 @@
 			<div class="col-sm-4">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Godkendt station</h3>
+						<h3 class="panel-title">Godkend station</h3>
 					</div>
 					<div class="panel-body">
 						<p class="lead">Primære stationer</p>
@@ -71,7 +71,7 @@
 						<p class="lead">Annullér</p>
 						<div class="col-sm-10 col-sm-offset-1">
 							<div class="form-group">
-								<a class="btn btn-default btn-lg" href="move" role="button">Annullér</a>	
+								<a class="btn btn-default btn-lg btn-block" href="move" role="button">Annullér</a>	
 							</div>
 						</div>
 						
