@@ -12,7 +12,8 @@
 							<div class="col-md-2">
 								<div class="form-group">
 									<h4>Lager</h4>
-									<a class="btn btn-default btn-sm" href="choose" role="button">Skift<span
+
+									<a class="btn btn-default btn-sm" href="choose" role="button">Skift <span
 										class="glyphicon glyphicon-remove"></span></a>
 								</div>
 							</div>
@@ -42,18 +43,16 @@
 									<div class="form-group">
 										<select class="form-control input-sm" name="periods">
 											<c:forEach var="logBook" items="${logBooks}">
-												<option
-													value="${logBook.openedAt.toString()}&${logBook.closedAt.toString()}">${logBook.openedAt.toString()}
+												<option value="${logBook.openedAt.toString()}&${logBook.closedAt.toString()}">${logBook.openedAt.toString()}
 													- ${logBook.closedAt.toString()}</option>
 											</c:forEach>
-										</select> <input type="hidden" value="${param.storageId}"
-											name="storageId"> <input type="hidden"
-											value="allInventory" name="inventoryName"> <input
-											type="hidden" value="allStations" name="stationName">
+										</select> 
+										<input type="hidden" value="${param.storageId}" name="storageId"> 
+										<input type="hidden" value="allInventory" name="inventoryName"> 
+										<input type="hidden" value="allStations" name="stationName">
 									</div>
 									<div class="form-group">
-										<button type="submit" name="search" value="log"
-											class="btn btn-primary btn-sm">Se rapport</button>
+										<button type="submit" name="search" value="log" class="btn btn-primary btn-sm">Se rapport</button>
 									</div>
 								</form>
 							</div>

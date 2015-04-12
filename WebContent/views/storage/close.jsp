@@ -73,7 +73,7 @@
 						<div class="row">		
 							<div class="col-sm-8 col-sm-offset-2">
 								<div class="form-group">
-									<label for="inventoryName">Varenavn</label> <select
+								  <select
 										class="form-control" name="inventoryName">
 										<option value="allInventory">Alle varer</option>
 										<c:forEach var="inventory" items="${storage.inventory}">
@@ -82,7 +82,7 @@
 									</select>
 								</div>
 								<div class="form-group">
-									<label for="station">Station</label> <select
+									 <select
 										class="form-control" name="stationName">
 										<option value="allStations">Alle stationer</option>
 										<c:forEach var="primaryStation" items="${primaryStations}">
