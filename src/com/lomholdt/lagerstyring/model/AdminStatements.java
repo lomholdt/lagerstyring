@@ -10,9 +10,9 @@ public class AdminStatements extends DBMain {
 	public boolean addNewCompany(String companyName){
 		try {
 			Connection conn = ds.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO companies (name) VALUES (?)");
-			pstmt.setString(1, companyName);
-			pstmt.executeUpdate();
+			PreparedStatement statement = conn.prepareStatement("INSERT INTO companies (name) VALUES (?)");
+			statement.setString(1, companyName);
+			statement.executeUpdate();
 			
 			return true;
 		} catch (Exception e) {
@@ -24,9 +24,9 @@ public class AdminStatements extends DBMain {
 	public boolean companyExists(String companyName) {
 		try {
 			Connection con = ds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement("SELECT companies.name FROM companies WHERE companies.name = ?;");
-			pstmt.setString(1, companyName);
-			rs = pstmt.executeQuery();
+			PreparedStatement statement = con.prepareStatement("SELECT companies.name FROM companies WHERE companies.name = ?;");
+			statement.setString(1, companyName);
+			rs = statement.executeQuery();
 			if (rs.next()) return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -38,8 +38,8 @@ public class AdminStatements extends DBMain {
 		ArrayList<String> al = new ArrayList<String>();
 		try {
 			Connection con = ds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement("SELECT companies.name FROM companies;");
-			rs = pstmt.executeQuery();
+			PreparedStatement statement = con.prepareStatement("SELECT companies.name FROM companies;");
+			rs = statement.executeQuery();
 			while (rs.next()){
 				al.add(rs.getString("name"));
 			}

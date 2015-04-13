@@ -142,6 +142,8 @@
       <res-auth>Container</res-auth>
   </resource-ref>
   
+
+  
   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>*.css</url-pattern>

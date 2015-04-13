@@ -17,9 +17,10 @@ public abstract class DBMain {
 	
 	protected DataSource ds;
     protected Connection conn;
-    protected Statement statement;
+    //protected Statement statement;
+    static int count = 0;
 	
-	PreparedStatement pstmt;
+	protected PreparedStatement statement;
 	ResultSet rs;
 //	DBConnect c;
 	
@@ -32,11 +33,21 @@ public abstract class DBMain {
 	    		e.printStackTrace();
 	    	  }
 	  	  
-//        try {
-//        	c = new DBConnect();
-//			this.conn = ds.getConnection();;
-//        } catch (Exception ex) {
-//        	ex.getMessage();
-//        }
+	  	try (final Connection poolConn = ds.getConnection()) {
+	  	    final Connection conn = poolConn.unwrap(Connection.class);
+	  	    
+	  	    statement = conn.prepareStatement("select * from users");
+	  	    rs = statement.executeQuery();
+	  	    System.out.println(count++);
+	  	    
+	  	    
+	  	    
+	  	}
+	  	catch(Exception e){
+	  		
+	  	}
+	  	//poolConn is returned to the pool
     }
+	
+	
 }

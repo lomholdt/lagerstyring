@@ -234,11 +234,11 @@ public class InventoryStatements extends DBMain {
 	public boolean addToStorageLog(String name, int storageId, String performed_action) throws Exception{
 		Connection connection = ds.getConnection();;
 		try {
-			PreparedStatement pstmt = connection.prepareStatement("INSERT INTO storage_log (name, storage_id, performed_action) VALUES (?, ?, ?)");
-			pstmt.setString(1, name);
-			pstmt.setInt(2, storageId);
-			pstmt.setString(3, performed_action);
-			pstmt.executeUpdate();
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO storage_log (name, storage_id, performed_action) VALUES (?, ?, ?)");
+			statement.setString(1, name);
+			statement.setInt(2, storageId);
+			statement.setString(3, performed_action);
+			statement.executeUpdate();
 			return true;
 		}
 		catch (Exception e) {
@@ -321,13 +321,13 @@ public class InventoryStatements extends DBMain {
 	public boolean addToInventoryLog(String name, int units, int storageId, int stationId, String performed_action) throws Exception{
 		Connection connection = ds.getConnection();;
 		try {
-			PreparedStatement pstmt = connection.prepareStatement("INSERT INTO inventory_log (name, units, storage_id, station_id, performed_action) VALUES (?, ?, ?, ?, ?)");
-			pstmt.setString(1, name);
-			pstmt.setInt(2, units);
-			pstmt.setInt(3, storageId);
-			pstmt.setInt(4, stationId);
-			pstmt.setString(5, performed_action);
-			pstmt.executeUpdate();
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO inventory_log (name, units, storage_id, station_id, performed_action) VALUES (?, ?, ?, ?, ?)");
+			statement.setString(1, name);
+			statement.setInt(2, units);
+			statement.setInt(3, storageId);
+			statement.setInt(4, stationId);
+			statement.setString(5, performed_action);
+			statement.executeUpdate();
 			return true;
 		}
 		catch (Exception e) {
@@ -375,10 +375,10 @@ public class InventoryStatements extends DBMain {
 	public boolean inventoryExists(String inventory, int storageId) throws Exception{
 		Connection connection = ds.getConnection();;
 		try {
-			PreparedStatement pstmt = connection.prepareStatement("SELECT inventory.name FROM inventory WHERE inventory.name = ? AND inventory.storage_id = ?;");
-			pstmt.setString(1, inventory);
-			pstmt.setInt(2, storageId);
-			rs = pstmt.executeQuery();
+			PreparedStatement statement = connection.prepareStatement("SELECT inventory.name FROM inventory WHERE inventory.name = ? AND inventory.storage_id = ?;");
+			statement.setString(1, inventory);
+			statement.setInt(2, storageId);
+			rs = statement.executeQuery();
 			if (rs.next()) return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -398,9 +398,9 @@ public class InventoryStatements extends DBMain {
 	public void deleteInventory(int inventoryId) throws Exception{
 		Connection connection = ds.getConnection();;
 		try {
-			PreparedStatement pstmt = connection.prepareStatement("DELETE FROM inventory WHERE inventory.id = ?");
-			pstmt.setInt(1, inventoryId);
-			pstmt.executeUpdate();
+			PreparedStatement statement = connection.prepareStatement("DELETE FROM inventory WHERE inventory.id = ?");
+			statement.setInt(1, inventoryId);
+			statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
@@ -446,9 +446,9 @@ public class InventoryStatements extends DBMain {
 		ArrayList<Storage> al = new ArrayList<Storage>();
 		Connection connection = ds.getConnection();;
     	try {
-    		pstmt = connection.prepareStatement("SELECT storages.id, storages.name, storages.company_id, storages.is_open, storages.updated_at FROM storages WHERE company_id = ?;");
-    		pstmt.setInt(1, companyId);
-    		rs = pstmt.executeQuery();
+    		statement = connection.prepareStatement("SELECT storages.id, storages.name, storages.company_id, storages.is_open, storages.updated_at FROM storages WHERE company_id = ?;");
+    		statement.setInt(1, companyId);
+    		rs = statement.executeQuery();
     		while(rs.next()) {
     			Storage st = new Storage();
     			st.setId(rs.getInt("id"));
@@ -477,9 +477,9 @@ public class InventoryStatements extends DBMain {
 	public Storage getStorage(int storageId) throws Exception{
 		Connection connection = ds.getConnection();;
 		try {
-			pstmt = connection.prepareStatement("SELECT storages.id, storages.name, storages.company_id, storages.is_open, storages.updated_at FROM storages WHERE storages.id = ?;");
-    		pstmt.setInt(1, storageId);
-    		rs = pstmt.executeQuery();
+			statement = connection.prepareStatement("SELECT storages.id, storages.name, storages.company_id, storages.is_open, storages.updated_at FROM storages WHERE storages.id = ?;");
+    		statement.setInt(1, storageId);
+    		rs = statement.executeQuery();
     		if(rs.next()){
     			Storage st = new Storage();
     			st.setId(rs.getInt("id"));
@@ -508,9 +508,9 @@ public class InventoryStatements extends DBMain {
 		Connection connection = ds.getConnection();;
 		try {
 			Storage st = getStorage(storageId);
-			pstmt = connection.prepareStatement("SELECT inventory.id, inventory.name, inventory.units, inventory.created_at, inventory.updated_at, inventory.storage_id FROM inventory WHERE inventory.storage_id = ?");
-			pstmt.setInt(1, storageId);
-			rs = pstmt.executeQuery();
+			statement = connection.prepareStatement("SELECT inventory.id, inventory.name, inventory.units, inventory.created_at, inventory.updated_at, inventory.storage_id FROM inventory WHERE inventory.storage_id = ?");
+			statement.setInt(1, storageId);
+			rs = statement.executeQuery();
 			while(rs.next()){
 				Inventory iv = new Inventory();
 				iv.setId(rs.getInt("id"));
@@ -539,10 +539,10 @@ public class InventoryStatements extends DBMain {
 	public boolean updateUnitsAt(int inventoryId, int newAmount) throws Exception{
 		Connection connection = ds.getConnection();;
 		try {
-			pstmt = connection.prepareStatement("UPDATE inventory SET units = ? WHERE inventory.id = ?");
-			pstmt.setInt(1, newAmount);
-			pstmt.setInt(2, inventoryId);
-			pstmt.executeUpdate();
+			statement = connection.prepareStatement("UPDATE inventory SET units = ? WHERE inventory.id = ?");
+			statement.setInt(1, newAmount);
+			statement.setInt(2, inventoryId);
+			statement.executeUpdate();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -561,10 +561,10 @@ public class InventoryStatements extends DBMain {
 	public boolean incrementUnits(int inventoryId, int amount) throws Exception{
 		Connection connection = ds.getConnection();;
 		try {
-			pstmt = connection.prepareStatement("UPDATE inventory SET units = units + ? WHERE inventory.id = ?");
-			pstmt.setInt(1, amount);
-			pstmt.setInt(2, inventoryId);
-			pstmt.executeUpdate();
+			statement = connection.prepareStatement("UPDATE inventory SET units = units + ? WHERE inventory.id = ?");
+			statement.setInt(1, amount);
+			statement.setInt(2, inventoryId);
+			statement.executeUpdate();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -582,10 +582,10 @@ public class InventoryStatements extends DBMain {
 	public boolean decrementUnits(int inventoryId, int amount) throws Exception{
 		Connection connection = ds.getConnection();;
 		try {
-			pstmt = connection.prepareStatement("UPDATE inventory SET units = units - ? WHERE inventory.id = ?");
-			pstmt.setInt(1, amount);
-			pstmt.setInt(2, inventoryId);
-			pstmt.executeUpdate();
+			statement = connection.prepareStatement("UPDATE inventory SET units = units - ? WHERE inventory.id = ?");
+			statement.setInt(1, amount);
+			statement.setInt(2, inventoryId);
+			statement.executeUpdate();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -603,9 +603,9 @@ public class InventoryStatements extends DBMain {
 	public int currentInventoryUnits(int inventoryId) throws Exception{
 		Connection connection = ds.getConnection();;
     	try {
-    		pstmt = connection.prepareStatement("SELECT inventory.units FROM inventory WHERE inventory.id = ?;");
-    		pstmt.setInt(1, inventoryId);
-    		rs = pstmt.executeQuery();
+    		statement = connection.prepareStatement("SELECT inventory.units FROM inventory WHERE inventory.id = ?;");
+    		statement.setInt(1, inventoryId);
+    		rs = statement.executeQuery();
     		if(rs.next()) {
     			return rs.getInt("units");
     		}
@@ -627,9 +627,9 @@ public class InventoryStatements extends DBMain {
 	public boolean storageIsOpen(int storageId) throws Exception{
 		Connection connection = ds.getConnection();;
     	try {
-    		pstmt = connection.prepareStatement("SELECT storages.is_open FROM storages WHERE storages.id = ?;");
-    		pstmt.setInt(1, storageId);
-    		rs = pstmt.executeQuery();
+    		statement = connection.prepareStatement("SELECT storages.is_open FROM storages WHERE storages.id = ?;");
+    		statement.setInt(1, storageId);
+    		rs = statement.executeQuery();
     		if(rs.next()) {
     			return rs.getBoolean("is_open");
     		}
@@ -651,10 +651,10 @@ public class InventoryStatements extends DBMain {
 		Connection connection = ds.getConnection();;
 		try {
 			boolean status =  (storageIsOpen(storageId)) ? false : true;
-			pstmt = connection.prepareStatement("UPDATE storages SET is_open = ? WHERE storages.id = ?");
-			pstmt.setBoolean(1, status);
-			pstmt.setInt(2, storageId);
-			pstmt.executeUpdate();
+			statement = connection.prepareStatement("UPDATE storages SET is_open = ? WHERE storages.id = ?");
+			statement.setBoolean(1, status);
+			statement.setInt(2, storageId);
+			statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -671,10 +671,10 @@ public class InventoryStatements extends DBMain {
 	public int getStorageId(int companyId, String storageName) throws Exception{
 		Connection connection = ds.getConnection();;
     	try {
-    		pstmt = connection.prepareStatement("SELECT storages.id FROM storages WHERE company_id = ? AND storages.name = ?;");
-    		pstmt.setInt(1, companyId);
-    		pstmt.setString(2, storageName);
-    		rs = pstmt.executeQuery();
+    		statement = connection.prepareStatement("SELECT storages.id FROM storages WHERE company_id = ? AND storages.name = ?;");
+    		statement.setInt(1, companyId);
+    		statement.setString(2, storageName);
+    		rs = statement.executeQuery();
     		if(rs.next()) {
     			return rs.getInt("id");
     		}
@@ -696,10 +696,10 @@ public class InventoryStatements extends DBMain {
 		ArrayList<Station> al = new ArrayList<Station>();
 		Connection connection = ds.getConnection();;
     	try {
-    		pstmt = connection.prepareStatement("SELECT stations.id ,stations.name FROM stations WHERE stations.company_id = ? AND stations.importance = ?;");
-    		pstmt.setInt(1, companyId);
-    		pstmt.setString(2, importance);
-    		rs = pstmt.executeQuery();
+    		statement = connection.prepareStatement("SELECT stations.id ,stations.name FROM stations WHERE stations.company_id = ? AND stations.importance = ?;");
+    		statement.setInt(1, companyId);
+    		statement.setString(2, importance);
+    		rs = statement.executeQuery();
     		while(rs.next()) {
     			Station s = new Station();
     			s.setId(rs.getInt("id"));
@@ -723,9 +723,9 @@ public class InventoryStatements extends DBMain {
 	public Station getStation(int stationId) throws Exception{
 		Connection connection = ds.getConnection();;
     	try {
-    		pstmt = connection.prepareStatement("SELECT stations.id ,stations.name FROM stations WHERE stations.id = ?;");
-    		pstmt.setInt(1, stationId);
-    		rs = pstmt.executeQuery();
+    		statement = connection.prepareStatement("SELECT stations.id ,stations.name FROM stations WHERE stations.id = ?;");
+    		statement.setInt(1, stationId);
+    		rs = statement.executeQuery();
     		if(rs.next()) {
     			Station s = new Station();
     			s.setId(rs.getInt("id"));

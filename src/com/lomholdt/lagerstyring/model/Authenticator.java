@@ -8,12 +8,12 @@ import java.sql.SQLException;
 
 public class Authenticator extends DBMain {
 	
-	public boolean is(String role, int userId){
+	public boolean is(String role, int userId) throws SQLException{
+		Connection connection = ds.getConnection();
 		try{
-			Connection con = ds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement("SELECT role FROM roles WHERE roles.user_id = ?;");
-			pstmt.setInt(1, userId);
-			rs = pstmt.executeQuery();
+			statement = connection.prepareStatement("SELECT role FROM roles WHERE roles.user_id = ?;");
+			statement.setInt(1, userId);
+			rs = statement.executeQuery();
 			while(rs.next()){
 				if (rs.getString("role").equals(role)) return true;
 			}
@@ -25,7 +25,7 @@ public class Authenticator extends DBMain {
             {e.printStackTrace();}
             try { if(null!=statement)statement.close();} catch (SQLException e) 
             {e.printStackTrace();}
-            try { if(null!=conn)conn.close();} catch (SQLException e) 
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
             {e.printStackTrace();}
         }
 		return false;

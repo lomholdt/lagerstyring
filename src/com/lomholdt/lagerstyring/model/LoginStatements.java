@@ -16,10 +16,10 @@ public class LoginStatements extends DBMain {
     		int companyId = new UserStatements().getCompanyId(companyName);
     		System.out.println("Got company Id: " + companyId);
     		pwd = Hash.hash256(pwd);
-    		pstmt = connection.prepareStatement("SELECT users.username, users.password, companies.name AS company FROM users, companies WHERE users.username = ? AND users.company_id = ? AND users.company_id = companies.id");
-    		pstmt.setString(1, username);
-    		pstmt.setInt(2, companyId);
-    		rs = pstmt.executeQuery();
+    		statement = connection.prepareStatement("SELECT users.username, users.password, companies.name AS company FROM users, companies WHERE users.username = ? AND users.company_id = ? AND users.company_id = companies.id");
+    		statement.setString(1, username);
+    		statement.setInt(2, companyId);
+    		rs = statement.executeQuery();
     		if(rs.next()) {
     			if(rs.getString("password").equals(pwd)) {
     				return true;
@@ -44,9 +44,9 @@ public class LoginStatements extends DBMain {
     	Connection connection = ds.getConnection();
 		Set<String> s = new HashSet<String>();
     	try{
-			PreparedStatement pstmt = connection.prepareStatement("SELECT roles.role FROM roles WHERE roles.user_id = ?");
-			pstmt.setInt(1, userId);
-			rs = pstmt.executeQuery();
+    		statement = connection.prepareStatement("SELECT roles.role FROM roles WHERE roles.user_id = ?");
+    		statement.setInt(1, userId);
+			rs = statement.executeQuery();
 			while(rs.next()){
 				s.add(rs.getString("role"));
 			}
@@ -67,10 +67,10 @@ public class LoginStatements extends DBMain {
 	public User getUser(String username, String companyName) throws Exception{
 		Connection connection = ds.getConnection();
 		try{
-			PreparedStatement pstmt = connection.prepareStatement("SELECT users.id, users.username, users.company_id, companies.name AS companyName FROM users, companies WHERE users.username = ? AND users.company_id = companies.id AND companies.name = ?");
-			pstmt.setString(1, username);
-			pstmt.setString(2, companyName);
-			rs = pstmt.executeQuery();
+			statement = connection.prepareStatement("SELECT users.id, users.username, users.company_id, companies.name AS companyName FROM users, companies WHERE users.username = ? AND users.company_id = companies.id AND companies.name = ?");
+			statement.setString(1, username);
+			statement.setString(2, companyName);
+			rs = statement.executeQuery();
 			if(rs.next()){
 				User currentUser = new User();
 				currentUser.setId(rs.getInt("id"));
