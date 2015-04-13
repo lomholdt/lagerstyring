@@ -28,9 +28,7 @@
     <servlet-name>ArchiveChooserController</servlet-name>
     <url-pattern>/choose</url-pattern>
   </servlet-mapping>
-  
-  
-    <servlet>
+  <servlet>
     <servlet-name>ReportController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.ReportController</servlet-class>
   </servlet>
@@ -38,9 +36,6 @@
     <servlet-name>ReportController</servlet-name>
     <url-pattern>/report</url-pattern>
   </servlet-mapping>
-  
-  
-  
   <servlet>
     <servlet-name>PeriodController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.PeriodController</servlet-class>
@@ -129,6 +124,24 @@
     <servlet-name>AdminController</servlet-name>
     <url-pattern>/admin</url-pattern>
   </servlet-mapping>
+      <servlet>
+        <servlet-name>TestServlet</servlet-name>
+        <servlet-class>
+            com.lomholdt.lagerstyring.controller.TestServlet
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TestServlet</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+    
+  <resource-ref>
+      <description>DB Connection</description>
+      <res-ref-name>jdbc/lagerstyring</res-ref-name>
+      <res-type>javax.sql.DataSource</res-type>
+      <res-auth>Container</res-auth>
+  </resource-ref>
+  
   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>*.css</url-pattern>

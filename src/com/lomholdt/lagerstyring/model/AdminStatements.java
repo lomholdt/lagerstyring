@@ -2,13 +2,15 @@ package com.lomholdt.lagerstyring.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AdminStatements extends DBMain {
 	
 	public boolean addNewCompany(String companyName){
 		try {
-			PreparedStatement pstmt = c.preparedStatement("INSERT INTO companies (name) VALUES (?)");
+			Connection conn = ds.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO companies (name) VALUES (?)");
 			pstmt.setString(1, companyName);
 			pstmt.executeUpdate();
 			
@@ -21,7 +23,8 @@ public class AdminStatements extends DBMain {
 
 	public boolean companyExists(String companyName) {
 		try {
-			PreparedStatement pstmt = c.preparedStatement("SELECT companies.name FROM companies WHERE companies.name = ?;");
+			Connection con = ds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement("SELECT companies.name FROM companies WHERE companies.name = ?;");
 			pstmt.setString(1, companyName);
 			rs = pstmt.executeQuery();
 			if (rs.next()) return true;
@@ -34,7 +37,8 @@ public class AdminStatements extends DBMain {
 	public ArrayList<String> getCompanies(){
 		ArrayList<String> al = new ArrayList<String>();
 		try {
-			PreparedStatement pstmt = c.preparedStatement("SELECT companies.name FROM companies;");
+			Connection con = ds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement("SELECT companies.name FROM companies;");
 			rs = pstmt.executeQuery();
 			while (rs.next()){
 				al.add(rs.getString("name"));
@@ -46,7 +50,7 @@ public class AdminStatements extends DBMain {
 	}
 	
 	public boolean stationExists(String companyName, String stationName) throws Exception{
-		Connection connection = c.getCon();
+		Connection connection = ds.getConnection();
 		try {
 			PreparedStatement statement = connection.prepareStatement("SELECT stations.name FROM stations, companies WHERE stations.company_id = companies.id AND companies.name = ? AND stations.name = ?");
 			try {
@@ -72,7 +76,7 @@ public class AdminStatements extends DBMain {
 		if(companyExists(companyName) && !stationExists(companyName, stationName)){
 			int companyId = new UserStatements().getCompanyId(companyName);
 			// add new station
-			Connection connection = c.getCon();
+			Connection connection = ds.getConnection();;
 			try {
 				PreparedStatement statement = connection.prepareStatement("INSERT INTO stations (name, company_id, importance) VALUES (?, ?, ?)");
 				try {
@@ -88,19 +92,24 @@ public class AdminStatements extends DBMain {
 					e.printStackTrace();
 					
 				}
-				finally {
-					statement.close();
-				}
 			}
 			catch(Exception e){
 				e.printStackTrace();
+			}
+			finally {
+				try { if(null!=rs)rs.close();} catch (SQLException e) 
+				{e.printStackTrace();}
+				try { if(null!=statement)statement.close();} catch (SQLException e) 
+				{e.printStackTrace();}
+				try { if(null!=conn)conn.close();} catch (SQLException e) 
+				{e.printStackTrace();}
 			}
 		}
 		return false;
 	}
 	
 	public boolean storageExists(String companyName, String storageName) throws Exception{
-		Connection connection = c.getCon();
+		Connection connection = ds.getConnection();;
 		try {
 			PreparedStatement statement = connection.prepareStatement("SELECT storages.name, storages.company_id FROM storages, companies WHERE storages.name = ? AND companies.name = ? AND storages.company_id = companies.id");
 			try {
@@ -111,18 +120,26 @@ public class AdminStatements extends DBMain {
 				if (rs.next()){
 					return true;					
 				}
-			} finally {
-				statement.close();
+			} catch(Exception e){
+				e.printStackTrace();
 			}
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=conn)conn.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
 		return false;
 	}
 	
 	public void createNewStorage(String storageName, int companyId) throws Exception {
-		Connection connection = c.getCon();
+		Connection connection = ds.getConnection();;
 		try {
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO storages(name, company_id, is_open) VALUES(?, ?, 0)");
 			statement.setString(1, storageName);
@@ -131,6 +148,14 @@ public class AdminStatements extends DBMain {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=conn)conn.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
 	}
 
 }
