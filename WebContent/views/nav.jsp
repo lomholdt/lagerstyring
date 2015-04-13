@@ -30,7 +30,7 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
 					<!-- VI ER LOGGET IND -->
 					<li
 						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/lagerstyring/count')}"> class="active"</c:if>><a
-						href="count"><span class="glyphicon glyphicon-ok-circle"></span> Lageroptælling</a></li>
+						href="count"><span class="glyphicon glyphicon-pencil"></span> Lageroptælling</a></li>
 					<li
 						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/lagerstyring/move')}"> class="active"</c:if>><a
 						href="move"><span class="glyphicon glyphicon-transfer"></span> Flyt Vare</a></li>
