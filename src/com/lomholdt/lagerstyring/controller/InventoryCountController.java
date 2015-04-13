@@ -1,6 +1,7 @@
 package com.lomholdt.lagerstyring.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -40,10 +41,15 @@ public class InventoryCountController extends HttpServlet {
 		FlashMessage.getFlashMessage(request, "msg");
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		if(user == null || !auth.is("user", user.getId())){
-			FlashMessage.setFlashMessage(request, "error", "You Do not have permission to see this page.");
-			response.sendRedirect("login");
-			return;
+		try {
+			if(user == null || !auth.is("user", user.getId())){
+				FlashMessage.setFlashMessage(request, "error", "You Do not have permission to see this page.");
+				response.sendRedirect("login");
+				return;
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
 		// get storages for logged in user

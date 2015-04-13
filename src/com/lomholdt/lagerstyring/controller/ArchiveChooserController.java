@@ -1,6 +1,7 @@
 package com.lomholdt.lagerstyring.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -39,10 +40,15 @@ public class ArchiveChooserController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		if(user == null || !auth.is("user", user.getId())){
-			FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
-			response.sendRedirect("");
-			return;
+		try {
+			if(user == null || !auth.is("user", user.getId())){
+				FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
+				response.sendRedirect("");
+				return;
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
 		try {
@@ -63,10 +69,15 @@ public class ArchiveChooserController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		if(user == null || !auth.is("user", user.getId())){
-			FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
-			response.sendRedirect("");
-			return;
+		try {
+			if(user == null || !auth.is("user", user.getId())){
+				FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
+				response.sendRedirect("");
+				return;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		

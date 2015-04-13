@@ -2,6 +2,7 @@ package com.lomholdt.lagerstyring.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,10 +48,15 @@ public class CloseStorageController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		if(user == null || !auth.is("user", user.getId())){
-			FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
-			response.sendRedirect("");
-			return;
+		try {
+			if(user == null || !auth.is("user", user.getId())){
+				FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
+				response.sendRedirect("");
+				return;
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
 		String storageId = request.getParameter("sid");
@@ -103,10 +109,15 @@ public class CloseStorageController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		if(user == null || !auth.is("user", user.getId())){
-			FlashMessage.setFlashMessage(request, "error", "You Do not have permission to see this page.");
-			response.sendRedirect("");
-			return;
+		try {
+			if(user == null || !auth.is("user", user.getId())){
+				FlashMessage.setFlashMessage(request, "error", "You Do not have permission to see this page.");
+				response.sendRedirect("");
+				return;
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 
 				

@@ -48,21 +48,21 @@ public class LoginController extends HttpServlet {
 		String password = request.getParameter("password");
 		String companyName = request.getParameter("companyName");
 		
-		if(ls.login(username, password, companyName)) {
 			try {
-				User currentUser = ls.getUser(username, companyName);
-				HttpSession session = request.getSession();
-				session.setAttribute("user", currentUser);
-				response.sendRedirect("count"); // main page				
+				if(ls.login(username, password, companyName)) {
+					User currentUser = ls.getUser(username, companyName);
+					HttpSession session = request.getSession();
+					session.setAttribute("user", currentUser);
+					response.sendRedirect("count"); // main page				
+				}
+				else {
+					request.setAttribute("error", "Company, username or password was incorrect");
+					RequestDispatcher view = request.getRequestDispatcher("views/login/login.jsp");
+					view.forward(request, response);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		else {
-			request.setAttribute("error", "Company, username or password was incorrect");
-			RequestDispatcher view = request.getRequestDispatcher("views/login/login.jsp");
-			view.forward(request, response);
-		}
 	}
 
 }

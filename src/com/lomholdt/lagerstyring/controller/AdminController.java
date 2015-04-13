@@ -1,6 +1,7 @@
 package com.lomholdt.lagerstyring.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -41,10 +42,15 @@ public class AdminController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		if(user == null || !auth.is("admin", user.getId())){
-			FlashMessage.setFlashMessage(request, "error", NO_PERMISSION_MESSAGE);
-			response.sendRedirect("");
-			return;
+		try {
+			if(user == null || !auth.is("admin", user.getId())){
+				FlashMessage.setFlashMessage(request, "error", NO_PERMISSION_MESSAGE);
+				response.sendRedirect("");
+				return;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		
@@ -61,10 +67,15 @@ public class AdminController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		if(user == null || !auth.is("admin", user.getId())){
-			FlashMessage.setFlashMessage(request, "error", NO_PERMISSION_MESSAGE);
-			response.sendRedirect("");
-			return;
+		try {
+			if(user == null || !auth.is("admin", user.getId())){
+				FlashMessage.setFlashMessage(request, "error", NO_PERMISSION_MESSAGE);
+				response.sendRedirect("");
+				return;
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
 		String companyName = request.getParameter("companyName");

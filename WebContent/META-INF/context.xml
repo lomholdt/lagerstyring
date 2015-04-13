@@ -1,0 +1,44 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<!-- <context>
+    
+    <Resource 
+    name="jdbc/lagerstyring" 
+    auth="Container" 
+    type="javax.sql.DataSource"
+    maxTotal="500" 
+    maxIdle="300"
+    initialSize="50"
+    maxWaitMillis="15000"
+    username="jonas" 
+    password="28608374" 
+    driverClassName="com.mysql.jdbc.Driver"
+    url="jdbc:mysql://localhost:3306/lagerstyring"/>
+</context> -->
+<context>
+    <Resource name="jdbc/lagerstyring" 
+              auth="Container" 
+              type="javax.sql.DataSource" 
+              factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+              testWhileIdle="true"
+              testOnBorrow="true"
+              testOnReturn="false"
+              validationQuery="SELECT 1"
+              validationInterval="30000"
+              timeBetweenEvictionRunsMillis="30000"
+              maxActive="200" 
+              minIdle="60" 
+              maxIdle="60"
+              maxWait="5000" 
+              initialSize="50"
+              removeAbandonedTimeout="60"
+              removeAbandoned="true"
+              logAbandoned="true"
+              minEvictableIdleTimeMillis="60000" 
+              jmxEnabled="true"
+              jdbcInterceptors=
+"org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
+              username="jonas" 
+              password="28608374" 
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/lagerstyring"/>
+</context>
