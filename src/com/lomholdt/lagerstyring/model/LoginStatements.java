@@ -14,7 +14,6 @@ public class LoginStatements extends DBMain {
     	Connection connection = ds.getConnection();
     	try {
     		int companyId = new UserStatements().getCompanyId(companyName);
-    		System.out.println("Got company Id: " + companyId);
     		pwd = Hash.hash256(pwd);
     		statement = connection.prepareStatement("SELECT users.username, users.password, companies.name AS company FROM users, companies WHERE users.username = ? AND users.company_id = ? AND users.company_id = companies.id");
     		statement.setString(1, username);

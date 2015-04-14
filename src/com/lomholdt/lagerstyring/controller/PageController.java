@@ -35,7 +35,6 @@ public class PageController extends HttpServlet {
 		HttpSession s = request.getSession();
 		if(s.getAttribute("user") == null){
 			FlashMessage.setFlashMessage(request, "error", (String)request.getAttribute("error"));
-			System.out.println("user is not logged in...");
 			response.sendRedirect("login");
 			return;
 		}

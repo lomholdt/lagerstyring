@@ -80,7 +80,6 @@ public class AdminStatements extends DBMain {
 			try {
 				PreparedStatement statement = connection.prepareStatement("INSERT INTO stations (name, company_id, importance) VALUES (?, ?, ?)");
 				try {
-					System.out.println("Adding station...");
 					// Do stuff with the statement
 					statement.setString(1, stationName);
 					statement.setInt(2, companyId);

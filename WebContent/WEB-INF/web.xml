@@ -7,6 +7,14 @@
   <session-config>
         <session-timeout>1440</session-timeout>
     </session-config>
+        <mime-mapping>
+    <extension>ico</extension>
+    <mime-type>image/x-icon</mime-type>
+  </mime-mapping>
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.ico</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>PageController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.PageController</servlet-class>

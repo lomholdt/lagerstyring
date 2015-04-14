@@ -66,7 +66,6 @@ public class DeleteInventoryController extends HttpServlet {
 				String deleteMsg = "";
 				for (String inventoryId : inventoryIds) {
 					String inventoryName = is.getInventoryName(Integer.parseInt(inventoryId));
-					System.out.println("Got Inventory Id: " + inventoryId);
 					is.deleteInventory(Integer.parseInt(inventoryId));
 					deleteMsg += inventoryName + " <br>";
 				}

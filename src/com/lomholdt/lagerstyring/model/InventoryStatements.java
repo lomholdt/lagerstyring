@@ -129,7 +129,6 @@ public class InventoryStatements extends DBMain {
 	}
 	
 	public LoggedStation getLoggedItems(Timestamp from, Timestamp to, String inventoryName, int stationId, int storageId) throws Exception{
-		System.out.println("Fired inventory specifik query");
 		
 		LoggedStation ls = new LoggedStation();
 		ls.setStation(getStation(stationId));
@@ -200,7 +199,6 @@ public class InventoryStatements extends DBMain {
 			try {
 				rs = statement.executeQuery();
 				while (rs.next()){
-					System.out.println("Adding inventory");
 					LoggedInventory li = new LoggedInventory();
 					li.setCreatedAt(rs.getTimestamp("created_at"));
 					li.setName(rs.getString("name"));
