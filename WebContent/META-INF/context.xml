@@ -37,8 +37,8 @@
               jmxEnabled="true"
               jdbcInterceptors=
 "org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
-              username="jonas" 
-              password="28608374" 
+              username="root" 
+              password="" 
               driverClassName="com.mysql.jdbc.Driver"
               url="jdbc:mysql://localhost:3306/lagerstyring"/>
 </context>

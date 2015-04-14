@@ -3,7 +3,6 @@
 
 <login:wrap title="Login">
 
-
 <c:if test="${msg != null}"><div class="alert alert-success">${msg}</div></c:if>
 <c:if test="${error != null}"><div class="alert alert-warning">${error}</div></c:if>
 
@@ -32,7 +31,7 @@
  </div>
  	<div class="row">
    <div class="col-sm-6 col-sm-offset-3">
-   <p align="center"> mail@lagerstyring.dk</p>
+   <p align="center"> support@lager.io</p>
    </div>
    </div>
 </login:wrap>
