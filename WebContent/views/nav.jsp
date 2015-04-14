@@ -19,7 +19,7 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="${pageContext.request.contextPath}">LAGER.IO</a>
+			<a class="navbar-brand" href="/">Lager.io</a>
 
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
@@ -29,13 +29,13 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
 
 					<!-- VI ER LOGGET IND -->
 					<li
-						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/lagerstyring/count')}"> class="active"</c:if>><a
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/count')}"> class="active"</c:if>><a
 						href="count"><span class="glyphicon glyphicon-pencil"></span> Lageroptælling</a></li>
 					<li
-						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/lagerstyring/move')}"> class="active"</c:if>><a
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/move')}"> class="active"</c:if>><a
 						href="move"><span class="glyphicon glyphicon-transfer"></span> Flyt Vare</a></li>
 					<li
-						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/lagerstyring/choose')}"> class="active"</c:if>><a
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/choose')}"> class="active"</c:if>><a
 						href="choose"><span class="glyphicon glyphicon-print"></span> Rapport</a></li>
 					
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -58,6 +58,6 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
 			</c:if>
 		</div>
 		<!--/.nav-collapse -->
-	</div>
+		
+			</div>
 </nav>
-
