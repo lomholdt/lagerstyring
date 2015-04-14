@@ -4,6 +4,9 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+  <session-config>
+        <session-timeout>1440</session-timeout>
+    </session-config>
   <servlet>
     <servlet-name>PageController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.PageController</servlet-class>

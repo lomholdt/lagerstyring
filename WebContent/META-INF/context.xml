@@ -1,20 +1,6 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
-<!-- <context>
-    
-    <Resource 
-    name="jdbc/lagerstyring" 
-    auth="Container" 
-    type="javax.sql.DataSource"
-    maxTotal="500" 
-    maxIdle="300"
-    initialSize="50"
-    maxWaitMillis="15000"
-    username="jonas" 
-    password="28608374" 
-    driverClassName="com.mysql.jdbc.Driver"
-    url="jdbc:mysql://localhost:3306/lagerstyring"/>
-</context> -->
-<context>
+
+<Context>
     <Resource name="jdbc/lagerstyring" 
               auth="Container" 
               type="javax.sql.DataSource" 
@@ -37,8 +23,8 @@
               jmxEnabled="true"
               jdbcInterceptors=
 "org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
-              username="jonas" 
-              password="28608374" 
+              username="root" 
+              password="vcxDert55" 
               driverClassName="com.mysql.jdbc.Driver"
               url="jdbc:mysql://localhost:3306/lagerstyring"/>
-</context>
+</Context>
