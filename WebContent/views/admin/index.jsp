@@ -4,70 +4,106 @@
 <admin:wrap title="Admin">
 
 	<div class="row">
-		<div class="col-md-6 col-md-offset-2">
-
-			<h1>Admin</h1>
+		<div class="col-md-8 col-md-offset-2">
+		<h1>Admin</h1>
 			<c:if test="${msg != null}">
 				<div class="alert alert-success">${msg}</div>
 			</c:if>
 			<c:if test="${error != null}">
 				<div class="alert alert-warning">${error}</div>
 			</c:if>
-
-
-
-
-			<div role="tabpanel">
+			
+		
+	</div>
+		</div>
+		
+	<div class="row">
+		<div class="col-md-2">
+		<div role="tabpanel">
 
 				<!-- Nav tabs -->
-				<ul class="nav nav-tabs" role="tablist">
+				<ul class="nav nav-pills nav-stacked" role="tablist">
 					<li role="presentation" class="active"><a href="#virksomhed"
-						aria-controls="home" role="tab" data-toggle="tab">Ny Virksomhed</a></li>
+						aria-controls="home" role="tab" data-toggle="tab">Ny
+							Virksomhed</a></li>
 					<li role="presentation"><a href="#bruger"
-						aria-controls="profile" role="tab" data-toggle="tab">Tilføj ny bruger</a></li>
+						aria-controls="profile" role="tab" data-toggle="tab">Tilføj ny
+							bruger</a></li>
 					<li role="presentation"><a href="#station"
-						aria-controls="messages" role="tab" data-toggle="tab">Tilføj ny station</a></li>
+						aria-controls="messages" role="tab" data-toggle="tab">Tilføj
+							ny station</a></li>
 					<li role="presentation"><a href="#lager"
-						aria-controls="settings" role="tab" data-toggle="tab">Tilføj nyt lager</a></li>
+						aria-controls="settings" role="tab" data-toggle="tab">Tilføj
+							nyt lager</a></li>
 				</ul>
-
-				<!-- Tab panes -->
-				<div class="tab-content">
+					<hr>
+			</div>
+		</div>
+		
+		<div class="col-md-8">
+		<!-- Tab panes -->
+			<div class="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="virksomhed">
 						<!-- TILFØJ VIRKSOMHED -->
-						<h3>Opret ny virksomhed:</h3>
-						<form method="POST" action="admin">
-							<div class="form-group">
-								<input type="text" class="form-control" placeholder="Firmanavn"
-									name="companyName">
-							</div>
-							<button type="submit" class="btn btn-primary btn-lg">Opret
-								Ny Virksomhed</button>
-						</form>
 
-						<table class="table table-borded">
-							<thead>
-								<tr>
-									<th>Virksomheder</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach var="company" items="${companies}">
-									<tr>
-										<td>${company}</td>
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
-
-						<hr>
-
+						<div class="panel panel-default">
+						<div class="panel-heading">
+						<h3 class="panel-title">Ny virksomhed</h3>
 					</div>
+							<div class="panel-body">
+							
+							
+								<p class="lead">Tilføj Virksomhed</p>
+								<div class="row">
+									<div class="col-sm-8 col-sm-offset-2">
+	
+										<form method="POST" action="admin">
+											<div class="form-group">
+												<input type="text" class="form-control"
+													placeholder="Firmanavn" name="companyName">
+											</div>
+											<div class="form-group">
+											<button type="submit" class="btn btn-primary btn-lg btn-block">Opret
+												Ny Virksomhed</button>
+												</div>
+										</form>
+									</div>
+									</div>
+									
+										
+								<p class="lead">Virksomheder</p>
+								<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
+									<table class="table table-borded">
+										<thead>
+											<tr>
+												<th>Virksomheder</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="company" items="${companies}">
+												<tr>
+													<td>${company}</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
 
 					<div role="tabpanel" class="tab-pane" id="bruger">
 						<!-- TILFØJ BRUGER TIL VIRKSOMHED -->
 
-						<h3>Tilføj bruger til virksomhed:</h3>
+						<div class="panel panel-default">
+						<div class="panel-heading">
+						<h3 class="panel-title">Tilføj ny bruger til virksomhed</h3>
+					</div>
+							<div class="panel-body">
 						<form method="POST" action="admin">
 
 							<div class="form-group">
@@ -97,15 +133,22 @@
 							<button type="submit" class="btn btn-primary btn-lg">Opret
 								Ny Bruger</button>
 						</form>
+						
+						</div>
+						</div>
 
-						<hr>
+					
 
 
 
 					</div>
 
 					<div role="tabpanel" class="tab-pane" id="station">
-						<h3>Tilføj station til virksomhed</h3>
+							<div class="panel panel-default">
+						<div class="panel-heading">
+						<h3 class="panel-title">Tilføj station til virksomhed</h3>
+					</div>
+							<div class="panel-body">
 						<form method="POST" action="admin">
 							<div class="form-group">
 								<select class="form-control" name="stationCompany">
@@ -130,11 +173,17 @@
 							<button type="submit" class="btn btn-primary btn-lg">Opret
 								Ny Station</button>
 						</form>
+						</div>
+						</div>
 					</div>
 
 					<div role="tabpanel" class="tab-pane" id="lager">
+						<div class="panel panel-default">
+						<div class="panel-heading">
+						<h3 class="panel-title">Tilføj lager til virksomhed</h3>
+					</div>
+							<div class="panel-body">
 
-						<h3>Tilføj lager til virksomhed</h3>
 
 						<form method="POST" action="admin">
 							<div class="form-group">
@@ -153,11 +202,13 @@
 							<button type="submit" class="btn btn-primary btn-lg">Opret
 								Nyt Lager</button>
 						</form>
+						</div>
+				</div>
 					</div>
 				</div>
-			</div>
+		
 		</div>
 	</div>
-
+	
 
 </admin:wrap>
