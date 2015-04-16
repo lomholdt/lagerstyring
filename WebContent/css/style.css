@@ -146,7 +146,7 @@ h1 {
 }
 
 /*
-4.-------Knapper--------
+5.-------BUTTONS--------
 */
 
 .btn {
@@ -178,7 +178,7 @@ h1 {
 }
 
 /*
-4.-------Labels--------
+6.-------LABELS--------
 */
 
 .label {
@@ -197,18 +197,24 @@ h1 {
 }
 
 /*
-4.-------Labels--------
+7.-------Left navigation--------
 */
 
 .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
     color: #34495e;
     background-color: transparent;
     font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .2rem;
+    font-size: 12px;
 }
 
 a {
     color: #333;
     text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: .2rem;
+    font-size: 12px;
 }
 
 

@@ -4,7 +4,7 @@
 <admin:wrap title="Admin">
 
 	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-sm-8 col-sm-offset-2">
 			<h1>Admin</h1>
 			<c:if test="${msg != null}">
 				<div class="alert alert-success">${msg}</div>
@@ -18,29 +18,27 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-2">
+		<div class="col-sm-2">
 			<div role="tabpanel">
 
 				<!-- Nav tabs -->
 				<ul class="nav nav-pills nav-stacked" role="tablist">
 					<li role="presentation" class="active"><a href="#virksomhed"
-						aria-controls="home" role="tab" data-toggle="tab">Ny
+						aria-controls="home" role="tab" data-toggle="tab">
 							Virksomhed</a></li>
 					<li role="presentation"><a href="#bruger"
-						aria-controls="profile" role="tab" data-toggle="tab">Tilføj ny
-							bruger</a></li>
+						aria-controls="profile" role="tab" data-toggle="tab">
+							Bruger</a></li>
 					<li role="presentation"><a href="#station"
-						aria-controls="messages" role="tab" data-toggle="tab">Tilføj
-							ny station</a></li>
+						aria-controls="messages" role="tab" data-toggle="tab">Station</a></li>
 					<li role="presentation"><a href="#lager"
-						aria-controls="settings" role="tab" data-toggle="tab">Tilføj
-							nyt lager</a></li>
+						aria-controls="settings" role="tab" data-toggle="tab">Lager</a></li>
 				</ul>
 				<hr>
 			</div>
 		</div>
 
-		<div class="col-md-8">
+		<div class="col-sm-8">
 			<!-- Tab panes -->
 			<div class="tab-content">
 				<div role="tabpanel" class="tab-pane active" id="virksomhed">
@@ -48,10 +46,9 @@
 
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Ny virksomhed</h3>
+							<h3 class="panel-title">Opret virksomhed</h3>
 						</div>
 						<div class="panel-body">
-
 
 							<p class="lead">Tilføj Virksomhed</p>
 							<div class="row">
@@ -69,16 +66,18 @@
 										</div>
 									</form>
 								</div>
+								
 							</div>
+							<div class="row"><hr></div>
 
 
 							<p class="lead">Virksomheder</p>
 							<div class="row">
 								<div class="col-sm-8 col-sm-offset-2">
-									<table class="table table-borded">
+									<table class="table table-striped table-condensed">
 										<thead>
 											<tr>
-												<th>Virksomheder</th>
+												<th>Virksomhed</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -102,11 +101,13 @@
 
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Tilføj ny bruger til virksomhed</h3>
+							<h3 class="panel-title">Opret bruger</h3>
 						</div>
 						<div class="panel-body">
 							<form method="POST" action="admin">
-
+							<p class="lead">Tilføj ny bruger</p>
+								<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
 								<div class="form-group">
 									<select class="form-control" name="userCompany">
 										<c:forEach var="company" items="${companies}">
@@ -131,8 +132,17 @@
 										name="password">
 								</div>
 
-								<button type="submit" class="btn btn-primary btn-lg">Opret
+								<button type="submit" class="btn btn-primary btn-lg btn-block">Opret
 									Ny Bruger</button>
+									</div>
+									</div>
+									<div class="row"><hr></div>
+									<p class="lead">Brugere</p>
+									<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
+								Under construction 
+								</div>
+									</div>
 							</form>
 
 						</div>
@@ -147,9 +157,12 @@
 				<div role="tabpanel" class="tab-pane" id="station">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Tilføj station til virksomhed</h3>
+							<h3 class="panel-title">Opret station</h3>
 						</div>
 						<div class="panel-body">
+						<p class="lead">Tilføj Station</p>
+						<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
 							<form method="POST" action="admin">
 								<div class="form-group">
 									<select class="form-control" name="stationCompany">
@@ -171,9 +184,19 @@
 										name="newStationName">
 								</div>
 
-								<button type="submit" class="btn btn-primary btn-lg">Opret
+								<button type="submit" class="btn btn-primary btn-lg btn-block">Opret
 									Ny Station</button>
+								
 							</form>
+							</div>
+							</div>
+								<div class="row"><hr></div>
+									<p class="lead">Stationer</p>
+									<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
+								Under construction 
+								</div>
+									</div>
 						</div>
 					</div>
 				</div>
@@ -181,9 +204,12 @@
 				<div role="tabpanel" class="tab-pane" id="lager">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Tilføj lager til virksomhed</h3>
+							<h3 class="panel-title">Opret lager</h3>
 						</div>
 						<div class="panel-body">
+						<p class="lead">Tilføj Lager</p>
+						<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
 
 
 							<form method="POST" action="admin">
@@ -200,9 +226,19 @@
 										name="newStorageName">
 								</div>
 
-								<button type="submit" class="btn btn-primary btn-lg">Opret
+								<button type="submit" class="btn btn-primary btn-lg btn-block">Opret
 									Nyt Lager</button>
+									
 							</form>
+							</div>
+							</div>
+							<div class="row"><hr></div>
+									<p class="lead">Lagre</p>
+									<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
+								Under construction 
+								</div>
+									</div>
 						</div>
 					</div>
 				</div>
