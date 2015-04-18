@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS inventory (
 	created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	storage_id int(11) NOT NULL,
-	price double(11) NOT NULL UNSIGNED DEFAULT 0,
+	price double NOT NULL DEFAULT 0.0,
 	PRIMARY KEY (id),
 	FOREIGN KEY (storage_id) REFERENCES storages(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS inventory_log(
 	id int(11) NOT NULL AUTO_INCREMENT,
 	name varchar(500) NOT NULL,
 	units int(11) NOT NULL,
-	price double(11) NOT NULL UNSIGNED,
+	price double NOT NULL,
 	created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	storage_id int(11) NOT NULL,
 	station_id int(11) NOT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS archive_log(
 	name varchar(500) NOT NULL,
 	storage_id int(11) NOT NULL,
 	opened_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	closed_at timestamp DEFAULT NULL,	
+	closed_at timestamp,	
 	PRIMARY KEY (id),
 	FOREIGN KEY (storage_id) REFERENCES storages(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
