@@ -25,11 +25,11 @@
 									<c:choose>
 										<c:when test="${storage.isOpen()}">
 											<span class="label label-success label-xs pull-right"> Åbent
-												${storage.openedAt.time}</span>
+												${storage.openedAtHtml}</span>
 										</c:when>
 										<c:otherwise>
 											<span class="label label-danger pull-right">Lukket
-												${storage.openedAt.time}</span>
+												${storage.openedAtHtml}</span>
 										</c:otherwise>
 									</c:choose>
 								</h3>

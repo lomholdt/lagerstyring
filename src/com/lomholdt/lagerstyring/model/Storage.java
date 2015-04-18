@@ -1,6 +1,7 @@
 package com.lomholdt.lagerstyring.model;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -48,14 +49,17 @@ public class Storage {
 		return openedAt;
 	}
 	public String getOpenedAtHtml(){
-		String year = Integer.toString(openedAt.get(Calendar.YEAR));
+		String time = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(getOpenedAt().getTimeInMillis());
+		return time;
 		
-		int monthCustom = openedAt.get(Calendar.MONTH)+1;
-		String month = monthCustom < 10 ? "0" + Integer.toString(monthCustom) : Integer.toString(monthCustom); 
-		
-		int dayCustom = openedAt.get(Calendar.DAY_OF_MONTH);
-		String day = dayCustom < 10 ? "0" + Integer.toString(dayCustom) : Integer.toString(dayCustom); 
-		return String.format("%s-%s-%s", year, month, day);
+//		String year = Integer.toString(openedAt.get(Calendar.YEAR));
+//		
+//		int monthCustom = openedAt.get(Calendar.MONTH)+1;
+//		String month = monthCustom < 10 ? "0" + Integer.toString(monthCustom) : Integer.toString(monthCustom); 
+//		
+//		int dayCustom = openedAt.get(Calendar.DAY_OF_MONTH);
+//		String day = dayCustom < 10 ? "0" + Integer.toString(dayCustom) : Integer.toString(dayCustom); 
+//		return String.format("%s-%s-%s", year, month, day);
 	}
 	
 	public void setOpenedAt(Timestamp updatedAt) {
