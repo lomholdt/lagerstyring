@@ -9,15 +9,16 @@ import java.util.ArrayList;
 
 public class InventoryStatements extends DBMain {
 	
-	public boolean addInventory(String name, int units, int storageId) throws Exception{
+	public boolean addInventory(String name, int units, int storageId, double price) throws Exception{
 		Connection connection = ds.getConnection();
 		try {
-			PreparedStatement statement = connection.prepareStatement("INSERT INTO inventory (name, units, storage_id) VALUES (?, ?, ?)");
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO inventory (name, units, storage_id, price) VALUES (?, ?, ?, ?)");
 			try {
 				// Do stuff with the statement
 				statement.setString(1, name);
 				statement.setInt(2, units);
 				statement.setInt(3, storageId);
+				statement.setDouble(4, price);
 				statement.executeUpdate();
 				return true;
 			} finally {
@@ -36,6 +37,34 @@ public class InventoryStatements extends DBMain {
             {e.printStackTrace();}
         }
 		return false;
+	}
+	
+	public double getInventoryPrice(int inventoryId) throws SQLException{
+		Connection connection = ds.getConnection();
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT inventory.price FROM inventory WHERE inventory.id = ?");
+			try {
+				statement.setInt(1, inventoryId);
+				rs = statement.executeQuery();
+				if (rs.next()){
+					return rs.getDouble("price");						
+					}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		return 0.0;
 	}
 	
 	public ArrayList<LogBook> getLogBooks(int storageId, Timestamp from, Timestamp to) throws Exception{
@@ -135,7 +164,7 @@ public class InventoryStatements extends DBMain {
 		Connection connection = ds.getConnection();;
 		try {
 			PreparedStatement statement = connection.prepareStatement(""
-					+ "SELECT inventory_log.created_at, inventory_log.name, inventory_log.units, inventory_log.performed_action "
+					+ "SELECT inventory_log.created_at, inventory_log.name, inventory_log.units, inventory_log.price, inventory_log.performed_action "
 					+ "FROM inventory_log "
 					+ "WHERE inventory_log.created_at >= ? "
 					+ "AND inventory_log.created_at <= ? "
@@ -145,7 +174,6 @@ public class InventoryStatements extends DBMain {
 			statement.setInt(3, stationId);
 			statement.setString(4, inventoryName);
 			statement.setInt(5, storageId);
-			// TODO add the rest of the parameters
 			
 			try {
 				rs = statement.executeQuery();
@@ -155,6 +183,7 @@ public class InventoryStatements extends DBMain {
 					li.setName(rs.getString("name"));
 					li.setUnits(rs.getInt("units"));
 					li.setPerformedAction(rs.getString("performed_action"));
+					li.setPrice(rs.getDouble("price"));
 					
 					ls.addToLoggedInventory(li);
 				}
@@ -177,7 +206,6 @@ public class InventoryStatements extends DBMain {
             {e.printStackTrace();}
         }
 		return ls;
-		
 	}
 	
 	public LoggedStation getLoggedItems(Timestamp from, Timestamp to, int stationId, int storageId) throws Exception{
@@ -186,7 +214,7 @@ public class InventoryStatements extends DBMain {
 		Connection connection = ds.getConnection();;
 		try {
 			PreparedStatement statement = connection.prepareStatement(""
-					+ "SELECT inventory_log.created_at, inventory_log.name, inventory_log.units, inventory_log.performed_action "
+					+ "SELECT inventory_log.created_at, inventory_log.name, inventory_log.units, inventory_log.price, inventory_log.performed_action "
 					+ "FROM inventory_log "
 					+ "WHERE inventory_log.created_at >= ? "
 					+ "AND inventory_log.created_at <= ? "
@@ -204,6 +232,7 @@ public class InventoryStatements extends DBMain {
 					li.setName(rs.getString("name"));
 					li.setUnits(rs.getInt("units"));
 					li.setPerformedAction(rs.getString("performed_action"));
+					li.setPrice(rs.getDouble("price"));
 					
 					ls.addToLoggedInventory(li);
 				}
@@ -225,9 +254,156 @@ public class InventoryStatements extends DBMain {
             try { if(null!=connection)connection.close();} catch (SQLException e) 
             {e.printStackTrace();}
         }
-		return ls;
-		
+		return ls;	
 	}
+	
+	public LoggedSummedStation getLoggedStation(Timestamp from, Timestamp to, int stationId, int storageId) throws Exception{
+		
+		LoggedSummedStation ls = new LoggedSummedStation();
+		ls.setStation(getStation(stationId));
+		Connection connection = ds.getConnection();;
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT inventory_log.name, ABS(SUM(inventory_log.units)) AS total_out_units, inventory_log.price AS unit_price, ABS(SUM(inventory_log.price * inventory_log.units)) AS total_out_value "
+					+ "FROM inventory_log "
+					+ "WHERE inventory_log.created_at >= ?"
+					+ "AND inventory_log.created_at <= ?"
+					+ "AND inventory_log.storage_id = ? "
+					+ "AND inventory_log.station_id = ? GROUP BY name;");
+			statement.setTimestamp(1, from);
+			statement.setTimestamp(2, to);
+			statement.setInt(3, storageId);
+			statement.setInt(4, stationId);
+			
+			try {
+				rs = statement.executeQuery();
+				while (rs.next()){
+					System.out.println("Logged inventory: " + rs.getString("name"));
+					LoggedSummedInventory li = new LoggedSummedInventory();
+					li.setName(rs.getString("name"));
+					li.setTotalUnits(rs.getInt("total_out_units"));
+					li.setUnitPrice(rs.getDouble("unit_price"));
+					li.setTotalValue(rs.getDouble("total_out_value"));
+//					ArrayList<Integer> al = getListOfMoves(from, to, stationId, storageId, rs.getString("name"));
+//					li.setMoves(al);
+					
+					ls.addToLoggedInventory(li);
+					System.out.println(ls.getLoggedInventory().size());
+				}
+			}
+			catch(Exception e){
+				System.out.println("Error getting LoggedSumStation.");
+				e.printStackTrace();
+			}
+		}
+		catch(Exception e){
+			System.out.println("Could not get LoggedSumStation.");
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		return ls;
+	}
+	
+	public LoggedSummedStation getLoggedStation(Timestamp from, Timestamp to, int stationId, int storageId, String inventoryName) throws Exception{
+		
+		LoggedSummedStation ls = new LoggedSummedStation();
+		ls.setStation(getStation(stationId));
+		Connection connection = ds.getConnection();;
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT inventory_log.name, ABS(SUM(inventory_log.units)) AS total_out_units, inventory_log.price AS unit_price, ABS(SUM(inventory_log.price * inventory_log.units)) AS total_out_value "
+					+ "FROM inventory_log "
+					+ "WHERE inventory_log.crated_at >= ?"
+					+ "AND inventory_log.created_at <= ?"
+					+ "AND inventory_log.storage_id = ? "
+					+ "AND inventory_log.station_id = ? "
+					+ "AND inventory_log.name = ? GROUP BY name;");
+			statement.setTimestamp(1, from);
+			statement.setTimestamp(2, to);
+			statement.setInt(3, storageId);
+			statement.setInt(4, stationId);
+			statement.setString(5, inventoryName);
+			
+			try {
+				rs = statement.executeQuery();
+				while (rs.next()){
+					LoggedSummedInventory li = new LoggedSummedInventory();
+					li.setName(rs.getString("name"));
+					li.setTotalUnits(rs.getInt("total_out_units"));
+					li.setUnitPrice(rs.getDouble("unit_price"));
+					li.setTotalValue(rs.getDouble("total_out_value"));
+					li.setMoves(getListOfMoves(from, to, stationId, storageId, rs.getString("name")));
+					
+					ls.addToLoggedInventory(li);
+				}
+			}
+			catch(Exception e){
+				System.out.println("Error getting LoggedSumStation.");
+				e.printStackTrace();
+			}
+		}
+		catch(Exception e){
+			System.out.println("Could not get LoggedSumStation.");
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		return ls;
+	}
+	
+	public ArrayList<Integer> getListOfMoves(Timestamp from, Timestamp to, int stationId, int storageId, String inventoryName) throws Exception{
+		ArrayList<Integer> al = new ArrayList<>();
+		Connection connection = ds.getConnection();;
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT inventory_log.units FROM inventory_log "
+					+ "WHERE inventory_log.created_at >= ?"
+					+ "AND inventory_log.created_at <= ?"
+					+ "AND inventory_log.storage_id = ? "
+					+ "AND inventory_log.station_id = ? AND inventory_log.name = ?");
+			statement.setTimestamp(1, from);
+			statement.setTimestamp(2, to);
+			statement.setInt(3, storageId);
+			statement.setInt(4, stationId);
+			statement.setString(5, inventoryName);
+			
+			try {
+				rs = statement.executeQuery();
+				while (rs.next()){
+					al.add(rs.getInt("units"));
+				}
+			}
+			catch(Exception e){
+				System.out.println("Error getting list of moves.");
+				e.printStackTrace();
+			}
+		}
+		catch(Exception e){
+			System.out.println("Could not get list of moves.");
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		return al;
+	}
+	
+	
 	
 	public boolean addToStorageLog(String name, int storageId, String performed_action) throws Exception{
 		Connection connection = ds.getConnection();;
@@ -251,7 +427,6 @@ public class InventoryStatements extends DBMain {
             {e.printStackTrace();}
         }
 		return false;
-		
 	}
 	
 	public String getStorageName(int storageId) throws Exception{
@@ -316,15 +491,16 @@ public class InventoryStatements extends DBMain {
 	
 	
 
-	public boolean addToInventoryLog(String name, int units, int storageId, int stationId, String performed_action) throws Exception{
+	public boolean addToInventoryLog(String name, int units, int storageId, int stationId, String performed_action, double price) throws Exception{
 		Connection connection = ds.getConnection();;
 		try {
-			PreparedStatement statement = connection.prepareStatement("INSERT INTO inventory_log (name, units, storage_id, station_id, performed_action) VALUES (?, ?, ?, ?, ?)");
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO inventory_log (name, units, storage_id, station_id, performed_action, price) VALUES (?, ?, ?, ?, ?, ?)");
 			statement.setString(1, name);
 			statement.setInt(2, units);
 			statement.setInt(3, storageId);
 			statement.setInt(4, stationId);
 			statement.setString(5, performed_action);
+			statement.setDouble(6, price);
 			statement.executeUpdate();
 			return true;
 		}

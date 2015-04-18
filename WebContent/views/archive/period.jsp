@@ -89,23 +89,28 @@
 
 									<div class="row">
 										<div class="col-sm-10 col-sm-offset-1">
-											<table class="table table-striped table-condensed" data-sortable>
+											<table class="table table-striped" data-sortable>
 												<thead>
 													<tr>
-														<th>Tidspunkt</th>
-														<th>Varenavn</th>
-														<th>Antal</th>
-														<th>Handling</th>
+														<th>Vare</th>
+														<th>Afgang</th>
+														<th>Salg</th>
+														<th>Pris</th>
+														<th>total kr.</th>
 													</tr>
 												</thead>
 												<tbody>
-													<c:forEach var="loggedInventory"
-														items="${loggedStation.loggedInventory}">
+													<c:forEach var="loggedInventory" items="${loggedStation.loggedInventory}">
 														<tr>
-															<td>${loggedInventory.createdAt.time}</td>
 															<td>${loggedInventory.name}</td>
-															<td>${loggedInventory.units}</td>
-															<td>${loggedInventory.performedAction}</td>
+															<td>
+																<c:forEach var="move" items="${loggedInventory.moves}">
+																	${move},
+																</c:forEach>
+															</td>
+															<td>${loggedInventory.totalUnits}</td>
+															<td>${loggedInventory.unitPrice}</td>
+															<td>${loggedInventory.totalValue}</td>
 														</tr>
 													</c:forEach>
 												</tbody>

@@ -10,6 +10,7 @@ public class LoggedInventory {
 	private String name;
 	private int units;
 	private String performedAction;
+	private double price;
 	
 	public Calendar getCreatedAt() {
 		return createdAt;
@@ -35,6 +36,12 @@ public class LoggedInventory {
 	}
 	public void setPerformedAction(String performedAction) {
 		this.performedAction = performedAction;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
 	}
 	
 	

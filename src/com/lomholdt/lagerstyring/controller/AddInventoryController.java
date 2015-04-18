@@ -3,6 +3,8 @@ package com.lomholdt.lagerstyring.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -93,9 +95,14 @@ public class AddInventoryController extends HttpServlet {
 		String storage = request.getParameter("storage");
 		String name = request.getParameter("name");
 		String units = request.getParameter("units");
+		String price = request.getParameter("price");
 		
-		if(storage == null || name == null || units == null
-				|| storage.isEmpty() || name.isEmpty() || units.isEmpty()){
+		Pattern p = Pattern.compile("(\\d)+([,\\.])?(\\d)+");
+		Matcher m = p.matcher(price);
+		
+		
+		if(storage == null || name == null || units == null || price == null
+				|| storage.isEmpty() || name.isEmpty() || units.isEmpty() || price.isEmpty() || !m.matches()){
 			request.setAttribute("error", "An error occured, did you fill out all the field?");
 			doGet(request, response);
 			return;
@@ -115,7 +122,7 @@ public class AddInventoryController extends HttpServlet {
 				doGet(request, response);
 				return;
 			}
-			is.addInventory(name, Integer.parseInt(units), storageId);
+			is.addInventory(name, Integer.parseInt(units), storageId, Double.parseDouble(price));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

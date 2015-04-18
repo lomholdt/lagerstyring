@@ -41,6 +41,10 @@
 										name="units" value="0">
 								</div>
 								<div class="form-group">
+									<input type="text" class="form-control" placeholder="Pris"
+										name="price">
+								</div>
+								<div class="form-group">
 									<button type="submit" class="btn btn-primary btn-lg">Tilføj vare</button>
 								</div>
 							</form>

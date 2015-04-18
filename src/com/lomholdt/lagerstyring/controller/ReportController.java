@@ -19,6 +19,8 @@ import com.lomholdt.lagerstyring.model.FlashMessage;
 import com.lomholdt.lagerstyring.model.InventoryStatements;
 import com.lomholdt.lagerstyring.model.LoggedStation;
 import com.lomholdt.lagerstyring.model.LoggedStorage;
+import com.lomholdt.lagerstyring.model.LoggedSummedStation;
+import com.lomholdt.lagerstyring.model.LoggedSummedStorage;
 import com.lomholdt.lagerstyring.model.Station;
 import com.lomholdt.lagerstyring.model.Storage;
 import com.lomholdt.lagerstyring.model.User;
@@ -65,7 +67,7 @@ public class ReportController extends HttpServlet {
 		
 		String storageId = request.getParameter("storageId");
 		InventoryStatements is = new InventoryStatements();
-		ArrayList<LoggedStorage> al = new ArrayList<LoggedStorage>();
+		ArrayList<LoggedSummedStorage> al = new ArrayList<LoggedSummedStorage>();
 		
 		if(storageId == null || storageId.isEmpty()){
 			FlashMessage.setFlashMessage(request, "error", "No storage selected");
@@ -78,9 +80,9 @@ public class ReportController extends HttpServlet {
 			try {
 				ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
 				for (Storage storage : storages) {
-					ArrayList<LoggedStation> ls = getLogResults(request, response, user, Integer.toString(storage.getId()));
+					ArrayList<LoggedSummedStation> ls = getLogResults(request, response, user, Integer.toString(storage.getId()));
 					if (ls.size() > 0){
-						LoggedStorage lStorage = new LoggedStorage();
+						LoggedSummedStorage lStorage = new LoggedSummedStorage();
 						lStorage.setStorage(storage);
 						lStorage.setLoggedStation(ls);
 						al.add(lStorage);
@@ -91,10 +93,10 @@ public class ReportController extends HttpServlet {
 			}
 		}
 		else{
-			ArrayList<LoggedStation> ls = getLogResults(request, response, user, storageId);
+			ArrayList<LoggedSummedStation> ls = getLogResults(request, response, user, storageId);
 			if (ls.size() > 0){
 				try {
-					LoggedStorage lStorage = new LoggedStorage();
+					LoggedSummedStorage lStorage = new LoggedSummedStorage();
 					lStorage.setStorage(is.getStorage(Integer.parseInt(storageId)));
 					lStorage.setLoggedStation(ls);
 					al.add(lStorage);					
@@ -116,8 +118,8 @@ public class ReportController extends HttpServlet {
 	}
 	
 	
-	public ArrayList<LoggedStation> getLogResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
-		ArrayList<LoggedStation> loggedStations = new ArrayList<LoggedStation>();
+	public ArrayList<LoggedSummedStation> getLogResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
+		ArrayList<LoggedSummedStation> loggedSummedStations = new ArrayList<LoggedSummedStation>();
 		String from = request.getParameter("from");
 		String to = request.getParameter("to");
 		String inventoryName = request.getParameter("inventoryName");
@@ -135,7 +137,7 @@ public class ReportController extends HttpServlet {
 		if(from == null || from.isEmpty() ||
 				to == null || to.isEmpty()){
 			System.out.println("Returning null");
-			return loggedStations;
+			return loggedSummedStations;
 		}
 				
 		InventoryStatements is = new InventoryStatements();
@@ -159,25 +161,25 @@ public class ReportController extends HttpServlet {
 			ArrayList<Station> secondaryStations = is.getStations(us.getCompanyId(user.getId()), "secondary");
 			stations.addAll(secondaryStations);
 			for (Station station : stations) {
-				LoggedStation ls;
+				LoggedSummedStation ls;
 						
 				if (!inventoryName.equals("allInventory")){
-					ls = is.getLoggedItems(fromDate, toDate, inventoryName, station.getId(), Integer.parseInt(storageId));
+					ls = is.getLoggedStation(fromDate, toDate, station.getId(), Integer.parseInt(storageId), inventoryName);
 				}
 				else{
-					ls = is.getLoggedItems(fromDate, toDate, station.getId(), Integer.parseInt(storageId));					
+					ls = is.getLoggedStation(fromDate, toDate, station.getId(), Integer.parseInt(storageId));					
 				}
 				if(!stationName.equals("allStations")){
-					if (ls.getLoggedInventory().size() != 0 && station.getName().equals(stationName)) loggedStations.add(ls);
+					if (ls.getLoggedInventory().size() != 0 && station.getName().equals(stationName)) loggedSummedStations.add(ls);
 				}
 				else{					
-					if (ls.getLoggedInventory().size() != 0) loggedStations.add(ls);					
+					if (ls.getLoggedInventory().size() != 0) loggedSummedStations.add(ls);					
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return loggedStations;
+		return loggedSummedStations;
 	}
 	
 
