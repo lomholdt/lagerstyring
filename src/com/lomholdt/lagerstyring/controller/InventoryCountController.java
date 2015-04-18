@@ -39,6 +39,7 @@ public class InventoryCountController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		FlashMessage.getFlashMessage(request, "msg");
+		FlashMessage.getFlashMessage(request, "error");
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		try {
