@@ -55,6 +55,7 @@ font-weight: bold;
 .navbar-default .navbar-brand {
     color: #34495e;
     font-weight: 700;
+    letter-spacing: .5rem;
 }
 
 .nav > li > a:hover,
@@ -94,7 +95,7 @@ font-weight: bold;
 
 body {
     font-family: "Raleway", Helvetica, Arial, sans-serif;
-    background-color: #F1F1F1; 
+    background-color: #f5f5f5; 
     color: #222;
    }
 
@@ -146,13 +147,13 @@ h1 {
 }
 
 /*
-4.-------Knapper--------
+5.-------BUTTONS--------
 */
 
 .btn {
 	
   text-transform: uppercase;
-  letter-spacing: .1rem;
+  letter-spacing: .2rem;
 }
 
 .btn-primary {
@@ -178,7 +179,7 @@ h1 {
 }
 
 /*
-4.-------Labels--------
+6.-------LABELS--------
 */
 
 .label {
@@ -188,12 +189,51 @@ h1 {
   line-height: 1.33;
 }
 
+label {
+  font-weight: 500;
+}
+
+
 .label-success {
   background-color: #5fcf80;
 }
 
 .label-danger{
 	background-color: #ec5872;
+}
+
+/*
+7.-------Left navigation--------
+*/
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+    color: #34495e;
+    background-color: transparent;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .2rem;
+    font-size: 12px;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: .2rem;
+    font-size: 12px;
+}
+
+
+/*
+8.-------INPUTS--------
+*/
+
+.input-lg {
+  height: 46px;
+  padding: 10px 16px;
+  font-size: 14px;
+  line-height: 1.3333333;
+  border-radius: 6px;
 }
 
 
