@@ -4,9 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 
 public class FlashMessage {
 	
-	public static void setFlashMessage(HttpServletRequest request, String parameter, String message){
+	public static void setFlashMessage(HttpServletRequest request, String parameter, Object message){
 		HttpSession session = request.getSession();
-		if(session.getAttribute(message) != null){
+		if(session.getAttribute(parameter) != null){
 			return;
 		}
 		session.setAttribute(parameter, message);
@@ -14,7 +14,7 @@ public class FlashMessage {
 	
 	public static void getFlashMessage(HttpServletRequest request, String parameter){
 		HttpSession session = request.getSession();
-		request.setAttribute(parameter, (String) session.getAttribute(parameter));
+		request.setAttribute(parameter, session.getAttribute(parameter));
 		request.getSession().removeAttribute(parameter);
 	}
 }

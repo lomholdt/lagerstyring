@@ -51,28 +51,14 @@ public class OpenStorageController extends HttpServlet {
 		}
 		
 		String storageId = request.getParameter("sid");
-		if(storageId != null && !storageId.isEmpty()){
+		try {
 			InventoryStatements is = new InventoryStatements();
-			try {
-				if(is.storageIsOpen(Integer.parseInt(storageId))){
-					FlashMessage.setFlashMessage(request, "error", "The storage is already open");
-					response.sendRedirect("count");
-					return;
-				}
-				Storage storage = is.getStorageWithInventory(Integer.parseInt(storageId));
-				request.setAttribute("storage", storage);
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			Storage storage = is.getStorageWithInventory(Integer.parseInt(storageId));
+			request.setAttribute("storage", storage);
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
-		else{
-			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
-			response.sendRedirect("count");
-		}
+
 		
 		RequestDispatcher view = request.getRequestDispatcher("views/storage/open.jsp");
 		view.forward(request, response);
@@ -102,6 +88,24 @@ public class OpenStorageController extends HttpServlet {
 			response.sendRedirect("count");
 			return;
 		}
+		
+		InventoryStatements is = new InventoryStatements();
+		try {
+			if(is.storageIsOpen(Integer.parseInt(sid))){
+				FlashMessage.setFlashMessage(request, "error", "The storage is already open");
+				response.sendRedirect("count");
+				return;
+			}
+			Storage storage = is.getStorageWithInventory(Integer.parseInt(sid));
+			request.setAttribute("storage", storage);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 
 		Map<String, String[]> m  = request.getParameterMap();
@@ -114,7 +118,6 @@ public class OpenStorageController extends HttpServlet {
 			}
 		}
 
-		InventoryStatements is = new InventoryStatements();
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
 			if(entry.getKey().equals("sid")) continue;
 			try {

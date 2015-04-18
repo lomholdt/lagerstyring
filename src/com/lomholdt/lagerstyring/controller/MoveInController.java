@@ -146,6 +146,7 @@ public class MoveInController extends HttpServlet {
 		
 		
 		// Update the values that are not zero
+		String inventoryOverview = "<br>";
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
 			if(entry.getKey().equals("sid") || entry.getKey().equals("stationId")) continue;
 			// TODO Need to secure that updated id's belong to the user updating!
@@ -153,8 +154,11 @@ public class MoveInController extends HttpServlet {
 				// INCREMENT THIS AMOUNT FROM DATABASE
 				try {
 					is.incrementUnits(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
-					is.addToInventoryLog(is.getInventoryName(Integer.parseInt(entry.getKey())), 
-							Integer.parseInt(entry.getValue()[0]), 
+					String inventoryName = is.getInventoryName(Integer.parseInt(entry.getKey()));
+					String amount = entry.getValue()[0];
+					inventoryOverview += String.format("%s %s <br>", amount, inventoryName);
+					is.addToInventoryLog(inventoryName, 
+							Integer.parseInt(amount), 
 							Integer.parseInt(storageId), 
 							Integer.parseInt(stationId),
 							"Tilgang",
@@ -167,7 +171,7 @@ public class MoveInController extends HttpServlet {
 		}
 
 		try {
-			String msg = "Tilgang gennemført fra " + is.getStation(Integer.parseInt(stationId)).getName() + " til " + is.getStorage(Integer.parseInt(storageId)).getName();
+			String msg = "Tilgang gennemført fra " + is.getStation(Integer.parseInt(stationId)).getName() + " til " + is.getStorage(Integer.parseInt(storageId)).getName() + inventoryOverview;
 			FlashMessage.setFlashMessage(request, "msg", msg);
 			response.sendRedirect("move");	
 		} catch (NumberFormatException e) {

@@ -49,17 +49,12 @@ public class Storage {
 		return openedAt;
 	}
 	public String getOpenedAtHtml(){
-		String time = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(getOpenedAt().getTimeInMillis());
+		String time = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(getOpenedAt().getTimeInMillis());
 		return time;
-		
-//		String year = Integer.toString(openedAt.get(Calendar.YEAR));
-//		
-//		int monthCustom = openedAt.get(Calendar.MONTH)+1;
-//		String month = monthCustom < 10 ? "0" + Integer.toString(monthCustom) : Integer.toString(monthCustom); 
-//		
-//		int dayCustom = openedAt.get(Calendar.DAY_OF_MONTH);
-//		String day = dayCustom < 10 ? "0" + Integer.toString(dayCustom) : Integer.toString(dayCustom); 
-//		return String.format("%s-%s-%s", year, month, day);
+	}
+	public String getOpenedAtDatePicker(){
+		String time = new SimpleDateFormat("yyyy-MM-dd").format(getOpenedAt().getTimeInMillis());
+		return time;
 	}
 	
 	public void setOpenedAt(Timestamp updatedAt) {

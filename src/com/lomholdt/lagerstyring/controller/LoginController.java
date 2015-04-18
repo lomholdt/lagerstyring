@@ -42,6 +42,7 @@ public class LoginController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		FlashMessage.getFlashMessage(request, "msg");
 		FlashMessage.getFlashMessage(request, "error");
 		LoginStatements ls = new LoginStatements();
 		String username = request.getParameter("username");

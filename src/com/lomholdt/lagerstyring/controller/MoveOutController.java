@@ -140,6 +140,7 @@ public class MoveOutController extends HttpServlet {
 //		}
 		
 		// Update the values that are not zero
+		String inventoryOverview = "<br>";
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
 			if(entry.getKey().equals("sid") || entry.getKey().equals("stationId")) continue;
 			// TODO Need to secure that updated id's belong to the user updating!
@@ -147,8 +148,11 @@ public class MoveOutController extends HttpServlet {
 				// DECREMENT THIS AMOUNT FROM DATABASE
 				try {
 					is.decrementUnits(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
-					is.addToInventoryLog(is.getInventoryName(Integer.parseInt(entry.getKey())), 
-							-Integer.parseInt(entry.getValue()[0]), 
+					String inventoryName = is.getInventoryName(Integer.parseInt(entry.getKey()));
+					String amount = entry.getValue()[0];
+					inventoryOverview += String.format("-%s %s <br>", amount, inventoryName);
+					is.addToInventoryLog(inventoryName, 
+							-Integer.parseInt(amount), 
 							Integer.parseInt(storageId), 
 							Integer.parseInt(stationId),
 							"Afgang", 
@@ -161,7 +165,7 @@ public class MoveOutController extends HttpServlet {
 		
 
 		try {
-			String msg = "Afgang gennemført fra " + is.getStorage(Integer.parseInt(storageId)).getName() + " til " + is.getStation(Integer.parseInt(stationId)).getName();
+			String msg = "Afgang gennemført fra " + is.getStorage(Integer.parseInt(storageId)).getName() + " til " + is.getStation(Integer.parseInt(stationId)).getName() + inventoryOverview;
 			FlashMessage.setFlashMessage(request, "msg", msg);
 			response.sendRedirect("move");	
 		} catch (NumberFormatException e) {

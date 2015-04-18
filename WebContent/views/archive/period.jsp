@@ -24,12 +24,12 @@
 									<div class="form-group">
 										<label for="from">Fra</label> <input type="date"
 											class="form-control input-sm" name="from"
-											value="${storage.openedAtHtml}">
+											value="${storage.openedAtDatePicker}">
 									</div>
 									<div class="form-group form-group-sm">
 										<label for="to">Til</label> <input type="date"
 											class="form-control input-sm" name="to"
-											value="${storage.openedAtHtml}">
+											value="${storage.openedAtDatePicker}">
 									</div>
 									<input type="hidden" value="${param.storageId}"
 										name="storageId">
