@@ -13,7 +13,7 @@
 								<div class="form-group">
 									<h4>Lager</h4>
 
-									<a class="btn btn-default btn-sm" href="choose" role="button">Skift <span
+									<a class="btn btn-default btn-sm" href="choose" role="button">${storage.name} <span
 										class="glyphicon glyphicon-remove"></span></a>
 								</div>
 							</div>
