@@ -96,6 +96,7 @@ public class AddInventoryController extends HttpServlet {
 		String name = request.getParameter("name");
 		String units = request.getParameter("units");
 		String price = request.getParameter("price");
+		price = price.replaceAll(",", ".");
 		
 		Pattern p = Pattern.compile("(\\d)+([,\\.])?(\\d)+");
 		Matcher m = p.matcher(price);

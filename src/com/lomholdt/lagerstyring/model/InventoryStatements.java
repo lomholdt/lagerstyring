@@ -461,7 +461,7 @@ public class InventoryStatements extends DBMain {
 		Connection connection = ds.getConnection();;
 		ArrayList<Inventory> al = new ArrayList<Inventory>();
 		try {
-			PreparedStatement statement = connection.prepareStatement("SELECT DISTINCT inventory.id, inventory.name FROM inventory, storages WHERE storages.company_id = ? AND storages.id = inventory.storage_id;");
+			PreparedStatement statement = connection.prepareStatement("SELECT DISTINCT inventory.id, inventory.name, inventory.price FROM inventory, storages WHERE storages.company_id = ? AND storages.id = inventory.storage_id;");
 			try {
 				statement.setInt(1, companyId);
 				rs = statement.executeQuery();
@@ -469,6 +469,7 @@ public class InventoryStatements extends DBMain {
 					Inventory i = new Inventory();
 					i.setId(rs.getInt("id"));
 					i.setName(rs.getString("name"));
+					i.setPrice(rs.getDouble("price"));
 					al.add(i);
 				}
 			} catch(Exception e) {

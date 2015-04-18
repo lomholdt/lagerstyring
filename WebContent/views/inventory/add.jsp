@@ -60,6 +60,7 @@
 										<thead>
 											<tr>
 												<th>Vare</th>
+												<th>Pris</th>
 												<th>Marker</th>
 											</tr>
 										</thead>
@@ -67,6 +68,7 @@
 											<c:forEach var="inventory" items="${allInventory}">
 												<tr>					
 													<td><label for="${inventory.name}">${inventory.name}</label></td>
+													<td>${inventory.price}</td>
 													<td><input type="checkbox" id="${inventory.name}" name="i" value="${inventory.id}"></td>
 												</tr>
 											</c:forEach>
