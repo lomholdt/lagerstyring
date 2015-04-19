@@ -288,7 +288,6 @@ public class InventoryStatements extends DBMain {
 					
 					ls.addToLoggedInventory(li);
 					System.out.println(ls.getLoggedInventory().size());
-					System.out.println("gay" + (rs.getInt("total_out_value")));
 				}
 			}
 			catch(Exception e){

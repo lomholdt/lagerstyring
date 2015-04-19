@@ -146,7 +146,7 @@ public class MoveInController extends HttpServlet {
 		
 		
 		// Update the values that are not zero
-		String inventoryOverview = "<br>";
+		String inventoryOverview = "";
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
 			if(entry.getKey().equals("sid") || entry.getKey().equals("stationId")) continue;
 			// TODO Need to secure that updated id's belong to the user updating!
@@ -171,7 +171,7 @@ public class MoveInController extends HttpServlet {
 		}
 
 		try {
-			String msg = "Tilgang gennemf√∏rt fra " + is.getStation(Integer.parseInt(stationId)).getName() + " til " + is.getStorage(Integer.parseInt(storageId)).getName() + inventoryOverview;
+			String msg = "<h5>"+"Tilgang gennemført fra " + is.getStation(Integer.parseInt(stationId)).getName() + " til " + is.getStorage(Integer.parseInt(storageId)).getName() + "</h5>" +inventoryOverview;
 			FlashMessage.setFlashMessage(request, "msg", msg);
 			response.sendRedirect("move");	
 		} catch (NumberFormatException e) {
