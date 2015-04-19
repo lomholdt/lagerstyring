@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS archive_log(
 	name varchar(500) NOT NULL,
 	storage_id int(11) NOT NULL,
 	opened_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	closed_at timestamp,	
+	closed_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,	
 	PRIMARY KEY (id),
 	FOREIGN KEY (storage_id) REFERENCES storages(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

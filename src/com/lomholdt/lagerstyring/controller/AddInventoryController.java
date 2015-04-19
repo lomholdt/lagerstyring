@@ -98,7 +98,7 @@ public class AddInventoryController extends HttpServlet {
 		String price = request.getParameter("price");
 		price = price.replaceAll(",", "."); // if input uses comma replace with compatible dot
 		
-		Pattern p = Pattern.compile("(\\d)+([,\\.])?(\\d)+");
+		Pattern p = Pattern.compile("(\\d)+([,\\.])?(\\d)*");
 		Matcher m = p.matcher(price);
 		
 		
