@@ -24,7 +24,7 @@
 					<p class="lead">Tilføj vare</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
-							<form method="POST" action="inventory">
+							<form method="POST" action="inventory#vareliste">
 								<div class="form-group">
 									<select class="form-control" name="storage">
 										<c:forEach var="storage" items="${storages}">
@@ -51,6 +51,7 @@
 						</div>
 					</div>
 				</div>
+				<a id="vareliste"></a>
 				<div class="panel-footer">
 					<p class="lead">Vareliste</p>
 					<div class="row">

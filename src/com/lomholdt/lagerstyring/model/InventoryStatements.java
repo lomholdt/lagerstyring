@@ -263,7 +263,7 @@ public class InventoryStatements extends DBMain {
 		ls.setStation(getStation(stationId));
 		Connection connection = ds.getConnection();;
 		try {
-			PreparedStatement statement = connection.prepareStatement("SELECT inventory_log.name, ABS(SUM(inventory_log.units)) AS total_out_units, inventory_log.price AS unit_price, ABS(SUM(inventory_log.price * inventory_log.units)) AS total_out_value "
+			PreparedStatement statement = connection.prepareStatement("SELECT inventory_log.name, (SUM(inventory_log.units)) AS total_out_units, inventory_log.price AS unit_price, ABS(SUM(inventory_log.price * inventory_log.units)) AS total_out_value "
 					+ "FROM inventory_log "
 					+ "WHERE inventory_log.created_at >= ?"
 					+ "AND inventory_log.created_at <= ?"
@@ -288,6 +288,7 @@ public class InventoryStatements extends DBMain {
 					
 					ls.addToLoggedInventory(li);
 					System.out.println(ls.getLoggedInventory().size());
+					System.out.println("gay" + (rs.getInt("total_out_value")));
 				}
 			}
 			catch(Exception e){
@@ -316,7 +317,7 @@ public class InventoryStatements extends DBMain {
 		ls.setStation(getStation(stationId));
 		Connection connection = ds.getConnection();;
 		try {
-			PreparedStatement statement = connection.prepareStatement("SELECT inventory_log.name, ABS(SUM(inventory_log.units)) AS total_out_units, inventory_log.price AS unit_price, ABS(SUM(inventory_log.price * inventory_log.units)) AS total_out_value "
+			PreparedStatement statement = connection.prepareStatement("SELECT inventory_log.name, (SUM(inventory_log.units)) AS total_out_units, inventory_log.price AS unit_price, ABS(SUM(inventory_log.price * inventory_log.units)) AS total_out_value "
 					+ "FROM inventory_log "
 					+ "WHERE inventory_log.crated_at >= ?"
 					+ "AND inventory_log.created_at <= ?"

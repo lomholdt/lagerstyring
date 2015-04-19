@@ -30,7 +30,7 @@ public class LoggedSummedInventory {
 		return totalUnits;
 	}
 	public void setTotalUnits(int totalUnits) {
-		this.totalUnits = totalUnits;
+		this.totalUnits = (-1) * totalUnits;
 	}
 //	public String getPerformedAction() {
 //		return performedAction;
@@ -47,8 +47,10 @@ public class LoggedSummedInventory {
 	public double getTotalValue() {
 		return totalValue;
 	}
-	public void setTotalValue(double totalValue) {
-		this.totalValue = totalValue;
+	
+	public void setTotalValue(double totalValue) {  
+		this.totalValue = this.unitPrice * this.totalUnits; // double totalValue are not used
+		
 	}
 	public ArrayList<Integer> getMoves(){
 		return moves;
