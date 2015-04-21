@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class InventoryStatements extends DBMain {
@@ -132,7 +134,7 @@ public class InventoryStatements extends DBMain {
 	}
 	
 	public void closeArchiveLog(int storageId) throws Exception{
-		Connection connection = ds.getConnection();;
+		Connection connection = ds.getConnection();
 		try {
 			PreparedStatement statement = connection.prepareStatement("UPDATE archive_log SET closed_at = NOW() WHERE archive_log.storage_id = ? ORDER BY archive_log.opened_at DESC LIMIT 1;");
 			try {
@@ -157,11 +159,68 @@ public class InventoryStatements extends DBMain {
 		
 	}
 	
+	public int getLatestArchiveLogId(int storageId) throws Exception{
+		Connection connection = ds.getConnection();
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT DISTINCT MAX(archive_log.id) AS id FROM archive_log WHERE archive_log.storage_id = ?");
+			try {
+				// Do stuff with the statement
+				statement.setInt(1, storageId);
+				rs = statement.executeQuery();
+				if(rs.next()){
+					return rs.getInt("id");
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}				
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		return 0;
+	}
+	
+	
+	
+	public void setInventoryAtClose(int storageId, int archiveLogId) throws Exception{
+		Connection connection = ds.getConnection();
+		try {
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO inventory_at_close_log (name, units, archive_log_id) SELECT inventory.name, inventory.units, (SELECT DISTINCT MAX(archive_log.id) AS id FROM archive_log WHERE archive_log.storage_id = ?) FROM inventory WHERE storage_id = ?");
+			try {
+				// Do stuff with the statement
+				statement.setInt(1, storageId);
+				statement.setInt(2, storageId);
+				statement.executeUpdate();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}				
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+	}
+	
 	public LoggedStation getLoggedItems(Timestamp from, Timestamp to, String inventoryName, int stationId, int storageId) throws Exception{
 		
 		LoggedStation ls = new LoggedStation();
 		ls.setStation(getStation(stationId));
-		Connection connection = ds.getConnection();;
+		Connection connection = ds.getConnection();
 		try {
 			PreparedStatement statement = connection.prepareStatement(""
 					+ "SELECT inventory_log.created_at, inventory_log.name, inventory_log.units, inventory_log.price, inventory_log.performed_action "
@@ -211,7 +270,7 @@ public class InventoryStatements extends DBMain {
 	public LoggedStation getLoggedItems(Timestamp from, Timestamp to, int stationId, int storageId) throws Exception{
 		LoggedStation ls = new LoggedStation();
 		ls.setStation(getStation(stationId));
-		Connection connection = ds.getConnection();;
+		Connection connection = ds.getConnection();
 		try {
 			PreparedStatement statement = connection.prepareStatement(""
 					+ "SELECT inventory_log.created_at, inventory_log.name, inventory_log.units, inventory_log.price, inventory_log.performed_action "
@@ -257,8 +316,42 @@ public class InventoryStatements extends DBMain {
 		return ls;	
 	}
 	
-	public LoggedSummedStation getLoggedStation(Timestamp from, Timestamp to, int stationId, int storageId) throws Exception{
+	public Map<String, Integer> getCloseCountAt(Timestamp to, int storageId) throws SQLException{
+		Connection connection = ds.getConnection();
+		Map<String, Integer> closeMap = new HashMap<>();
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT inventory_at_close_log.name, inventory_at_close_log.units FROM inventory_at_close_log, archive_log WHERE archive_log.id = inventory_at_close_log.archive_log_id AND archive_log.closed_at = ? AND archive_log.storage_id = ?;");
+			try {
+				// Do stuff with the statement
+				statement.setTimestamp(1, to);
+				statement.setInt(2, storageId);
+				rs = statement.executeQuery();
+				while(rs.next()){
+					closeMap.put(rs.getString("name"), rs.getInt("units"));
+				}
+				
+				return closeMap;
+			} catch(Exception e) {
+				e.printStackTrace();
+			}				
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		return closeMap;
 		
+	}
+	
+	public LoggedSummedStation getLoggedStation(Timestamp from, Timestamp to, int stationId, int storageId) throws Exception{
+		Map<String, Integer> closeMap = getCloseCountAt(to, storageId);
 		LoggedSummedStation ls = new LoggedSummedStation();
 		ls.setStation(getStation(stationId));
 		Connection connection = ds.getConnection();;
@@ -283,11 +376,59 @@ public class InventoryStatements extends DBMain {
 					li.setTotalUnits(rs.getInt("total_out_units"));
 					li.setUnitPrice(rs.getDouble("unit_price"));
 					li.setTotalValue(rs.getDouble("total_out_value"));
-//					ArrayList<Integer> al = getListOfMoves(from, to, stationId, storageId, rs.getString("name"));
-//					li.setMoves(al);
+					li.setClosedAt(closeMap.get(rs.getString("name")));
+					li.calculateStart();
 					
 					ls.addToLoggedInventory(li);
 					System.out.println(ls.getLoggedInventory().size());
+				}
+			}
+			catch(Exception e){
+				System.out.println("Error getting LoggedSumStation.");
+				e.printStackTrace();
+			}
+		}
+		catch(Exception e){
+			System.out.println("Could not get LoggedSumStation.");
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		return ls;
+	}
+	
+	public ArrayList<LoggedSummedInventory> getSummedLogResults(Timestamp from, Timestamp to, int storageId) throws Exception{
+		Map<String, Integer> closeMap = getCloseCountAt(to, storageId);
+		ArrayList<LoggedSummedInventory> ls = new ArrayList<>();
+		Connection connection = ds.getConnection();;
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT inventory_log.name, (SUM(inventory_log.units)) AS total_out_units, inventory_log.price AS unit_price, ABS(SUM(inventory_log.price * inventory_log.units)) AS total_out_value "
+					+ "FROM inventory_log "
+					+ "WHERE inventory_log.created_at >= ?"
+					+ "AND inventory_log.created_at <= ?"
+					+ "AND inventory_log.storage_id = ? GROUP BY name;");
+			statement.setTimestamp(1, from);
+			statement.setTimestamp(2, to);
+			statement.setInt(3, storageId);
+			
+			try {
+				rs = statement.executeQuery();
+				while (rs.next()){
+//					System.out.println("Logged inventory: " + rs.getString("name"));
+					LoggedSummedInventory li = new LoggedSummedInventory();
+					li.setName(rs.getString("name"));
+					li.setTotalUnits(rs.getInt("total_out_units"));
+					li.setUnitPrice(rs.getDouble("unit_price"));
+					li.setTotalValue(rs.getDouble("total_out_value"));
+					li.setClosedAt(closeMap.get(rs.getString("name")));
+					
+					ls.add(li);
 				}
 			}
 			catch(Exception e){
@@ -403,6 +544,44 @@ public class InventoryStatements extends DBMain {
 		return al;
 	}
 	
+	public ArrayList<Integer> getListOfMoves(Timestamp from, Timestamp to, int storageId, String inventoryName) throws Exception{
+		ArrayList<Integer> al = new ArrayList<>();
+		Connection connection = ds.getConnection();;
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT inventory_log.units FROM inventory_log "
+					+ "WHERE inventory_log.created_at >= ?"
+					+ "AND inventory_log.created_at <= ?"
+					+ "AND inventory_log.storage_id = ? AND inventory_log.name = ?");
+			statement.setTimestamp(1, from);
+			statement.setTimestamp(2, to);
+			statement.setInt(3, storageId);
+			statement.setString(4, inventoryName);
+			
+			try {
+				rs = statement.executeQuery();
+				while (rs.next()){
+					al.add(rs.getInt("units"));
+				}
+			}
+			catch(Exception e){
+				System.out.println("Error getting list of moves.");
+				e.printStackTrace();
+			}
+		}
+		catch(Exception e){
+			System.out.println("Could not get list of moves.");
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		return al;
+	}
 	
 	
 	public boolean addToStorageLog(String name, int storageId, String performed_action) throws Exception{

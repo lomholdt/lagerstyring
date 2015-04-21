@@ -1,9 +1,6 @@
 package com.lomholdt.lagerstyring.model;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 public class LoggedSummedInventory {
 	
@@ -12,14 +9,9 @@ public class LoggedSummedInventory {
 	private double unitPrice;
 	private double totalValue;
 	private ArrayList<Integer> moves = new ArrayList<>();
+	private int inventoryStartValue;
+	private int closedAt;
 	
-//	public Calendar getCreatedAt() {
-//		return createdAt;
-//	}
-//	public void setCreatedAt(Timestamp timestamp) {
-//		this.createdAt = Calendar.getInstance();
-//		this.createdAt.setTime(new Date(timestamp.getTime()));
-//	}
 	public String getName() {
 		return name;
 	}
@@ -32,12 +24,6 @@ public class LoggedSummedInventory {
 	public void setTotalUnits(int totalUnits) {
 		this.totalUnits = (-1) * totalUnits;
 	}
-//	public String getPerformedAction() {
-//		return performedAction;
-//	}
-//	public void setPerformedAction(String performedAction) {
-//		this.performedAction = performedAction;
-//	}
 	public double getUnitPrice() {
 		return unitPrice;
 	}
@@ -58,5 +44,28 @@ public class LoggedSummedInventory {
 	public void setMoves(ArrayList<Integer> moves){
 		this.moves = moves;	
 	}
-	
+	public int getInventoryStartValue(){
+		return inventoryStartValue;
+	}
+	public int calculateStart(){
+		System.out.println("Calculating start value...");
+		int closedAtCopy = closedAt;
+		for (Integer move : moves) {
+			if(move < 0){
+				closedAtCopy += Math.abs(move);
+			}
+			else{
+				closedAtCopy -= move;
+			}	
+		}
+		inventoryStartValue = closedAtCopy;
+		System.out.println(inventoryStartValue);
+		return inventoryStartValue;
+	}
+	public void setClosedAt(int closedAt){
+		this.closedAt = closedAt;
+	}
+	public int getClosedAt(){
+		return closedAt;
+	}
 }

@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS companies (
 	id int(11) NOT NULL AUTO_INCREMENT,
 	name varchar(1000) NOT NULL,
 	created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	is_active boolean NOT NULL DEFUALT 1,
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -110,6 +111,15 @@ CREATE TABLE IF NOT EXISTS archive_log(
 	FOREIGN KEY (storage_id) REFERENCES storages(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE IF NOT EXISTS inventory_at_close_log(
+	id int(11) NOT NULL AUTO_INCREMENT,
+	archive_log_id int(11) NOT NULL,
+	name varchar(500) NOT NULL,
+	units int(11) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (archive_log_id) REFERENCES archive_log(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 
 
@@ -121,6 +131,3 @@ INSERT INTO users (username, password, company_id) VALUES ("admin", "3c11440050c
 INSERT INTO roles (user_id, role) VALUES (LAST_INSERT_ID(), "admin");
 INSERT INTO roles (user_id, role) VALUES (LAST_INSERT_ID(), "manager");
 INSERT INTO roles (user_id, role) VALUES (LAST_INSERT_ID(), "user");
-
-
-

@@ -83,11 +83,13 @@ public class PeriodController extends HttpServlet {
 			
 			if(fromDate == null || fromDate.isEmpty() && toDate == null || toDate.isEmpty()){
 				// default the dates
+				// FROM
 				Calendar cal = Calendar.getInstance();
 				cal.add(Calendar.MONTH, -1);
 				Date f = new Date(cal.getTimeInMillis());
 				fromDate = f.toString();
 				
+				// TO
 				Date t = new Date(System.currentTimeMillis());
 				toDate = t.toString();
 			}
@@ -98,7 +100,9 @@ public class PeriodController extends HttpServlet {
 
 			
 			ArrayList<LogBook> al = is.getLogBooks(Integer.parseInt(storageId), from, to);
-			request.setAttribute("logBooks", al);			
+			request.setAttribute("logBooks", al);
+			request.setAttribute("fromTime", fromDate);
+			request.setAttribute("toTime", toDate);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -136,12 +140,12 @@ public class PeriodController extends HttpServlet {
 		}
 		
 		
-		if(storageId.equals("allStorages")){
+		if(storageId.equals("allStorages")){ // THIS IS NOT USED ANYMORE.. ONLY THE ELSE
 			// get all storages
 			try {
 				ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
 				for (Storage storage : storages) {
-					ArrayList<LoggedSummedStation> ls = getLogResults(request, response, user, Integer.toString(storage.getId()));
+					ArrayList<LoggedSummedStation> ls = getStationLogResults(request, response, user, Integer.toString(storage.getId()));
 					if (ls.size() > 0){
 						LoggedSummedStorage lStorage = new LoggedSummedStorage();
 						lStorage.setStorage(storage);
@@ -154,25 +158,22 @@ public class PeriodController extends HttpServlet {
 			}
 		}
 		else{
-			ArrayList<LoggedSummedStation> ls = getLogResults(request, response, user, storageId);
-			if (ls.size() > 0){
-				try {
-					LoggedSummedStorage lStorage = new LoggedSummedStorage();
-					lStorage.setStorage(is.getStorage(Integer.parseInt(storageId)));
-					lStorage.setLoggedStation(ls);
-					al.add(lStorage);					
+			ArrayList<LoggedSummedStation> ls = getStationLogResults(request, response, user, storageId);
+			ArrayList<LoggedSummedInventory> li = getSummedLogResults(request, response, user, storageId);
+			try {
+				LoggedSummedStorage lStorage = new LoggedSummedStorage();
+				lStorage.setStorage(is.getStorage(Integer.parseInt(storageId)));
+				lStorage.setLoggedStation(ls);
+				al.add(lStorage);		
+				request.setAttribute("loggedInventory", li);
+				
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-			}
 		}
-		
-	
-			
-			
 		System.out.println("Size: " + al.size() );
 	
-		request.setAttribute("logResults", al);
+		request.setAttribute("loggedStations", al);
 		doGet(request, response);
 //		RequestDispatcher view = request.getRequestDispatcher("views/archive/period.jsp");
 //		view.forward(request, response);
@@ -203,14 +204,21 @@ public class PeriodController extends HttpServlet {
 	
 	private void addMovesToInventory(LoggedSummedStation lss, Timestamp from, Timestamp to, int stationId, int storageId) throws Exception{
 		ArrayList<LoggedSummedInventory> lsi = lss.getLoggedInventory();
+		InventoryStatements is = new InventoryStatements();
 		for (LoggedSummedInventory inventory : lsi) {
-			InventoryStatements is = new InventoryStatements();
 			inventory.setMoves(is.getListOfMoves(from, to, stationId, storageId, inventory.getName()));
 		}
 	}
 	
+	private void addMovesToInventory(ArrayList<LoggedSummedInventory> lsi, Timestamp from, Timestamp to, int storageId) throws Exception{
+		InventoryStatements is = new InventoryStatements();
+		for (LoggedSummedInventory inventory : lsi) {
+			inventory.setMoves(is.getListOfMoves(from, to, storageId, inventory.getName()));
+		}
+	}
 	
-	public ArrayList<LoggedSummedStation> getLogResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
+	
+	public ArrayList<LoggedSummedStation> getStationLogResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
 		ArrayList<LoggedSummedStation> loggedStations = new ArrayList<>();
 		String from = request.getParameter("from");
 		String to = request.getParameter("to");
@@ -221,11 +229,8 @@ public class PeriodController extends HttpServlet {
 		String periods = request.getParameter("periods");
 		String[] periodsArr = periods.split("&");
 		from = periodsArr[0];
-		to = periodsArr[1];
-		
-				
+		to = periodsArr[1];		
 		// TEST
-		
 		if(from == null || from.isEmpty() ||
 				to == null || to.isEmpty()){
 			System.out.println("Returning null");
@@ -276,5 +281,37 @@ public class PeriodController extends HttpServlet {
 		return loggedStations;
 	}
 	
-	
+	public ArrayList<LoggedSummedInventory> getSummedLogResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId){
+		ArrayList<LoggedSummedInventory> loggedSummedInventory = new ArrayList<>();
+		String from = request.getParameter("from");
+		String to = request.getParameter("to");
+		String periods = request.getParameter("periods");
+		String[] periodsArr = periods.split("&");
+		from = periodsArr[0];
+		to = periodsArr[1];
+		if(from == null || from.isEmpty() ||
+				to == null || to.isEmpty()){
+			System.out.println("Returning null");
+			return loggedSummedInventory;
+		}
+		InventoryStatements is = new InventoryStatements();
+		UserStatements us = new UserStatements();
+		Timestamp fromDate = Timestamp.valueOf(from);
+		Timestamp toDate = Timestamp.valueOf(to);
+		
+		try {
+			
+			loggedSummedInventory = is.getSummedLogResults(fromDate, toDate, Integer.parseInt(storageId));
+			addMovesToInventory(loggedSummedInventory, fromDate, toDate, Integer.parseInt(storageId));
+			
+			
+			
+			
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return loggedSummedInventory;
+	}
 }

@@ -24,12 +24,12 @@
 									<div class="form-group">
 										<label for="from">Fra</label> <input type="date"
 											class="form-control input-sm" name="from"
-											value="${storage.openedAtDatePicker}">
+											value="${fromTime}">
 									</div>
 									<div class="form-group form-group-sm">
 										<label for="to">Til</label> <input type="date"
 											class="form-control input-sm" name="to"
-											value="${storage.openedAtDatePicker}">
+											value="${toTime}">
 									</div>
 									<input type="hidden" value="${param.storageId}"
 										name="storageId">
@@ -65,10 +65,41 @@
 	</div>
 
 
-
-	<c:if test="${logResults.size() gt 0}">
+	<!-- RAPPORT -->
+	<c:if test="${loggedStations.size() gt 0}">
 		<div id="rapport">
-			<c:forEach var="loggedStorage" items="${logResults}">
+			<!-- OVERSIGT START -->
+			<table class="table table-striped" data-sortable>
+				<thead>
+					<tr>
+						<th>Vare</th>
+						<th>Start</th>
+						<th>Afgang</th>
+						<th>Slut</th>
+						<th>Salg</th>
+						<th>Pris</th>
+						<th>Kr.</th>
+					</tr>
+				</thead>
+				<c:forEach var="loggedInventory" items="${loggedInventory}">
+					<tr>
+						<td>${loggedInventory.name}</td>
+						<td>${loggedInventory.calculateStart()}</td>
+						
+						<td>
+						<c:forEach var="move" items="${loggedInventory.moves}">
+							${move},
+						</c:forEach>
+						</td>
+						<td>${loggedInventory.closedAt}</td>
+						<td>${loggedInventory.totalUnits}</td>
+						<td>${loggedInventory.unitPrice}</td>
+						<td>${loggedInventory.totalValue}</td>
+					</tr>
+				</c:forEach>
+			</table>
+			<!-- OVERSIGT SLUT -->
+			<c:forEach var="loggedStorage" items="${loggedStations}">
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="panel panel-default">

@@ -86,7 +86,7 @@ public class CloseStorageController extends HttpServlet {
 		
 		String search = request.getParameter("search");
 		if (search != null && !search.isEmpty()){
-			ArrayList<LoggedStation> ls = getLogResults(request, response, user, storageId);
+			ArrayList<LoggedStation> ls = getStationLogResults(request, response, user, storageId);
 			request.setAttribute("logResults", ls);
 		}
 				
@@ -140,8 +140,6 @@ public class CloseStorageController extends HttpServlet {
 			}
 		}
 
-		
-		//is.getStorage(Integer.parseInt(sid));
 		try {
 			InventoryStatements is = new InventoryStatements();
 			// Update all the values
@@ -153,6 +151,8 @@ public class CloseStorageController extends HttpServlet {
 			is.changeStorageStatus(Integer.parseInt(sid));
 			is.addToStorageLog(is.getStorageName(Integer.parseInt(sid)), Integer.parseInt(sid), "Luk");
 			is.closeArchiveLog(Integer.parseInt(sid));
+			int archiveLogId = is.getLatestArchiveLogId(Integer.parseInt(sid));
+			is.setInventoryAtClose(Integer.parseInt(sid), archiveLogId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -164,7 +164,7 @@ public class CloseStorageController extends HttpServlet {
 	
 	
 	
-	public ArrayList<LoggedStation> getLogResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
+	public ArrayList<LoggedStation> getStationLogResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
 		ArrayList<LoggedStation> loggedStations = new ArrayList<LoggedStation>();
 		String inventoryName = request.getParameter("inventoryName");
 		String stationName = request.getParameter("stationName");
