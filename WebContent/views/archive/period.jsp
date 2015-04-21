@@ -96,7 +96,11 @@
 						<td>${loggedInventory.unitPrice}</td>
 						<td>${loggedInventory.totalValue}</td>
 					</tr>
+					<c:set var="inventoryTotal" value="${inventoryTotal+loggedInventory.totalValue}"/>
 				</c:forEach>
+				<div>
+					TOTAL: <c:out value="${inventoryTotal}"/>
+				</div>
 			</table>
 			<!-- OVERSIGT SLUT -->
 			<c:forEach var="loggedStorage" items="${loggedStations}">
@@ -112,6 +116,7 @@
 							<div class="panel-body">
 								<c:forEach var="loggedStation"
 									items="${loggedStorage.loggedStations}">
+									<c:set var="stationTotal" value="0"/>
 									<div class="row">
 										<div class="col-sm-10 col-sm-offset-1">
 											<h4>${loggedStation.station.name}</h4>
@@ -143,9 +148,13 @@
 															<td>${loggedInventory.unitPrice}</td>
 															<td>${loggedInventory.totalValue}</td>
 														</tr>
+													<c:set var="stationTotal" value="${stationTotal+loggedInventory.totalValue}"/>
 													</c:forEach>
 												</tbody>
 											</table>
+											<div>
+												TOTAL: <c:out value="${stationTotal}"/>
+											</div>
 										</div>
 									</div>
 									<div class="row">

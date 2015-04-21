@@ -48,7 +48,6 @@ public class LoggedSummedInventory {
 		return inventoryStartValue;
 	}
 	public int calculateStart(){
-		System.out.println("Calculating start value...");
 		int closedAtCopy = closedAt;
 		for (Integer move : moves) {
 			if(move < 0){
@@ -59,7 +58,6 @@ public class LoggedSummedInventory {
 			}	
 		}
 		inventoryStartValue = closedAtCopy;
-		System.out.println(inventoryStartValue);
 		return inventoryStartValue;
 	}
 	public void setClosedAt(int closedAt){
