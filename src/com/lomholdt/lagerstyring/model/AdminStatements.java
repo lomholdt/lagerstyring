@@ -10,8 +10,9 @@ public class AdminStatements extends DBMain {
 	public boolean addNewCompany(String companyName){
 		try {
 			Connection conn = ds.getConnection();
-			PreparedStatement statement = conn.prepareStatement("INSERT INTO companies (name) VALUES (?)");
+			PreparedStatement statement = conn.prepareStatement("INSERT INTO companies (name, is_active) VALUES (?, ?)");
 			statement.setString(1, companyName);
+			statement.setBoolean(2, true);
 			statement.executeUpdate();
 			
 			return true;

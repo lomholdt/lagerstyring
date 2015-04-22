@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
@@ -186,8 +187,10 @@ public class CloseStorageController extends HttpServlet {
 			Timestamp fromDate = new Timestamp(s.getOpenedAt().getTimeInMillis());
 			Timestamp toDate = new Timestamp(Calendar.getInstance().getTimeInMillis());
 			
-			request.setAttribute("fromTimestamp", fromDate);
-			request.setAttribute("toTimestamp", toDate);
+			
+			
+			request.setAttribute("fromTimestamp", new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(fromDate));
+			request.setAttribute("toTimestamp", new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(toDate));
 
 			ArrayList<Station> stations = is.getStations(us.getCompanyId(user.getId()), "primary");
 			ArrayList<Station> secondaryStations = is.getStations(us.getCompanyId(user.getId()), "secondary");

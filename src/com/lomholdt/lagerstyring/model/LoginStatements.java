@@ -15,12 +15,12 @@ public class LoginStatements extends DBMain {
     	try {
     		int companyId = new UserStatements().getCompanyId(companyName);
     		pwd = Hash.hash256(pwd);
-    		statement = connection.prepareStatement("SELECT users.username, users.password, companies.name AS company FROM users, companies WHERE users.username = ? AND users.company_id = ? AND users.company_id = companies.id");
+    		statement = connection.prepareStatement("SELECT users.username, users.password, companies.is_active FROM users, companies WHERE users.username = ? AND users.company_id = ? AND users.company_id = companies.id");
     		statement.setString(1, username);
     		statement.setInt(2, companyId);
     		rs = statement.executeQuery();
     		if(rs.next()) {
-    			if(rs.getString("password").equals(pwd)) {
+    			if(rs.getString("password").equals(pwd) && rs.getBoolean("is_active")) {
     				return true;
     			}
     		}

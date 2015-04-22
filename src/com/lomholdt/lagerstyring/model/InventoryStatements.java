@@ -80,13 +80,13 @@ public class InventoryStatements extends DBMain {
 				statement.setTimestamp(3, to);
 				rs = statement.executeQuery();
 				while (rs.next()){
-					if (!rs.getString("closed_at").equals("0000-00-00 00:00:00")){
+					if (!rs.getString("closed_at").equals(rs.getString("opened_at"))){
 						LogBook lb = new LogBook();
 						lb.setName(rs.getString("name"));
 						lb.setStorageId(rs.getInt("storage_id"));
 						lb.setOpenedAt(rs.getTimestamp("opened_at"));
 						lb.setClosedAt(rs.getTimestamp("closed_at"));
-						al.add(lb);						
+						al.add(lb);
 					}
 				}
 			} catch(Exception e) {

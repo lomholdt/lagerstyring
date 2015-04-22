@@ -171,7 +171,6 @@ public class PeriodController extends HttpServlet {
 					// TODO: handle exception
 				}
 		}
-		System.out.println("Size: " + al.size() );
 	
 		request.setAttribute("loggedStations", al);
 		doGet(request, response);
