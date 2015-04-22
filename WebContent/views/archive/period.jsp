@@ -13,8 +13,9 @@
 								<div class="form-group">
 									<h4>Lager</h4>
 
-									<a class="btn btn-default btn-sm" href="choose" role="button">${storage.name} <span
-										class="glyphicon glyphicon-remove"></span></a>
+									<a class="btn btn-default btn-sm" href="choose" role="button">${storage.name}
+										<span class="glyphicon glyphicon-remove"></span>
+									</a>
 								</div>
 							</div>
 							<div class="col-md-5">
@@ -23,19 +24,17 @@
 									<h4>Rapport arkiv</h4>
 									<div class="form-group">
 										<label for="from">Fra</label> <input type="date"
-											class="form-control input-sm" name="from"
-											value="${fromTime}">
+											class="form-control input-sm" name="from" value="${fromTime}">
 									</div>
 									<div class="form-group form-group-sm">
 										<label for="to">Til</label> <input type="date"
-											class="form-control input-sm" name="to"
-											value="${toTime}">
+											class="form-control input-sm" name="to" value="${toTime}">
 									</div>
 									<input type="hidden" value="${param.storageId}"
 										name="storageId">
 									<button type="submit" name="search" value="log"
 										class="btn btn-primary btn-sm">Søg</button>
-							</form>
+								</form>
 							</div>
 							<div class="col-md-5">
 								<form class="form-inline" method="POST" action="period">
@@ -43,16 +42,18 @@
 									<div class="form-group">
 										<select class="form-control input-sm" name="periods">
 											<c:forEach var="logBook" items="${logBooks}">
-												<option value="${logBook.openedAt.toString()}&${logBook.closedAt.toString()}">${logBook.openedAt.toString()}
+												<option
+													value="${logBook.openedAt.toString()}&${logBook.closedAt.toString()}">${logBook.openedAt.toString()}
 													- ${logBook.closedAt.toString()}</option>
 											</c:forEach>
-										</select> 
-										<input type="hidden" value="${param.storageId}" name="storageId"> 
-										<input type="hidden" value="allInventory" name="inventoryName"> 
-										<input type="hidden" value="allStations" name="stationName">
+										</select> <input type="hidden" value="${param.storageId}"
+											name="storageId"> <input type="hidden"
+											value="allInventory" name="inventoryName"> <input
+											type="hidden" value="allStations" name="stationName">
 									</div>
 									<div class="form-group">
-										<button type="submit" name="search" value="log" class="btn btn-primary btn-sm">Se rapport</button>
+										<button type="submit" name="search" value="log"
+											class="btn btn-primary btn-sm">Se rapport</button>
 									</div>
 								</form>
 							</div>
@@ -65,58 +66,82 @@
 	</div>
 
 
+
 	<!-- RAPPORT -->
 	<c:if test="${loggedStations.size() gt 0}">
 		<div id="rapport">
 			<!-- OVERSIGT START -->
-			<table class="table table-striped" data-sortable>
-				<thead>
-					<tr>
-						<th>Vare</th>
-						<th>Start</th>
-						<th>Afgang</th>
-						<th>Slut</th>
-						<th>Salg</th>
-						<th>Pris</th>
-						<th>Kr.</th>
-					</tr>
-				</thead>
-				<c:forEach var="loggedInventory" items="${loggedInventory}">
-					<tr>
-						<td>${loggedInventory.name}</td>
-						<td>${loggedInventory.calculateStart()}</td>
-						
-						<td>
-						<c:forEach var="move" items="${loggedInventory.moves}">
+			<h1>Rapport - ${storage.name}</h1>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">
+								Oversigt <span onclick="window.print()"
+									class="btn btn-default btn-xs pull-right udskriv">Udskriv</span>
+							</h3>
+						</div>
+						<div class="panel-body">
+							<table class="table table-striped" data-sortable>
+								<thead>
+									<tr>
+										<th>Vare</th>
+										<th>Start</th>
+										<th>Afgang</th>
+										<th>Slut</th>
+										<th>Salg</th>
+										<th>Pris</th>
+										<th>Kr.</th>
+									</tr>
+								</thead>
+								<c:forEach var="loggedInventory" items="${loggedInventory}">
+									<tr>
+										<td>${loggedInventory.name}</td>
+										<td>${loggedInventory.calculateStart()}</td>
+
+										<td><c:forEach var="move"
+												items="${loggedInventory.moves}">
 							${move},
-						</c:forEach>
-						</td>
-						<td>${loggedInventory.closedAt}</td>
-						<td>${loggedInventory.totalUnits}</td>
-						<td>${loggedInventory.unitPrice}</td>
-						<td>${loggedInventory.totalValue}</td>
-					</tr>
-					<c:set var="inventoryTotal" value="${inventoryTotal+loggedInventory.totalValue}"/>
-				</c:forEach>
-				<div>
-					TOTAL: <c:out value="${inventoryTotal}"/>
+						</c:forEach></td>
+										<td>${loggedInventory.closedAt}</td>
+										<td>${loggedInventory.totalUnits}</td>
+										<td>${loggedInventory.unitPrice}</td>
+										<td>${loggedInventory.totalValue}</td>
+									</tr>
+									<c:set var="inventoryTotal"
+										value="${inventoryTotal+loggedInventory.totalValue}" />
+								</c:forEach>
+								<thead>
+									<tr class="success">
+										<th>TOTAL:</th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th><c:out value="${inventoryTotal}" /></th>
+									</tr>
+								</thead>
+							</table>
+							<!-- OVERSIGT SLUT -->
+						</div>
+					</div>
 				</div>
-			</table>
-			<!-- OVERSIGT SLUT -->
+			</div>
 			<c:forEach var="loggedStorage" items="${loggedStations}">
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h3 class="panel-title">${loggedStorage.storage.name}<span
-										onclick="window.print()"
+								<h3 class="panel-title">
+									Stationer<span onclick="window.print()"
 										class="btn btn-default btn-xs pull-right udskriv">Udskriv</span>
 								</h3>
 							</div>
 							<div class="panel-body">
 								<c:forEach var="loggedStation"
 									items="${loggedStorage.loggedStations}">
-									<c:set var="stationTotal" value="0"/>
+									<c:set var="stationTotal" value="0" />
 									<div class="row">
 										<div class="col-sm-10 col-sm-offset-1">
 											<h4>${loggedStation.station.name}</h4>
@@ -136,25 +161,30 @@
 													</tr>
 												</thead>
 												<tbody>
-													<c:forEach var="loggedInventory" items="${loggedStation.loggedInventory}">
+													<c:forEach var="loggedInventory"
+														items="${loggedStation.loggedInventory}">
 														<tr>
 															<td>${loggedInventory.name}</td>
-															<td>
-																<c:forEach var="move" items="${loggedInventory.moves}">
+															<td><c:forEach var="move"
+																	items="${loggedInventory.moves}">
 																	${move},
-																</c:forEach>
-															</td>
+																</c:forEach></td>
 															<td>${loggedInventory.totalUnits}</td>
 															<td>${loggedInventory.unitPrice}</td>
 															<td>${loggedInventory.totalValue}</td>
 														</tr>
-													<c:set var="stationTotal" value="${stationTotal+loggedInventory.totalValue}"/>
+														<c:set var="stationTotal"
+															value="${stationTotal+loggedInventory.totalValue}" />
 													</c:forEach>
 												</tbody>
+												<tr class="success">
+													<th>TOTAL:</th>
+													<th></th>
+													<th></th>
+													<th></th>
+													<th><c:out value="${stationTotal}" /></th>
+												</tr>
 											</table>
-											<div>
-												TOTAL: <c:out value="${stationTotal}"/>
-											</div>
 										</div>
 									</div>
 									<div class="row">
