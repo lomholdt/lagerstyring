@@ -69,7 +69,6 @@ public class PeriodController extends HttpServlet {
 		String fromDate = request.getParameter("from");
 		String toDate = request.getParameter("to");
 				
-		populateInput(request, response, user, Integer.parseInt(storageId));
 
 		try {
 			
@@ -80,6 +79,7 @@ public class PeriodController extends HttpServlet {
 				response.sendRedirect("choose");
 				return;
 			}
+			populateInput(request, response, user, Integer.parseInt(storageId));
 			
 			if(fromDate == null || fromDate.isEmpty() && toDate == null || toDate.isEmpty()){
 				// default the dates
@@ -131,14 +131,14 @@ public class PeriodController extends HttpServlet {
 		}
 		
 		String storageId = request.getParameter("storageId");
-		InventoryStatements is = new InventoryStatements();
-		ArrayList<LoggedSummedStorage> al = new ArrayList<LoggedSummedStorage>();
 		
 		if(storageId == null || storageId.isEmpty()){
 			FlashMessage.setFlashMessage(request, "error", "No storage selected");
 			response.sendRedirect("choose");
 		}
 		
+		InventoryStatements is = new InventoryStatements();
+		ArrayList<LoggedSummedStorage> al = new ArrayList<LoggedSummedStorage>();
 		
 		if(storageId.equals("allStorages")){ // THIS IS NOT USED ANYMORE.. ONLY THE ELSE
 			// get all storages

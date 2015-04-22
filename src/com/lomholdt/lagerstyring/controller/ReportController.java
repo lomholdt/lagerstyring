@@ -45,7 +45,8 @@ public class ReportController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		FlashMessage.setFlashMessage(request, "error", "No storage selected");
+		response.sendRedirect("choose");
 	}
 
 	/**
