@@ -52,20 +52,25 @@ public class PeriodController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
+		InventoryStatements is = new InventoryStatements();
+		String storageId = request.getParameter("storageId");
 		try {
 			if(user == null || !auth.is("user", user.getId())){
 				FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
 				response.sendRedirect("");
 				return;
 			}
-		} catch (SQLException e1) {
+			if(!is.userOwnsStorage(Integer.parseInt(storageId), user.getId())){
+				FlashMessage.setFlashMessage(request, "error", "You do not have permission to view that report.");
+				response.sendRedirect("count");
+				return;
+			}
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 		
 		
-		InventoryStatements is = new InventoryStatements();
-		String storageId = request.getParameter("storageId");
 		String fromDate = request.getParameter("from");
 		String toDate = request.getParameter("to");
 				
@@ -117,18 +122,24 @@ public class PeriodController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
+		String storageId = request.getParameter("storageId");
+		InventoryStatements is = new InventoryStatements();
 		try {
 			if(user == null || !auth.is("user", user.getId())){
 				FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
 				response.sendRedirect("");
 				return;
 			}
-		} catch (SQLException e1) {
+			if(!is.userOwnsStorage(Integer.parseInt(storageId), user.getId())){
+				FlashMessage.setFlashMessage(request, "error", "You do not have permission to view that report.");
+				response.sendRedirect("count");
+				return;
+			}
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 		
-		String storageId = request.getParameter("storageId");
 		
 		if(storageId == null || storageId.isEmpty()){
 			FlashMessage.setFlashMessage(request, "error", "No storage selected");
@@ -137,7 +148,6 @@ public class PeriodController extends HttpServlet {
 		}
 		
 		
-		InventoryStatements is = new InventoryStatements();
 		ArrayList<LoggedSummedStorage> al = new ArrayList<LoggedSummedStorage>();
 		
 		try {

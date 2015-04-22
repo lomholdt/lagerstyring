@@ -86,7 +86,7 @@ public class OpenStorageController extends HttpServlet {
 			}
 			if(!is.userOwnsStorage(Integer.parseInt(storageId), user.getId())){
 				FlashMessage.setFlashMessage(request, "error", "You do not have permission to open this storage.");
-				response.sendRedirect("");
+				response.sendRedirect("count");
 				return;
 			}
 			if(isUpdate == null || isUpdate.isEmpty()){
