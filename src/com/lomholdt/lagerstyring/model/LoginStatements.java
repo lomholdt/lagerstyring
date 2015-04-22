@@ -2,6 +2,7 @@ package com.lomholdt.lagerstyring.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,6 +13,8 @@ public class LoginStatements extends DBMain {
 	    
     public boolean login(String username, String pwd, String companyName) throws SQLException {		
     	Connection connection = ds.getConnection();
+    	PreparedStatement statement = null;
+    	ResultSet rs = null;
     	try {
     		int companyId = new UserStatements().getCompanyId(companyName);
     		pwd = Hash.hash256(pwd);
@@ -41,6 +44,8 @@ public class LoginStatements extends DBMain {
     
     public Set<String> getUserRoles(int userId) throws Exception{
     	Connection connection = ds.getConnection();
+    	PreparedStatement statement = null;
+    	ResultSet rs = null;
 		Set<String> s = new HashSet<String>();
     	try{
     		statement = connection.prepareStatement("SELECT roles.role FROM roles WHERE roles.user_id = ?");
@@ -64,6 +69,8 @@ public class LoginStatements extends DBMain {
     }
     
 	public User getUser(String username, String companyName) throws Exception{
+    	PreparedStatement statement = null;
+    	ResultSet rs = null;
 		Connection connection = ds.getConnection();
 		try{
 			statement = connection.prepareStatement("SELECT users.id, users.username, users.company_id, companies.name AS companyName FROM users, companies WHERE users.username = ? AND users.company_id = companies.id AND companies.name = ?");

@@ -2,6 +2,7 @@ package com.lomholdt.lagerstyring.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -9,6 +10,8 @@ import java.sql.SQLException;
 public class Authenticator extends DBMain {
 	
 	public boolean is(String role, int userId) throws SQLException{
+    	PreparedStatement statement = null;
+    	ResultSet rs = null;
 		Connection connection = ds.getConnection();
 		try{
 			statement = connection.prepareStatement("SELECT role FROM roles WHERE roles.user_id = ?;");

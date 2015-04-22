@@ -15,8 +15,8 @@ public abstract class DBMain {
 	protected DataSource ds;
     protected Connection conn;
 	
-	protected PreparedStatement statement;
-	ResultSet rs;
+	//protected PreparedStatement statement;
+	//ResultSet rs;
 	
 	public DBMain() {
 		

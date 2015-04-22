@@ -2,11 +2,14 @@ package com.lomholdt.lagerstyring.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserStatements extends DBMain {
 	
 	public int getCompanyId(int userId) throws Exception{
+    	PreparedStatement statement = null;
+    	ResultSet rs = null;
 		Connection connection = ds.getConnection();
     	try {
     		statement = connection.prepareStatement("SELECT users.company_id FROM users WHERE users.id = ?");
@@ -31,6 +34,8 @@ public class UserStatements extends DBMain {
     }
 	
 	public int getCompanyId(String companyName) throws Exception{
+    	PreparedStatement statement = null;
+    	ResultSet rs = null;
 		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement("SELECT companies.id FROM companies WHERE companies.name = ?");
@@ -56,6 +61,8 @@ public class UserStatements extends DBMain {
 	}
 	
 	public int getUserId(String username, int companyId) throws Exception{
+    	PreparedStatement statement = null;
+    	ResultSet rs = null;
 		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement("SELECT users.id FROM users WHERE users.username = ? AND users.company_id = ?");
@@ -82,6 +89,8 @@ public class UserStatements extends DBMain {
 	}
 	
 	public boolean userExists(String username, String userCompany) throws Exception{
+    	PreparedStatement statement = null;
+    	ResultSet rs = null;
 		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement("SELECT users.username, users.company_id FROM users WHERE users.username = ? AND users.company_id = (SELECT companies.id FROM companies WHERE companies.name = ?)");
@@ -114,6 +123,8 @@ public class UserStatements extends DBMain {
 	}
 
 	public void addRoleToUserHelper(int userId, String maxRole) throws Exception{
+    	PreparedStatement statement = null;
+    	ResultSet rs = null;
 		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement("INSERT INTO roles (user_id, role) VALUES (?, ?)");
@@ -138,6 +149,8 @@ public class UserStatements extends DBMain {
 	}
 	
 	public void addUserToCompany(int companyId, String role, String username, String password) throws Exception{
+    	PreparedStatement statement = null;
+    	ResultSet rs = null;
 		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement("INSERT INTO users (username, password, company_id) VALUES (?, ?, ?)");

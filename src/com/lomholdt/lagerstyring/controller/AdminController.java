@@ -54,11 +54,14 @@ public class AdminController extends HttpServlet {
 		}
 		
 		
-		
-		request.setAttribute("companies", as.getCompanies());
-		
-		RequestDispatcher view = request.getRequestDispatcher("views/admin/index.jsp");
-		view.forward(request, response);
+		try {
+			request.setAttribute("companies", as.getCompanies());
+			
+			RequestDispatcher view = request.getRequestDispatcher("views/admin/index.jsp");
+			view.forward(request, response);			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -93,12 +96,17 @@ public class AdminController extends HttpServlet {
 		
 		if(companyName != null && !companyName.isEmpty()){
 			// Create new company;
-			if(!as.companyExists(companyName)){
-				as.addNewCompany(companyName);
-				request.setAttribute("msg", companyName + " succesfully added.");
-			}
-			else{
-				request.setAttribute("error", "Company already exists.");
+			try {
+				if(!as.companyExists(companyName)){
+					as.addNewCompany(companyName);
+					request.setAttribute("msg", companyName + " succesfully added.");
+				}
+				else{
+					request.setAttribute("error", "Company already exists.");
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			doGet(request, response);
 			return;

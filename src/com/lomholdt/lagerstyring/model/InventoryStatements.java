@@ -2,6 +2,7 @@ package com.lomholdt.lagerstyring.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ import java.util.Map;
 
 
 public class InventoryStatements extends DBMain {
+	PreparedStatement statement = null;
+	ResultSet rs = null;
 	
 	public boolean addInventory(String name, int units, int storageId, double price) throws Exception{
 		Connection connection = ds.getConnection();
@@ -408,7 +411,6 @@ public class InventoryStatements extends DBMain {
 					li.calculateStart();
 					
 					ls.addToLoggedInventory(li);
-					System.out.println(ls.getLoggedInventory().size());
 				}
 			}
 			catch(Exception e){
@@ -448,7 +450,6 @@ public class InventoryStatements extends DBMain {
 			try {
 				rs = statement.executeQuery();
 				while (rs.next()){
-//					System.out.println("Logged inventory: " + rs.getString("name"));
 					LoggedSummedInventory li = new LoggedSummedInventory();
 					li.setName(rs.getString("name"));
 					li.setTotalUnits(rs.getInt("total_out_units"));

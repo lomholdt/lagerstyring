@@ -292,7 +292,6 @@ public class PeriodController extends HttpServlet {
 					ls = is.getLoggedStation(fromDate, toDate, station.getId(), Integer.parseInt(storageId), inventoryName);
 				}
 				else{
-					System.out.println("Getting all inventory for" + station.getName());
 					ls = is.getLoggedStation(fromDate, toDate, station.getId(), Integer.parseInt(storageId));
 					addMovesToInventory(ls, fromDate, toDate, station.getId(), Integer.parseInt(storageId));
 				}
