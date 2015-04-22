@@ -1029,6 +1029,30 @@ public class InventoryStatements extends DBMain {
     	return false;	
 	}
 	
+	public boolean userOwnsStorage(int storageId, int userId) throws Exception{
+		Connection connection = ds.getConnection();
+    	try {
+    		statement = connection.prepareStatement("SELECT storages.id FROM storages, users, companies WHERE users.company_id = companies.id AND storages.company_id  = companies.id AND users.id = ? AND storages.id = ?");
+    		statement.setInt(1, userId);
+    		statement.setInt(2, storageId);
+    		rs = statement.executeQuery();
+    		if(rs.next()) {
+    			return true;
+    		}
+    	}
+    	catch(Exception e1) {
+    		e1.printStackTrace();
+    	} finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+    	return false;	
+	}
+	
 	public void changeStorageStatus(int storageId) throws Exception{
 		Connection connection = ds.getConnection();;
 		try {

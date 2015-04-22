@@ -39,14 +39,14 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-xs-6">
-								<form method="GET" action="open">
+								<form method="POST" action="open">
 									<input type="hidden" value="${storage.id}" name="sid">
 									<button type="submit" class="btn btn-primary btn-lg btn-block">Åbn
 										Lager</button>
 								</form>
 							</div>
 							<div class="col-xs-6">
-								<form method="GET" action="close">
+								<form method="POST" action="close">
 									<input type="hidden" value="${storage.id}" name="sid">
 									<button type="submit" class="btn btn-default btn-lg btn-block">Luk
 										Lager</button>

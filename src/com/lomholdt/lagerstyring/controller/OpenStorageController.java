@@ -39,20 +39,25 @@ public class OpenStorageController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
+		String storageId = request.getParameter("sid");
+		InventoryStatements is = new InventoryStatements();
 		try {
 			if(user == null || !auth.is("user", user.getId())){
 				FlashMessage.setFlashMessage(request, "error", "You Do not have permission to see this page.");
 				response.sendRedirect("");
 				return;
 			}
-		} catch (SQLException e1) {
+			if(!is.userOwnsStorage(Integer.parseInt(storageId), user.getId())){
+				FlashMessage.setFlashMessage(request, "error", "You do not have permission to open this storage.");
+				response.sendRedirect("");
+				return;
+			}
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 		
-		String storageId = request.getParameter("sid");
 		try {
-			InventoryStatements is = new InventoryStatements();
 			Storage storage = is.getStorageWithInventory(Integer.parseInt(storageId));
 			request.setAttribute("storage", storage);
 		} catch (Exception e) {
@@ -70,33 +75,43 @@ public class OpenStorageController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
+		String storageId = request.getParameter("sid");
+		String isUpdate = request.getParameter("update");
+		InventoryStatements is = new InventoryStatements();
 		try {
 			if(user == null || !auth.is("user", user.getId())){
-				FlashMessage.setFlashMessage(request, "error", "You Do not have permission to see this page.");
+				FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
 				response.sendRedirect("");
 				return;
 			}
-		} catch (SQLException e1) {
+			if(!is.userOwnsStorage(Integer.parseInt(storageId), user.getId())){
+				FlashMessage.setFlashMessage(request, "error", "You do not have permission to open this storage.");
+				response.sendRedirect("");
+				return;
+			}
+			if(isUpdate == null || isUpdate.isEmpty()){
+				doGet(request, response);
+				return;
+			}
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 
 				
-		String sid = request.getParameter("sid");
-		if(sid == null || sid.isEmpty()) {
+		if(storageId == null || storageId.isEmpty()) {
 			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
 			response.sendRedirect("count");
 			return;
 		}
 		
-		InventoryStatements is = new InventoryStatements();
 		try {
-			if(is.storageIsOpen(Integer.parseInt(sid))){
+			if(is.storageIsOpen(Integer.parseInt(storageId))){
 				FlashMessage.setFlashMessage(request, "error", "The storage is already open");
 				response.sendRedirect("count");
 				return;
 			}
-			Storage storage = is.getStorageWithInventory(Integer.parseInt(sid));
+			Storage storage = is.getStorageWithInventory(Integer.parseInt(storageId));
 			request.setAttribute("storage", storage);
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
@@ -111,7 +126,7 @@ public class OpenStorageController extends HttpServlet {
 		Map<String, String[]> m  = request.getParameterMap();
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
 			if(entry.getValue()[0].equals("")){
-				request.setAttribute("sid", sid);
+				request.setAttribute("sid", storageId);
 				FlashMessage.setFlashMessage(request, "error", "Empty input is not allowed");
 				response.sendRedirect("count"); 
 				return;
@@ -119,7 +134,7 @@ public class OpenStorageController extends HttpServlet {
 		}
 
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
-			if(entry.getKey().equals("sid")) continue;
+			if(entry.getKey().equals("sid") || entry.getKey().equals("update")) continue;
 			try {
 				// TODO Need to secure that updated id's belong to the user updating!
 				is.updateUnitsAt(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));				
@@ -128,11 +143,11 @@ public class OpenStorageController extends HttpServlet {
 			}
 		}
 		try {
-			is.changeStorageStatus(Integer.parseInt(sid));			
-			is.getStorage(Integer.parseInt(sid));
-			String storageName = is.getStorageName(Integer.parseInt(sid));
-			is.addToStorageLog(storageName, Integer.parseInt(sid), "Åben");
-			is.openArchiveLog(storageName, Integer.parseInt(sid));
+			is.changeStorageStatus(Integer.parseInt(storageId));			
+			is.getStorage(Integer.parseInt(storageId));
+			String storageName = is.getStorageName(Integer.parseInt(storageId));
+			is.addToStorageLog(storageName, Integer.parseInt(storageId), "Åben");
+			is.openArchiveLog(storageName, Integer.parseInt(storageId));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

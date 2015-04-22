@@ -39,6 +39,7 @@
 							<div class="col-sm-8 col-sm-offset-2">
 							<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
 								<input type="hidden" value="${storage.id}" name="sid">
+								<input type="hidden" value="update" name="update">
 								<button type="submit" class="btn btn-primary btn-lg">Åben
 									Lager</button>
 							</div>

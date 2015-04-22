@@ -56,6 +56,7 @@
 							<div class="col-sm-8 col-sm-offset-2">
 								<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
 								<input type="hidden" value="${storage.id}" name="sid">
+								<input type="hidden" value="update" name="update">
 								<button type="submit" class="btn btn-primary btn-lg">Luk
 									lager</button>
 							</div>
@@ -66,7 +67,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<form action="close">
+		<form method="POST" action="close#report">
 			<input type="hidden" name="sid" value="${storage.id}">
 			<div class="col-sm-8 col-sm-offset-2">
 				<div class="panel panel-default">
@@ -113,7 +114,7 @@
 		</form>
 	</div>
 	<c:if test="${logResults.size() gt 0}">
-		<div class="row">
+		<div class="row" id="report">
 			<div class="col-sm-8 col-sm-offset-2">
 				<div class="panel panel-default">
 					<div class="panel-heading">

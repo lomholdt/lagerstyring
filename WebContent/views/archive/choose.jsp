@@ -12,7 +12,7 @@
 			<c:if test="${error != null}">
 				<div class="alert alert-danger">${error}</div>
 			</c:if>
-			<form method="GET" action="period">
+			<form method="POST" action="period">
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<p class="lead">Vælg lager</p>

@@ -18,7 +18,7 @@
 		<!-- /.table sort javascript -->
 		<script src="${pageContext.request.contextPath}/js/sortable.js"></script>
 
-		<title>LAGERSTYRING - ${title}</title>
+		<title>Lager.io - ${title}</title>
 	</head>
 	<body>
 	<c:import url="/views/nav.jsp" />

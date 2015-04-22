@@ -46,10 +46,11 @@
 													value="${logBook.openedAt.toString()}&${logBook.closedAt.toString()}">${logBook.openedAt.toString()}
 													- ${logBook.closedAt.toString()}</option>
 											</c:forEach>
-										</select> <input type="hidden" value="${param.storageId}"
-											name="storageId"> <input type="hidden"
-											value="allInventory" name="inventoryName"> <input
-											type="hidden" value="allStations" name="stationName">
+										</select> 
+										<input type="hidden" value="${param.storageId}" name="storageId"> 
+											<input type="hidden" value="allInventory" name="inventoryName"> 
+											<input type="hidden" value="allStations" name="stationName">
+											<input type="hidden" value="report" name="report">
 									</div>
 									<div class="form-group">
 										<button type="submit" name="search" value="log"
@@ -68,7 +69,10 @@
 
 
 	<!-- RAPPORT -->
-	<c:if test="${loggedStations.size() gt 0}">
+	<c:if test="${loggedInventory.size() eq 0 && param.report ne null}"> 
+	<div><h3>Sorry, there are no reports available in the given interval.</h3></div>
+	</c:if>
+	<c:if test="${loggedInventory.size() gt 0}">
 		<div id="rapport">
 			<!-- OVERSIGT START -->
 			<h1>Rapport - ${storage.name}</h1>
@@ -198,7 +202,5 @@
 			</c:forEach>
 		</div>
 	</c:if>
-
-
 
 </period:wrap>

@@ -49,20 +49,25 @@ public class CloseStorageController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
+		String storageId = request.getParameter("sid");
+		InventoryStatements is = new InventoryStatements();
 		try {
 			if(user == null || !auth.is("user", user.getId())){
 				FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
 				response.sendRedirect("");
 				return;
 			}
-		} catch (SQLException e1) {
+			if(!is.userOwnsStorage(Integer.parseInt(storageId), user.getId())){
+				FlashMessage.setFlashMessage(request, "error", "You do not have permission to close this storage.");
+				response.sendRedirect("count");
+				return;
+			}
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 		
-		String storageId = request.getParameter("sid");
 		if(storageId != null && !storageId.isEmpty()){
-			InventoryStatements is = new InventoryStatements();
 			try {
 				if(!is.storageIsOpen(Integer.parseInt(storageId))){
 					FlashMessage.setFlashMessage(request, "error", "The storage is already closed");
@@ -92,7 +97,6 @@ public class CloseStorageController extends HttpServlet {
 		}
 				
 		try {
-			InventoryStatements is = new InventoryStatements();
 			ArrayList<Station> primaryStations = is.getStations(user.getCompanyId(), "primary");
 			ArrayList<Station> secondaryStations = is.getStations(user.getCompanyId(), "secondary");
 			request.setAttribute("primaryStations", primaryStations);
@@ -110,20 +114,31 @@ public class CloseStorageController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
+		String storageId = request.getParameter("sid");
+		String isUpdate = request.getParameter("update");
+		InventoryStatements is = new InventoryStatements();
 		try {
 			if(user == null || !auth.is("user", user.getId())){
-				FlashMessage.setFlashMessage(request, "error", "You Do not have permission to see this page.");
+				FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
 				response.sendRedirect("");
 				return;
 			}
-		} catch (SQLException e1) {
+			if(!is.userOwnsStorage(Integer.parseInt(storageId), user.getId())){
+				FlashMessage.setFlashMessage(request, "error", "You do not have permission to close this storage.");
+				response.sendRedirect("count");
+				return;
+			}
+			if(isUpdate == null || isUpdate.isEmpty()){
+				doGet(request, response);
+				return;
+			}
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 
 				
-		String sid = request.getParameter("sid");
-		if(sid == null || sid.isEmpty()) {
+		if(storageId == null || storageId.isEmpty()) {
 			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
 			response.sendRedirect("count");
 		}
@@ -134,7 +149,7 @@ public class CloseStorageController extends HttpServlet {
 		// Sloppy but working method for ensuring no empty input
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
 			if(entry.getValue()[0].equals("")){
-				request.setAttribute("sid", sid);
+				request.setAttribute("sid", storageId);
 				FlashMessage.setFlashMessage(request, "error", "Empty input is not allowed");
 				response.sendRedirect("count"); 
 				return;
@@ -142,18 +157,17 @@ public class CloseStorageController extends HttpServlet {
 		}
 
 		try {
-			InventoryStatements is = new InventoryStatements();
 			// Update all the values
 			for(Map.Entry<String, String[]> entry : m.entrySet()){
-				if(entry.getKey().equals("sid")) continue;
+				if(entry.getKey().equals("sid") || entry.getKey().equals("update")) continue;
 				// TODO Need to secure that updated id's belong to the user updating!
 				is.updateUnitsAt(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
 			}
-			is.changeStorageStatus(Integer.parseInt(sid));
-			is.addToStorageLog(is.getStorageName(Integer.parseInt(sid)), Integer.parseInt(sid), "Luk");
-			is.closeArchiveLog(Integer.parseInt(sid));
-			int archiveLogId = is.getLatestArchiveLogId(Integer.parseInt(sid));
-			is.setInventoryAtClose(Integer.parseInt(sid), archiveLogId);
+			is.changeStorageStatus(Integer.parseInt(storageId));
+			is.addToStorageLog(is.getStorageName(Integer.parseInt(storageId)), Integer.parseInt(storageId), "Luk");
+			is.closeArchiveLog(Integer.parseInt(storageId));
+			int archiveLogId = is.getLatestArchiveLogId(Integer.parseInt(storageId));
+			is.setInventoryAtClose(Integer.parseInt(storageId), archiveLogId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -73,8 +73,6 @@ public class PeriodController extends HttpServlet {
 		try {
 			
 			if(storageId == null || storageId.isEmpty()){
-				//  if no storage specified, just pick the first one
-//				storageId = Integer.toString(is.getFirstStorageId(user.getCompanyId()));
 				FlashMessage.setFlashMessage(request, "error", "You must select a storage first");
 				response.sendRedirect("choose");
 				return;
@@ -135,41 +133,58 @@ public class PeriodController extends HttpServlet {
 		if(storageId == null || storageId.isEmpty()){
 			FlashMessage.setFlashMessage(request, "error", "No storage selected");
 			response.sendRedirect("choose");
+			return;
 		}
+		
 		
 		InventoryStatements is = new InventoryStatements();
 		ArrayList<LoggedSummedStorage> al = new ArrayList<LoggedSummedStorage>();
 		
-		if(storageId.equals("allStorages")){ // THIS IS NOT USED ANYMORE.. ONLY THE ELSE
-			// get all storages
-			try {
-				ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
-				for (Storage storage : storages) {
-					ArrayList<LoggedSummedStation> ls = getStationLogResults(request, response, user, Integer.toString(storage.getId()));
-					if (ls.size() > 0){
-						LoggedSummedStorage lStorage = new LoggedSummedStorage();
-						lStorage.setStorage(storage);
-						lStorage.setLoggedStation(ls);
-						al.add(lStorage);
-					}
-				}				
-			} catch (Exception e) {
-				// TODO: handle exception
+		try {
+			if(!is.userOwnsStorage(Integer.parseInt(storageId), user.getId())){
+				FlashMessage.setFlashMessage(request, "error", "You do not have permission to access this storage. The incident has been reported.");
+				response.sendRedirect("choose");
+				System.err.print("WARNING: User " + user.getId()+" "+user.getUsername() + " has tried to access storage " + storageId + " without permission");
+				return;
 			}
-		}
-		else{
-			ArrayList<LoggedSummedStation> ls = getStationLogResults(request, response, user, storageId);
-			ArrayList<LoggedSummedInventory> li = getSummedLogResults(request, response, user, storageId);
-			try {
-				LoggedSummedStorage lStorage = new LoggedSummedStorage();
-				lStorage.setStorage(is.getStorage(Integer.parseInt(storageId)));
-				lStorage.setLoggedStation(ls);
-				al.add(lStorage);		
-				request.setAttribute("loggedInventory", li);
-				
+			
+			if(storageId.equals("allStorages")){ // THIS IS NOT USED ANYMORE.. ONLY THE ELSE
+				// get all storages
+				try {
+					ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
+					for (Storage storage : storages) {
+						ArrayList<LoggedSummedStation> ls = getStationLogResults(request, response, user, Integer.toString(storage.getId()));
+						if (ls.size() > 0){
+							LoggedSummedStorage lStorage = new LoggedSummedStorage();
+							lStorage.setStorage(storage);
+							lStorage.setLoggedStation(ls);
+							al.add(lStorage);
+						}
+					}				
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
+			}
+			else{
+				ArrayList<LoggedSummedStation> ls = getStationLogResults(request, response, user, storageId);
+				ArrayList<LoggedSummedInventory> li = getSummedLogResults(request, response, user, storageId);
+				try {
+					LoggedSummedStorage lStorage = new LoggedSummedStorage();
+					lStorage.setStorage(is.getStorage(Integer.parseInt(storageId)));
+					lStorage.setLoggedStation(ls);
+					al.add(lStorage);		
+					request.setAttribute("loggedInventory", li);
+					
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+			}
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	
 		request.setAttribute("loggedStations", al);
@@ -226,13 +241,17 @@ public class PeriodController extends HttpServlet {
 		
 		// TODO TEST - REMOVE  
 		String periods = request.getParameter("periods");
+		
+		if(periods == null || periods.isEmpty()){
+			return loggedStations;
+		}
 		String[] periodsArr = periods.split("&");
 		from = periodsArr[0];
 		to = periodsArr[1];		
 		// TEST
 		if(from == null || from.isEmpty() ||
 				to == null || to.isEmpty()){
-			System.out.println("Returning null");
+			System.out.println("Returning null from getStationLogResult");
 			return loggedStations;
 		}
 				
@@ -285,12 +304,17 @@ public class PeriodController extends HttpServlet {
 		String from = request.getParameter("from");
 		String to = request.getParameter("to");
 		String periods = request.getParameter("periods");
+		
+		if(periods == null || periods.isEmpty()){
+			return loggedSummedInventory;
+		}
+		
 		String[] periodsArr = periods.split("&");
 		from = periodsArr[0];
 		to = periodsArr[1];
 		if(from == null || from.isEmpty() ||
 				to == null || to.isEmpty()){
-			System.out.println("Returning null");
+			System.out.println("Returning null from getSummedLogResults");
 			return loggedSummedInventory;
 		}
 		InventoryStatements is = new InventoryStatements();
@@ -302,12 +326,7 @@ public class PeriodController extends HttpServlet {
 			
 			loggedSummedInventory = is.getSummedLogResults(fromDate, toDate, Integer.parseInt(storageId));
 			addMovesToInventory(loggedSummedInventory, fromDate, toDate, Integer.parseInt(storageId));
-			
-			
-			
-			
-			
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
