@@ -26,20 +26,25 @@
 							<div class="col-sm-10 col-sm-offset-1">
 								<c:forEach var="inventory" items="${storage.inventory}">
 									<c:if test="${inventory.units >= 0}">
-										<div class="form-group">
-										<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label> 
-										<div class="col-sm-8">
-										<input type="number" class="form-control" placeholder="Antal" name="${inventory.id}" min="0" value="${inventory.units}">
-									 </div>
-									</div>
+										<span id="${inventory.id}" class="diff"></span>
+										<div class="form-group inventory">
+											<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label>
+											<div class="col-sm-8">
+												<input type="number" class="form-control"
+													placeholder="Antal" id="${inventory.id}"
+													name="${inventory.id}" min="0" value="${inventory.units}">
+											</div>
+										</div>
 									</c:if>
 									<c:if test="${inventory.units < 0}">
 										<div class="form-group has-error">
-										<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label> 
-										<div class="col-sm-8">
-										<input type="number" class="form-control" placeholder="Antal" name="${inventory.id}" min="0" value="${inventory.units}">
-									 </div>
-									</div>
+											<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label>
+											<div class="col-sm-8">
+												<input type="number" class="form-control"
+													placeholder="Antal" id="${inventory.id}"
+													name="${inventory.id}" min="0" value="${inventory.units}">
+											</div>
+										</div>
 									</c:if>
 								</c:forEach>
 							</div>
@@ -49,7 +54,7 @@
 						<p class="lead">Godkend lukning</p>
 						<div class="row">
 							<div class="col-sm-8 col-sm-offset-2">
-							<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
+								<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
 								<input type="hidden" value="${storage.id}" name="sid">
 								<button type="submit" class="btn btn-primary btn-lg">Luk
 									lager</button>
@@ -69,12 +74,14 @@
 						<h3 class="panel-title">Logbog</h3>
 					</div>
 					<div class="panel-body">
-						<p class="lead">Søg i logbogen <c:if test="${fromTimestamp ne null}">(fra ${fromTimestamp} til ${toTimestamp})</c:if></p>
-						<div class="row">		
+						<p class="lead">
+							Søg i logbogen
+							<c:if test="${fromTimestamp ne null}">(fra ${fromTimestamp} til ${toTimestamp})</c:if>
+						</p>
+						<div class="row">
 							<div class="col-sm-8 col-sm-offset-2">
 								<div class="form-group">
-								  <select
-										class="form-control" name="inventoryName">
+									<select class="form-control" name="inventoryName">
 										<option value="allInventory">Alle varer</option>
 										<c:forEach var="inventory" items="${storage.inventory}">
 											<option value="${inventory.name}">${inventory.name}</option>
@@ -82,8 +89,7 @@
 									</select>
 								</div>
 								<div class="form-group">
-									 <select
-										class="form-control" name="stationName">
+									<select class="form-control" name="stationName">
 										<option value="allStations">Alle stationer</option>
 										<c:forEach var="primaryStation" items="${primaryStations}">
 											<option value="${primaryStation.name}">${primaryStation.name}</option>

@@ -5,9 +5,9 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   <session-config>
-        <session-timeout>1440</session-timeout>
-    </session-config>
-        <mime-mapping>
+    <session-timeout>1440</session-timeout>
+  </session-config>
+  <mime-mapping>
     <extension>ico</extension>
     <mime-type>image/x-icon</mime-type>
   </mime-mapping>
@@ -135,26 +135,32 @@
     <servlet-name>AdminController</servlet-name>
     <url-pattern>/admin</url-pattern>
   </servlet-mapping>
-      <servlet>
-        <servlet-name>TestServlet</servlet-name>
-        <servlet-class>
+  <servlet>
+    <servlet-name>TestServlet</servlet-name>
+    <servlet-class>
             com.lomholdt.lagerstyring.controller.TestServlet
         </servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TestServlet</servlet-name>
-        <url-pattern>/test</url-pattern>
-    </servlet-mapping>
-    
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestServlet</servlet-name>
+    <url-pattern>/test</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  <servlet-name>ApiController</servlet-name>
+      <servlet-class>
+            com.lomholdt.lagerstyring.controller.ApiController
+        </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ApiController</servlet-name>
+    <url-pattern>/api</url-pattern>
+  </servlet-mapping>
   <resource-ref>
-      <description>DB Connection</description>
-      <res-ref-name>jdbc/lagerstyring</res-ref-name>
-      <res-type>javax.sql.DataSource</res-type>
-      <res-auth>Container</res-auth>
+    <description>DB Connection</description>
+    <res-ref-name>jdbc/lagerstyring</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
   </resource-ref>
-  
-
-  
   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>*.css</url-pattern>

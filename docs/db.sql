@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS companies (
 	id int(11) NOT NULL AUTO_INCREMENT,
 	name varchar(1000) NOT NULL,
 	created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	is_active boolean NOT NULL DEFUALT 1,
+	is_active boolean NOT NULL default 0,
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

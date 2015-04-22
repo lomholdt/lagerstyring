@@ -188,6 +188,35 @@ public class InventoryStatements extends DBMain {
 		return 0;
 	}
 	
+	public int getCurrentInventoryCount(int inventoryId) throws Exception{
+		Connection connection = ds.getConnection();
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT inventory.units FROM inventory WHERE inventory.id = ?");
+			try {
+				// Do stuff with the statement
+				statement.setInt(1, inventoryId);
+				rs = statement.executeQuery();
+				if(rs.next()){
+					return rs.getInt("units");
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}				
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		return 0;
+	}
+	
 	
 	
 	public void setInventoryAtClose(int storageId, int archiveLogId) throws Exception{
@@ -361,7 +390,7 @@ public class InventoryStatements extends DBMain {
 					+ "WHERE inventory_log.created_at >= ?"
 					+ "AND inventory_log.created_at <= ?"
 					+ "AND inventory_log.storage_id = ? "
-					+ "AND inventory_log.station_id = ? GROUP BY name;");
+					+ "AND inventory_log.station_id = ? GROUP BY name, price;");
 			statement.setTimestamp(1, from);
 			statement.setTimestamp(2, to);
 			statement.setInt(3, storageId);
@@ -370,7 +399,6 @@ public class InventoryStatements extends DBMain {
 			try {
 				rs = statement.executeQuery();
 				while (rs.next()){
-					System.out.println("Logged inventory: " + rs.getString("name"));
 					LoggedSummedInventory li = new LoggedSummedInventory();
 					li.setName(rs.getString("name"));
 					li.setTotalUnits(rs.getInt("total_out_units"));
@@ -412,7 +440,7 @@ public class InventoryStatements extends DBMain {
 					+ "FROM inventory_log "
 					+ "WHERE inventory_log.created_at >= ?"
 					+ "AND inventory_log.created_at <= ?"
-					+ "AND inventory_log.storage_id = ? GROUP BY name;");
+					+ "AND inventory_log.storage_id = ? GROUP BY name, price;");
 			statement.setTimestamp(1, from);
 			statement.setTimestamp(2, to);
 			statement.setInt(3, storageId);
@@ -432,12 +460,12 @@ public class InventoryStatements extends DBMain {
 				}
 			}
 			catch(Exception e){
-				System.out.println("Error getting LoggedSumStation.");
+				System.out.println("Error getting getSummedLogResults.");
 				e.printStackTrace();
 			}
 		}
 		catch(Exception e){
-			System.out.println("Could not get LoggedSumStation.");
+			System.out.println("Could not get getSummedLogResults.");
 			e.printStackTrace();
 		}
 		finally {
