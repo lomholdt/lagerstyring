@@ -32,7 +32,7 @@ public abstract class DBMain {
 //
 //	  	}
 	  	catch(Exception e){
-	  		
+	  		e.printStackTrace();
 	  	}
 	  	//poolConn is returned to the pool
     }

@@ -111,12 +111,15 @@ CREATE TABLE IF NOT EXISTS archive_log(
 	FOREIGN KEY (storage_id) REFERENCES storages(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE IF NOT EXISTS inventory_at_close_log(
+CREATE TABLE IF NOT EXISTS inventory_snapshot(
 	id int(11) NOT NULL AUTO_INCREMENT,
 	archive_log_id int(11) NOT NULL,
 	name varchar(500) NOT NULL,
-	units int(11) NOT NULL,
+	inventory_id int(11) NOT NULL,
+	units_at_open int(11) NOT NULL,
+	units_at_close int(11) NOT NULL DEFAULT 0,
 	PRIMARY KEY (id),
+	FOREIGN KEY (inventory_id) REFERENCES inventory(id),
 	FOREIGN KEY (archive_log_id) REFERENCES archive_log(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

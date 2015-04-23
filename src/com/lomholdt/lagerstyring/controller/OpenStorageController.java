@@ -148,6 +148,7 @@ public class OpenStorageController extends HttpServlet {
 			String storageName = is.getStorageName(Integer.parseInt(storageId));
 			is.addToStorageLog(storageName, Integer.parseInt(storageId), "Åben");
 			is.openArchiveLog(storageName, Integer.parseInt(storageId));
+			is.setInventoryAtOpen(Integer.parseInt(storageId));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

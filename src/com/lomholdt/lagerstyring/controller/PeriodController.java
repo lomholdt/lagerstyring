@@ -76,7 +76,6 @@ public class PeriodController extends HttpServlet {
 				
 
 		try {
-			
 			if(storageId == null || storageId.isEmpty()){
 				FlashMessage.setFlashMessage(request, "error", "You must select a storage first");
 				response.sendRedirect("choose");
@@ -99,8 +98,6 @@ public class PeriodController extends HttpServlet {
 			
 			Timestamp from = Timestamp.valueOf(fromDate + " 00:00:00");
 			Timestamp to = Timestamp.valueOf(toDate + " 23:59:59");
-			
-
 			
 			ArrayList<LogBook> al = is.getLogBooks(Integer.parseInt(storageId), from, to);
 			request.setAttribute("logBooks", al);

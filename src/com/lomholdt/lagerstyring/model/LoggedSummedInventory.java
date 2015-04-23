@@ -47,19 +47,22 @@ public class LoggedSummedInventory {
 	public int getInventoryStartValue(){
 		return inventoryStartValue;
 	}
-	public int calculateStart(){
-		int closedAtCopy = closedAt;
-		for (Integer move : moves) {
-			if(move < 0){
-				closedAtCopy += Math.abs(move);
-			}
-			else{
-				closedAtCopy -= move;
-			}	
-		}
-		inventoryStartValue = closedAtCopy;
-		return inventoryStartValue;
+	public void setInventoryStartValue(int inventoryStartValue){
+		this.inventoryStartValue = inventoryStartValue;
 	}
+//	public int calculateStart(){
+//		int closedAtCopy = closedAt;
+//		for (Integer move : moves) {
+//			if(move < 0){
+//				closedAtCopy += Math.abs(move);
+//			}
+//			else{
+//				closedAtCopy -= move;
+//			}	
+//		}
+//		inventoryStartValue = closedAtCopy;
+//		return inventoryStartValue;
+//	}
 	public void setClosedAt(int closedAt){
 		this.closedAt = closedAt;
 	}

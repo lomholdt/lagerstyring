@@ -133,11 +133,9 @@ public class CloseStorageController extends HttpServlet {
 				return;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-				
+	
 		if(storageId == null || storageId.isEmpty()) {
 			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
 			response.sendRedirect("count");
@@ -158,26 +156,24 @@ public class CloseStorageController extends HttpServlet {
 
 		try {
 			// Update all the values
+			int archiveLogId = is.getLatestArchiveLogId(Integer.parseInt(storageId));
 			for(Map.Entry<String, String[]> entry : m.entrySet()){
 				if(entry.getKey().equals("sid") || entry.getKey().equals("update")) continue;
 				// TODO Need to secure that updated id's belong to the user updating!
 				is.updateUnitsAt(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
+				is.setInventoryAtClose(Integer.parseInt(storageId), archiveLogId, Integer.parseInt(entry.getKey()));
 			}
 			is.changeStorageStatus(Integer.parseInt(storageId));
 			is.addToStorageLog(is.getStorageName(Integer.parseInt(storageId)), Integer.parseInt(storageId), "Luk");
+			
 			is.closeArchiveLog(Integer.parseInt(storageId));
-			int archiveLogId = is.getLatestArchiveLogId(Integer.parseInt(storageId));
-			is.setInventoryAtClose(Integer.parseInt(storageId), archiveLogId);
+			FlashMessage.setFlashMessage(request, "msg", "Lageret er nu lukket");
+			response.sendRedirect("count");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		FlashMessage.setFlashMessage(request, "msg", "Lageret er nu lukket");
-		response.sendRedirect("count");
 	}
-	
-	
-	
+
 	
 	public ArrayList<LoggedStation> getStationLogResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
 		ArrayList<LoggedStation> loggedStations = new ArrayList<LoggedStation>();

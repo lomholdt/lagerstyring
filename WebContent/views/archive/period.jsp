@@ -101,7 +101,7 @@
 								<c:forEach var="loggedInventory" items="${loggedInventory}">
 									<tr>
 										<td>${loggedInventory.name}</td>
-										<td>${loggedInventory.calculateStart()}</td>
+										<td>${loggedInventory.inventoryStartValue}</td>
 
 										<td><c:forEach var="move"
 												items="${loggedInventory.moves}">
