@@ -25,7 +25,6 @@ function responseReceived(inventoryId){
 		try {
 			if (http.status == 200){
 				var currentUnits = http.responseText;
-				console.log("got: " + currentUnits);
 				var inputUnits = document.getElementById(inventoryId).value;
 				var result = inputUnits - currentUnits;
 				
@@ -43,11 +42,9 @@ function setAllDiffs(){
 	var closeInput = mainInput.getElementsByClassName("form-control");
 	
 	for (var i = 0; i < closeInput.length; i++){
-		console.log("counting.." + i);
 		closeInput[i].onkeyup = function(){
 			getCurrentUnits(this.id);
 		}
-		getCurrentUnits(this.id);
 	}
 }
 

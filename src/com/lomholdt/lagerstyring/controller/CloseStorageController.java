@@ -92,7 +92,6 @@ public class CloseStorageController extends HttpServlet {
 			ArrayList<LoggedStation> ls = getStationLogResults(request, response, user, storageId);
 			request.setAttribute("logResults", ls);
 		}
-				
 		try {
 			ArrayList<Station> primaryStations = is.getStations(user.getCompanyId(), "primary");
 			ArrayList<Station> secondaryStations = is.getStations(user.getCompanyId(), "secondary");

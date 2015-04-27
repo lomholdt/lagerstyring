@@ -51,8 +51,8 @@ public class ApiController extends HttpServlet {
 		}
 		
 		
-			PrintWriter pw = response.getWriter();
 			try {
+				PrintWriter pw = response.getWriter();
 				String inventoryId = request.getParameter("inventoryId");
 				if (inventoryId.equals("undefined")) return;
 				
