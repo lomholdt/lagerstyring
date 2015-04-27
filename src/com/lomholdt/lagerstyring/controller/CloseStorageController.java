@@ -1,8 +1,6 @@
 package com.lomholdt.lagerstyring.controller;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,7 +18,6 @@ import javax.servlet.http.HttpSession;
 import com.lomholdt.lagerstyring.model.Authenticator;
 import com.lomholdt.lagerstyring.model.FlashMessage;
 import com.lomholdt.lagerstyring.model.InventoryStatements;
-import com.lomholdt.lagerstyring.model.LoggedInventory;
 import com.lomholdt.lagerstyring.model.LoggedStation;
 import com.lomholdt.lagerstyring.model.Station;
 import com.lomholdt.lagerstyring.model.Storage;

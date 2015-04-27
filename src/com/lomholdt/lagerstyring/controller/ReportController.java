@@ -17,8 +17,6 @@ import javax.servlet.http.HttpSession;
 import com.lomholdt.lagerstyring.model.Authenticator;
 import com.lomholdt.lagerstyring.model.FlashMessage;
 import com.lomholdt.lagerstyring.model.InventoryStatements;
-import com.lomholdt.lagerstyring.model.LoggedStation;
-import com.lomholdt.lagerstyring.model.LoggedStorage;
 import com.lomholdt.lagerstyring.model.LoggedSummedStation;
 import com.lomholdt.lagerstyring.model.LoggedSummedStorage;
 import com.lomholdt.lagerstyring.model.Station;

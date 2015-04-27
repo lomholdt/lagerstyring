@@ -11,7 +11,6 @@ public class LoggedSummedInventory {
 	private ArrayList<Integer> moves = new ArrayList<>();
 	private int inventoryStartValue;
 	private int closedAt;
-	private int diff;
 	
 	public String getName() {
 		return name;

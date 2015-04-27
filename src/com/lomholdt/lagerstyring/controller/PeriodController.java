@@ -2,7 +2,6 @@ package com.lomholdt.lagerstyring.controller;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,8 +19,6 @@ import com.lomholdt.lagerstyring.model.FlashMessage;
 import com.lomholdt.lagerstyring.model.Inventory;
 import com.lomholdt.lagerstyring.model.InventoryStatements;
 import com.lomholdt.lagerstyring.model.LogBook;
-import com.lomholdt.lagerstyring.model.LoggedStation;
-import com.lomholdt.lagerstyring.model.LoggedStorage;
 import com.lomholdt.lagerstyring.model.LoggedSummedInventory;
 import com.lomholdt.lagerstyring.model.LoggedSummedStation;
 import com.lomholdt.lagerstyring.model.LoggedSummedStorage;
@@ -324,7 +321,6 @@ public class PeriodController extends HttpServlet {
 			return loggedSummedInventory;
 		}
 		InventoryStatements is = new InventoryStatements();
-		UserStatements us = new UserStatements();
 		Timestamp fromDate = Timestamp.valueOf(from);
 		Timestamp toDate = Timestamp.valueOf(to);
 		
