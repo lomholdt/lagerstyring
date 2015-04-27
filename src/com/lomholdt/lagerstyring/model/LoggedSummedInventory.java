@@ -11,6 +11,7 @@ public class LoggedSummedInventory {
 	private ArrayList<Integer> moves = new ArrayList<>();
 	private int inventoryStartValue;
 	private int closedAt;
+	private int diff;
 	
 	public String getName() {
 		return name;
@@ -68,5 +69,20 @@ public class LoggedSummedInventory {
 	}
 	public int getClosedAt(){
 		return closedAt;
+	}
+	public int getDiff() {
+		return (inventoryStartValue - sumOfMoves()) - closedAt;
+	}
+	private int sumOfMoves(){
+		int sum = 0;
+		for (Integer move : moves) {
+			if (move < 0){
+				sum += Math.abs(move);
+			}
+			else{
+				sum += move;
+			}
+		}
+		return sum;
 	}
 }

@@ -12,7 +12,7 @@ public class AdminStatements extends DBMain {
     	PreparedStatement statement = null;
 		Connection connection = ds.getConnection();
 		try {
-			statement = conn.prepareStatement("INSERT INTO companies (name, is_active) VALUES (?, ?)");
+			statement = connection.prepareStatement("INSERT INTO companies (name, is_active) VALUES (?, ?)");
 			statement.setString(1, companyName);
 			statement.setBoolean(2, true);
 			statement.executeUpdate();

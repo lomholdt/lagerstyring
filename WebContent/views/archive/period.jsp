@@ -93,6 +93,7 @@
 										<th>Start</th>
 										<th>Afgang</th>
 										<th>Slut</th>
+										<th>Diff.</th>
 										<th>Salg</th>
 										<th>Pris</th>
 										<th>Kr.</th>
@@ -102,12 +103,14 @@
 									<tr>
 										<td>${loggedInventory.name}</td>
 										<td>${loggedInventory.inventoryStartValue}</td>
-
-										<td><c:forEach var="move"
+										<td>
+											<c:forEach var="move"
 												items="${loggedInventory.moves}">
-							${move},
-						</c:forEach></td>
+												${move},
+											</c:forEach>
+										</td>
 										<td>${loggedInventory.closedAt}</td>
+										<td>${loggedInventory.diff}</td>
 										<td>${loggedInventory.totalUnits}</td>
 										<td>${loggedInventory.unitPrice}</td>
 										<td>${loggedInventory.totalValue}</td>
