@@ -54,6 +54,7 @@ public class ApiController extends HttpServlet {
 			PrintWriter pw = response.getWriter();
 			try {
 				String inventoryId = request.getParameter("inventoryId");
+				if (inventoryId.equals("undefined")) return;
 				
 				if(inventoryId != null && !inventoryId.isEmpty()){
 				pw.print(new InventoryStatements().getCurrentInventoryCount(Integer.parseInt(inventoryId)));

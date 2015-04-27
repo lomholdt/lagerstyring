@@ -39,7 +39,7 @@
 									<c:if test="${inventory.units < 0}">
 										<div class="form-group has-error">
 											<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label>
-											<div class="col-sm-8">
+											<div class="input-group col-sm-8">
 												<input type="number" class="form-control"
 													placeholder="Antal" id="${inventory.id}"
 													name="${inventory.id}" min="0" value="${inventory.units}">
