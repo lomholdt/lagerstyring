@@ -42,7 +42,7 @@ public class ApiController extends HttpServlet {
 		try {
 			if(user == null || !auth.is("user", user.getId())){
 				FlashMessage.setFlashMessage(request, "error", NO_PERMISSION_MESSAGE);
-				response.sendRedirect("");
+				response.sendRedirect("count");
 				return;
 			}
 		} catch (SQLException e1) {

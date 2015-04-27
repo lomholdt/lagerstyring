@@ -126,6 +126,7 @@
 										<th></th>
 										<th></th>
 										<th></th>
+										<th></th>
 										<th><c:out value="${inventoryTotal}" /></th>
 									</tr>
 								</thead>

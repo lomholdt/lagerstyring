@@ -1,4 +1,5 @@
 var http;
+var timeout;
 if (navigator.appName == "Microsoft Internet Explorer"){
 	http = new ActiveXObject("Microsoft.XMLHTTP");
 }
@@ -7,32 +8,49 @@ else{
 }
 
 function sendRequest(action, responseHandler){
-	http.open("POST", action);
+	http.open("GET", action);
 	http.onreadystatechange = responseHandler;
-	http.send(null);
+	http.send();
 }
 
-function checkValidEmail(){
+function getCurrentUnits(inventoryId){
 	if (http.readyState == 0 || http.readyState == 4){
 		// ready to rock'n'roll!
-		var email = document.getElementById("email").value;
-		if(isValidEmail(email)){
-			sendRequest("email-is-available?email=" + encodeURIComponent(email), responseReceived);			
-		}
-		else{
-			
-		}
+		sendRequest("/lagerstyring/api?inventoryId=" + encodeURIComponent(inventoryId), responseReceived(inventoryId));
 	}
 }
 
-function responseReceived(){
+function responseReceived(inventoryId){
 	if (http.readyState == 4){
 		try {
 			if (http.status == 200){
-				var result = http.responseText;	
+				var currentUnits = http.responseText;
+				console.log("got: " + currentUnits);
+				var inputUnits = document.getElementById(inventoryId).value;
+				var result = inputUnits - currentUnits;
+				
+				var diffField = document.getElementById("diff-"+inventoryId);
+				diffField.innerHTML = result;
 			}
 		} catch (e) {
-			alert(e);
+			console.log(e);
 		}
 	}
 }
+
+function setAllDiffs(){
+	var mainInput = document.getElementById("inventory");
+	var closeInput = mainInput.getElementsByClassName("form-control");
+	
+	for (var i = 0; i < closeInput.length; i++){
+		console.log("counting.." + i);
+		closeInput[i].onkeyup = function(){
+			getCurrentUnits(this.id);
+		}
+		getCurrentUnits(this.id);
+	}
+}
+
+$(window).ready(function(){
+	setAllDiffs();
+});

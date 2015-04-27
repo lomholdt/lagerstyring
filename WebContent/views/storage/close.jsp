@@ -5,7 +5,7 @@
 
 
 <add:wrap title="Luk Lager">
-
+<script src="${pageContext.request.contextPath}/js/diff.js"></script>
 	<c:if test="${msg != null}">
 		<div class="alert alert-success">${msg}</div>
 	</c:if>
@@ -22,17 +22,17 @@
 					</div>
 					<div class="panel-body">
 						<p class="lead">Antal varer på lager</p>
-						<div class="row">
+						<div class="row" id="inventory">
 							<div class="col-sm-10 col-sm-offset-1">
 								<c:forEach var="inventory" items="${storage.inventory}">
 									<c:if test="${inventory.units >= 0}">
-										<span id="${inventory.id}" class="diff"></span>
 										<div class="form-group inventory">
 											<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label>
-											<div class="col-sm-8">
+											<div class="input-group col-sm-8">
 												<input type="number" class="form-control"
 													placeholder="Antal" id="${inventory.id}"
 													name="${inventory.id}" min="0" value="${inventory.units}">
+													<span id="diff-${inventory.id}" class="diff input-group-addon">0</span>
 											</div>
 										</div>
 									</c:if>
@@ -43,6 +43,7 @@
 												<input type="number" class="form-control"
 													placeholder="Antal" id="${inventory.id}"
 													name="${inventory.id}" min="0" value="${inventory.units}">
+													<span id="diff-${inventory.id}" class="diff input-group-addon">0</span>
 											</div>
 										</div>
 									</c:if>
@@ -165,5 +166,6 @@
 				</div>
 			</div>
 		</div>
+		
 	</c:if>
 </add:wrap>

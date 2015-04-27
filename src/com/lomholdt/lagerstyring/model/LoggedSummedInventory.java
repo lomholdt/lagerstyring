@@ -71,7 +71,7 @@ public class LoggedSummedInventory {
 		return closedAt;
 	}
 	public int getDiff() {
-		return (inventoryStartValue - sumOfMoves()) - closedAt;
+		return closedAt - (inventoryStartValue - sumOfMoves());
 	}
 	private int sumOfMoves(){
 		int sum = 0;
@@ -80,7 +80,7 @@ public class LoggedSummedInventory {
 				sum += Math.abs(move);
 			}
 			else{
-				sum += move;
+				sum -= move;
 			}
 		}
 		return sum;
