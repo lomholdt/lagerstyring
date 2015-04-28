@@ -34,9 +34,6 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
 					<li
 						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/move')}"> class="active"</c:if>><a
 						href="move"><span class="glyphicon glyphicon-transfer"></span> Flyt Vare</a></li>
-					<li
-						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/choose')}"> class="active"</c:if>><a
-						href="choose"><span class="glyphicon glyphicon-print"></span> Rapport</a></li>
 					
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-expanded="false">${user.username}
@@ -49,6 +46,7 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
 							</c:if>
 							<c:if test="${user.roles.contains('manager')}">
 								<li><a href="inventory">Indstillinger</a></li>
+								<li><a href="choose">Rapport</a></li>
 								<li class="divider"></li>
 							</c:if>
 							<li><a href="logout">Log ud</a></li>

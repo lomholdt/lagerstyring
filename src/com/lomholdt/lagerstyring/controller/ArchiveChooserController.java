@@ -41,9 +41,9 @@ public class ArchiveChooserController extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		try {
-			if(user == null || !auth.is("user", user.getId())){
+			if(user == null || !auth.is("manager", user.getId())){
 				FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
-				response.sendRedirect("");
+				response.sendRedirect("count");
 				return;
 			}
 		} catch (SQLException e1) {
@@ -70,9 +70,9 @@ public class ArchiveChooserController extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		try {
-			if(user == null || !auth.is("user", user.getId())){
+			if(user == null || !auth.is("manager", user.getId())){
 				FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
-				response.sendRedirect("");
+				response.sendRedirect("count");
 				return;
 			}
 		} catch (SQLException e) {
