@@ -124,6 +124,12 @@ CREATE TABLE IF NOT EXISTS inventory_snapshot(
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
+/**
+ * INSERT ADDITIONAL FIELDS
+ */
+ALTER TABLE inventory ADD sales_price double NOT NULL DEFAULT 0.0 AFTER price;
+ALTER TABLE inventory_log ADD sales_price double NOT NULL DEFAULT 0.0 AFTER price;
+
 
 
 /*****************************************************
