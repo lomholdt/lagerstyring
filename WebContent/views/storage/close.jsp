@@ -137,8 +137,6 @@
 												<th>Tidspunkt</th>
 												<th>Varenavn</th>
 												<th>Antal</th>
-												<th>Enheds Pris</th>
-												<th>Total Pris</th>
 												<th>Handling</th>
 											</tr>
 										</thead>
@@ -149,8 +147,6 @@
 													<td>${loggedInventory.createdAt.time}</td>
 													<td>${loggedInventory.name}</td>
 													<td>${loggedInventory.units}</td>
-													<td>${loggedInventory.price}</td>
-													<td>${loggedInventory.price * Math.abs(loggedInventory.units)}
 													<td>${loggedInventory.performedAction}</td>
 												</tr>
 											</c:forEach>
