@@ -1,10 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
-
 String uri = request.getRequestURI();
 String pageName = uri.substring(uri.lastIndexOf("/")+1);
-
 %>
 
 
@@ -34,11 +32,13 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
 					<li
 						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/move')}"> class="active"</c:if>><a
 						href="move"><span class="glyphicon glyphicon-transfer"></span> Flyt Vare</a></li>
+					
 					<c:if test="${user.roles.contains('manager')}">
 					<li
 						<c:if test="${requestScope['javax.servlet.forward.request_uri'] ==('/choose')}"> class="active"</c:if>><a
 						href="choose"><span class="glyphicon glyphicon-print"></span> Rapport</a></li>
 					</c:if>
+					
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-expanded="false">${user.username}
 							<span class="caret"></span>

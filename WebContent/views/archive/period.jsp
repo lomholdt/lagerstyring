@@ -70,7 +70,7 @@
 
 	<!-- RAPPORT -->
 	<c:if test="${loggedInventory.size() eq 0 && param.report ne null}"> 
-	<div><h3>Sorry, there are no reports available in the given interval.</h3></div>
+	<div><h3>Der er desværre ingen rapporter tilgængelige i det angivne interval.</h3></div>
 	</c:if>
 	<c:if test="${loggedInventory.size() gt 0}">
 		<div id="rapport">
@@ -95,8 +95,10 @@
 										<th>Slut</th>
 										<th>Diff.</th>
 										<th>Salg</th>
-										<th>Pris</th>
-										<th>Kr.</th>
+										<th>Indkøbspris</th>
+										<th>Omsætningspris</th>
+										<th>Indkøb-kr.</th>
+										<th>Omsætning-kr.</th>
 									</tr>
 								</thead>
 								<c:forEach var="loggedInventory" items="${loggedInventory}">
@@ -113,10 +115,14 @@
 										<td>${loggedInventory.diff}</td>
 										<td>${loggedInventory.totalUnits}</td>
 										<td>${loggedInventory.unitPrice}</td>
+										<td>${loggedInventory.unitSalesPrice}</td>
 										<td>${loggedInventory.totalValue}</td>
+										<td>${loggedInventory.totalSalesValue}</td>
 									</tr>
 									<c:set var="inventoryTotal"
 										value="${inventoryTotal+loggedInventory.totalValue}" />
+									<c:set var="inventorySalesTotal"
+										value="${inventorySalesTotal+loggedInventory.totalSalesValue}" />
 								</c:forEach>
 								<thead>
 									<tr class="success">
@@ -127,7 +133,9 @@
 										<th></th>
 										<th></th>
 										<th></th>
+										<th></th>
 										<th><c:out value="${inventoryTotal}" /></th>
+										<th><c:out value="${inventorySalesTotal}" /></th>
 									</tr>
 								</thead>
 							</table>

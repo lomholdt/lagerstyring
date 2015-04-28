@@ -162,7 +162,8 @@ public class MoveInController extends HttpServlet {
 							Integer.parseInt(storageId), 
 							Integer.parseInt(stationId),
 							"Tilgang",
-							is.getInventoryPrice(Integer.parseInt(entry.getKey())));
+							is.getInventoryPrice(Integer.parseInt(entry.getKey())),
+							is.getInventorySalesPrice(Integer.parseInt(entry.getKey())));
 				} catch (Exception e) {
 					System.out.println("Could not add to log");
 					e.printStackTrace();
@@ -171,7 +172,7 @@ public class MoveInController extends HttpServlet {
 		}
 
 		try {
-			String msg = "<h5>"+"Tilgang gennemført fra " + is.getStation(Integer.parseInt(stationId)).getName() + " til " + is.getStorage(Integer.parseInt(storageId)).getName() + "</h5>" +inventoryOverview;
+			String msg = "<h5>"+"Tilgang gennemf√∏rt fra " + is.getStation(Integer.parseInt(stationId)).getName() + " til " + is.getStorage(Integer.parseInt(storageId)).getName() + "</h5>" + inventoryOverview;
 			FlashMessage.setFlashMessage(request, "msg", msg);
 			response.sendRedirect("move");	
 		} catch (NumberFormatException e) {

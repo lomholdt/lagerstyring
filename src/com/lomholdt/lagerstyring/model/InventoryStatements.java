@@ -12,18 +12,19 @@ import java.util.Map;
 
 public class InventoryStatements extends DBMain {
 	
-	public boolean addInventory(String name, int units, int storageId, double price) throws Exception{
+	public boolean addInventory(String name, int units, int storageId, double price, double salesPrice) throws Exception{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		Connection connection = ds.getConnection();
 		try {
-			statement = connection.prepareStatement("INSERT INTO inventory (name, units, storage_id, price) VALUES (?, ?, ?, ?)");
+			statement = connection.prepareStatement("INSERT INTO inventory (name, units, storage_id, price, sales_price) VALUES (?, ?, ?, ?, ?)");
 			try {
 				// Do stuff with the statement
 				statement.setString(1, name);
 				statement.setInt(2, units);
 				statement.setInt(3, storageId);
 				statement.setDouble(4, price);
+				statement.setDouble(5, salesPrice);
 				statement.executeUpdate();
 				return true;
 			} finally {
@@ -55,6 +56,36 @@ public class InventoryStatements extends DBMain {
 				rs = statement.executeQuery();
 				if (rs.next()){
 					return rs.getDouble("price");						
+					}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		return 0.0;
+	}
+	
+	public double getInventorySalesPrice(int inventoryId) throws SQLException{
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		Connection connection = ds.getConnection();
+		try {
+			statement = connection.prepareStatement("SELECT inventory.sales_price FROM inventory WHERE inventory.id = ?");
+			try {
+				statement.setInt(1, inventoryId);
+				rs = statement.executeQuery();
+				if (rs.next()){
+					return rs.getDouble("sales_price");						
 					}
 			} catch(Exception e) {
 				e.printStackTrace();
@@ -471,7 +502,7 @@ public class InventoryStatements extends DBMain {
 		ls.setStation(getStation(stationId));
 		Connection connection = ds.getConnection();;
 		try {
-			statement = connection.prepareStatement("SELECT inventory_log.name, (SUM(inventory_log.units)) AS total_out_units, inventory_log.price AS unit_price, ABS(SUM(inventory_log.price * inventory_log.units)) AS total_out_value "
+			statement = connection.prepareStatement("SELECT inventory_log.name, (SUM(inventory_log.units)) AS total_out_units, inventory_log.price AS unit_price, inventory_log.sales_price AS unit_sales_price, ABS(SUM(inventory_log.price * inventory_log.units)) AS total_out_value "
 					+ "FROM inventory_log "
 					+ "WHERE inventory_log.created_at >= ?"
 					+ "AND inventory_log.created_at <= ?"
@@ -489,6 +520,7 @@ public class InventoryStatements extends DBMain {
 					li.setName(rs.getString("name"));
 					li.setTotalUnits(rs.getInt("total_out_units"));
 					li.setUnitPrice(rs.getDouble("unit_price"));
+					li.setUnitSalesPrice(rs.getDouble("unit_sales_price"));
 					li.setTotalValue(rs.getDouble("total_out_value"));
 					li.setClosedAt(closeMap.get(rs.getString("name")));
 					li.setInventoryStartValue(openMap.get(rs.getString("name")));
@@ -524,7 +556,7 @@ public class InventoryStatements extends DBMain {
 		ArrayList<LoggedSummedInventory> ls = new ArrayList<>();
 		Connection connection = ds.getConnection();;
 		try {
-			statement = connection.prepareStatement("SELECT inventory_log.name, (SUM(inventory_log.units)) AS total_out_units, inventory_log.price AS unit_price, ABS(SUM(inventory_log.price * inventory_log.units)) AS total_out_value "
+			statement = connection.prepareStatement("SELECT inventory_log.name, (SUM(inventory_log.units)) AS total_out_units, inventory_log.price AS unit_price, inventory_log.sales_price AS unit_sales_price, ABS(SUM(inventory_log.price * inventory_log.units)) AS total_out_value, ABS(SUM(inventory_log.sales_price * inventory_log.units)) AS total_out_sales_value "
 					+ "FROM inventory_log "
 					+ "WHERE inventory_log.created_at >= ?"
 					+ "AND inventory_log.created_at <= ?"
@@ -540,7 +572,9 @@ public class InventoryStatements extends DBMain {
 					li.setName(rs.getString("name"));
 					li.setTotalUnits(rs.getInt("total_out_units"));
 					li.setUnitPrice(rs.getDouble("unit_price"));
+					li.setUnitSalesPrice(rs.getDouble("unit_sales_price"));
 					li.setTotalValue(rs.getDouble("total_out_value"));
+					li.setTotalSalesValue(rs.getDouble("total_out_sales_value"));
 					li.setClosedAt(closeMap.get(rs.getString("name")));
 					li.setInventoryStartValue(openMap.get(rs.getString("name")));
 					
@@ -767,7 +801,7 @@ public class InventoryStatements extends DBMain {
 		Connection connection = ds.getConnection();
 		ArrayList<Inventory> al = new ArrayList<Inventory>();
 		try {
-			statement = connection.prepareStatement("SELECT DISTINCT inventory.id, inventory.name, inventory.price FROM inventory, storages WHERE storages.company_id = ? AND storages.id = inventory.storage_id;");
+			statement = connection.prepareStatement("SELECT DISTINCT inventory.id, inventory.name, inventory.price, inventory.sales_price FROM inventory, storages WHERE storages.company_id = ? AND storages.id = inventory.storage_id;");
 			try {
 				statement.setInt(1, companyId);
 				rs = statement.executeQuery();
@@ -776,6 +810,7 @@ public class InventoryStatements extends DBMain {
 					i.setId(rs.getInt("id"));
 					i.setName(rs.getString("name"));
 					i.setPrice(rs.getDouble("price"));
+					i.setSalesPrice(rs.getDouble("sales_price"));
 					al.add(i);
 				}
 			} catch(Exception e) {
@@ -798,18 +833,19 @@ public class InventoryStatements extends DBMain {
 	
 	
 
-	public boolean addToInventoryLog(String name, int units, int storageId, int stationId, String performed_action, double price) throws Exception{
+	public boolean addToInventoryLog(String name, int units, int storageId, int stationId, String performed_action, double price, double salesPrice) throws Exception{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		Connection connection = ds.getConnection();
 		try {
-			statement = connection.prepareStatement("INSERT INTO inventory_log (name, units, storage_id, station_id, performed_action, price) VALUES (?, ?, ?, ?, ?, ?)");
+			statement = connection.prepareStatement("INSERT INTO inventory_log (name, units, storage_id, station_id, performed_action, price, sales_price) VALUES (?, ?, ?, ?, ?, ?, ?)");
 			statement.setString(1, name);
 			statement.setInt(2, units);
 			statement.setInt(3, storageId);
 			statement.setInt(4, stationId);
 			statement.setString(5, performed_action);
 			statement.setDouble(6, price);
+			statement.setDouble(7, salesPrice);
 			statement.executeUpdate();
 			return true;
 		}
@@ -1171,6 +1207,32 @@ public class InventoryStatements extends DBMain {
     	return false;	
 	}
 	
+	public boolean userOwnsInventory(int companyId, int inventoryId) throws Exception{
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		Connection connection = ds.getConnection();
+    	try {
+    		statement = connection.prepareStatement("SELECT DISTINCT inventory.id FROM inventory, storages WHERE storages.company_id = ? AND storages.id = inventory.storage_id AND inventory.id = ?");
+    		statement.setInt(1, companyId);
+    		statement.setInt(2, inventoryId);
+    		rs = statement.executeQuery();
+    		if(rs.next()) {
+    			return true;
+    		}
+    	}
+    	catch(Exception e1) {
+    		e1.printStackTrace();
+    	} finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+    	return false;	
+	}
+	
 	public void changeStorageStatus(int storageId) throws Exception{
 		PreparedStatement statement = null;
 		Connection connection = ds.getConnection();
@@ -1273,5 +1335,45 @@ public class InventoryStatements extends DBMain {
             {e.printStackTrace();}
         }
     	return null;
+	}
+
+	public void updateSalesPrice(double updatedSalesPrice, int inventoryId) throws SQLException {
+		PreparedStatement statement = null;
+		Connection connection = ds.getConnection();
+		try {
+			statement = connection.prepareStatement("UPDATE inventory SET sales_price = ? WHERE inventory.id = ?");
+			statement.setDouble(1, updatedSalesPrice);
+			statement.setInt(2, inventoryId);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		
+	}
+	
+	public void updatePrice(double updatedPrice, int inventoryId) throws SQLException {
+		PreparedStatement statement = null;
+		Connection connection = ds.getConnection();
+		try {
+			statement = connection.prepareStatement("UPDATE inventory SET price = ? WHERE inventory.id = ?");
+			statement.setDouble(1, updatedPrice);
+			statement.setInt(2, inventoryId);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		
 	}
 }

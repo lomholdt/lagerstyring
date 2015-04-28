@@ -3,6 +3,7 @@
 
 
 <add:wrap title="Tilføj Ny Vare">
+<script src="${pageContext.request.contextPath}/js/price.js"></script>
 
 	<c:if test="${msg != null}">
 		<div class="alert alert-success">${msg}</div>
@@ -41,8 +42,12 @@
 										name="units" value="0">
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control" placeholder="Pris"
+									<input type="text" class="form-control" placeholder="Indkøbspris"
 										name="price">
+								</div>
+								<div class="form-group">
+									<input type="text" class="form-control" placeholder="Omsætningspris"
+										name="salesPrice">
 								</div>
 								<div class="form-group">
 									<button type="submit" class="btn btn-primary btn-lg">Tilføj vare</button>
@@ -61,15 +66,20 @@
 										<thead>
 											<tr>
 												<th>Vare</th>
-												<th>Pris</th>
+												<th>Indkøbspris</th>
+												<th>Omsætningspris</th>
 												<th>Marker</th>
 											</tr>
 										</thead>
 										<tbody>
 											<c:forEach var="inventory" items="${allInventory}">
+											<input type="hidden" value="${inventory.id}">
 												<tr>					
 													<td><label for="${inventory.name}">${inventory.name}</label></td>
-													<td>${inventory.price}</td>
+													<td><input type="text" class="form-control input-sm" placeholder="Indkøbspris"
+										name="uPrice" value="${inventory.price}" onblur="update(${inventory.id}, 'uPrice')" id="uPrice-${inventory.id}"></td>
+													<td><input type="text" class="form-control input-sm" placeholder="Omsætningspris"
+										name="uSalesPrice" value="${inventory.salesPrice}" onblur="update(${inventory.id}, 'uSalesPrice')" id="uSalesPrice-${inventory.id}"></td>
 													<td><input type="checkbox" id="${inventory.name}" name="i" value="${inventory.id}"></td>
 												</tr>
 											</c:forEach>

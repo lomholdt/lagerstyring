@@ -111,6 +111,14 @@
     <servlet-name>MoveInController</servlet-name>
     <url-pattern>/movein</url-pattern>
   </servlet-mapping>
+    <servlet>
+    <servlet-name>UpdatePriceController</servlet-name>
+    <servlet-class>com.lomholdt.lagerstyring.controller.UpdatePriceController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdatePriceController</servlet-name>
+    <url-pattern>/updateprice</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>MoveOutController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.MoveOutController</servlet-class>
@@ -146,8 +154,8 @@
     <url-pattern>/test</url-pattern>
   </servlet-mapping>
   <servlet>
-  <servlet-name>ApiController</servlet-name>
-      <servlet-class>
+    <servlet-name>ApiController</servlet-name>
+    <servlet-class>
             com.lomholdt.lagerstyring.controller.ApiController
         </servlet-class>
   </servlet>

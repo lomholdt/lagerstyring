@@ -11,6 +11,7 @@ public class LoggedInventory {
 	private int units;
 	private String performedAction;
 	private double price;
+	private double salesPrice;
 	
 	public Calendar getCreatedAt() {
 		return createdAt;
@@ -43,7 +44,10 @@ public class LoggedInventory {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	
-	
-
+	public double getSalesPrice() {
+		return salesPrice;
+	}
+	public void setSalesPrice(double salesPrice) {
+		this.salesPrice = salesPrice;
+	}
 }

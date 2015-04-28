@@ -7,7 +7,9 @@ public class LoggedSummedInventory {
 	private String name;
 	private int totalUnits;
 	private double unitPrice;
+	private double unitSalesPrice;
 	private double totalValue;
+	private double totalSalesValue;
 	private ArrayList<Integer> moves = new ArrayList<>();
 	private int inventoryStartValue;
 	private int closedAt;
@@ -33,10 +35,8 @@ public class LoggedSummedInventory {
 	public double getTotalValue() {
 		return totalValue;
 	}
-	
-	public void setTotalValue(double totalValue) {  
+	public void setTotalValue(double totalValue) {
 		this.totalValue = this.unitPrice * this.totalUnits; // double totalValue are not used
-		
 	}
 	public ArrayList<Integer> getMoves(){
 		return moves;
@@ -83,5 +83,17 @@ public class LoggedSummedInventory {
 			}
 		}
 		return sum;
+	}
+	public double getUnitSalesPrice() {
+		return unitSalesPrice;
+	}
+	public void setUnitSalesPrice(double unitSalesPrice) {
+		this.unitSalesPrice = unitSalesPrice;
+	}
+	public double getTotalSalesValue() {
+		return totalSalesValue;
+	}
+	public void setTotalSalesValue(double totalSalesValue) {
+		this.totalSalesValue = this.unitSalesPrice * this.totalUnits;
 	}
 }

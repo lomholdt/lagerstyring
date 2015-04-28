@@ -52,6 +52,7 @@ public class AddInventoryController extends HttpServlet {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		FlashMessage.getFlashMessage(request, "error");
 		
 		try {
 			// User is allowed to be here
@@ -94,14 +95,16 @@ public class AddInventoryController extends HttpServlet {
 		String name = request.getParameter("name");
 		String units = request.getParameter("units");
 		String price = request.getParameter("price");
+		String salesPrice = request.getParameter("salesPrice");
 		price = price.replaceAll(",", "."); // if input uses comma replace with compatible dot
 		
 		Pattern p = Pattern.compile("(\\d)+([,\\.])?(\\d)*");
 		Matcher m = p.matcher(price);
+		Matcher sp = p.matcher(salesPrice);
 		
 		
-		if(storage == null || name == null || units == null || price == null
-				|| storage.isEmpty() || name.isEmpty() || units.isEmpty() || price.isEmpty() || !m.matches()){
+		if(storage == null || name == null || units == null || price == null || salesPrice == null
+				|| storage.isEmpty() || name.isEmpty() || units.isEmpty() || price.isEmpty() || salesPrice.isEmpty() || !m.matches() || !sp.matches()){
 			request.setAttribute("error", "An error occured, did you fill out all the field?");
 			doGet(request, response);
 			return;
@@ -121,7 +124,7 @@ public class AddInventoryController extends HttpServlet {
 				doGet(request, response);
 				return;
 			}
-			is.addInventory(name, Integer.parseInt(units), storageId, Double.parseDouble(price));
+			is.addInventory(name, Integer.parseInt(units), storageId, Double.parseDouble(price), Double.parseDouble(salesPrice));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

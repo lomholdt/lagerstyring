@@ -13,6 +13,7 @@ public class Inventory {
 	private Calendar updatedAt;
 	private int storageId;
 	private double price;
+	private double salesPrice;
 	
 	public int getId() {
 		return id;
@@ -57,6 +58,12 @@ public class Inventory {
 	}
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	public double getSalesPrice() {
+		return salesPrice;
+	}
+	public void setSalesPrice(double salesPrice) {
+		this.salesPrice = salesPrice;
 	}
 	
 
