@@ -26,6 +26,9 @@ public class LoggedSummedInventory {
 	public void setTotalUnits(int totalUnits) {
 		this.totalUnits = (-1) * totalUnits;
 	}
+	public int getTotalUnitsWithDiff(){
+		return totalUnits + ((-1) * getDiff());
+	}
 	public double getUnitPrice() {
 		return unitPrice;
 	}
@@ -34,6 +37,9 @@ public class LoggedSummedInventory {
 	}
 	public double getTotalValue() {
 		return totalValue;
+	}
+	public double getTotalValueWithDiff(){
+		return this.unitPrice * getTotalUnitsWithDiff();
 	}
 	public void setTotalValue(double totalValue) {
 		this.totalValue = this.unitPrice * this.totalUnits; // double totalValue are not used
@@ -75,12 +81,8 @@ public class LoggedSummedInventory {
 	private int sumOfMoves(){
 		int sum = 0;
 		for (Integer move : moves) {
-			if (move < 0){
-				sum += Math.abs(move);
-			}
-			else{
-				sum -= move;
-			}
+			if (move < 0){ sum += Math.abs(move); }
+			else{ sum -= move; }
 		}
 		return sum;
 	}
@@ -95,5 +97,8 @@ public class LoggedSummedInventory {
 	}
 	public void setTotalSalesValue(double totalSalesValue) {
 		this.totalSalesValue = this.unitSalesPrice * this.totalUnits;
+	}
+	public double getTotalSalesValueWithDiff(){
+		return this.unitSalesPrice * getTotalUnitsWithDiff();
 	}
 }

@@ -134,17 +134,16 @@ public class PeriodController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		
 		if(storageId == null || storageId.isEmpty()){
 			FlashMessage.setFlashMessage(request, "error", "No storage selected");
 			response.sendRedirect("choose");
 			return;
 		}
 		
-		
 		ArrayList<LoggedSummedStorage> al = new ArrayList<LoggedSummedStorage>();
 		
 		try {
+			
 			if(!is.userOwnsStorage(Integer.parseInt(storageId), user.getId())){
 				FlashMessage.setFlashMessage(request, "error", "You do not have permission to access this storage. The incident has been reported.");
 				response.sendRedirect("choose");
@@ -166,7 +165,7 @@ public class PeriodController extends HttpServlet {
 						}
 					}				
 				} catch (Exception e) {
-					// TODO: handle exception
+					e.printStackTrace();
 				}
 			}
 			else{
