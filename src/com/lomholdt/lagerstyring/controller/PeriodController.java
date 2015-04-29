@@ -312,20 +312,21 @@ public class PeriodController extends HttpServlet {
 		}
 		
 		String[] periodsArr = periods.split("&");
-		from = periodsArr[0];
-		to = periodsArr[1];
-		if(from == null || from.isEmpty() ||
-				to == null || to.isEmpty()){
-			System.out.println("Returning null from getSummedLogResults");
-			return loggedSummedInventory;
-		}
+		if (from == null) from = periodsArr[0];
+		if (to == null) to = periodsArr[1];
+		
+//		if(from == null || from.isEmpty() ||
+//				to == null || to.isEmpty()){
+//			System.out.println("Returning null from getSummedLogResults");
+//			return loggedSummedInventory;
+//		}
 		InventoryStatements is = new InventoryStatements();
 		Timestamp fromDate = Timestamp.valueOf(from);
 		Timestamp toDate = Timestamp.valueOf(to);
 		
 		try {
-			
-			loggedSummedInventory = is.getSummedLogResults(fromDate, toDate, Integer.parseInt(storageId));
+			System.out.println("Getting summed log results");
+			loggedSummedInventory = is.getAllSummedLogResults(fromDate, toDate, Integer.parseInt(storageId));
 			addMovesToInventory(loggedSummedInventory, fromDate, toDate, Integer.parseInt(storageId));
 
 		} catch (Exception e) {

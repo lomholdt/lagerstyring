@@ -151,7 +151,9 @@ public class MoveOutController extends HttpServlet {
 					String inventoryName = is.getInventoryName(Integer.parseInt(entry.getKey()));
 					String amount = entry.getValue()[0];
 					inventoryOverview += String.format("-%s %s <br>", amount, inventoryName);
-					is.addToInventoryLog(inventoryName, 
+					is.addToInventoryLog(
+							Integer.parseInt(entry.getKey()),
+							inventoryName, 
 							-Integer.parseInt(amount), 
 							Integer.parseInt(storageId), 
 							Integer.parseInt(stationId),
@@ -166,7 +168,7 @@ public class MoveOutController extends HttpServlet {
 		
 
 		try {
-			String msg = "<h5>"+"Afgang gennemført fra " + is.getStorage(Integer.parseInt(storageId)).getName() + " til " + is.getStation(Integer.parseInt(stationId)).getName() + "</h5>" + inventoryOverview;
+			String msg = "<h5>Afgang gennemført fra " + is.getStorage(Integer.parseInt(storageId)).getName() + " til " + is.getStation(Integer.parseInt(stationId)).getName() + "</h5>" + inventoryOverview;
 			FlashMessage.setFlashMessage(request, "msg", msg);
 			response.sendRedirect("move");	
 		} catch (NumberFormatException e) {

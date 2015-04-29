@@ -129,6 +129,10 @@ CREATE TABLE IF NOT EXISTS inventory_snapshot(
  */
 ALTER TABLE inventory ADD sales_price double NOT NULL DEFAULT 0.0 AFTER price;
 ALTER TABLE inventory_log ADD sales_price double NOT NULL DEFAULT 0.0 AFTER price;
+ALTER TABLE inventory_log ADD inventory_id int(11) NOT NULL AFTER id;
+
+ALTER TABLE inventory_snapshot ADD price double NOT NULL DEFAULT 0.0;
+ALTER TABLE inventory_snapshot ADD sales_price double NOT NULL DEFAULT 0.0;
 
 
 

@@ -139,12 +139,6 @@ public class MoveInController extends HttpServlet {
 //		response.sendRedirect("move"); 
 		
 		
-		
-		
-		
-		
-		
-		
 		// Update the values that are not zero
 		String inventoryOverview = "";
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
@@ -157,7 +151,8 @@ public class MoveInController extends HttpServlet {
 					String inventoryName = is.getInventoryName(Integer.parseInt(entry.getKey()));
 					String amount = entry.getValue()[0];
 					inventoryOverview += String.format("%s %s <br>", amount, inventoryName);
-					is.addToInventoryLog(inventoryName, 
+					is.addToInventoryLog(Integer.parseInt(entry.getKey()), 
+							inventoryName, 
 							Integer.parseInt(amount), 
 							Integer.parseInt(storageId), 
 							Integer.parseInt(stationId),

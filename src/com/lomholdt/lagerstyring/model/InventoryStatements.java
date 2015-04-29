@@ -185,7 +185,7 @@ public class InventoryStatements extends DBMain {
 				statement.executeUpdate();
 			} catch(Exception e) {
 				e.printStackTrace();
-			}				
+			}
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -298,7 +298,7 @@ public class InventoryStatements extends DBMain {
 		ResultSet rs = null;
 		Connection connection = ds.getConnection();
 		try {
-			statement = connection.prepareStatement("INSERT INTO inventory_snapshot (inventory_id, name, units_at_open, archive_log_id) SELECT inventory.id, inventory.name, inventory.units, (SELECT DISTINCT MAX(archive_log.id) AS id FROM archive_log WHERE archive_log.storage_id = ?) FROM inventory WHERE storage_id = ?");
+			statement = connection.prepareStatement("INSERT INTO inventory_snapshot (inventory_id, name, units_at_open, archive_log_id, price, sales_price) SELECT inventory.id, inventory.name, inventory.units, (SELECT DISTINCT MAX(archive_log.id) AS id FROM archive_log WHERE archive_log.storage_id = ?), inventory.price, inventory.sales_price FROM inventory WHERE storage_id = ?");
 			try {
 				// Do stuff with the statement
 				statement.setInt(1, storageId);
@@ -500,7 +500,7 @@ public class InventoryStatements extends DBMain {
 		Map<String, Integer> openMap = getOpenCountAt(to, storageId);
 		LoggedSummedStation ls = new LoggedSummedStation();
 		ls.setStation(getStation(stationId));
-		Connection connection = ds.getConnection();;
+		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement("SELECT inventory_log.name, (SUM(inventory_log.units)) AS total_out_units, inventory_log.price AS unit_price, inventory_log.sales_price AS unit_sales_price, ABS(SUM(inventory_log.price * inventory_log.units)) AS total_out_value "
 					+ "FROM inventory_log "
@@ -554,8 +554,9 @@ public class InventoryStatements extends DBMain {
 		Map<String, Integer> closeMap = getCloseCountAt(to, storageId);
 		Map<String, Integer> openMap = getOpenCountAt(to, storageId);
 		ArrayList<LoggedSummedInventory> ls = new ArrayList<>();
-		Connection connection = ds.getConnection();;
+		Connection connection = ds.getConnection();
 		try {
+			
 			statement = connection.prepareStatement("SELECT inventory_log.name, (SUM(inventory_log.units)) AS total_out_units, inventory_log.price AS unit_price, inventory_log.sales_price AS unit_sales_price, ABS(SUM(inventory_log.price * inventory_log.units)) AS total_out_value, ABS(SUM(inventory_log.sales_price * inventory_log.units)) AS total_out_sales_value "
 					+ "FROM inventory_log "
 					+ "WHERE inventory_log.created_at >= ?"
@@ -601,12 +602,81 @@ public class InventoryStatements extends DBMain {
 		return ls;
 	}
 	
+	public ArrayList<LoggedSummedInventory> getAllSummedLogResults(Timestamp from, Timestamp to, int storageId) throws Exception{
+		ArrayList<LoggedSummedInventory> summedLogResults = getSummedLogResults(from, to, storageId);
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		//Map<String, Integer> closeMap = getCloseCountAt(to, storageId);
+		//Map<String, Integer> openMap = getOpenCountAt(to, storageId);
+		//ArrayList<LoggedSummedInventory> ls = new ArrayList<>();
+		Connection connection = ds.getConnection();
+		try {
+			String query = "SELECT inventory_snapshot.name, inventory_snapshot.units_at_open, inventory_snapshot.units_at_close, inventory_snapshot.price, inventory_snapshot.sales_price, ((-1) *(inventory_snapshot.units_at_open - inventory_snapshot.units_at_close)) AS total_out_units "
+					+ "FROM inventory_snapshot "
+					+ "INNER JOIN archive_log "
+					+ "ON inventory_snapshot.archive_log_id = archive_log.id "
+					+ "WHERE archive_log.opened_at >= ? "
+					+ "AND archive_log.closed_at <= ? "
+					+ "AND archive_log.storage_id = ? ";
+			
+			
+			for (LoggedSummedInventory loggedSummedInventory : summedLogResults) {
+				query += "AND inventory_snapshot.name != ? ";
+			}
+			query += ";";
+			statement = connection.prepareStatement(query);
+			int indexCount = 4;
+			for (LoggedSummedInventory loggedSummedInventory : summedLogResults) {
+				statement.setString(indexCount++, loggedSummedInventory.getName());
+				System.out.println("Not looking for " + loggedSummedInventory.getName());
+			}
+
+			statement.setTimestamp(1, from);
+			statement.setTimestamp(2, to);
+			statement.setInt(3, storageId);
+			
+			try {
+				rs = statement.executeQuery();
+				while (rs.next()){
+					LoggedSummedInventory li = new LoggedSummedInventory();
+					li.setName(rs.getString("name"));
+					li.setTotalUnits(rs.getInt("total_out_units"));
+					li.setUnitPrice(rs.getDouble("price"));
+					li.setUnitSalesPrice(rs.getDouble("sales_price"));
+					li.setTotalValue(new Double(Math.abs(rs.getInt("total_out_units") * rs.getDouble("price"))));
+					li.setTotalSalesValue(new Double(Math.abs(rs.getInt("total_out_units") * rs.getDouble("sales_price"))));
+					li.setClosedAt(rs.getInt("units_at_close"));
+					li.setInventoryStartValue(rs.getInt("units_at_open"));
+					
+					summedLogResults.add(li);
+				}
+			}
+			catch(Exception e){
+				System.out.println("Error getting getSummedLogResults.");
+				e.printStackTrace();
+			}
+		}
+		catch(Exception e){
+			System.out.println("Could not get getSummedLogResults.");
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		return summedLogResults;
+	}
+	
 	public LoggedSummedStation getLoggedStation(Timestamp from, Timestamp to, int stationId, int storageId, String inventoryName) throws Exception{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		LoggedSummedStation ls = new LoggedSummedStation();
 		ls.setStation(getStation(stationId));
-		Connection connection = ds.getConnection();;
+		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement("SELECT inventory_log.name, (SUM(inventory_log.units)) AS total_out_units, inventory_log.price AS unit_price, ABS(SUM(inventory_log.price * inventory_log.units)) AS total_out_value "
 					+ "FROM inventory_log "
@@ -833,19 +903,20 @@ public class InventoryStatements extends DBMain {
 	
 	
 
-	public boolean addToInventoryLog(String name, int units, int storageId, int stationId, String performed_action, double price, double salesPrice) throws Exception{
+	public boolean addToInventoryLog(int inventoryId, String name, int units, int storageId, int stationId, String performed_action, double price, double salesPrice) throws Exception{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		Connection connection = ds.getConnection();
 		try {
-			statement = connection.prepareStatement("INSERT INTO inventory_log (name, units, storage_id, station_id, performed_action, price, sales_price) VALUES (?, ?, ?, ?, ?, ?, ?)");
-			statement.setString(1, name);
-			statement.setInt(2, units);
-			statement.setInt(3, storageId);
-			statement.setInt(4, stationId);
-			statement.setString(5, performed_action);
-			statement.setDouble(6, price);
-			statement.setDouble(7, salesPrice);
+			statement = connection.prepareStatement("INSERT INTO inventory_log (inventory_id, name, units, storage_id, station_id, performed_action, price, sales_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+			statement.setInt(1, inventoryId);
+			statement.setString(2, name);
+			statement.setInt(3, units);
+			statement.setInt(4, storageId);
+			statement.setInt(5, stationId);
+			statement.setString(6, performed_action);
+			statement.setDouble(7, price);
+			statement.setDouble(8, salesPrice);
 			statement.executeUpdate();
 			return true;
 		}
