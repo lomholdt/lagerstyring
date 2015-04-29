@@ -16,7 +16,7 @@
 						<form method="POST" action="login">
 						<br>
 						<div class="form-group">
-							<input type="text" id="company" class="form-control input-lg" placeholder="Company" name="companyName"><br>
+							<input type="text" id="company" class="form-control input-lg" placeholder="Company" name="companyName" autofocus><br>
 							<input type="text" id="username" class="form-control input-lg" placeholder="Username" name="username"><br>
 							<input type="password" id="password" class="form-control input-lg" placeholder="Password" name="password"><br>
 							</div>

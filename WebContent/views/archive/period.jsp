@@ -171,8 +171,8 @@
 														<th>Vare</th>
 														<th>Afgang</th>
 														<th>Salg</th>
-														<th>Pris</th>
-														<th>total kr.</th>
+														<th>Indkøbspris</th>
+														<th>Indkøb-kr.</th>
 													</tr>
 												</thead>
 												<tbody>

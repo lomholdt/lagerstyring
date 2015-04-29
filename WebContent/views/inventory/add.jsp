@@ -74,7 +74,7 @@
 										<tbody>
 											<c:forEach var="inventory" items="${allInventory}">
 											<input type="hidden" value="${inventory.id}">
-												<tr>					
+												<tr>
 													<td><label for="${inventory.name}">${inventory.name}</label></td>
 													<td><input type="text" class="form-control input-sm" placeholder="Indkøbspris"
 										name="uPrice" value="${inventory.price}" onblur="update(${inventory.id}, 'uPrice')" id="uPrice-${inventory.id}"></td>

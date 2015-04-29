@@ -63,6 +63,12 @@ public class UpdatePriceController extends HttpServlet {
 				FlashMessage.setFlashMessage(request, "error", "You do not have permission to perform this action.");
 				response.sendRedirect("count");
 				return;
+			
+			}
+			if(is.inventoriesStorageIsOpen(Integer.parseInt(inventoryId))){
+				FlashMessage.setFlashMessage(request, "error", "Please close storages before changeing price");
+				response.sendRedirect("inventory");
+				return;
 			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block

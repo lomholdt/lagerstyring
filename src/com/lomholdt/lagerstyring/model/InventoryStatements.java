@@ -1304,6 +1304,33 @@ public class InventoryStatements extends DBMain {
     	return false;	
 	}
 	
+	public boolean inventoriesStorageIsOpen(int inventoryId) throws Exception{
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		Connection connection = ds.getConnection();
+    	try {
+    		statement = connection.prepareStatement("SELECT storages.is_open FROM storages, inventory WHERE inventory.storage_id = storages.id AND inventory.id = ?;");
+    		statement.setInt(1, inventoryId);
+    		rs = statement.executeQuery();
+    		if(rs.next()) {
+    			if(rs.getBoolean("is_open")){
+    				return true;
+    			}
+    		}
+    	}
+    	catch(Exception e1) {
+    		e1.printStackTrace();
+    	} finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+    	return false;	
+	}
+	
 	public void changeStorageStatus(int storageId) throws Exception{
 		PreparedStatement statement = null;
 		Connection connection = ds.getConnection();
