@@ -82,7 +82,8 @@
 						<div class="panel-heading">
 							<h3 class="panel-title">
 								Oversigt - ${storage.name} <small class="report-timestamp">${from} - ${to}</small><span onclick="window.print()"
-									class="btn btn-default btn-xs pull-right udskriv">Udskriv</span> <span id="export" class="btn btn-default btn-xs pull-right">Export</span>
+									class="btn btn-default btn-xs pull-right udskriv">Udskriv</span> <span id="export" class="btn btn-default btn-xs pull-right">Excel</span>
+
 							</h3>
 						</div>
 						<div class="panel-body">
