@@ -27,7 +27,8 @@ public class LoggedSummedInventory {
 		this.totalUnits = (-1) * totalUnits;
 	}
 	public int getTotalUnitsWithDiff(){
-		return totalUnits + ((-1) * getDiff());
+		int diff = (moves.size() == 0) ? 0 : getDiff();
+		return totalUnits + ((-1) * diff);
 	}
 	public double getUnitPrice() {
 		return unitPrice;

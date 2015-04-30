@@ -507,7 +507,7 @@ public class InventoryStatements extends DBMain {
 					+ "WHERE inventory_log.created_at >= ?"
 					+ "AND inventory_log.created_at <= ?"
 					+ "AND inventory_log.storage_id = ? "
-					+ "AND inventory_log.station_id = ? GROUP BY name, price;");
+					+ "AND inventory_log.station_id = ? GROUP BY name, price, sales_price;");
 			statement.setTimestamp(1, from);
 			statement.setTimestamp(2, to);
 			statement.setInt(3, storageId);
@@ -561,7 +561,7 @@ public class InventoryStatements extends DBMain {
 					+ "FROM inventory_log "
 					+ "WHERE inventory_log.created_at >= ?"
 					+ "AND inventory_log.created_at <= ?"
-					+ "AND inventory_log.storage_id = ? GROUP BY name, price;");
+					+ "AND inventory_log.storage_id = ? GROUP BY name, price, sales_price;");
 			statement.setTimestamp(1, from);
 			statement.setTimestamp(2, to);
 			statement.setInt(3, storageId);
@@ -572,6 +572,9 @@ public class InventoryStatements extends DBMain {
 					LoggedSummedInventory li = new LoggedSummedInventory();
 					li.setName(rs.getString("name"));
 					li.setTotalUnits(rs.getInt("total_out_units"));
+					
+					System.out.println("Total units B: " + rs.getInt("total_out_units"));
+					
 					li.setUnitPrice(rs.getDouble("unit_price"));
 					li.setUnitSalesPrice(rs.getDouble("unit_sales_price"));
 					li.setTotalValue(rs.getDouble("total_out_value"));
@@ -611,7 +614,7 @@ public class InventoryStatements extends DBMain {
 		//ArrayList<LoggedSummedInventory> ls = new ArrayList<>();
 		Connection connection = ds.getConnection();
 		try {
-			String query = "SELECT inventory_snapshot.name, inventory_snapshot.units_at_open, inventory_snapshot.units_at_close, inventory_snapshot.price, inventory_snapshot.sales_price, ((-1) *(inventory_snapshot.units_at_open - inventory_snapshot.units_at_close)) AS total_out_units "
+			String query = "SELECT inventory_snapshot.name, inventory_snapshot.units_at_open, inventory_snapshot.units_at_close, inventory_snapshot.price, inventory_snapshot.sales_price, ((-1) * (inventory_snapshot.units_at_open - inventory_snapshot.units_at_close)) AS total_out_units "
 					+ "FROM inventory_snapshot "
 					+ "INNER JOIN archive_log "
 					+ "ON inventory_snapshot.archive_log_id = archive_log.id "
@@ -628,7 +631,6 @@ public class InventoryStatements extends DBMain {
 			int indexCount = 4;
 			for (LoggedSummedInventory loggedSummedInventory : summedLogResults) {
 				statement.setString(indexCount++, loggedSummedInventory.getName());
-				System.out.println("Not looking for " + loggedSummedInventory.getName());
 			}
 
 			statement.setTimestamp(1, from);
@@ -641,6 +643,9 @@ public class InventoryStatements extends DBMain {
 					LoggedSummedInventory li = new LoggedSummedInventory();
 					li.setName(rs.getString("name"));
 					li.setTotalUnits(rs.getInt("total_out_units"));
+					
+					System.out.println("Total units B: " + rs.getInt("total_out_units"));
+					
 					li.setUnitPrice(rs.getDouble("price"));
 					li.setUnitSalesPrice(rs.getDouble("sales_price"));
 					li.setTotalValue(new Double(Math.abs(rs.getInt("total_out_units") * rs.getDouble("price"))));
@@ -684,7 +689,7 @@ public class InventoryStatements extends DBMain {
 					+ "AND inventory_log.created_at <= ?"
 					+ "AND inventory_log.storage_id = ? "
 					+ "AND inventory_log.station_id = ? "
-					+ "AND inventory_log.name = ? GROUP BY name;");
+					+ "AND inventory_log.name = ? GROUP BY name, unit_price;");
 			statement.setTimestamp(1, from);
 			statement.setTimestamp(2, to);
 			statement.setInt(3, storageId);

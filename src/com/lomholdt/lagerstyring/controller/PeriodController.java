@@ -325,7 +325,6 @@ public class PeriodController extends HttpServlet {
 		Timestamp toDate = Timestamp.valueOf(to);
 		
 		try {
-			System.out.println("Getting summed log results");
 			loggedSummedInventory = is.getAllSummedLogResults(fromDate, toDate, Integer.parseInt(storageId));
 			addMovesToInventory(loggedSummedInventory, fromDate, toDate, Integer.parseInt(storageId));
 
