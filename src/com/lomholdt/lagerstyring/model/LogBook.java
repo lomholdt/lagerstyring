@@ -1,6 +1,7 @@
 package com.lomholdt.lagerstyring.model;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class LogBook {
 	
@@ -32,6 +33,15 @@ public class LogBook {
 	}
 	public void setClosedAt(Timestamp closedAt) {
 		this.closedAt = closedAt;
+	}
+	public String getOpenedAtHtml(){
+		return formatTimestamp(getOpenedAt());
+	}
+	public String getClosedAtHtml(){
+		return formatTimestamp(getClosedAt());
+	}
+	private String formatTimestamp(Timestamp t){
+		return new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(t.getTime());
 	}
 	
 

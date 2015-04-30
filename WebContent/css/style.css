@@ -237,3 +237,18 @@ a {
 }
 
 
+/*
+9.-------TABLES--------
+*/
+.meta-excel-export-info{
+	display: none; 
+}
+
+
+/*
+10.-------REPORT-TEXT--------
+*/
+small.report-timestamp{
+	color: gray;
+}
+

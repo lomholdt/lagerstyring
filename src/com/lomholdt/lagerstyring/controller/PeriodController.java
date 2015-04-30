@@ -3,6 +3,7 @@ package com.lomholdt.lagerstyring.controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -190,7 +191,7 @@ public class PeriodController extends HttpServlet {
 			e.printStackTrace();
 		}
 	
-		request.setAttribute("loggedStations", al);
+		request.setAttribute("loggedStorage", al);
 		doGet(request, response);
 //		RequestDispatcher view = request.getRequestDispatcher("views/archive/period.jsp");
 //		view.forward(request, response);
@@ -241,8 +242,6 @@ public class PeriodController extends HttpServlet {
 		String to = request.getParameter("to");
 		String inventoryName = request.getParameter("inventoryName");
 		String stationName = request.getParameter("stationName");
-		
-		// TODO TEST - REMOVE  
 		String periods = request.getParameter("periods");
 		
 		if(periods == null || periods.isEmpty()){
@@ -257,6 +256,7 @@ public class PeriodController extends HttpServlet {
 			System.out.println("Returning null from getStationLogResult");
 			return loggedStations;
 		}
+		
 				
 		InventoryStatements is = new InventoryStatements();
 		UserStatements us = new UserStatements();
@@ -315,14 +315,13 @@ public class PeriodController extends HttpServlet {
 		if (from == null) from = periodsArr[0];
 		if (to == null) to = periodsArr[1];
 		
-//		if(from == null || from.isEmpty() ||
-//				to == null || to.isEmpty()){
-//			System.out.println("Returning null from getSummedLogResults");
-//			return loggedSummedInventory;
-//		}
+		
 		InventoryStatements is = new InventoryStatements();
 		Timestamp fromDate = Timestamp.valueOf(from);
 		Timestamp toDate = Timestamp.valueOf(to);
+		
+		request.setAttribute("from", new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(fromDate));
+		request.setAttribute("to", new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(toDate));		
 		
 		try {
 			loggedSummedInventory = is.getAllSummedLogResults(fromDate, toDate, Integer.parseInt(storageId));

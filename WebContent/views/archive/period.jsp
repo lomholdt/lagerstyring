@@ -44,8 +44,8 @@
 										<select class="form-control input-sm" name="periods">
 											<c:forEach var="logBook" items="${logBooks}">
 												<option
-													value="${logBook.openedAt.toString()}&${logBook.closedAt.toString()}">${logBook.openedAt.toString()}
-													- ${logBook.closedAt.toString()}</option>
+													value="${logBook.openedAt.toString()}&${logBook.closedAt.toString()}">${logBook.openedAtHtml}
+													- ${logBook.closedAtHtml}</option>
 											</c:forEach>
 										</select> 
 										<input type="hidden" value="${param.storageId}" name="storageId"> 
@@ -76,19 +76,23 @@
 	<c:if test="${loggedInventory.size() gt 0}">
 		<div id="rapport">
 			<!-- OVERSIGT START -->
-			<h1>Rapport - ${storage.name}</h1>
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 class="panel-title">
-								Oversigt <span onclick="window.print()"
+								Oversigt - ${storage.name} <small class="report-timestamp">${from} - ${to}</small><span onclick="window.print()"
 									class="btn btn-default btn-xs pull-right udskriv">Udskriv</span> <span id="export" class="btn btn-default btn-xs pull-right">Export</span>
 							</h3>
 						</div>
 						<div class="panel-body">
-							<table id="overview" class="table table-striped" data-sortable>
+							<table id="overview" class="table table-striped excel" data-sortable>
 								<thead>
+									<tr class="meta-excel-export-info">
+										<th>${storage.name}</th>
+										<th>${from}</th>
+										<th>${to}</th>
+									</tr>
 									<tr>
 										<th>Vare</th>
 										<th>Start</th>
@@ -144,13 +148,13 @@
 					</div>
 				</div>
 			</div>
-			<c:forEach var="loggedStorage" items="${loggedStations}">
+			<c:forEach var="loggedStorage" items="${loggedStorage}">
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h3 class="panel-title">
-									Stationer<span onclick="window.print()"
+									Stationer - ${storage.name} <small class="report-timestamp">${from} - ${to}</small><span onclick="window.print()"
 										class="btn btn-default btn-xs pull-right udskriv">Udskriv</span>
 								</h3>
 							</div>
@@ -166,7 +170,7 @@
 
 									<div class="row">
 										<div class="col-sm-10 col-sm-offset-1">
-											<table class="table table-striped" data-sortable>
+											<table class="table table-striped excel" data-sortable>
 												<thead>
 													<tr>
 														<th>Vare</th>
@@ -217,11 +221,11 @@
 
 <script>
 		$("#export").click(function(){
-	  $("#overview").table2excel({
+	  $(".excel").table2excel({
 	    // exclude CSS class
 	    exclude: ".noExl",
-	    name: "Rapport",
-	    filename: "Rapport"
+	    name: "lagerrapport",
+	    filename: "lagerrapport-${from}-${to}"
 	  });
 	});
 </script>
