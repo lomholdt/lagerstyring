@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <period:wrap title="Vælg Periode">
+<script src="${pageContext.request.contextPath}/js/jquery.table2excel.js"></script>
 
 	<div id="search">
 		<div class="row">
@@ -82,11 +83,11 @@
 						<div class="panel-heading">
 							<h3 class="panel-title">
 								Oversigt <span onclick="window.print()"
-									class="btn btn-default btn-xs pull-right udskriv">Udskriv</span>
+									class="btn btn-default btn-xs pull-right udskriv">Udskriv</span> <span id="export" class="btn btn-default btn-xs pull-right">Export</span>
 							</h3>
 						</div>
 						<div class="panel-body">
-							<table class="table table-striped" data-sortable>
+							<table id="overview" class="table table-striped" data-sortable>
 								<thead>
 									<tr>
 										<th>Vare</th>
@@ -213,5 +214,16 @@
 			</c:forEach>
 		</div>
 	</c:if>
+
+<script>
+		$("#export").click(function(){
+	  $("#overview").table2excel({
+	    // exclude CSS class
+	    exclude: ".noExl",
+	    name: "Rapport",
+	    filename: "Rapport"
+	  });
+	});
+</script>
 
 </period:wrap>
