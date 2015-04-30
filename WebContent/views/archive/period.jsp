@@ -1,8 +1,17 @@
+<%@page import="com.lomholdt.lagerstyring.model.RoundDouble"%>
 <%@ taglib prefix="period" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+    <%
+        RoundDouble roundDouble = new com.lomholdt.lagerstyring.model.RoundDouble();
+        pageContext.setAttribute("round", roundDouble, PageContext.PAGE_SCOPE);
+    %>
+
 <period:wrap title="Vælg Periode">
 <script src="${pageContext.request.contextPath}/js/jquery.table2excel.js"></script>
+
+
+
 
 	<div id="search">
 		<div class="row">
@@ -149,8 +158,9 @@
 										<th></th>
 										<th></th>
 										<th></th>
-										<th><c:out value="${inventoryTotal}" /></th>
-										<th><c:out value="${inventorySalesTotal}" /></th>
+										<th><c:out value="${round.round(inventoryTotal, 2)}" /></th>
+										<th><c:out value="${round.round(inventorySalesTotal, 2)}" /></th>
+										
 									</tr>
 								</thead>
 							</table>

@@ -30,7 +30,7 @@
 										<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label> 
 										<div class="col-sm-8">
 											<input
-												type="number" class="form-control" name="${inventory.id}" min="0">
+												type="number" step="any" class="form-control" name="${inventory.id}" min="0">
 										</div>
 									</div>
 							</c:forEach>

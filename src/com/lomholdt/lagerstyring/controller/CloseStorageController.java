@@ -156,7 +156,7 @@ public class CloseStorageController extends HttpServlet {
 			for(Map.Entry<String, String[]> entry : m.entrySet()){
 				if(entry.getKey().equals("sid") || entry.getKey().equals("update")) continue;
 				// TODO Need to secure that updated id's belong to the user updating!
-				is.updateUnitsAt(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
+				is.updateUnitsAt(Integer.parseInt(entry.getKey()), Double.parseDouble(entry.getValue()[0]));
 				is.setInventoryAtClose(Integer.parseInt(storageId), archiveLogId, Integer.parseInt(entry.getKey()));
 			}
 			is.changeStorageStatus(Integer.parseInt(storageId));

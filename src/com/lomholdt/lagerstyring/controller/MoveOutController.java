@@ -147,14 +147,14 @@ public class MoveOutController extends HttpServlet {
 			if(!entry.getValue()[0].equals("0") && !entry.getValue()[0].isEmpty()){
 				// DECREMENT THIS AMOUNT FROM DATABASE
 				try {
-					is.decrementUnits(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
+					is.decrementUnits(Integer.parseInt(entry.getKey()), Double.parseDouble(entry.getValue()[0]));
 					String inventoryName = is.getInventoryName(Integer.parseInt(entry.getKey()));
 					String amount = entry.getValue()[0];
 					inventoryOverview += String.format("-%s %s <br>", amount, inventoryName);
 					is.addToInventoryLog(
 							Integer.parseInt(entry.getKey()),
 							inventoryName, 
-							-Integer.parseInt(amount), 
+							-Double.parseDouble(amount), 
 							Integer.parseInt(storageId), 
 							Integer.parseInt(stationId),
 							"Afgang", 

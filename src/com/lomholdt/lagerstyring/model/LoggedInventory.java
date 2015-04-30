@@ -8,7 +8,7 @@ public class LoggedInventory {
 	
 	private Calendar createdAt;
 	private String name;
-	private int units;
+	private double units;
 	private String performedAction;
 	private double price;
 	private double salesPrice;
@@ -26,10 +26,10 @@ public class LoggedInventory {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getUnits() {
+	public double getUnits() {
 		return units;
 	}
-	public void setUnits(int units) {
+	public void setUnits(double units) {
 		this.units = units;
 	}
 	public String getPerformedAction() {

@@ -58,6 +58,11 @@ public class PeriodController extends HttpServlet {
 				response.sendRedirect("");
 				return;
 			}
+			if(storageId == null || storageId.isEmpty()){
+				FlashMessage.setFlashMessage(request, "error", "You must select a storage first");
+				response.sendRedirect("choose");
+				return;
+			}
 			if(!is.userOwnsStorage(Integer.parseInt(storageId), user.getId())){
 				FlashMessage.setFlashMessage(request, "error", "You do not have permission to view that report.");
 				response.sendRedirect("count");
@@ -74,11 +79,7 @@ public class PeriodController extends HttpServlet {
 				
 
 		try {
-			if(storageId == null || storageId.isEmpty()){
-				FlashMessage.setFlashMessage(request, "error", "You must select a storage first");
-				response.sendRedirect("choose");
-				return;
-			}
+
 			populateInput(request, response, user, Integer.parseInt(storageId));
 			
 			if(fromDate == null || fromDate.isEmpty() && toDate == null || toDate.isEmpty()){

@@ -124,7 +124,7 @@ public class AddInventoryController extends HttpServlet {
 				doGet(request, response);
 				return;
 			}
-			is.addInventory(name, Integer.parseInt(units), storageId, Double.parseDouble(price), Double.parseDouble(salesPrice));
+			is.addInventory(name, Double.parseDouble(units), storageId, Double.parseDouble(price), Double.parseDouble(salesPrice));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

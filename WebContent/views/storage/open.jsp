@@ -13,7 +13,7 @@
 
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2">
-			<form class="form-horizontal" method="POST" action="open">
+			<form class="form-horizontal" method="POST" action="open" id="openStorageForm">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">Åben: ${storage.name}</h3>
@@ -26,7 +26,7 @@
 									<div class="form-group">
 										<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label> 
 										<div class="col-sm-8">
-										<input type="number" class="form-control" placeholder="Antal" name="${inventory.id}" min="0" value="${inventory.units}">
+										<input type="number" step="any" class="form-control" placeholder="Antal" name="${inventory.id}" min="0" value="${inventory.units}">
 									 </div>
 									</div>
 								</c:forEach>
@@ -40,7 +40,7 @@
 							<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
 								<input type="hidden" value="${storage.id}" name="sid">
 								<input type="hidden" value="update" name="update">
-								<button type="submit" class="btn btn-primary btn-lg">Åben
+								<button type="button" class="btn btn-primary btn-lg" onclick="conf()">Åben
 									Lager</button>
 							</div>
 						</div>
@@ -49,4 +49,16 @@
 			</form>
 		</div>
 	</div>
+	
+	
+	<script>
+		function conf(){
+			var form = document.getElementById("openStorageForm");
+			var confi = confirm("Vil du åbne lageret?");
+			if(confi){
+				form.submit();
+			}
+		}
+	
+	</script>
 </add:wrap>

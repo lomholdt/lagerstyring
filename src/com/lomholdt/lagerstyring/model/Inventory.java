@@ -8,7 +8,7 @@ public class Inventory {
 	
 	private int id;
 	private String name;
-	private int units;
+	private double units;
 	private Calendar createdAt;
 	private Calendar updatedAt;
 	private int storageId;
@@ -27,10 +27,10 @@ public class Inventory {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getUnits() {
+	public double getUnits() {
 		return units;
 	}
-	public void setUnits(int units) {
+	public void setUnits(double units) {
 		this.units = units;
 	}
 	public Calendar getCreatedAt() {

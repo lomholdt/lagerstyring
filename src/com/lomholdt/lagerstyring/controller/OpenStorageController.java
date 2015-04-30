@@ -136,7 +136,7 @@ public class OpenStorageController extends HttpServlet {
 			if(entry.getKey().equals("sid") || entry.getKey().equals("update")) continue;
 			try {
 				// TODO Need to secure that updated id's belong to the user updating!
-				is.updateUnitsAt(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));				
+				is.updateUnitsAt(Integer.parseInt(entry.getKey()), Double.parseDouble(entry.getValue()[0]));				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class InventoryStatements extends DBMain {
 	
-	public boolean addInventory(String name, int units, int storageId, double price, double salesPrice) throws Exception{
+	public boolean addInventory(String name, double units, int storageId, double price, double salesPrice) throws Exception{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		Connection connection = ds.getConnection();
@@ -21,7 +21,7 @@ public class InventoryStatements extends DBMain {
 			try {
 				// Do stuff with the statement
 				statement.setString(1, name);
-				statement.setInt(2, units);
+				statement.setDouble(2, units);
 				statement.setInt(3, storageId);
 				statement.setDouble(4, price);
 				statement.setDouble(5, salesPrice);
@@ -232,7 +232,7 @@ public class InventoryStatements extends DBMain {
 		return 0;
 	}
 	
-	public int getCurrentInventoryCount(int inventoryId) throws Exception{
+	public Double getCurrentInventoryCount(int inventoryId) throws Exception{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		Connection connection = ds.getConnection();
@@ -243,7 +243,7 @@ public class InventoryStatements extends DBMain {
 				statement.setInt(1, inventoryId);
 				rs = statement.executeQuery();
 				if(rs.next()){
-					return rs.getInt("units");
+					return rs.getDouble("units");
 				}
 			} catch(Exception e) {
 				e.printStackTrace();
@@ -260,7 +260,7 @@ public class InventoryStatements extends DBMain {
             try { if(null!=connection)connection.close();} catch (SQLException e) 
             {e.printStackTrace();}
         }
-		return 0;
+		return 0.0;
 	}
 	
 		
@@ -346,7 +346,7 @@ public class InventoryStatements extends DBMain {
 					LoggedInventory li = new LoggedInventory();
 					li.setCreatedAt(rs.getTimestamp("created_at"));
 					li.setName(rs.getString("name"));
-					li.setUnits(rs.getInt("units"));
+					li.setUnits(rs.getDouble("units"));
 					li.setPerformedAction(rs.getString("performed_action"));
 					li.setPrice(rs.getDouble("price"));
 					
@@ -397,7 +397,7 @@ public class InventoryStatements extends DBMain {
 					LoggedInventory li = new LoggedInventory();
 					li.setCreatedAt(rs.getTimestamp("created_at"));
 					li.setName(rs.getString("name"));
-					li.setUnits(rs.getInt("units"));
+					li.setUnits(rs.getDouble("units"));
 					li.setPerformedAction(rs.getString("performed_action"));
 					li.setPrice(rs.getDouble("price"));
 					
@@ -424,11 +424,11 @@ public class InventoryStatements extends DBMain {
 		return ls;	
 	}
 	
-	public Map<String, Integer> getCloseCountAt(Timestamp to, int storageId) throws SQLException{
+	public Map<String, Double> getCloseCountAt(Timestamp to, int storageId) throws SQLException{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		Connection connection = ds.getConnection();
-		Map<String, Integer> closeMap = new HashMap<>();
+		Map<String, Double> closeMap = new HashMap<>();
 		try {
 			statement = connection.prepareStatement("SELECT inventory_snapshot.name, inventory_snapshot.units_at_close FROM inventory_snapshot, archive_log WHERE archive_log.id = inventory_snapshot.archive_log_id AND archive_log.closed_at = ? AND archive_log.storage_id = ?;");
 			try {
@@ -437,7 +437,7 @@ public class InventoryStatements extends DBMain {
 				statement.setInt(2, storageId);
 				rs = statement.executeQuery();
 				while(rs.next()){
-					closeMap.put(rs.getString("name"), rs.getInt("units_at_close"));
+					closeMap.put(rs.getString("name"), rs.getDouble("units_at_close"));
 				}
 				
 				return closeMap;
@@ -459,11 +459,11 @@ public class InventoryStatements extends DBMain {
 		return closeMap;
 	}
 	
-	public Map<String, Integer> getOpenCountAt(Timestamp from, int storageId) throws SQLException{
+	public Map<String, Double> getOpenCountAt(Timestamp from, int storageId) throws SQLException{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		Connection connection = ds.getConnection();
-		Map<String, Integer> closeMap = new HashMap<>();
+		Map<String, Double> closeMap = new HashMap<>();
 		try {
 			statement = connection.prepareStatement("SELECT inventory_snapshot.name, inventory_snapshot.units_at_open FROM inventory_snapshot, archive_log WHERE archive_log.id = inventory_snapshot.archive_log_id AND archive_log.closed_at = ? AND archive_log.storage_id = ?;");
 			try {
@@ -472,7 +472,7 @@ public class InventoryStatements extends DBMain {
 				statement.setInt(2, storageId);
 				rs = statement.executeQuery();
 				while(rs.next()){
-					closeMap.put(rs.getString("name"), rs.getInt("units_at_open"));
+					closeMap.put(rs.getString("name"), rs.getDouble("units_at_open"));
 				}
 				return closeMap;
 			} catch(Exception e) {
@@ -496,8 +496,8 @@ public class InventoryStatements extends DBMain {
 	public LoggedSummedStation getLoggedStation(Timestamp from, Timestamp to, int stationId, int storageId) throws Exception{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		Map<String, Integer> closeMap = getCloseCountAt(to, storageId);
-		Map<String, Integer> openMap = getOpenCountAt(to, storageId);
+		Map<String, Double> closeMap = getCloseCountAt(to, storageId);
+		Map<String, Double> openMap = getOpenCountAt(to, storageId);
 		LoggedSummedStation ls = new LoggedSummedStation();
 		ls.setStation(getStation(stationId));
 		Connection connection = ds.getConnection();
@@ -518,7 +518,7 @@ public class InventoryStatements extends DBMain {
 				while (rs.next()){
 					LoggedSummedInventory li = new LoggedSummedInventory();
 					li.setName(rs.getString("name"));
-					li.setTotalUnits(rs.getInt("total_out_units"));
+					li.setTotalUnits(rs.getDouble("total_out_units"));
 					li.setUnitPrice(rs.getDouble("unit_price"));
 					li.setUnitSalesPrice(rs.getDouble("unit_sales_price"));
 					li.setTotalValue(rs.getDouble("total_out_value"));
@@ -551,8 +551,8 @@ public class InventoryStatements extends DBMain {
 	public ArrayList<LoggedSummedInventory> getSummedLogResults(Timestamp from, Timestamp to, int storageId) throws Exception{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		Map<String, Integer> closeMap = getCloseCountAt(to, storageId);
-		Map<String, Integer> openMap = getOpenCountAt(to, storageId);
+		Map<String, Double> closeMap = getCloseCountAt(to, storageId);
+		Map<String, Double> openMap = getOpenCountAt(to, storageId);
 		ArrayList<LoggedSummedInventory> ls = new ArrayList<>();
 		Connection connection = ds.getConnection();
 		try {
@@ -571,7 +571,7 @@ public class InventoryStatements extends DBMain {
 				while (rs.next()){
 					LoggedSummedInventory li = new LoggedSummedInventory();
 					li.setName(rs.getString("name"));
-					li.setTotalUnits(rs.getInt("total_out_units"));
+					li.setTotalUnits(rs.getDouble("total_out_units"));
 					
 					li.setUnitPrice(rs.getDouble("unit_price"));
 					li.setUnitSalesPrice(rs.getDouble("unit_sales_price"));
@@ -640,13 +640,13 @@ public class InventoryStatements extends DBMain {
 				while (rs.next()){
 					LoggedSummedInventory li = new LoggedSummedInventory();
 					li.setName(rs.getString("name"));
-					li.setTotalUnits(rs.getInt("total_out_units"));
+					li.setTotalUnits(rs.getDouble("total_out_units"));
 					li.setUnitPrice(rs.getDouble("price"));
 					li.setUnitSalesPrice(rs.getDouble("sales_price"));
-					li.setTotalValue(new Double(Math.abs(rs.getInt("total_out_units") * rs.getDouble("price"))));
-					li.setTotalSalesValue(new Double(Math.abs(rs.getInt("total_out_units") * rs.getDouble("sales_price"))));
-					li.setClosedAt(rs.getInt("units_at_close"));
-					li.setInventoryStartValue(rs.getInt("units_at_open"));
+					li.setTotalValue(new Double(Math.abs(rs.getDouble("total_out_units") * rs.getDouble("price"))));
+					li.setTotalSalesValue(new Double(Math.abs(rs.getDouble("total_out_units") * rs.getDouble("sales_price"))));
+					li.setClosedAt(rs.getDouble("units_at_close"));
+					li.setInventoryStartValue(rs.getDouble("units_at_open"));
 					
 					summedLogResults.add(li);
 				}
@@ -696,7 +696,7 @@ public class InventoryStatements extends DBMain {
 				while (rs.next()){
 					LoggedSummedInventory li = new LoggedSummedInventory();
 					li.setName(rs.getString("name"));
-					li.setTotalUnits(rs.getInt("total_out_units"));
+					li.setTotalUnits(rs.getDouble("total_out_units"));
 					li.setUnitPrice(rs.getDouble("unit_price"));
 					li.setTotalValue(rs.getDouble("total_out_value"));
 					li.setMoves(getListOfMoves(from, to, stationId, storageId, rs.getString("name")));
@@ -724,10 +724,10 @@ public class InventoryStatements extends DBMain {
 		return ls;
 	}
 	
-	public ArrayList<Integer> getListOfMoves(Timestamp from, Timestamp to, int stationId, int storageId, String inventoryName) throws Exception{
+	public ArrayList<Double> getListOfMoves(Timestamp from, Timestamp to, int stationId, int storageId, String inventoryName) throws Exception{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		ArrayList<Integer> al = new ArrayList<>();
+		ArrayList<Double> al = new ArrayList<>();
 		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement("SELECT inventory_log.units FROM inventory_log "
@@ -744,7 +744,7 @@ public class InventoryStatements extends DBMain {
 			try {
 				rs = statement.executeQuery();
 				while (rs.next()){
-					al.add(rs.getInt("units"));
+					al.add(rs.getDouble("units"));
 				}
 			}
 			catch(Exception e){
@@ -767,10 +767,10 @@ public class InventoryStatements extends DBMain {
 		return al;
 	}
 	
-	public ArrayList<Integer> getListOfMoves(Timestamp from, Timestamp to, int storageId, String inventoryName) throws Exception{
+	public ArrayList<Double> getListOfMoves(Timestamp from, Timestamp to, int storageId, String inventoryName) throws Exception{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		ArrayList<Integer> al = new ArrayList<>();
+		ArrayList<Double> al = new ArrayList<>();
 		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement("SELECT inventory_log.units FROM inventory_log "
@@ -785,7 +785,7 @@ public class InventoryStatements extends DBMain {
 			try {
 				rs = statement.executeQuery();
 				while (rs.next()){
-					al.add(rs.getInt("units"));
+					al.add(rs.getDouble("units"));
 				}
 			}
 			catch(Exception e){
@@ -903,7 +903,7 @@ public class InventoryStatements extends DBMain {
 	
 	
 
-	public boolean addToInventoryLog(int inventoryId, String name, int units, int storageId, int stationId, String performed_action, double price, double salesPrice) throws Exception{
+	public boolean addToInventoryLog(int inventoryId, String name, double units, int storageId, int stationId, String performed_action, double price, double salesPrice) throws Exception{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		Connection connection = ds.getConnection();
@@ -911,7 +911,7 @@ public class InventoryStatements extends DBMain {
 			statement = connection.prepareStatement("INSERT INTO inventory_log (inventory_id, name, units, storage_id, station_id, performed_action, price, sales_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			statement.setInt(1, inventoryId);
 			statement.setString(2, name);
-			statement.setInt(3, units);
+			statement.setDouble(3, units);
 			statement.setInt(4, storageId);
 			statement.setInt(5, stationId);
 			statement.setString(6, performed_action);
@@ -1119,7 +1119,7 @@ public class InventoryStatements extends DBMain {
 				Inventory iv = new Inventory();
 				iv.setId(rs.getInt("id"));
 				iv.setName(rs.getString("name"));
-				iv.setUnits(rs.getInt("units"));
+				iv.setUnits(rs.getDouble("units"));
 				iv.setCreatedAt(rs.getTimestamp("created_at"));
 				iv.setUpdatedAt(rs.getTimestamp("updated_at"));
 				iv.setStorageId(rs.getInt("storage_id"));
@@ -1140,12 +1140,12 @@ public class InventoryStatements extends DBMain {
 		return null;
 	}
 	
-	public boolean updateUnitsAt(int inventoryId, int newAmount) throws Exception{
+	public boolean updateUnitsAt(int inventoryId, double newAmount) throws Exception{
 		PreparedStatement statement = null;
 		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement("UPDATE inventory SET units = ? WHERE inventory.id = ?");
-			statement.setInt(1, newAmount);
+			statement.setDouble(1, newAmount);
 			statement.setInt(2, inventoryId);
 			statement.executeUpdate();
 			return true;
@@ -1161,12 +1161,12 @@ public class InventoryStatements extends DBMain {
 		return false;	
 	}
 	
-	public boolean incrementUnits(int inventoryId, int amount) throws Exception{
+	public boolean incrementUnits(int inventoryId, double amount) throws Exception{
 		PreparedStatement statement = null;
 		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement("UPDATE inventory SET units = units + ? WHERE inventory.id = ?");
-			statement.setInt(1, amount);
+			statement.setDouble(1, amount);
 			statement.setInt(2, inventoryId);
 			statement.executeUpdate();
 			return true;
@@ -1181,12 +1181,12 @@ public class InventoryStatements extends DBMain {
 		return false;	
 	}
 	
-	public boolean decrementUnits(int inventoryId, int amount) throws Exception{
+	public boolean decrementUnits(int inventoryId, double amount) throws Exception{
 		PreparedStatement statement = null;
 		Connection connection = ds.getConnection();;
 		try {
 			statement = connection.prepareStatement("UPDATE inventory SET units = units - ? WHERE inventory.id = ?");
-			statement.setInt(1, amount);
+			statement.setDouble(1, amount);
 			statement.setInt(2, inventoryId);
 			statement.executeUpdate();
 			return true;
@@ -1201,7 +1201,7 @@ public class InventoryStatements extends DBMain {
 		return false;	
 	}
 	
-	public int currentInventoryUnits(int inventoryId) throws Exception{
+	public Double currentInventoryUnits(int inventoryId) throws Exception{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		Connection connection = ds.getConnection();
@@ -1210,7 +1210,7 @@ public class InventoryStatements extends DBMain {
     		statement.setInt(1, inventoryId);
     		rs = statement.executeQuery();
     		if(rs.next()) {
-    			return rs.getInt("units");
+    			return rs.getDouble("units");
     		}
     	}
     	catch(Exception e1) {
@@ -1223,7 +1223,7 @@ public class InventoryStatements extends DBMain {
             try { if(null!=connection)connection.close();} catch (SQLException e) 
             {e.printStackTrace();}
         }
-    	return 0;	
+    	return 0.0;	
 		
 	}
 	

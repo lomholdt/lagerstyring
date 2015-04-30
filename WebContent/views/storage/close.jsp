@@ -15,7 +15,7 @@
 
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2">
-			<form class="form-horizontal" method="POST" action="close">
+			<form class="form-horizontal" method="POST" action="close" id="closeStorageForm">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">Luk: ${storage.name}</h3>
@@ -29,18 +29,19 @@
 										<div class="form-group inventory">
 											<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label>
 											<div class="input-group col-sm-8">
-												<input type="number" class="form-control"
+												<input type="number" step="any" class="form-control"
 													placeholder="Antal" id="${inventory.id}"
 													name="${inventory.id}" min="0" value="${inventory.units}">
 													<span id="diff-${inventory.id}" class="diff input-group-addon">0</span>
 											</div>
 										</div>
 									</c:if>
+									
 									<c:if test="${inventory.units < 0}">
 										<div class="form-group has-error">
 											<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label>
 											<div class="input-group col-sm-8">
-												<input type="number" class="form-control"
+												<input type="number" step="any" class="form-control"
 													placeholder="Antal" id="${inventory.id}"
 													name="${inventory.id}" min="0" value="${inventory.units}">
 													<span id="diff-${inventory.id}" class="diff input-group-addon">0</span>
@@ -58,7 +59,7 @@
 								<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
 								<input type="hidden" value="${storage.id}" name="sid">
 								<input type="hidden" value="update" name="update">
-								<button type="submit" class="btn btn-primary btn-lg">Luk
+								<button type="button" class="btn btn-primary btn-lg" onclick="conf()">Luk
 									lager</button>
 							</div>
 						</div>
@@ -162,6 +163,15 @@
 				</div>
 			</div>
 		</div>
-		
 	</c:if>
+		<script>
+		function conf(){
+			var form = document.getElementById("closeStorageForm");
+			var confi = confirm("Vil du lukke lageret?");
+			if(confi){
+				form.submit();
+			}
+		}
+	
+	</script>
 </add:wrap>

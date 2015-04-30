@@ -133,6 +133,15 @@ ALTER TABLE inventory_log ADD inventory_id int(11) NOT NULL AFTER id;
 ALTER TABLE inventory_snapshot ADD price double NOT NULL DEFAULT 0.0;
 ALTER TABLE inventory_snapshot ADD sales_price double NOT NULL DEFAULT 0.0;
 
+/**
+ * UPDATE UNITS FROM INT TO DOUBLE
+ */
+ALTER TABLE inventory MODIFY COLUMN units DOUBLE NOT NULL DEFAULT 0.0;
+ALTER TABLE inventory_log MODIFY COLUMN units DOUBLE NOT NULL DEFAULT 0.0;
+ALTER TABLE inventory_snapshot MODIFY COLUMN units_at_close DOUBLE NOT NULL DEFAULT 0.0;
+ALTER TABLE inventory_snapshot MODIFY COLUMN units_at_open DOUBLE NOT NULL DEFAULT 0.0;
+
+
 
 
 /*****************************************************

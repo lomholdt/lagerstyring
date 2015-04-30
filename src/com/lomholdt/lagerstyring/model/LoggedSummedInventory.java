@@ -4,15 +4,17 @@ import java.util.ArrayList;
 
 public class LoggedSummedInventory {
 	
+	private static final int ROUND_TO = 2;
+	
 	private String name;
-	private int totalUnits;
+	private double totalUnits;
 	private double unitPrice;
 	private double unitSalesPrice;
 	private double totalValue;
 	private double totalSalesValue;
-	private ArrayList<Integer> moves = new ArrayList<>();
-	private int inventoryStartValue;
-	private int closedAt;
+	private ArrayList<Double> moves = new ArrayList<>();
+	private double inventoryStartValue;
+	private double closedAt;
 	
 	public String getName() {
 		return name;
@@ -20,15 +22,16 @@ public class LoggedSummedInventory {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getTotalUnits() {
+	public double getTotalUnits() {
 		return totalUnits;
 	}
-	public void setTotalUnits(int totalUnits) {
+	public void setTotalUnits(double totalUnits) {
 		this.totalUnits = (-1) * totalUnits;
 	}
-	public int getTotalUnitsWithDiff(){
-		int diff = (moves.size() == 0) ? 0 : getDiff();
-		return totalUnits + ((-1) * diff);
+	public double getTotalUnitsWithDiff(){
+		double diff = (moves.size() == 0) ? 0 : getDiff();
+		double result = totalUnits + ((-1) * diff);
+		return RoundDouble.round(result, ROUND_TO);
 	}
 	public double getUnitPrice() {
 		return unitPrice;
@@ -40,21 +43,22 @@ public class LoggedSummedInventory {
 		return totalValue;
 	}
 	public double getTotalValueWithDiff(){
-		return this.unitPrice * getTotalUnitsWithDiff();
+		double result = this.unitPrice * getTotalUnitsWithDiff();
+		return RoundDouble.round(result, ROUND_TO);
 	}
 	public void setTotalValue(double totalValue) {
 		this.totalValue = this.unitPrice * this.totalUnits; // double totalValue are not used
 	}
-	public ArrayList<Integer> getMoves(){
+	public ArrayList<Double> getMoves(){
 		return moves;
 	}
-	public void setMoves(ArrayList<Integer> moves){
+	public void setMoves(ArrayList<Double> moves){
 		this.moves = moves;	
 	}
-	public int getInventoryStartValue(){
+	public double getInventoryStartValue(){
 		return inventoryStartValue;
 	}
-	public void setInventoryStartValue(int inventoryStartValue){
+	public void setInventoryStartValue(double inventoryStartValue){
 		this.inventoryStartValue = inventoryStartValue;
 	}
 //	public int calculateStart(){
@@ -70,18 +74,19 @@ public class LoggedSummedInventory {
 //		inventoryStartValue = closedAtCopy;
 //		return inventoryStartValue;
 //	}
-	public void setClosedAt(int closedAt){
+	public void setClosedAt(double closedAt){
 		this.closedAt = closedAt;
 	}
-	public int getClosedAt(){
+	public double getClosedAt(){
 		return closedAt;
 	}
-	public int getDiff() {
-		return closedAt - (inventoryStartValue - sumOfMoves());
+	public double getDiff() {
+		double result = closedAt - (inventoryStartValue - sumOfMoves());
+		return RoundDouble.round(result, ROUND_TO);
 	}
 	private int sumOfMoves(){
 		int sum = 0;
-		for (Integer move : moves) {
+		for (Double move : moves) {
 			if (move < 0){ sum += Math.abs(move); }
 			else{ sum -= move; }
 		}
@@ -100,6 +105,7 @@ public class LoggedSummedInventory {
 		this.totalSalesValue = this.unitSalesPrice * this.totalUnits;
 	}
 	public double getTotalSalesValueWithDiff(){
-		return this.unitSalesPrice * getTotalUnitsWithDiff();
+		double result = this.unitSalesPrice * getTotalUnitsWithDiff();
+		return RoundDouble.round(result, ROUND_TO);
 	}
 }
