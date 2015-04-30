@@ -38,6 +38,7 @@ public class InventoryCountController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setCharacterEncoding("UTF-8"); // TEST --> Ser vi stadig fejlformaterede karakterer?
 		FlashMessage.getFlashMessage(request, "msg");
 		FlashMessage.getFlashMessage(request, "error");
 		HttpSession session = request.getSession();

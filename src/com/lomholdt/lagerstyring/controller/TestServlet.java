@@ -37,10 +37,10 @@ public class TestServlet extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
          
-        ResultSet resultSet = null;
+    	ResultSet resultSet = null;
         try {
+        	Connection conn = ds.getConnection();
             // Get Connection and Statement
-            conn = ds.getConnection();
             
             statement = conn.createStatement();
             String query = "SELECT * FROM users";

@@ -573,8 +573,6 @@ public class InventoryStatements extends DBMain {
 					li.setName(rs.getString("name"));
 					li.setTotalUnits(rs.getInt("total_out_units"));
 					
-					System.out.println("Total units B: " + rs.getInt("total_out_units"));
-					
 					li.setUnitPrice(rs.getDouble("unit_price"));
 					li.setUnitSalesPrice(rs.getDouble("unit_sales_price"));
 					li.setTotalValue(rs.getDouble("total_out_value"));
@@ -643,9 +641,6 @@ public class InventoryStatements extends DBMain {
 					LoggedSummedInventory li = new LoggedSummedInventory();
 					li.setName(rs.getString("name"));
 					li.setTotalUnits(rs.getInt("total_out_units"));
-					
-					System.out.println("Total units B: " + rs.getInt("total_out_units"));
-					
 					li.setUnitPrice(rs.getDouble("price"));
 					li.setUnitSalesPrice(rs.getDouble("sales_price"));
 					li.setTotalValue(new Double(Math.abs(rs.getInt("total_out_units") * rs.getDouble("price"))));
