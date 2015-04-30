@@ -305,15 +305,15 @@ public class PeriodController extends HttpServlet {
 		ArrayList<LoggedSummedInventory> loggedSummedInventory = new ArrayList<>();
 		String from = request.getParameter("from");
 		String to = request.getParameter("to");
-		String periods = request.getParameter("periods");
+		String period = request.getParameter("periods");
 		
-		if(periods == null || periods.isEmpty()){
+		if(period == null || period.isEmpty()){
 			return loggedSummedInventory;
 		}
 		
-		String[] periodsArr = periods.split("&");
-		if (from == null) from = periodsArr[0];
-		if (to == null) to = periodsArr[1];
+		String[] periodArr = period.split("&");
+		if (from == null) from = periodArr[0];
+		if (to == null) to = periodArr[1];
 		
 		
 		InventoryStatements is = new InventoryStatements();
@@ -321,7 +321,8 @@ public class PeriodController extends HttpServlet {
 		Timestamp toDate = Timestamp.valueOf(to);
 		
 		request.setAttribute("from", new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(fromDate));
-		request.setAttribute("to", new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(toDate));		
+		request.setAttribute("to", new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(toDate));
+		request.setAttribute("period", period);
 		
 		try {
 			loggedSummedInventory = is.getAllSummedLogResults(fromDate, toDate, Integer.parseInt(storageId));

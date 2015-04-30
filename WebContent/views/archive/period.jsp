@@ -43,9 +43,19 @@
 									<div class="form-group">
 										<select class="form-control input-sm" name="periods">
 											<c:forEach var="logBook" items="${logBooks}">
-												<option
-													value="${logBook.openedAt.toString()}&${logBook.closedAt.toString()}">${logBook.openedAtHtml}
-													- ${logBook.closedAtHtml}</option>
+												<c:set var="timePeriod" value="${logBook.openedAt.toString()}&${logBook.closedAt.toString()}" />
+												<c:choose>
+													<c:when test="${period eq timePeriod }">
+														<option selected="selected" 
+														value="<c:out value="timePeriod" />">${logBook.openedAtHtml}
+														- ${logBook.closedAtHtml}</option>
+													</c:when>
+													<c:otherwise>
+														<option
+														value="<c:out value="timePeriod" />">${logBook.openedAtHtml}
+														- ${logBook.closedAtHtml}</option>
+													</c:otherwise>
+												</c:choose>
 											</c:forEach>
 										</select> 
 										<input type="hidden" value="${param.storageId}" name="storageId"> 
