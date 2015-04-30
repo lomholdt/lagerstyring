@@ -242,14 +242,14 @@ public class PeriodController extends HttpServlet {
 		String to = request.getParameter("to");
 		String inventoryName = request.getParameter("inventoryName");
 		String stationName = request.getParameter("stationName");
-		String periods = request.getParameter("periods");
+		String period = request.getParameter("period");
 		
-		if(periods == null || periods.isEmpty()){
+		if(period == null || period.isEmpty()){
 			return loggedStations;
 		}
-		String[] periodsArr = periods.split("&");
-		from = periodsArr[0];
-		to = periodsArr[1];		
+		String[] periodArr = period.split("&");
+		from = periodArr[0];
+		to = periodArr[1];		
 		// TEST
 		if(from == null || from.isEmpty() ||
 				to == null || to.isEmpty()){
@@ -305,7 +305,7 @@ public class PeriodController extends HttpServlet {
 		ArrayList<LoggedSummedInventory> loggedSummedInventory = new ArrayList<>();
 		String from = request.getParameter("from");
 		String to = request.getParameter("to");
-		String period = request.getParameter("periods");
+		String period = request.getParameter("period");
 		
 		if(period == null || period.isEmpty()){
 			return loggedSummedInventory;

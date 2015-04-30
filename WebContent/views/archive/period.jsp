@@ -41,18 +41,18 @@
 								<form class="form-inline" method="POST" action="period">
 									<h4>Vælg rapport</h4>
 									<div class="form-group">
-										<select class="form-control input-sm" name="periods">
+										<select class="form-control input-sm" name="period">
 											<c:forEach var="logBook" items="${logBooks}">
 												<c:set var="timePeriod" value="${logBook.openedAt.toString()}&${logBook.closedAt.toString()}" />
 												<c:choose>
 													<c:when test="${period eq timePeriod }">
 														<option selected="selected" 
-														value="<c:out value="timePeriod" />">${logBook.openedAtHtml}
+														value="${logBook.openedAt.toString()}&${logBook.closedAt.toString()}">${logBook.openedAtHtml}
 														- ${logBook.closedAtHtml}</option>
 													</c:when>
 													<c:otherwise>
 														<option
-														value="<c:out value="timePeriod" />">${logBook.openedAtHtml}
+														value="${logBook.openedAt.toString()}&${logBook.closedAt.toString()}">${logBook.openedAtHtml}
 														- ${logBook.closedAtHtml}</option>
 													</c:otherwise>
 												</c:choose>
