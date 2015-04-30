@@ -144,12 +144,14 @@
 									</tr>
 								</thead>
 							</table>
-							<!-- OVERSIGT SLUT -->
 						</div>
 					</div>
 				</div>
 			</div>
+			<!-- OVERSIGT SLUT -->
+			
 			<c:forEach var="loggedStorage" items="${loggedStorage}">
+			<c:if test="${loggedStorage.loggedStations.size() > 0}">
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="panel panel-default">
@@ -216,6 +218,7 @@
 						</div>
 					</div>
 				</div>
+			</c:if>
 			</c:forEach>
 		</div>
 	</c:if>
