@@ -97,11 +97,11 @@
 			<!-- OVERSIGT START -->
 			<div class="row">
 				<div class="col-sm-12">
+				<h1>${storage.name} <span class="label label-default label-xs">  ${from}</span><span onclick="window.print()" class="btn btn-default btn-xs pull-right udskriv">Udskriv</span> <span id="export" class="btn btn-default btn-xs pull-right">Excel</span></h1>
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 class="panel-title">
-								Oversigt - ${storage.name} <small class="report-timestamp">${from} - ${to}</small><span onclick="window.print()"
-									class="btn btn-default btn-xs pull-right udskriv">Udskriv</span> <span id="export" class="btn btn-default btn-xs pull-right">Excel</span>
+								Oversigt
 
 							</h3>
 						</div>
@@ -177,8 +177,7 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h3 class="panel-title">
-									Stationer - ${storage.name} <small class="report-timestamp">${from} - ${to}</small><span onclick="window.print()"
-										class="btn btn-default btn-xs pull-right udskriv">Udskriv</span>
+									Stationer 
 								</h3>
 							</div>
 							<div class="panel-body">
