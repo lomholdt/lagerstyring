@@ -14,6 +14,7 @@ public class Inventory {
 	private int storageId;
 	private double price;
 	private double salesPrice;
+	private String category;
 	
 	public int getId() {
 		return id;
@@ -65,6 +66,10 @@ public class Inventory {
 	public void setSalesPrice(double salesPrice) {
 		this.salesPrice = salesPrice;
 	}
-	
-
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
 }

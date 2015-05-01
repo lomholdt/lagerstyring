@@ -1109,10 +1109,14 @@ public class InventoryStatements extends DBMain {
 	public Storage getStorageWithInventory(int storageId) throws Exception{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		Connection connection = ds.getConnection();;
+		Connection connection = ds.getConnection();
 		try {
 			Storage st = getStorage(storageId);
-			statement = connection.prepareStatement("SELECT inventory.id, inventory.name, inventory.units, inventory.created_at, inventory.updated_at, inventory.storage_id FROM inventory WHERE inventory.storage_id = ?");
+			statement = connection.prepareStatement("SELECT inventory.id, inventory.name, inventory.units, inventory.created_at, inventory.updated_at, inventory.storage_id, categories.category "
+					+ "FROM inventory "
+					+ "LEFT JOIN inventory_categories ON inventory_categories.inventory_id = inventory.id "
+					+ "LEFT JOIN categories ON categories.id = inventory_categories.category_id "
+					+ "WHERE inventory.storage_id = ?;");
 			statement.setInt(1, storageId);
 			rs = statement.executeQuery();
 			while(rs.next()){
@@ -1123,6 +1127,9 @@ public class InventoryStatements extends DBMain {
 				iv.setCreatedAt(rs.getTimestamp("created_at"));
 				iv.setUpdatedAt(rs.getTimestamp("updated_at"));
 				iv.setStorageId(rs.getInt("storage_id"));
+				
+				String category = rs.getString("category");
+				if(category != null) iv.setCategory(category);
 				
 				st.addToInventory(iv);
 			}

@@ -141,6 +141,24 @@ ALTER TABLE inventory_log MODIFY COLUMN units DOUBLE NOT NULL DEFAULT 0.0;
 ALTER TABLE inventory_snapshot MODIFY COLUMN units_at_close DOUBLE NOT NULL DEFAULT 0.0;
 ALTER TABLE inventory_snapshot MODIFY COLUMN units_at_open DOUBLE NOT NULL DEFAULT 0.0;
 
+CREATE TABLE IF NOT EXISTS categories(
+	id int(11) NOT NULL AUTO_INCREMENT,
+	company_id int(11) NOT NULL,
+	category varchar(100) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS inventory_categories(
+	inventory_id int(11) NOT NULL,
+	category_id int(11) NOT NULL,
+	PRIMARY KEY (inventory_id),
+	FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+
 
 
 
