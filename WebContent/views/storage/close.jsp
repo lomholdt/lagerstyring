@@ -18,7 +18,7 @@
 			<form class="form-horizontal" method="POST" action="close" id="closeStorageForm">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Luk: ${storage.name}</h3>
+						<h3 class="panel-title">${storage.name} - Slut-tal</h3>
 					</div>
 					<div class="panel-body">
 						<p class="lead">Antal varer på lager</p>
@@ -59,8 +59,7 @@
 								<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
 								<input type="hidden" value="${storage.id}" name="sid">
 								<input type="hidden" value="update" name="update">
-								<button type="button" class="btn btn-primary btn-lg" onclick="conf()">Luk
-									lager</button>
+								<button type="button" class="btn btn-primary btn-lg" onclick="conf()">Godkend - Slut-tal</button>
 							</div>
 						</div>
 					</div>
