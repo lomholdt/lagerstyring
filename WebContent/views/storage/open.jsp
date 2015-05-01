@@ -10,16 +10,16 @@
 	<c:if test="${error != null}">
 		<div class="alert alert-danger">${error}</div>
 	</c:if>
-
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2">
+		<h1>${storage.name}</h1>
 			<form class="form-horizontal" method="POST" action="open" id="openStorageForm">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Åben: ${storage.name}</h3>
+						<h3 class="panel-title">Start-tal</h3>
 					</div>
 					<div class="panel-body">
-						<p class="lead">Antal varer på lager</p>
+						<br>
 						<div class="row">
 							<div class="col-sm-10 col-sm-offset-1">
 								<c:forEach var="inventory" items="${storage.inventory}">
@@ -40,8 +40,7 @@
 							<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
 								<input type="hidden" value="${storage.id}" name="sid">
 								<input type="hidden" value="update" name="update">
-								<button type="button" class="btn btn-primary btn-lg" onclick="conf()">Åben
-									Lager</button>
+								<button type="button" class="btn btn-primary btn-lg" onclick="conf()">Godkend start-tal</button>
 							</div>
 						</div>
 					</div>

@@ -9,21 +9,23 @@
 	<c:if test="${error != null}">
 		<div class="alert alert-danger">${error}</div>
 	</c:if>
-
-
-
+	<div class="row">
+			<div class="col-sm-6 col-sm-offset-1">
+<h1>${storage.name}</h1>
+</div>
+</div>
 	<div class="row">
 		<!-- Form start -->
 		<form class="form-horizontal" method="POST" action="moveout">
 			<!-- Lager afgangspanel -->
 			<div class="col-sm-6 col-sm-offset-1">
+			
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Afgang - ${storage.name}</h3>
+						<h3 class="panel-title">Afgang</h3>
 					</div>
 					<div class="panel-body">
-						<p class="lead">Antal varer til afgang</p>
-
+					<br>
 						<div class="col-sm-10 col-sm-offset-1">
 							<c:forEach var="inventory" items="${storage.inventory}">
 									<div class="form-group">
