@@ -13,9 +13,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import com.lomholdt.lagerstyring.model.Authenticator;
 import com.lomholdt.lagerstyring.model.FlashMessage;
 import com.lomholdt.lagerstyring.model.InventoryStatements;
+import com.lomholdt.lagerstyring.model.Messages;
 import com.lomholdt.lagerstyring.model.Station;
 import com.lomholdt.lagerstyring.model.Storage;
 import com.lomholdt.lagerstyring.model.User;
@@ -27,7 +29,6 @@ import com.lomholdt.lagerstyring.model.User;
 public class AddInventoryController extends HttpServlet {
 	Authenticator auth = new Authenticator();
 	private static final long serialVersionUID = 1L;
-	private static final String NO_PERMISSION_MESSAGE = "You do not have permission to see this page.";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -44,7 +45,7 @@ public class AddInventoryController extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		try {
 			if(user == null || !auth.is("manager", user.getId())){
-				FlashMessage.setFlashMessage(request, "error", NO_PERMISSION_MESSAGE);
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_NO_PERMISSION_TO_VIEW_PAGE);
 				response.sendRedirect("");
 				return;
 			}
@@ -60,7 +61,7 @@ public class AddInventoryController extends HttpServlet {
 			ArrayList<Storage> storages = is.getStorages(user.getCompanyId());
 			if (storages.size() == 0){
 				// Throw user to create storage site if he has no storages created
-				FlashMessage.setFlashMessage(request, "error", "You have no storages. Please create one first.");
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_NO_STORAGES_CREATED);
 				response.sendRedirect("count");
 				return;
 			}
@@ -83,7 +84,7 @@ public class AddInventoryController extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		try {
 			if(user == null || !auth.is("manager", user.getId())){
-				FlashMessage.setFlashMessage(request, "error", NO_PERMISSION_MESSAGE);
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_NO_PERMISSION_TO_VIEW_PAGE);
 				response.sendRedirect("");
 				return;
 			}
@@ -105,7 +106,7 @@ public class AddInventoryController extends HttpServlet {
 		
 		if(storage == null || name == null || units == null || price == null || salesPrice == null
 				|| storage.isEmpty() || name.isEmpty() || units.isEmpty() || price.isEmpty() || salesPrice.isEmpty() || !m.matches() || !sp.matches()){
-			request.setAttribute("error", "An error occured, did you fill out all the field?");
+			request.setAttribute("error", Messages.ERROR_DID_NOT_FILL_OUT_ALL_FIELDS);
 			doGet(request, response);
 			return;
 		}
@@ -120,7 +121,7 @@ public class AddInventoryController extends HttpServlet {
 			request.setAttribute("primaryStations", primaryStations);
 			request.setAttribute("secondaryStations", secondaryStations);
 			if(is.inventoryExists(name, storageId)){
-				request.setAttribute("error", "The item " + name + " already exists in " + storage);		
+				request.setAttribute("error", storage + " indeholder allerede " + name);		
 				doGet(request, response);
 				return;
 			}
@@ -128,7 +129,7 @@ public class AddInventoryController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		request.setAttribute("msg", "Succesfully added " + name + " to " + storage);		
+		request.setAttribute("msg", name + " blev tilføjet til " + storage);		
 		doGet(request, response);
 	}
 }

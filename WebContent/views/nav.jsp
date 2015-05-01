@@ -17,7 +17,7 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="${pageContext.request.contextPath}">Lager.io</a>
+			<a class="navbar-brand" href="count">Lager.io</a>
 
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">

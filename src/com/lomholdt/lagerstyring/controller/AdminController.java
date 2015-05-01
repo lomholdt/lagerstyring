@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.lomholdt.lagerstyring.model.AdminStatements;
 import com.lomholdt.lagerstyring.model.Authenticator;
 import com.lomholdt.lagerstyring.model.FlashMessage;
+import com.lomholdt.lagerstyring.model.Messages;
 import com.lomholdt.lagerstyring.model.User;
 import com.lomholdt.lagerstyring.model.UserStatements;
 
@@ -24,7 +25,6 @@ import com.lomholdt.lagerstyring.model.UserStatements;
 public class AdminController extends HttpServlet {
 	Authenticator auth = new Authenticator();
 	AdminStatements as = new AdminStatements();
-	final static String NO_PERMISSION_MESSAGE = "You do not have permission to see this page.";
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -43,7 +43,7 @@ public class AdminController extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		try {
 			if(user == null || !auth.is("admin", user.getId())){
-				FlashMessage.setFlashMessage(request, "error", NO_PERMISSION_MESSAGE);
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_NO_PERMISSION_TO_VIEW_PAGE);
 				response.sendRedirect("");
 				return;
 			}
@@ -71,7 +71,7 @@ public class AdminController extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		try {
 			if(user == null || !auth.is("admin", user.getId())){
-				FlashMessage.setFlashMessage(request, "error", NO_PERMISSION_MESSAGE);
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_NO_PERMISSION_TO_VIEW_PAGE);
 				response.sendRedirect("");
 				return;
 			}
