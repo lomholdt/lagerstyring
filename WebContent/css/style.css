@@ -211,6 +211,12 @@ label {
 	background-color: #ec5872;
 }
 
+.form-horizontal .control-label {
+    padding-top: 7px;
+    margin-bottom: 0px;
+    text-align: left;
+}
+
 /*
 7.-------Left navigation--------
 */
