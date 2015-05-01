@@ -15,13 +15,14 @@
 
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2">
+		<h1>${storage.name}</h1>
 			<form class="form-horizontal" method="POST" action="close" id="closeStorageForm">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">${storage.name} - Slut-tal</h3>
+						<h3 class="panel-title">Slut-tal</h3>
 					</div>
 					<div class="panel-body">
-						<p class="lead">Antal varer på lager</p>
+						<br>
 						<div class="row" id="inventory">
 							<div class="col-sm-10 col-sm-offset-1">
 								<c:forEach var="inventory" items="${storage.inventory}">

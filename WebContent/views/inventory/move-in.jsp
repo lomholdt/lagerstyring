@@ -6,9 +6,11 @@
 <c:if test="${msg != null}"><div class="alert alert-success">${msg}</div></c:if>
 <c:if test="${error != null}"><div class="alert alert-danger">${error}</div></c:if>
 
-
-
-
+	<div class="row">
+			<div class="col-sm-6 col-sm-offset-1">
+<h1>${storage.name}</h1>
+</div>
+</div>
 
 <div class="row">
 		<!-- Form start -->
@@ -20,8 +22,7 @@
 						<h3 class="panel-title">Tilgang - ${storage.name}</h3>
 					</div>
 					<div class="panel-body">
-						<p class="lead">Antal varer til tilgang</p>
-
+						<br>
 						<div class="col-sm-10 col-sm-offset-1">
 							<c:forEach var="inventory" items="${storage.inventory}">
 									<div class="form-group">
