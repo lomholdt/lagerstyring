@@ -60,7 +60,7 @@
 								<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
 								<input type="hidden" value="${storage.id}" name="sid">
 								<input type="hidden" value="update" name="update">
-								<button type="button" class="btn btn-primary btn-lg" onclick="conf()">Godkend - Slut-tal</button>
+								<button type="button" class="btn btn-primary btn-lg" onclick="conf()">Godkend slut-tal</button>
 							</div>
 						</div>
 					</div>

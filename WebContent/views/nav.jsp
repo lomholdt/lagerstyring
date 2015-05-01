@@ -52,7 +52,7 @@ String pageName = uri.substring(uri.lastIndexOf("/")+1);
 								<li><a href="inventory">Indstillinger</a></li>
 								<li class="divider"></li>
 							</c:if>
-							<li><a href="logout">Log ud</a></li>
+							<li><a href="logout" data-toggle="tooltip" data-placement="bottom" title="${user.companyName}">Log ud</a></li>
 						</ul></li>
 
 				</ul>
