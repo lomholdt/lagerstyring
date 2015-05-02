@@ -173,7 +173,7 @@
     <servlet-name>ApiController</servlet-name>
     <url-pattern>/api</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>ToggleCompanyStatus</servlet-name>
     <servlet-class>
             com.lomholdt.lagerstyring.api.ToggleCompanyStatus
@@ -181,7 +181,37 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ToggleCompanyStatus</servlet-name>
-    <url-pattern>/adminapi</url-pattern>
+    <url-pattern>/togglecompanystatus</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GetCompanyStations</servlet-name>
+    <servlet-class>
+            com.lomholdt.lagerstyring.api.GetCompanyStations
+        </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetCompanyStations</servlet-name>
+    <url-pattern>/getcompanystations</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GetCompanyUsers</servlet-name>
+    <servlet-class>
+            com.lomholdt.lagerstyring.api.GetCompanyUsers
+        </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetCompanyUsers</servlet-name>
+    <url-pattern>/getcompanyusers</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <servlet-name>GetCompanyStorages</servlet-name>
+    <servlet-class>
+            com.lomholdt.lagerstyring.api.GetCompanyStorages
+        </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetCompanyStorages</servlet-name>
+    <url-pattern>/getcompanystorages</url-pattern>
   </servlet-mapping>
   <resource-ref>
     <description>DB Connection</description>

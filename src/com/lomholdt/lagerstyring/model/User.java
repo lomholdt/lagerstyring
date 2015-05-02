@@ -1,5 +1,6 @@
 package com.lomholdt.lagerstyring.model;
 
+import java.sql.Timestamp;
 import java.util.Set;
 
 public class User {
@@ -9,6 +10,7 @@ public class User {
 	private String companyName;
 	private String username;
 	private Set<String> roles;
+	private Timestamp memberSince;
 	
 	public int getId() {
 		return id;
@@ -48,5 +50,13 @@ public class User {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+
+	public Timestamp getMemberSince() {
+		return memberSince;
+	}
+
+	public void setMemberSince(Timestamp memberSince) {
+		this.memberSince = memberSince;
 	}
 }

@@ -1046,7 +1046,7 @@ public class InventoryStatements extends DBMain {
 		ArrayList<Storage> al = new ArrayList<Storage>();
 		Connection connection = ds.getConnection();;
     	try {
-    		statement = connection.prepareStatement("SELECT storages.id, storages.name, storages.company_id, storages.is_open, storages.updated_at FROM storages WHERE company_id = ?;");
+    		statement = connection.prepareStatement("SELECT storages.id, storages.name, storages.company_id, storages.is_open, storages.updated_at, storages.created_at FROM storages WHERE company_id = ?;");
     		statement.setInt(1, companyId);
     		rs = statement.executeQuery();
     		while(rs.next()) {
@@ -1056,6 +1056,7 @@ public class InventoryStatements extends DBMain {
     			st.setCompanyId(rs.getInt("company_id"));
     			st.setIsOpen(rs.getBoolean("is_open"));
     			st.setOpenedAt(rs.getTimestamp("updated_at"));
+    			st.setCreatedAt(rs.getTimestamp("created_at"));
 
     			al.add(st);
     		}
@@ -1390,7 +1391,7 @@ public class InventoryStatements extends DBMain {
 		ArrayList<Station> al = new ArrayList<Station>();
 		Connection connection = ds.getConnection();;
     	try {
-    		statement = connection.prepareStatement("SELECT stations.id ,stations.name FROM stations WHERE stations.company_id = ? AND stations.importance = ?;");
+    		statement = connection.prepareStatement("SELECT stations.id ,stations.name, stations.importance FROM stations WHERE stations.company_id = ? AND stations.importance = ?;");
     		statement.setInt(1, companyId);
     		statement.setString(2, importance);
     		rs = statement.executeQuery();
@@ -1398,6 +1399,7 @@ public class InventoryStatements extends DBMain {
     			Station s = new Station();
     			s.setId(rs.getInt("id"));
     			s.setName(rs.getString("name"));
+    			s.setImportance(rs.getString("importance"));
     			al.add(s);
     		}
     	}

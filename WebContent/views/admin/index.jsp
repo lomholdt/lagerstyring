@@ -114,9 +114,9 @@
 								<div class="row">
 								<div class="col-sm-8 col-sm-offset-2">
 								<div class="form-group">
-									<select class="form-control" name="userCompany">
+									<select class="form-control" name="userCompany" id="newUserSelector">
 										<c:forEach var="company" items="${companies}">
-											<option>${company.name}</option>
+											<option id="${company.id}">${company.name}</option>
 										</c:forEach>
 
 									</select>
@@ -144,21 +144,30 @@
 									<div class="row"><hr></div>
 									<p class="lead">Brugere</p>
 									<div class="row">
-								<div class="col-sm-8 col-sm-offset-2">
-								Under construction 
-								</div>
+								<div class="col-sm-8 col-sm-offset-2" id="users">
+									<table class="table table-striped table-condensed">
+											<thead>
+												<tr>
+													<th>Brugernavn</th>
+													<th>Firma</th>
+													<th>Medlem Siden</th>
+													
+												</tr>
+											</thead>
+											<tbody id="users-overview">
+												
+											</tbody>
+										</table>
+								
 									</div>
+								</div>
 							</form>
 
 						</div>
 					</div>
-
-
-
-
-
 				</div>
 
+				<!-- TILFØJ STATIONER -->
 				<div role="tabpanel" class="tab-pane" id="station">
 					<div class="panel panel-default">
 						<div class="panel-heading">
@@ -170,9 +179,9 @@
 								<div class="col-sm-8 col-sm-offset-2">
 							<form method="POST" action="admin">
 								<div class="form-group">
-									<select class="form-control" name="stationCompany">
+									<select class="form-control" name="stationCompany" id="newStationSelector">
 										<c:forEach var="company" items="${companies}">
-											<option>${company.name}</option>
+											<option id="${company.id}">${company.name}</option>
 										</c:forEach>
 
 									</select>
@@ -199,7 +208,17 @@
 									<p class="lead">Stationer</p>
 									<div class="row">
 								<div class="col-sm-8 col-sm-offset-2">
-								Under construction 
+								<table class="table table-striped table-condensed">
+										<thead>
+											<tr>
+												<th>Station</th>
+												<th>Prioritet</th>
+											</tr>
+										</thead>
+										<tbody id="stations-overview">
+											
+										</tbody>
+									</table>
 								</div>
 									</div>
 						</div>
@@ -214,41 +233,50 @@
 						<div class="panel-body">
 						<p class="lead">Tilføj Lager</p>
 						<div class="row">
-								<div class="col-sm-8 col-sm-offset-2">
-
-
-							<form method="POST" action="admin">
-								<div class="form-group">
-									<select class="form-control" name="storageCompany">
-										<c:forEach var="company" items="${companies}">
-											<option>${company.name}</option>
-										</c:forEach>
-									</select>
-								</div>
-
-								<div class="form-group">
-									<input type="text" class="form-control" placeholder="Lager"
-										name="newStorageName">
-								</div>
-
-								<button type="submit" class="btn btn-primary btn-lg btn-block">Opret
-									Nyt Lager</button>
-									
-							</form>
-							</div>
-							</div>
-							<div class="row"><hr></div>
-									<p class="lead">Lagre</p>
-									<div class="row">
-								<div class="col-sm-8 col-sm-offset-2">
-								Under construction 
-								</div>
+							<div class="col-sm-8 col-sm-offset-2">
+								<form method="POST" action="admin">
+									<div class="form-group">
+										<select class="form-control" name="storageCompany" id="newStorageSelector">
+											<c:forEach var="company" items="${companies}">
+												<option id="${company.id}">${company.name}</option>
+											</c:forEach>
+										</select>
 									</div>
+	
+									<div class="form-group">
+										<input type="text" class="form-control" placeholder="Lager"
+											name="newStorageName">
+									</div>
+	
+									<button type="submit" class="btn btn-primary btn-lg btn-block">Opret
+										Nyt Lager</button>
+								</form>
+							</div>
+						</div>
+							<div class="row"><hr></div>
+								<p class="lead">Lagre</p>
+								<div class="row">
+									<div class="col-sm-8 col-sm-offset-2">
+										<table class="table table-striped table-condensed">
+											<thead>
+												<tr>
+													<th>Lagernavn</th>
+													<th>Status</th>
+													<th>Sidst Ændret</th>
+													<th>Lavet</th>
+													
+												</tr>
+											</thead>
+											<tbody id="storages-overview">
+												
+											</tbody>
+										</table>
+									</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</div>
 

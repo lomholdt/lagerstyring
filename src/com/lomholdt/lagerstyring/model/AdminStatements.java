@@ -89,8 +89,71 @@ public class AdminStatements extends DBMain {
 				c.setName(rs.getString("name"));
 				c.setCreatedAt(rs.getTimestamp("created_at"));
 				c.setActive(rs.getBoolean("is_active"));
+				c.setCategories(getCompanyCategories(rs.getInt("id"))); // TODO TEST THIS!
 				
 				al.add(c);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try { if(null!=rs)rs.close();} catch (SQLException e) 
+			{e.printStackTrace();}
+			try { if(null!=statement)statement.close();} catch (SQLException e) 
+			{e.printStackTrace();}
+			try { if(null!=con)con.close();} catch (SQLException e) 
+			{e.printStackTrace();}
+		}
+		return al;
+	}
+	
+	public ArrayList<String> getCompanyCategories(int companyId) throws SQLException{
+    	PreparedStatement statement = null;
+    	ResultSet rs = null;
+		ArrayList<String> al = new ArrayList<>();
+		Connection con = ds.getConnection();
+		try {
+			statement = con.prepareStatement("SELECT categories.category FROM categories WHERE categories.company_id = ?");
+			statement.setInt(1, companyId);
+			rs = statement.executeQuery();
+			while (rs.next()){
+				al.add(rs.getString("category"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try { if(null!=rs)rs.close();} catch (SQLException e) 
+			{e.printStackTrace();}
+			try { if(null!=statement)statement.close();} catch (SQLException e) 
+			{e.printStackTrace();}
+			try { if(null!=con)con.close();} catch (SQLException e) 
+			{e.printStackTrace();}
+		}
+		return al;
+	}
+	
+	public ArrayList<User> getCompanyUsers(int companyId) throws SQLException{
+    	PreparedStatement statement = null;
+    	ResultSet rs = null;
+		ArrayList<User> al = new ArrayList<>();
+		Connection con = ds.getConnection();
+		try {
+			statement = con.prepareStatement("SELECT users.id, users.company_id, users.username, users.created_at, companies.name AS company "
+					+ "FROM users "
+					+ "LEFT JOIN companies ON users.company_id = companies.id "
+					+ "WHERE users.company_id = ?;");
+			statement.setInt(1, companyId);
+			rs = statement.executeQuery();
+			while (rs.next()){
+				User u = new User();
+				u.setId(rs.getInt("id"));
+				u.setUsername(rs.getString("username"));
+				u.setCompanyId(rs.getInt("company_id"));
+				u.setCompanyName(rs.getString("company"));
+				u.setMemberSince(rs.getTimestamp("created_at"));
+				
+				al.add(u);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

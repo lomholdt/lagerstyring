@@ -25,7 +25,18 @@
 						<br>
 						<div class="row" id="inventory">
 							<div class="col-sm-10 col-sm-offset-1">
+								<c:set var="category" value="${storage.inventory.get(0).category}" />
+								<p class="lead">${category}</p>
+								
 								<c:forEach var="inventory" items="${storage.inventory}">
+								<c:if test="${category ne inventory.category}">
+								<hr>
+									<p class="lead">${inventory.category}</p>
+									<c:set var="category" value="${inventory.category}" />
+								</c:if>
+								
+								
+								
 									<c:if test="${inventory.units >= 0}">
 										<div class="form-group inventory">
 											<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label>

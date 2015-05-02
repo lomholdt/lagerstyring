@@ -39,6 +39,7 @@ public class AdminController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		try {
@@ -51,7 +52,6 @@ public class AdminController extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 		try {
 			request.setAttribute("companies", as.getCompanies());
@@ -67,6 +67,7 @@ public class AdminController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		try {

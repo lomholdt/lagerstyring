@@ -22,9 +22,22 @@
 						<br>
 						<div class="row"> 
 							<div class="col-sm-10 col-sm-offset-1">
-								<c:forEach var="inventory" items="${storage.inventory}"> 
+								<c:set var="category" value="${storage.inventory.get(0).category}" />
+								<p class="lead">${category}</p>
+								<c:forEach var="inventory" items="${storage.inventory}">
+								
+								
+								<c:if test="${category ne inventory.category}">
+								<hr>
+									<p class="lead">${inventory.category}</p>
+									<c:set var="category" value="${inventory.category}" />
+								</c:if>
+								
+								
+								
+								
 									<div class="form-group">
-										<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name} ${inventory.category}</label> 
+										<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label> 
 										<div class="col-sm-8">
 										<input type="number" step="any" class="form-control" placeholder="Antal" name="${inventory.id}" min="0" value="${inventory.units}">
 									 </div>
