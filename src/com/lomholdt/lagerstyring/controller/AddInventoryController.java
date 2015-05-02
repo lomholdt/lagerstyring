@@ -69,6 +69,7 @@ public class AddInventoryController extends HttpServlet {
 			RequestDispatcher view = request.getRequestDispatcher("views/inventory/add.jsp");
 			// get the inventory for deletion
 			request.setAttribute("allInventory", is.getAllInventory(user.getCompanyId()));
+			request.setAttribute("categories", is.getCompanyCategories(user.getCompanyId()));
 			view.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -94,6 +95,7 @@ public class AddInventoryController extends HttpServlet {
 		}
 		String storage = request.getParameter("storage");
 		String name = request.getParameter("name");
+		String categoryId = request.getParameter("category");
 		String units = request.getParameter("units");
 		String price = request.getParameter("price");
 		String salesPrice = request.getParameter("salesPrice");
@@ -126,10 +128,12 @@ public class AddInventoryController extends HttpServlet {
 				return;
 			}
 			is.addInventory(name, Double.parseDouble(units), storageId, Double.parseDouble(price), Double.parseDouble(salesPrice));
+			int inventoryId = is.getInventoryId(name, storageId);
+			is.addCategoryToInventory(inventoryId, Integer.parseInt(categoryId));
+			request.setAttribute("msg", name + " blev tilføjet til " + storage);		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		request.setAttribute("msg", name + " blev tilføjet til " + storage);		
 		doGet(request, response);
 	}
 }

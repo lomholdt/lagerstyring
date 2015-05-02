@@ -17,7 +17,7 @@ public class InventoryStatements extends DBMain {
 		ResultSet rs = null;
 		Connection connection = ds.getConnection();
 		try {
-			statement = connection.prepareStatement("INSERT INTO inventory (name, units, storage_id, price, sales_price) VALUES (?, ?, ?, ?, ?)");
+			statement = connection.prepareStatement("INSERT INTO inventory (name, units, storage_id, price, sales_price) VALUES (?, ?, ?, ?, ?);");
 			try {
 				// Do stuff with the statement
 				statement.setString(1, name);
@@ -25,6 +25,36 @@ public class InventoryStatements extends DBMain {
 				statement.setInt(3, storageId);
 				statement.setDouble(4, price);
 				statement.setDouble(5, salesPrice);
+				statement.executeUpdate();
+				return true;
+			} finally {
+				statement.close();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		return false;
+	}
+	
+	public boolean addCategoryToInventory(int inventoryId, int categoryId) throws Exception{
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		Connection connection = ds.getConnection();
+		try {
+			statement = connection.prepareStatement("INSERT INTO inventory_categories (inventory_id, category_id) VALUES (?, ?);");
+			try {
+				// Do stuff with the statement
+				statement.setInt(1, inventoryId);
+				statement.setDouble(2, categoryId);
 				statement.executeUpdate();
 				return true;
 			} finally {
@@ -73,6 +103,41 @@ public class InventoryStatements extends DBMain {
             {e.printStackTrace();}
         }
 		return 0.0;
+	}
+	
+	public int getInventoryId(String inventoryName, int storageId) throws SQLException{
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		Connection connection = ds.getConnection();
+		try {
+			statement = connection.prepareStatement("SELECT inventory.id "
+					+ "FROM inventory "
+					+ "JOIN storages ON inventory.storage_id = storages.id "
+					+ "WHERE inventory.name = ? "
+					+ "AND storages.id = ?");
+			try {
+				statement.setString(1, inventoryName);
+				statement.setInt(2, storageId);
+				rs = statement.executeQuery();
+				if (rs.next()){
+					return rs.getInt("id");						
+					}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		return 0;
 	}
 	
 	public double getInventorySalesPrice(int inventoryId) throws SQLException{
@@ -1147,6 +1212,37 @@ public class InventoryStatements extends DBMain {
         }
 		return null;
 	}
+	
+	public ArrayList<Category> getCompanyCategories(int companyId) throws Exception{
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		Connection connection = ds.getConnection();
+		ArrayList<Category> arr = new ArrayList<>();
+    	try {
+    		statement = connection.prepareStatement("SELECT categories.id, categories.category FROM categories WHERE categories.company_id = ?");
+    		statement.setInt(1, companyId);
+    		rs = statement.executeQuery();
+    		while(rs.next()) {
+    			Category c = new Category();
+    			c.setCategory(rs.getString("category"));
+    			c.setId(rs.getInt("id"));
+    			arr.add(c);
+    		}
+    	}
+    	catch(Exception e1) {
+    		e1.printStackTrace();
+    	} finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+    	return arr;
+	}
+	
+	
 	
 	public boolean updateUnitsAt(int inventoryId, double newAmount) throws Exception{
 		PreparedStatement statement = null;

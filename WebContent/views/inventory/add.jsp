@@ -34,6 +34,13 @@
 									</select>
 								</div>
 								<div class="form-group">
+									<select class="form-control" name="category">
+										<c:forEach var="category" items="${categories}">
+											<option value="${category.id}">${category.category}</option>
+										</c:forEach>
+									</select>
+								</div>
+								<div class="form-group">
 									<input type="text" class="form-control" placeholder="Varenavn"
 										name="name">
 								</div>
