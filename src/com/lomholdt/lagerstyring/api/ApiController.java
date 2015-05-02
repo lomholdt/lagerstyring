@@ -1,7 +1,8 @@
-package com.lomholdt.lagerstyring.controller;
+package com.lomholdt.lagerstyring.api;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,17 +17,18 @@ import com.lomholdt.lagerstyring.model.InventoryStatements;
 import com.lomholdt.lagerstyring.model.User;
 
 /**
- * Servlet implementation class StorageIsOpenController
+ * Servlet implementation class ApiController
  */
-@WebServlet("/StorageIsOpenController")
-public class StorageIsOpenController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+@WebServlet("/ApiController")
+public class ApiController extends HttpServlet {
 	Authenticator auth = new Authenticator();
+	private static final long serialVersionUID = 1L;
+	private static final String NO_PERMISSION_MESSAGE = "You do not have permission to see this page.";
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public StorageIsOpenController() {
+    public ApiController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,32 +39,40 @@ public class StorageIsOpenController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		InventoryStatements is = new InventoryStatements();
-		Integer storageId = Integer.parseInt(request.getParameter("storageId"));
-		
 		try {
-			if(user == null || !auth.is("manager", user.getId())){
-				FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
+			if(user == null || !auth.is("user", user.getId())){
+				FlashMessage.setFlashMessage(request, "error", NO_PERMISSION_MESSAGE);
 				response.sendRedirect("count");
 				return;
 			}
-			else if(!is.userOwnsStorage(storageId, user.getId())){
-				FlashMessage.setFlashMessage(request, "error", "You do not have permission to perform this action.");
-				response.sendRedirect("count");
-				return;
-			}
-			
-			PrintWriter pw = response.getWriter();
-			if(is.storageIsOpen(storageId)){
-				pw.print("true");
-			}
-			else{
-				pw.print("false");
-			}
-
-		} catch (Exception e1) {
+		} catch (SQLException e1) {
+			System.out.print("Permission denied for using log");
 			e1.printStackTrace();
 		}
+		
+		
+			try {
+				PrintWriter pw = response.getWriter();
+				String inventoryId = request.getParameter("inventoryId");
+				if (inventoryId.equals("undefined")) return;
+				
+				if(inventoryId != null && !inventoryId.isEmpty()){
+				pw.print(new InventoryStatements().getCurrentInventoryCount(Integer.parseInt(inventoryId)));
+				return;
+				}
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			
+		
+		
+		
 		
 	}
 

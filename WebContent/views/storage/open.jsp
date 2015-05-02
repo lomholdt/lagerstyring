@@ -18,11 +18,11 @@
 					<div class="panel-heading">
 						<h3 class="panel-title">Start-tal</h3>
 					</div>
-					<div class="panel-body">
+					<div class="panel-body"> <!-- INVENTORY START  -->
 						<br>
-						<div class="row">
+						<div class="row"> 
 							<div class="col-sm-10 col-sm-offset-1">
-								<c:forEach var="inventory" items="${storage.inventory}">
+								<c:forEach var="inventory" items="${storage.inventory}"> 
 									<div class="form-group">
 										<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name} ${inventory.category}</label> 
 										<div class="col-sm-8">
@@ -32,7 +32,7 @@
 								</c:forEach>
 							</div>
 						</div>
-					</div>
+					</div> <!-- INVENTORY END  -->
 					<div class="panel-footer">
 						<p class="lead">Godkend åbning</p>
 						<div class="row">

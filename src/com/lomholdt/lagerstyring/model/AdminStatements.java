@@ -52,16 +52,45 @@ public class AdminStatements extends DBMain {
 		return false;
 	}
 	
-	public ArrayList<String> getCompanies() throws SQLException{
+	public boolean companyExists(int companyId) throws SQLException {
     	PreparedStatement statement = null;
     	ResultSet rs = null;
-		ArrayList<String> al = new ArrayList<String>();
 		Connection con = ds.getConnection();
 		try {
-			statement = con.prepareStatement("SELECT companies.name FROM companies;");
+			statement = con.prepareStatement("SELECT companies.name FROM companies WHERE companies.id = ?;");
+			statement.setInt(1, companyId);
+			rs = statement.executeQuery();
+			if (rs.next()) return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try { if(null!=rs)rs.close();} catch (SQLException e) 
+			{e.printStackTrace();}
+			try { if(null!=statement)statement.close();} catch (SQLException e) 
+			{e.printStackTrace();}
+			try { if(null!=con)con.close();} catch (SQLException e) 
+			{e.printStackTrace();}
+		}
+		return false;
+	}
+	
+	public ArrayList<Company> getCompanies() throws SQLException{
+    	PreparedStatement statement = null;
+    	ResultSet rs = null;
+		ArrayList<Company> al = new ArrayList<>();
+		Connection con = ds.getConnection();
+		try {
+			statement = con.prepareStatement("SELECT companies.id, companies.name, companies.created_at, companies.is_active FROM companies;");
 			rs = statement.executeQuery();
 			while (rs.next()){
-				al.add(rs.getString("name"));
+				Company c = new Company();
+				c.setId(rs.getInt("id"));
+				c.setName(rs.getString("name"));
+				c.setCreatedAt(rs.getTimestamp("created_at"));
+				c.setActive(rs.getBoolean("is_active"));
+				
+				al.add(c);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -184,6 +213,27 @@ public class AdminStatements extends DBMain {
 			statement = connection.prepareStatement("INSERT INTO storages(name, company_id, is_open) VALUES(?, ?, 0)");
 			statement.setString(1, storageName);
 			statement.setInt(2, companyId);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+	}
+	
+	public void changeCompanyStatus(int companyId) throws Exception {
+    	PreparedStatement statement = null;
+    	ResultSet rs = null;
+		Connection connection = ds.getConnection();
+		try {
+			statement = connection.prepareStatement("UPDATE companies SET companies.is_active = !companies.is_active WHERE companies.id = ?");
+			statement.setInt(1, companyId);
 			statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

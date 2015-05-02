@@ -1,4 +1,4 @@
-package com.lomholdt.lagerstyring.controller;
+package com.lomholdt.lagerstyring.api;
 
 import java.io.IOException;
 import java.util.regex.Matcher;

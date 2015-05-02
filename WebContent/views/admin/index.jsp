@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <admin:wrap title="Admin">
+<script src="${pageContext.request.contextPath}/js/admin.js"></script>
 
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2">
@@ -78,12 +79,16 @@
 										<thead>
 											<tr>
 												<th>Virksomhed</th>
+												<th>Oprettet</th>
+												<th>Aktiv</th>
 											</tr>
 										</thead>
 										<tbody>
 											<c:forEach var="company" items="${companies}">
-												<tr>
-													<td>${company}</td>
+												<tr class="company <c:choose><c:when test="${company.active}">success</c:when><c:otherwise>danger</c:otherwise></c:choose>" id="${company.id}-company">
+													<td>${company.name}</td>
+													<td>${company.createdAt}</td>
+													<td><input type="checkbox" <c:if test="${company.active}">checked="checked"</c:if> id=${company.id}-status value="${company.id}" class="company-status"></td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -111,7 +116,7 @@
 								<div class="form-group">
 									<select class="form-control" name="userCompany">
 										<c:forEach var="company" items="${companies}">
-											<option>${company}</option>
+											<option>${company.name}</option>
 										</c:forEach>
 
 									</select>
@@ -167,7 +172,7 @@
 								<div class="form-group">
 									<select class="form-control" name="stationCompany">
 										<c:forEach var="company" items="${companies}">
-											<option>${company}</option>
+											<option>${company.name}</option>
 										</c:forEach>
 
 									</select>
@@ -216,7 +221,7 @@
 								<div class="form-group">
 									<select class="form-control" name="storageCompany">
 										<c:forEach var="company" items="${companies}">
-											<option>${company}</option>
+											<option>${company.name}</option>
 										</c:forEach>
 									</select>
 								</div>

@@ -113,7 +113,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>UpdatePriceController</servlet-name>
-    <servlet-class>com.lomholdt.lagerstyring.controller.UpdatePriceController</servlet-class>
+    <servlet-class>com.lomholdt.lagerstyring.api.UpdatePriceController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UpdatePriceController</servlet-name>
@@ -153,10 +153,10 @@
     <servlet-name>TestServlet</servlet-name>
     <url-pattern>/test</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>StorageIsOpenController</servlet-name>
     <servlet-class>
-            com.lomholdt.lagerstyring.controller.StorageIsOpenController
+            com.lomholdt.lagerstyring.api.StorageIsOpenController
         </servlet-class>
   </servlet>
   <servlet-mapping>
@@ -166,12 +166,22 @@
   <servlet>
     <servlet-name>ApiController</servlet-name>
     <servlet-class>
-            com.lomholdt.lagerstyring.controller.ApiController
+            com.lomholdt.lagerstyring.api.ApiController
         </servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ApiController</servlet-name>
     <url-pattern>/api</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <servlet-name>ToggleCompanyStatus</servlet-name>
+    <servlet-class>
+            com.lomholdt.lagerstyring.api.ToggleCompanyStatus
+        </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ToggleCompanyStatus</servlet-name>
+    <url-pattern>/adminapi</url-pattern>
   </servlet-mapping>
   <resource-ref>
     <description>DB Connection</description>
