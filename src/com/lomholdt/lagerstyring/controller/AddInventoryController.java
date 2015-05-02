@@ -128,8 +128,11 @@ public class AddInventoryController extends HttpServlet {
 				return;
 			}
 			is.addInventory(name, Double.parseDouble(units), storageId, Double.parseDouble(price), Double.parseDouble(salesPrice));
-			int inventoryId = is.getInventoryId(name, storageId);
-			is.addCategoryToInventory(inventoryId, Integer.parseInt(categoryId));
+			
+			if(categoryId != null && !categoryId.isEmpty() && !categoryId.equals("none")){ // Add a category as well
+				int inventoryId = is.getInventoryId(name, storageId);
+				is.addCategoryToInventory(inventoryId, Integer.parseInt(categoryId));				
+			}
 			request.setAttribute("msg", name + " blev tilføjet til " + storage);		
 		} catch (Exception e) {
 			e.printStackTrace();
