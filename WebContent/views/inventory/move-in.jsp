@@ -19,7 +19,7 @@
 			<div class="col-sm-6 col-sm-offset-1">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Tilgang - ${storage.name}</h3>
+						<h3 class="panel-title">Tilgang</h3>
 					</div>
 					<div class="panel-body">
 						<br>

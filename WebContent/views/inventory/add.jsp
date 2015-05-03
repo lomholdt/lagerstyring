@@ -50,13 +50,15 @@
 										name="units" value="0">
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control" placeholder="Indkøbspris"
+									<input type="text" class="form-control" placeholder="Indkøbspris*"
 										name="price">
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control" placeholder="Omsætningspris"
+									<input type="text" class="form-control" placeholder="Omsætningspris*"
 										name="salesPrice">
 								</div>
+								<div>*Decimaler angives efter punktum (00.00)</div>
+								<br>
 								<div class="form-group">
 									<button type="submit" class="btn btn-primary btn-lg">Tilføj vare</button>
 								</div>
