@@ -35,7 +35,7 @@
 								</div>
 								<div class="form-group">
 									<select class="form-control" name="category">
-									<option value="none" selected>Ingen</option>
+									<option value="none" selected>Vælg kategori</option>
 										<c:forEach var="category" items="${categories}">
 											<option value="${category.id}">${category.category}</option>
 										</c:forEach>

@@ -16,7 +16,7 @@
 			<form class="form-horizontal" method="POST" action="open" id="openStorageForm">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Start-tal</h3>
+						<h3 class="panel-title">Start tal</h3>
 					</div>
 					<div class="panel-body"> <!-- INVENTORY START  -->
 						<br>
