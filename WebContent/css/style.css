@@ -8,6 +8,23 @@ and open the template in the editor.
     Author     : martinhaun
 */
 
+
+/*
+1.-------NAVIBAR--------
+2.-------BODY-----------
+3.-------HEADINGS-------
+4.-------PANELS---------
+5.-------BUTTONS--------
+6.-------LABELS---------
+7.-------Left navigation
+8.-------INPUTS---------
+9.-------TABLES---------
+*/
+
+
+
+
+
 /*
 1.-------NAVIBAR--------
 */
@@ -104,17 +121,17 @@ body {
 */
 
 h1 {
-  font-weight: 200;
+  font-weight: 500;
   margin-top: 40px;
   margin-bottom: 40px;
   color: #525252;
 }
 
 .lead {
-  font-size: 14px;
+   font-size: 15px;
   font-weight: 600;
   line-height: 1.4;
-  color: #B2BAC2;
+  color: #000000;
 }
 
 
@@ -199,7 +216,7 @@ h1 {
 }
 
 label {
-  font-weight: 500;
+  font-weight: 400;
 }
 
 
