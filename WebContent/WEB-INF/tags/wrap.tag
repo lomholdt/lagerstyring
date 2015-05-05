@@ -16,6 +16,7 @@
 		<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/css/style.css">
 		
 		<script type="text/javascript" src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+		<script src="${pageContext.request.contextPath}/js/jquery.toaster.js"></script>	
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 		
 		<!-- /.table sort javascript -->

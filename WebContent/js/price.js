@@ -1,37 +1,19 @@
-var http;
-var timeout;
-if (navigator.appName == "Microsoft Internet Explorer"){
-	http = new ActiveXObject("Microsoft.XMLHTTP");
-}
-else{
-	http = new XMLHttpRequest();	
-}
-
-function sendRequest(action, responseHandler){
-	http.open("POST", "/lagerstyring/updateprice");
-	
-	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	
-	http.onreadystatechange = responseHandler;
-	http.send(action);
-}
-
-function update(inventoryId, priceType){
-	if (http.readyState == 0 || http.readyState == 4){
-		var price = document.getElementById(priceType + "-" + inventoryId);
-		// ready to rock'n'roll!
-		sendRequest("inventoryId=" + encodeURIComponent(inventoryId) + "&" + priceType + "=" + price.value , responseReceived(inventoryId));
-	}
+function update(inventoryId, priceType, inventoryName){
+	var price = document.getElementById(priceType + "-" + inventoryId);
+	$.post("/lagerstyring/updateprice",
+			{
+				inventoryId: encodeURIComponent(inventoryId),
+				priceType: price.value
+			},
+			function(data, textStatus){
+				if(textStatus == "success"){
+					$.toaster({ priority : 'success', title : 'Pris Opdateret', message : "Prisen på " + inventoryName + " blev opdateret til " + price.value});					
+				}
+				else{
+					$.toaster({ priority : 'danger', title : 'Fejl', message : "Kunne ikke opdatere prisen på " + inventoryName + " til " + inventoryPrice});
+				}
+		
+	});
 }
 
-function responseReceived(inventoryId){
-	if (http.readyState == 4){
-		try {
-			if (http.status == 200){
-				var currentUnits = http.responseText;
-			}
-		} catch (e) {
-			console.log(e);
-		}
-	}
-}
+

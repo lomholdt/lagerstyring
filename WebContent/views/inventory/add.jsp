@@ -50,12 +50,12 @@
 										name="units" value="0">
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control" placeholder="Indkøbspris*"
-										name="price">
+									<input type="number" class="form-control" placeholder="Indkøbspris*"
+										name="price" step="any">
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control" placeholder="Omsætningspris*"
-										name="salesPrice">
+									<input type="number" class="form-control" placeholder="Omsætningspris*"
+										name="salesPrice" step="any">
 								</div>
 								<div>*Decimaler angives efter punktum (00.00)</div>
 								<br>
@@ -86,10 +86,10 @@
 											<input type="hidden" value="${inventory.id}">
 												<tr>
 													<td><label for="${inventory.name}">${inventory.name}</label></td>
-													<td><input type="text" class="form-control input-sm" placeholder="Indkøbspris"
-										name="uPrice" value="${inventory.price}" onblur="update(${inventory.id}, 'uPrice')" id="uPrice-${inventory.id}"></td>
-													<td><input type="text" class="form-control input-sm" placeholder="Omsætningspris"
-										name="uSalesPrice" value="${inventory.salesPrice}" onblur="update(${inventory.id}, 'uSalesPrice')" id="uSalesPrice-${inventory.id}"></td>
+													<td><input type="number" class="form-control input-sm" placeholder="Indkøbspris"
+										name="uPrice" value="${inventory.price}" onblur="update(${inventory.id}, 'uPrice', '${inventory.name}')" id="uPrice-${inventory.id}" step="any"></td>
+													<td><input type="number" class="form-control input-sm" placeholder="Omsætningspris"
+										name="uSalesPrice" value="${inventory.salesPrice}" onblur="update(${inventory.id}, 'uSalesPrice', '${inventory.name}')" id="uSalesPrice-${inventory.id}" step="any"></td>
 													<td><input type="checkbox" id="${inventory.name}" name="i" value="${inventory.id}"></td>
 												</tr>
 											</c:forEach>

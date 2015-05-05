@@ -41,6 +41,7 @@ public class AddInventoryController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		try {
@@ -81,6 +82,7 @@ public class AddInventoryController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		try {
@@ -100,6 +102,7 @@ public class AddInventoryController extends HttpServlet {
 		String price = request.getParameter("price");
 		String salesPrice = request.getParameter("salesPrice");
 		price = price.replaceAll(",", "."); // if input uses comma replace with compatible dot
+		salesPrice = salesPrice.replaceAll(",", "."); // if input uses comma replace with compatible dot
 		
 		Pattern p = Pattern.compile("(\\d)+([,\\.])?(\\d)*");
 		Matcher m = p.matcher(price);

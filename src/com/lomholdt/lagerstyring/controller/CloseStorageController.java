@@ -119,6 +119,10 @@ public class CloseStorageController extends HttpServlet {
 				response.sendRedirect("");
 				return;
 			}
+			if(storageId == null || storageId.isEmpty()) {
+				FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
+				response.sendRedirect("count");
+			}
 			if(!is.userOwnsStorage(Integer.parseInt(storageId), user.getId())){
 				FlashMessage.setFlashMessage(request, "error", "You do not have permission to close this storage.");
 				response.sendRedirect("count");
@@ -132,10 +136,7 @@ public class CloseStorageController extends HttpServlet {
 			e.printStackTrace();
 		}
 	
-		if(storageId == null || storageId.isEmpty()) {
-			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
-			response.sendRedirect("count");
-		}
+
 
 		
 
@@ -143,15 +144,23 @@ public class CloseStorageController extends HttpServlet {
 		// Sloppy but working method for ensuring no empty input
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
 			if(entry.getValue()[0].equals("")){
-				request.setAttribute("sid", storageId);
 				FlashMessage.setFlashMessage(request, "error", "Empty input is not allowed");
+				request.setAttribute("sid", storageId);
 				response.sendRedirect("count"); 
 				return;
 			}
 		}
 
 		try {
-			// Update all the values
+			String tempSave = request.getParameter("save");
+			if(tempSave != null && !tempSave.isEmpty()){ // Only save, don't close!
+				System.out.println("Temp saving units...");
+				tempSaveUnits(request);
+				System.out.println("Temp saving done...");
+				return;
+			}
+			
+			// Update all the values and close
 			int archiveLogId = is.getLatestArchiveLogId(Integer.parseInt(storageId));
 			for(Map.Entry<String, String[]> entry : m.entrySet()){
 				if(entry.getKey().equals("sid") || entry.getKey().equals("update")) continue;
@@ -171,7 +180,26 @@ public class CloseStorageController extends HttpServlet {
 	}
 
 	
-	public ArrayList<LoggedStation> getStationLogResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
+	private void tempSaveUnits(HttpServletRequest request) {
+			try {
+				Map<String, String[]> m  = request.getParameterMap();
+				InventoryStatements is = new InventoryStatements();
+				for(Map.Entry<String, String[]> entry : m.entrySet()){
+					System.out.println("Key: " + entry.getKey());
+					if(entry.getKey().equals("sid") || entry.getKey().equals("update") || entry.getKey().equals("save")) continue;
+					// TODO Need to secure that updated id's belong to the user updating!
+				is.updateUnitsAt(Integer.parseInt(entry.getKey()), Double.parseDouble(entry.getValue()[0]));
+				}
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+	}
+
+	private ArrayList<LoggedStation> getStationLogResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
 		ArrayList<LoggedStation> loggedStations = new ArrayList<LoggedStation>();
 		String inventoryName = request.getParameter("inventoryName");
 		String stationName = request.getParameter("stationName");

@@ -6,6 +6,7 @@
 
 <add:wrap title="Luk Lager">
 <script src="${pageContext.request.contextPath}/js/diff.js"></script>
+<script src="${pageContext.request.contextPath}/js/save.js"></script>
 	<c:if test="${msg != null}">
 		<div class="alert alert-success">${msg}</div>
 	</c:if>
@@ -72,6 +73,7 @@
 								<input type="hidden" value="${storage.id}" name="sid">
 								<input type="hidden" value="update" name="update">
 								<button type="button" class="btn btn-primary btn-lg" onclick="conf()">Godkend slut-tal</button>
+								<button type="button" class="btn btn-primary btn-lg" id="save">Gem slut-tal</button>
 							</div>
 						</div>
 					</div>
