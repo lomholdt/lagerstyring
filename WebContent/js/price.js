@@ -15,5 +15,3 @@ function update(inventoryId, priceType, inventoryName){
 		
 	});
 }
-
-

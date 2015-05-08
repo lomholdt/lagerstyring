@@ -88,7 +88,7 @@ public class CloseStorageController extends HttpServlet {
 		// We are good - Perform action on storage
 		
 		String search = request.getParameter("search");
-		if (search != null && !search.isEmpty()){
+		if (search != null && !search.isEmpty()){ // Add log results if they are set
 			ArrayList<LoggedStation> ls = getStationLogResults(request, response, user, storageId);
 			request.setAttribute("logResults", ls);
 		}
@@ -104,6 +104,9 @@ public class CloseStorageController extends HttpServlet {
 		}
 	}
 
+	
+	
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
