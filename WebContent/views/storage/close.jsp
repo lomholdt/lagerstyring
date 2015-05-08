@@ -26,6 +26,29 @@
 						<br>
 						<div class="row" id="inventory">
 							<div class="col-sm-10 col-sm-offset-1">
+							
+							
+							
+					<table class="table table-condensed">
+                    <thead>
+                      <tr>
+                        <th>"kategori"</th>
+                        <th>Forventet</th>
+                        <th>Antal</th>
+                        <th>Diff</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                          <td><label for="?">Langt varenavn</label></td>
+                          <td>0</td>
+                          <td><input type="number" class="form-control input" placeholder="0"  name="?"  value="0"></td>
+                     	  <td>0</td>
+                        </tr>
+                    </tbody>
+                  </table>
+							
+							
 								<c:set var="category" value="${storage.inventory.get(0).category}" />
 								<p class="lead">${category}</p>
 								
@@ -67,13 +90,15 @@
 					</div>
 					<div class="panel-footer">
 						<p class="lead">Godkend lukning</p>
+						<p>Tryk "gem" for at gemme slut tal uden at lukke rapporten. Tryk "Gem og luk" for at gemme slut tal og lukke rapporten</p>
+						<br>
 						<div class="row">
-							<div class="col-sm-8 col-sm-offset-2">
+							<div class="col-sm-12">
 								<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
 								<input type="hidden" value="${storage.id}" name="sid">
 								<input type="hidden" value="update" name="update">
-								<button type="button" class="btn btn-primary btn-lg" onclick="conf()">Godkend slut-tal</button>
-								<button type="button" class="btn btn-primary btn-lg" id="save">Gem slut-tal</button>
+								<button type="button" class="btn btn-primary btn-lg" id="save">Gem</button>
+								<button type="button" class="btn btn-primary btn-lg" onclick="conf()">Gem og luk</button>
 							</div>
 						</div>
 					</div>
