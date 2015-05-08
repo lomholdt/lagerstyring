@@ -84,6 +84,7 @@ public class CloseStorageController extends HttpServlet {
 		else{
 			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
 			response.sendRedirect("count");
+			return;
 		}
 		// We are good - Perform action on storage
 		
@@ -98,7 +99,7 @@ public class CloseStorageController extends HttpServlet {
 			request.setAttribute("primaryStations", primaryStations);
 			request.setAttribute("secondaryStations", secondaryStations);
 			RequestDispatcher view = request.getRequestDispatcher("views/storage/close.jsp");
-			view.forward(request, response);			
+			view.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
