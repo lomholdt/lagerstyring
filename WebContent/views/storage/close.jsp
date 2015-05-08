@@ -5,7 +5,6 @@
 
 
 <add:wrap title="Luk Lager">
-<script src="${pageContext.request.contextPath}/js/diff.js"></script>
 <script src="${pageContext.request.contextPath}/js/save.js"></script>
 	<c:if test="${msg != null}">
 		<div class="alert alert-success">${msg}</div>
@@ -28,62 +27,32 @@
 							<div class="col-sm-10 col-sm-offset-1">
 							
 							
+					
+	
 							
-					<table class="table table-condensed">
-                    <thead>
-                      <tr>
-                        <th>"kategori"</th>
-                        <th>Forventet</th>
-                        <th>Antal</th>
-                        <th>Diff</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                          <td><label for="?">Langt varenavn</label></td>
-                          <td>0</td>
-                          <td><input type="number" class="form-control input" placeholder="0"  name="?"  value="0"></td>
-                     	  <td>0</td>
-                        </tr>
-                    </tbody>
-                  </table>
-							
-							
+								<!-- KATEGORIER -->
 								<c:set var="category" value="${storage.inventory.get(0).category}" />
 								<p class="lead">${category}</p>
 								
 								<c:forEach var="inventory" items="${storage.inventory}">
-								<c:if test="${category ne inventory.category}">
-								<hr>
-									<p class="lead">${inventory.category}</p>
-									<c:set var="category" value="${inventory.category}" />
-								</c:if>
-								
-								
-								
-									<c:if test="${inventory.units >= 0}">
-										<div class="form-group inventory">
-											<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label>
-											<div class="input-group col-sm-8">
-												<input type="number" step="any" class="form-control"
-													placeholder="Antal" id="${inventory.id}"
-													name="${inventory.id}" min="0" value="${inventory.units}">
-													<span id="diff-${inventory.id}" class="diff input-group-addon">0</span>
-											</div>
-										</div>
+									<c:if test="${category ne inventory.category}">
+									<hr>
+										<p class="lead">${inventory.category}</p>
+										<c:set var="category" value="${inventory.category}" />
 									</c:if>
 									
-									<c:if test="${inventory.units < 0}">
-										<div class="form-group has-error">
-											<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label>
-											<div class="input-group col-sm-8">
-												<input type="number" step="any" class="form-control"
-													placeholder="Antal" id="${inventory.id}"
-													name="${inventory.id}" min="0" value="${inventory.units}">
-													<span id="diff-${inventory.id}" class="diff input-group-addon">0</span>
-											</div>
+									
+									<!-- INVENTORY -->
+									<div class="form-group inventory"><div id="expected-inventory">Forventet: <span id="${inventory.id}-inventory-expected">${inventory.unitsAtOpen + inventory.movesSoFar}</span></div>
+										<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label>
+										<div class="input-group col-sm-8">
+										
+											<input type="number" step="any" class="form-control"
+												placeholder="Antal" id="${inventory.id}"
+												name="${inventory.id}" min="0" value="<c:if test="${inventory.tempUnitsSet}">${inventory.tempUnits}</c:if>">
+												<span id="${inventory.id}-diff" class="diff input-group-addon"></span>
 										</div>
-									</c:if>
+									</div>
 								</c:forEach>
 							</div>
 						</div>
@@ -212,4 +181,5 @@
 		}
 	
 	</script>
+	<script src="${pageContext.request.contextPath}/js/diff.js"></script>
 </add:wrap>

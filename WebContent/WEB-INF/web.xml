@@ -64,6 +64,14 @@
     <url-pattern>/inventory</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>SaveTemporaryUnitsController</servlet-name>
+    <servlet-class>com.lomholdt.lagerstyring.api.SaveTemporaryUnitsController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SaveTemporaryUnitsController</servlet-name>
+    <url-pattern>/save</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>DeleteInventoryController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.DeleteInventoryController</servlet-class>
   </servlet>
@@ -203,7 +211,7 @@
     <servlet-name>GetCompanyUsers</servlet-name>
     <url-pattern>/getcompanyusers</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>GetCompanyStorages</servlet-name>
     <servlet-class>
             com.lomholdt.lagerstyring.api.GetCompanyStorages
@@ -231,7 +239,7 @@
     <servlet-name>default</servlet-name>
     <url-pattern>*.js</url-pattern>
   </servlet-mapping>
-    <servlet-mapping>
+  <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>/fonts/*</url-pattern>
   </servlet-mapping>

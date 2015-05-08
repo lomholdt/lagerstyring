@@ -243,7 +243,8 @@ public class InventoryStatements extends DBMain {
 		ResultSet rs = null;
 		Connection connection = ds.getConnection();
 		try {
-			statement = connection.prepareStatement("UPDATE archive_log SET closed_at = NOW() WHERE archive_log.storage_id = ? ORDER BY archive_log.opened_at DESC LIMIT 1;");
+			statement = connection.prepareStatement("UPDATE archive_log SET closed_at = NOW() WHERE archive_log.storage_id = ? ORDER BY archive_log.opened_at DESC LIMIT 1;"
+					+ "");
 			try {
 				// Do stuff with the statement
 				statement.setInt(1, storageId);
@@ -1178,12 +1179,31 @@ public class InventoryStatements extends DBMain {
 		Connection connection = ds.getConnection();
 		try {
 			Storage st = getStorage(storageId);
-			statement = connection.prepareStatement("SELECT inventory.id, inventory.name, inventory.units, inventory.created_at, inventory.updated_at, inventory.storage_id, categories.category "
+			Timestamp openedAtTime = st.getOpenedAt();
+//			statement = connection.prepareStatement("SELECT inventory.id, inventory.name, inventory.units, inventory.created_at, inventory.updated_at, inventory.storage_id, categories.category "
+//					+ "FROM inventory "
+//					+ "LEFT JOIN inventory_categories ON inventory_categories.inventory_id = inventory.id "
+//					+ "LEFT JOIN categories ON categories.id = inventory_categories.category_id "
+//					+ "WHERE inventory.storage_id = ?;");
+			
+			statement = connection.prepareStatement("SELECT inventory.id, inventory.name, inventory.units, temporary_units.temp_units, SUM(inventory_log.units) AS total_out, inventory_snapshot.units_at_open, inventory.created_at, inventory.updated_at, inventory.storage_id, categories.category "
 					+ "FROM inventory "
 					+ "LEFT JOIN inventory_categories ON inventory_categories.inventory_id = inventory.id "
 					+ "LEFT JOIN categories ON categories.id = inventory_categories.category_id "
-					+ "WHERE inventory.storage_id = ?;");
-			statement.setInt(1, storageId);
+					+ "LEFT JOIN archive_log ON archive_log.storage_id = inventory.storage_id AND archive_log.opened_at >= ? "
+					+ "LEFT JOIN inventory_snapshot ON inventory_snapshot.archive_log_id = archive_log.id "
+					+ "AND inventory_snapshot.inventory_id = inventory.id "
+					+ "LEFT JOIN inventory_log ON inventory_log.created_at >= ? "
+					+ "AND inventory_log.inventory_id = inventory.id "
+					+ "LEFT JOIN temporary_units ON temporary_units.inventory_id = inventory.id "
+					+ "AND temporary_units.storage_id = ? "
+					+ "WHERE inventory.storage_id = ? "
+					+ "GROUP BY inventory.id;");
+			
+			statement.setTimestamp(1, openedAtTime);
+			statement.setTimestamp(2, openedAtTime);
+			statement.setInt(3, storageId);
+			statement.setInt(4, storageId);
 			rs = statement.executeQuery();
 			while(rs.next()){
 				Inventory iv = new Inventory();
@@ -1193,9 +1213,16 @@ public class InventoryStatements extends DBMain {
 				iv.setCreatedAt(rs.getTimestamp("created_at"));
 				iv.setUpdatedAt(rs.getTimestamp("updated_at"));
 				iv.setStorageId(rs.getInt("storage_id"));
+				iv.setCategory(rs.getString("category"));
 				
-				String category = rs.getString("category");
-				if(category != null) iv.setCategory(category);
+				iv.setUnitsAtOpen(rs.getDouble("units_at_open"));
+				iv.setMovesSoFar(rs.getDouble("total_out"));
+				
+				double tempUnits = rs.getDouble("temp_units");
+				if(!rs.wasNull()){
+					iv.setTempUnits(tempUnits);					
+				}
+				
 				
 				st.addToInventory(iv);
 			}
@@ -1568,6 +1595,76 @@ public class InventoryStatements extends DBMain {
 			statement.setDouble(1, updatedPrice);
 			statement.setInt(2, inventoryId);
 			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		
+	}
+
+	public void setTempUnits(Map<Integer, Double> tempValues, int storageId) throws SQLException {
+		PreparedStatement statement = null;
+		Connection connection = ds.getConnection();
+		try {
+			String query = String.format("INSERT INTO temporary_units (inventory_id, temp_units, storage_id) VALUES (?, ?, ?) "
+						+ "ON DUPLICATE KEY UPDATE temp_units = ?; ");
+			statement = connection.prepareStatement(query);
+
+			for (Map.Entry inventory : tempValues.entrySet()) {
+				statement.setInt(1, (Integer)inventory.getKey());
+				statement.setDouble(2, (Double)inventory.getValue());
+				statement.setInt(3, storageId);
+				statement.setDouble(4, (Double)inventory.getValue());
+				statement.addBatch();
+			}
+			
+			statement.executeBatch();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+	}
+	
+	public void deleteTempUnits(int storageId) throws SQLException {
+		PreparedStatement statement = null;
+		Connection connection = ds.getConnection();
+		try {
+			statement = connection.prepareStatement("DELETE FROM temporary_units WHERE temporary_units.storage_id = ?;");
+			statement.setDouble(1, storageId);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+
+	}
+
+	public void deleteEmptyUnits(ArrayList<Integer> deleteTempIds) throws SQLException {
+		PreparedStatement statement = null;
+		Connection connection = ds.getConnection();
+		try {
+			statement = connection.prepareStatement("DELETE FROM temporary_units WHERE temporary_units.inventory_id = ?;");
+			for (Integer integer : deleteTempIds) {
+				statement.setInt(1, integer);
+				statement.addBatch();
+			}
+
+			statement.executeBatch();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -155,13 +155,14 @@ public class CloseStorageController extends HttpServlet {
 		}
 
 		try {
-			String tempSave = request.getParameter("save");
-			if(tempSave != null && !tempSave.isEmpty()){ // Only save, don't close!
-				System.out.println("Temp saving units...");
-				tempSaveUnits(request);
-				System.out.println("Temp saving done...");
-				return;
-			}
+			
+//			String tempSave = request.getParameter("save");
+//			if(tempSave != null && !tempSave.isEmpty()){ // Only save, don't close!
+//				System.out.println("Temp saving units...");
+//				tempSaveUnits(request);
+//				System.out.println("Temp saving done...");
+//				return;
+//			}
 			
 			// Update all the values and close
 			int archiveLogId = is.getLatestArchiveLogId(Integer.parseInt(storageId));
@@ -173,6 +174,8 @@ public class CloseStorageController extends HttpServlet {
 			}
 			is.changeStorageStatus(Integer.parseInt(storageId));
 			is.addToStorageLog(is.getStorageName(Integer.parseInt(storageId)), Integer.parseInt(storageId), "Luk");
+			
+			is.deleteTempUnits(Integer.parseInt(storageId)); // Delete the temp values when storage close
 			
 			is.closeArchiveLog(Integer.parseInt(storageId));
 			FlashMessage.setFlashMessage(request, "msg", "Lageret er nu lukket");
@@ -221,7 +224,7 @@ public class CloseStorageController extends HttpServlet {
 		
 		try {			
 			Storage s = is.getStorage(Integer.parseInt(storageId));
-			Timestamp fromDate = new Timestamp(s.getOpenedAt().getTimeInMillis());
+			Timestamp fromDate = s.getOpenedAt();
 			Timestamp toDate = new Timestamp(Calendar.getInstance().getTimeInMillis());
 			
 			

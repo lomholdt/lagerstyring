@@ -156,8 +156,14 @@ CREATE TABLE IF NOT EXISTS inventory_categories(
 	FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
+CREATE TABLE IF NOT EXISTS temporary_units(
+	inventory_id int(11) NOT NULL,
+	temp_units DOUBLE NOT NULL,
+	storage_id int(11) NOT NULL,
+	PRIMARY KEY (inventory_id),
+	FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
+	FOREIGN KEY (storage_id) REFERENCES storages(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 

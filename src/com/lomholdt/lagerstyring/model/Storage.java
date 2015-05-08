@@ -13,7 +13,7 @@ public class Storage {
 	private int companyId;
 	private boolean isOpen;
 	private ArrayList<Inventory> inventory = new ArrayList<Inventory>();
-	private Calendar openedAt;
+	private Timestamp openedAt;
 	private Timestamp createdAt;
 	
 	public int getId() {
@@ -46,21 +46,22 @@ public class Storage {
 	public void addToInventory(Inventory inv) {
 		inventory.add(inv);
 	}
-	public Calendar getOpenedAt() {
+	public Timestamp getOpenedAt() {
 		return openedAt;
 	}
 	public String getOpenedAtHtml(){
-		String time = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(getOpenedAt().getTimeInMillis());
+		String time = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(getOpenedAt().getTime());
 		return time;
 	}
 	public String getOpenedAtDatePicker(){
-		String time = new SimpleDateFormat("yyyy-MM-dd").format(getOpenedAt().getTimeInMillis());
+		String time = new SimpleDateFormat("yyyy-MM-dd").format(getOpenedAt().getTime());
 		return time;
 	}
 	
 	public void setOpenedAt(Timestamp updatedAt) {
-		openedAt = Calendar.getInstance();
-		openedAt.setTime(new Date(updatedAt.getTime()));
+//		openedAt = Calendar.getInstance().;
+//		openedAt.setTime(new Date(updatedAt.getTime())); 
+		openedAt = updatedAt;
 	}
 	public Timestamp getCreatedAt() {
 		return createdAt;
