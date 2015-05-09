@@ -153,7 +153,8 @@ CREATE TABLE IF NOT EXISTS inventory_categories(
 	inventory_id int(11) NOT NULL,
 	category_id int(11) NOT NULL,
 	PRIMARY KEY (inventory_id),
-	FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
+	FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE,
+	FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS temporary_units(

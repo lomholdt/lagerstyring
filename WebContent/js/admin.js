@@ -14,7 +14,11 @@ $( document ).ready(function() {
 	getCompanyCategories();
 	
 	$(".delete-category").click(deleteCategory);
-	console.log("Done");
+	
+	$("#newCategorySelector").bind("change", getCompanyInventory);
+	getCompanyInventory();
+	
+	
 });
 
 function toggleCompanyStatus(event){
@@ -122,7 +126,6 @@ function getCompanyCategories(){
 
 function deleteCategory(event){
 	var id = event.target.id;
-	console.log(id);
 	$.post("/lagerstyring/getcompanycategories",
 			{
 				deleteCategory: "delete",
@@ -131,7 +134,86 @@ function deleteCategory(event){
 			function(data){
 				$(event.target).parent().parent().remove();
 				$.toaster({ priority : 'success', title : 'Kategori slettet', message : "Kategorien blev slettet."});
-				
+			});
+	
+}
+
+
+function getCompanyInventory(){
+	var selectedId = $("#newCategorySelector").find(":selected").attr("id");
+	
+	console.log(selectedId);
+	
+	$.post("/lagerstyring/getcompanyinventory",
+			{
+				companyId: selectedId
+			},
+			function(data){
+				var json = JSON.parse(data);
+				var inventoryOverview = $("#inventory-overview");
+				$(inventoryOverview).empty();
+				for (var i = 0; i < json.length; i++) {
+					var current = json[i];
+					var row = $("<tr></tr>").appendTo(inventoryOverview);
+					$(row).attr("id", current.id);
+					
+					$("<td>" + current.name + "</td>").appendTo(row);
+					var category = $("<td></td>").appendTo(row);
+					$(category).append(getDropdownOfCategories(current.category));
+					
+				}
+			});
+	
+}
+
+function getDropdownOfCategories(selectedCategory){
+	var selectedId = $("#newCategorySelector").find(":selected").attr("id");
+	var selector = document.createElement('select');
+	$(selector).addClass("category-selector");
+	$(selector).append("<option value='none'>Ingen</option>");
+
+	$.post("/lagerstyring/getcompanycategories",
+			{
+				companyId: selectedId
+			},
+			function(data){
+				var json = JSON.parse(data);
+					
+				for (var i = 0; i < json.length; i++) {
+					var current = json[i];
+					var option = new Option(current.category, current.id);
+					if(current.category == selectedCategory){
+						$(option).prop('selected', true);
+					}
+					else if(current.category == undefined){
+						
+					}
+					option.id = current.id;
+					selector.onchange = updateCategory;
+					$(selector).append(option);
+				}
+			});
+	
+	return selector;
+}
+
+
+function updateCategory(event){
+	console.log("Trying to update.");
+	var id = this.id;
+	var iid = $(this).parent().attr("id");
+	
+	console.log("Id: " + id);
+	console.log("iid: " + iid);
+	
+	$.post("/lagerstyring/updatecategory",
+			{
+				inventoryId: iid,
+				categoryId: id
+			},
+			function(data){
+				//$(event.target).parent().parent().remove();
+				$.toaster({ priority : 'success', title : 'Vare opdateret', message : "Varen er blevet opdateret."});
 			});
 	
 }

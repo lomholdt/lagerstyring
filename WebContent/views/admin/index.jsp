@@ -339,6 +339,26 @@
 										</table>
 									</div>
 							</div>
+							
+							
+								<div class="row"><hr></div>
+								<p class="lead">Inventar</p>
+								<div class="row">
+									<div class="col-sm-8 col-sm-offset-2">
+										<table class="table table-striped table-condensed">
+											<thead>
+												<tr>
+													<th>Inventar</th>
+													
+													
+												</tr>
+											</thead>
+											<tbody id="inventory-overview">
+												
+											</tbody>
+										</table>
+									</div>
+							</div>
 						</div>
 					</div>
 				</div>

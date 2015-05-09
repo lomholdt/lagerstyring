@@ -1,9 +1,7 @@
 package com.lomholdt.lagerstyring.api;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,27 +10,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
-import com.lomholdt.lagerstyring.model.AdminStatements;
 import com.lomholdt.lagerstyring.model.Authenticator;
-import com.lomholdt.lagerstyring.model.Category;
 import com.lomholdt.lagerstyring.model.FlashMessage;
 import com.lomholdt.lagerstyring.model.InventoryStatements;
 import com.lomholdt.lagerstyring.model.Messages;
 import com.lomholdt.lagerstyring.model.User;
 
 /**
- * Servlet implementation class GetCompanyCategories
+ * Servlet implementation class UpdateCategory
  */
-@WebServlet("/GetCompanyCategories")
-public class GetCompanyCategories extends HttpServlet {
+@WebServlet("/UpdateCategory")
+public class UpdateCategory extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Authenticator auth = new Authenticator();
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetCompanyCategories() {
+    public UpdateCategory() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,7 +36,7 @@ public class GetCompanyCategories extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		
 	}
 
 	/**
@@ -61,31 +56,27 @@ public class GetCompanyCategories extends HttpServlet {
 			e1.printStackTrace();
 		}
 		
-		
-		try {
-			InventoryStatements is = new InventoryStatements();
-			String companyId = request.getParameter("companyId");
-			String deleteCategory = request.getParameter("deleteCategory");
-			String deleteId = request.getParameter("deleteId");
-			//String categoryId = request.getParameter("categoryId");
-			
-			if(deleteCategory != null && !deleteCategory.isEmpty()){
-				// Delete this category
-				AdminStatements as = new AdminStatements();
-				as.deleteCategory(Integer.parseInt(deleteId));
-				return;
-			}
-			else if(companyId != null && !companyId.isEmpty()){
-				ArrayList<Category> categories = is.getCompanyCategories(Integer.parseInt(companyId));
-				PrintWriter pw = response.getWriter();
-				Gson gs = new Gson();
-				pw.print(gs.toJson(categories));
-			}	
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+		String inventoryId = request.getParameter("inventoryId");
+		String categoryId = request.getParameter("categoryId");
+		if(inventoryId == null || inventoryId.isEmpty() || categoryId == null || categoryId.isEmpty()){
+			// error
+			return;
 		}
-		
+				
+		try {
+			
+			InventoryStatements is = new InventoryStatements();
+			
+			if(categoryId.equals("none")){
+				// delete category for inventory
+				is.deleteInventoryCategory(Integer.parseInt(inventoryId));
+			}
+			else{
+				is.updateCategory(Integer.parseInt(inventoryId), Integer.parseInt(categoryId));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		
 	}
 

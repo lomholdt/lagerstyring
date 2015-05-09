@@ -937,7 +937,7 @@ public class InventoryStatements extends DBMain {
 		Connection connection = ds.getConnection();
 		ArrayList<Inventory> al = new ArrayList<Inventory>();
 		try {
-			statement = connection.prepareStatement("SELECT inventory.id, inventory.name, inventory.price, categories.category, inventory.sales_price, storages.is_open, storages.name AS storage_name FROM inventory "
+			statement = connection.prepareStatement("SELECT inventory.id, inventory.name, inventory.price, inventory.units, categories.category, inventory.sales_price, storages.is_open, storages.name AS storage_name, storages.id AS storage_id FROM inventory "
 					+ "JOIN storages ON storages.id = inventory.storage_id "
 					+ "AND storages.company_id = ? "
 					+ "LEFT JOIN inventory_categories ON inventory_categories.inventory_id = inventory.id "
@@ -949,6 +949,8 @@ public class InventoryStatements extends DBMain {
 					Inventory i = new Inventory();
 					i.setId(rs.getInt("id"));
 					i.setName(rs.getString("name"));
+					i.setUnits(rs.getDouble("units"));
+					i.setStorageId(rs.getInt("storage_id"));
 					i.setPrice(rs.getDouble("price"));
 					i.setSalesPrice(rs.getDouble("sales_price"));
 					i.setStorageOpen(rs.getBoolean("is_open"));
@@ -1671,6 +1673,52 @@ public class InventoryStatements extends DBMain {
 				statement.addBatch();
 			}
 
+			statement.executeBatch();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		
+	}
+	
+	
+	public void updateCategory(int inventoryId, int categoryId) throws SQLException {
+		PreparedStatement statement = null;
+		Connection connection = ds.getConnection();
+		try {
+			String query = String.format("INSERT INTO inventory_categories (inventory_id, category_id) VALUES (?, ?) "
+					+ "ON DUPLICATE KEY UPDATE category_id = ?;");
+			statement = connection.prepareStatement(query);
+
+
+				statement.setInt(1, inventoryId);
+				statement.setDouble(2, categoryId);
+				statement.setDouble(3, categoryId);
+			
+			
+			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+	}
+	
+	public void deleteInventoryCategory(int inventoryId) throws SQLException {
+		PreparedStatement statement = null;
+		Connection connection = ds.getConnection();
+		try {
+			statement = connection.prepareStatement("DELETE FROM inventory_categories WHERE inventory_categories.inventory_id = ?;");
+			statement.setInt(1, inventoryId);
 			statement.executeBatch();
 		} catch (Exception e) {
 			e.printStackTrace();

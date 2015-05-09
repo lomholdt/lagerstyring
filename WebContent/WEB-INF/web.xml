@@ -221,7 +221,7 @@
     <servlet-name>GetCompanyStorages</servlet-name>
     <url-pattern>/getcompanystorages</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>GetCompanyCategories</servlet-name>
     <servlet-class>
             com.lomholdt.lagerstyring.api.GetCompanyCategories
@@ -230,6 +230,26 @@
   <servlet-mapping>
     <servlet-name>GetCompanyCategories</servlet-name>
     <url-pattern>/getcompanycategories</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GetCompanyInventory</servlet-name>
+    <servlet-class>
+            com.lomholdt.lagerstyring.api.GetCompanyInventory
+        </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetCompanyInventory</servlet-name>
+    <url-pattern>/getcompanyinventory</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <servlet-name>UpdateCategory</servlet-name>
+    <servlet-class>
+            com.lomholdt.lagerstyring.api.UpdateCategory
+        </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateCategory</servlet-name>
+    <url-pattern>/updatecategory</url-pattern>
   </servlet-mapping>
   <resource-ref>
     <description>DB Connection</description>

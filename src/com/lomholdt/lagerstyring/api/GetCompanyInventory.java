@@ -13,26 +13,25 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import com.lomholdt.lagerstyring.model.AdminStatements;
 import com.lomholdt.lagerstyring.model.Authenticator;
-import com.lomholdt.lagerstyring.model.Category;
 import com.lomholdt.lagerstyring.model.FlashMessage;
+import com.lomholdt.lagerstyring.model.Inventory;
 import com.lomholdt.lagerstyring.model.InventoryStatements;
 import com.lomholdt.lagerstyring.model.Messages;
 import com.lomholdt.lagerstyring.model.User;
 
 /**
- * Servlet implementation class GetCompanyCategories
+ * Servlet implementation class GetCompanyInventory
  */
-@WebServlet("/GetCompanyCategories")
-public class GetCompanyCategories extends HttpServlet {
+@WebServlet("/GetCompanyInventory")
+public class GetCompanyInventory extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Authenticator auth = new Authenticator();
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetCompanyCategories() {
+    public GetCompanyInventory() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -65,27 +64,19 @@ public class GetCompanyCategories extends HttpServlet {
 		try {
 			InventoryStatements is = new InventoryStatements();
 			String companyId = request.getParameter("companyId");
-			String deleteCategory = request.getParameter("deleteCategory");
-			String deleteId = request.getParameter("deleteId");
-			//String categoryId = request.getParameter("categoryId");
+			ArrayList<Inventory> inventory = is.getAllInventory(Integer.parseInt(companyId));
 			
-			if(deleteCategory != null && !deleteCategory.isEmpty()){
-				// Delete this category
-				AdminStatements as = new AdminStatements();
-				as.deleteCategory(Integer.parseInt(deleteId));
-				return;
-			}
-			else if(companyId != null && !companyId.isEmpty()){
-				ArrayList<Category> categories = is.getCompanyCategories(Integer.parseInt(companyId));
-				PrintWriter pw = response.getWriter();
-				Gson gs = new Gson();
-				pw.print(gs.toJson(categories));
-			}	
+			Gson gs = new Gson();
+			PrintWriter pw = response.getWriter();
+			pw.print(gs.toJson(inventory));	
 			
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 	}
 
