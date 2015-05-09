@@ -50,7 +50,7 @@
 										<div class="col-md-2">
 											<input type="number" disabled="disabled"
 												id="${inventory.id}-inventory-expected" class="form-control"
-												placeholder="${inventory.unitsAtOpen + inventory.movesSoFar}">
+												value="${inventory.unitsAtOpen + inventory.movesSoFar}">
 										</div>
 
 										<div class="col-md-2">

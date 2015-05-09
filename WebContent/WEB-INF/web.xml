@@ -221,6 +221,16 @@
     <servlet-name>GetCompanyStorages</servlet-name>
     <url-pattern>/getcompanystorages</url-pattern>
   </servlet-mapping>
+    <servlet>
+    <servlet-name>GetCompanyCategories</servlet-name>
+    <servlet-class>
+            com.lomholdt.lagerstyring.api.GetCompanyCategories
+        </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetCompanyCategories</servlet-name>
+    <url-pattern>/getcompanycategories</url-pattern>
+  </servlet-mapping>
   <resource-ref>
     <description>DB Connection</description>
     <res-ref-name>jdbc/lagerstyring</res-ref-name>

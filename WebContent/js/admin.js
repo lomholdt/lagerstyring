@@ -88,20 +88,6 @@ function getCompanyStorages(){
 				}
 			});
 
-//	$.post("/lagerstyring/getcompanystorages",
-//			{
-//				companyId: selectedId
-//			},
-//			function(data){
-//				var json = JSON.parse(data);
-//				var storageOverview = document.getElementById("storage-overview");
-//				$(storageOverview).empty();
-//				for (var i = 0; i < json.length; i++) {
-//					var row = $("<tr></tr>").appendTo(storageOverview);
-//					$("<td>" + json[i].name + "</td>").appendTo(row);
-//					$("<td>" + json[i].isOpen + "</td>").appendTo(row);
-//				}
-//	});
 }
 
 
