@@ -292,7 +292,6 @@ public class AdminStatements extends DBMain {
 	
 	public void changeCompanyStatus(int companyId) throws Exception {
     	PreparedStatement statement = null;
-    	ResultSet rs = null;
 		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement("UPDATE companies SET companies.is_active = !companies.is_active WHERE companies.id = ?");
@@ -302,8 +301,6 @@ public class AdminStatements extends DBMain {
 			e.printStackTrace();
 		}
 		finally {
-            try { if(null!=rs)rs.close();} catch (SQLException e) 
-            {e.printStackTrace();}
             try { if(null!=statement)statement.close();} catch (SQLException e) 
             {e.printStackTrace();}
             try { if(null!=connection)connection.close();} catch (SQLException e) 
@@ -366,6 +363,26 @@ public class AdminStatements extends DBMain {
             try { if(null!=connection)connection.close();} catch (SQLException e) 
             {e.printStackTrace();}
         }
+	}
+
+	public void deleteCategory(int categoryId) throws SQLException {
+    	PreparedStatement statement = null;
+		Connection connection = ds.getConnection();
+		try {
+			statement = connection.prepareStatement("DELETE FROM categories WHERE categories.id = ?;");
+			statement.setInt(1, categoryId);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		
+		
 	}
 
 }

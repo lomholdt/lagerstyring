@@ -13,6 +13,8 @@ $( document ).ready(function() {
 	$("#newCategorySelector").change(getCompanyCategories);
 	getCompanyCategories();
 	
+	$(".delete-category").click(deleteCategory);
+	console.log("Done");
 });
 
 function toggleCompanyStatus(event){
@@ -108,8 +110,28 @@ function getCompanyCategories(){
 				for (var i = 0; i < json.length; i++) {
 					var row = $("<tr></tr>").appendTo(categoryOverview);
 					$("<td>" + json[i].category + "</td>").appendTo(row);
+					var data = $("<td></td>");
+					var deleteButton = $("<button class='btn btn-default btn-xs delete-category' id=" + json[i].id + ">Slet</button>");
+					$(deleteButton).click(deleteCategory);
+					data.appendTo(row);
+					deleteButton.appendTo(data);
 					
 				}
 			});
+}
 
+function deleteCategory(event){
+	var id = event.target.id;
+	console.log(id);
+	$.post("/lagerstyring/getcompanycategories",
+			{
+				deleteCategory: "delete",
+				deleteId: id
+			},
+			function(data){
+				$(event.target).parent().parent().remove();
+				$.toaster({ priority : 'success', title : 'Kategori slettet', message : "Kategorien blev slettet."});
+				
+			});
+	
 }

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.lomholdt.lagerstyring.model.AdminStatements;
 import com.lomholdt.lagerstyring.model.Authenticator;
 import com.lomholdt.lagerstyring.model.Category;
 import com.lomholdt.lagerstyring.model.FlashMessage;
@@ -65,7 +66,17 @@ public class GetCompanyCategories extends HttpServlet {
 			Gson gs = new Gson();
 			InventoryStatements is = new InventoryStatements();
 			String companyId = request.getParameter("companyId");
-			if(companyId != null && !companyId.isEmpty()){
+			String deleteCategory = request.getParameter("deleteCategory");
+			String deleteId = request.getParameter("deleteId");
+			//String categoryId = request.getParameter("categoryId");
+			
+			if(deleteCategory != null && !deleteCategory.isEmpty()){
+				// Delete this category
+				AdminStatements as = new AdminStatements();
+				as.deleteCategory(Integer.parseInt(deleteId));
+				return;
+			}
+			else if(companyId != null && !companyId.isEmpty()){
 				ArrayList<Category> categories = is.getCompanyCategories(Integer.parseInt(companyId));
 				PrintWriter pw = response.getWriter();
 				pw.print(gs.toJson(categories));	
