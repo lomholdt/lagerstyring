@@ -84,9 +84,16 @@
 										</thead>
 										<tbody>
 											<c:forEach var="inventory" items="${allInventory}">
-											<c:if test="${!inventory.storageOpen}">
-												<c:set var="status" value="disabled" />
-											</c:if>
+											
+											<c:choose>
+												<c:when test="${inventory.storageOpen}">
+													<c:set var="status" value="disabled" />
+												</c:when>
+												<c:otherwise>
+													<c:set var="status" value="" />
+												</c:otherwise>
+											</c:choose>
+											
 											<input type="hidden" value="${inventory.id}">
 												<tr>
 													<td>
