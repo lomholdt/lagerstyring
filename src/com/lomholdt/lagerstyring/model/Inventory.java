@@ -20,6 +20,8 @@ public class Inventory {
 	private double unitsAtOpen;
 	private double tempUnits;
 	private boolean tempUnitsSet;
+	private boolean isStorageOpen;
+	private String belongsToStorage;
 	
 	public int getId() {
 		return id;
@@ -98,5 +100,17 @@ public class Inventory {
 	}
 	public boolean isTempUnitsSet() {
 		return tempUnitsSet;
+	}
+	public boolean isStorageOpen() {
+		return isStorageOpen;
+	}
+	public void setStorageOpen(boolean isStorageOpen) {
+		this.isStorageOpen = isStorageOpen;
+	}
+	public String getBelongsToStorage() {
+		return belongsToStorage;
+	}
+	public void setBelongsToStorage(String belongsToStorage) {
+		this.belongsToStorage = belongsToStorage;
 	}
 }

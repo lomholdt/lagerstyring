@@ -937,7 +937,9 @@ public class InventoryStatements extends DBMain {
 		Connection connection = ds.getConnection();
 		ArrayList<Inventory> al = new ArrayList<Inventory>();
 		try {
-			statement = connection.prepareStatement("SELECT DISTINCT inventory.id, inventory.name, inventory.price, inventory.sales_price FROM inventory, storages WHERE storages.company_id = ? AND storages.id = inventory.storage_id;");
+			statement = connection.prepareStatement("SELECT inventory.id, inventory.name, inventory.price, inventory.sales_price, storages.is_open, storages.name AS storage_name FROM inventory "
+					+ "JOIN storages ON storages.id = inventory.storage_id "
+					+ "AND storages.company_id = ?;");
 			try {
 				statement.setInt(1, companyId);
 				rs = statement.executeQuery();
@@ -947,6 +949,8 @@ public class InventoryStatements extends DBMain {
 					i.setName(rs.getString("name"));
 					i.setPrice(rs.getDouble("price"));
 					i.setSalesPrice(rs.getDouble("sales_price"));
+					i.setStorageOpen(rs.getBoolean("is_open"));
+					i.setBelongsToStorage(rs.getString("storage_name"));
 					al.add(i);
 				}
 			} catch(Exception e) {

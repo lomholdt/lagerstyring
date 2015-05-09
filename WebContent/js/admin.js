@@ -83,10 +83,7 @@ function getCompanyStorages(){
 					$("<td>" + json[i].name + "</td>").appendTo(row);
 					var isOpen = (json[i].isOpen == true) ? "Åben" : "Lukket"; 
 					$("<td>" + isOpen + "</td>").appendTo(row);
-					$("<td>" + 
-							json[i].openedAt.dayOfMonth + "-" + 
-							json[i].openedAt.month + "-" +
-							json[i].openedAt.year + "</td>").appendTo(row);
+					$("<td>" + json[i].openedAt + "</td>").appendTo(row);
 					$("<td>" + json[i].createdAt + "</td>").appendTo(row);
 				}
 			});

@@ -19,6 +19,7 @@ import com.lomholdt.lagerstyring.model.Authenticator;
 import com.lomholdt.lagerstyring.model.FlashMessage;
 import com.lomholdt.lagerstyring.model.InventoryStatements;
 import com.lomholdt.lagerstyring.model.LoggedStation;
+import com.lomholdt.lagerstyring.model.Messages;
 import com.lomholdt.lagerstyring.model.Station;
 import com.lomholdt.lagerstyring.model.Storage;
 import com.lomholdt.lagerstyring.model.User;
@@ -119,16 +120,16 @@ public class CloseStorageController extends HttpServlet {
 		InventoryStatements is = new InventoryStatements();
 		try {
 			if(user == null || !auth.is("user", user.getId())){
-				FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_NO_PERMISSION_TO_VIEW_PAGE);
 				response.sendRedirect("");
 				return;
 			}
 			if(storageId == null || storageId.isEmpty()) {
-				FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_NO_STORAGE_CHOSEN);
 				response.sendRedirect("count");
 			}
 			if(!is.userOwnsStorage(Integer.parseInt(storageId), user.getId())){
-				FlashMessage.setFlashMessage(request, "error", "You do not have permission to close this storage.");
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_NO_PERMISSION_TO_CLOSE_STORAGE);
 				response.sendRedirect("count");
 				return;
 			}
@@ -141,14 +142,11 @@ public class CloseStorageController extends HttpServlet {
 		}
 	
 
-
-		
-
 		Map<String, String[]> m  = request.getParameterMap();
 		// Sloppy but working method for ensuring no empty input
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
 			if(entry.getValue()[0].equals("")){
-				FlashMessage.setFlashMessage(request, "error", "Empty input is not allowed");
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_CANNOT_CLOSE_WITH_EMPTY_FIELDS);
 				request.setAttribute("sid", storageId);
 				response.sendRedirect("count"); 
 				return;
@@ -179,7 +177,7 @@ public class CloseStorageController extends HttpServlet {
 			is.deleteTempUnits(Integer.parseInt(storageId)); // Delete the temp values when storage close
 			
 			is.closeArchiveLog(Integer.parseInt(storageId));
-			FlashMessage.setFlashMessage(request, "msg", "Lageret er nu lukket");
+			FlashMessage.setFlashMessage(request, "msg", Messages.OK_STORAGE_CLOSED_SUCCESSFULLY);
 			response.sendRedirect("count");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -187,24 +185,24 @@ public class CloseStorageController extends HttpServlet {
 	}
 
 	
-	private void tempSaveUnits(HttpServletRequest request) {
-			try {
-				Map<String, String[]> m  = request.getParameterMap();
-				InventoryStatements is = new InventoryStatements();
-				for(Map.Entry<String, String[]> entry : m.entrySet()){
-					System.out.println("Key: " + entry.getKey());
-					if(entry.getKey().equals("sid") || entry.getKey().equals("update") || entry.getKey().equals("save")) continue;
-					// TODO Need to secure that updated id's belong to the user updating!
-				is.updateUnitsAt(Integer.parseInt(entry.getKey()), Double.parseDouble(entry.getValue()[0]));
-				}
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}		
-	}
+//	private void tempSaveUnits(HttpServletRequest request) {
+//			try {
+//				Map<String, String[]> m  = request.getParameterMap();
+//				InventoryStatements is = new InventoryStatements();
+//				for(Map.Entry<String, String[]> entry : m.entrySet()){
+//					System.out.println("Key: " + entry.getKey());
+//					if(entry.getKey().equals("sid") || entry.getKey().equals("update") || entry.getKey().equals("save")) continue;
+//					// TODO Need to secure that updated id's belong to the user updating!
+//				is.updateUnitsAt(Integer.parseInt(entry.getKey()), Double.parseDouble(entry.getValue()[0]));
+//				}
+//			} catch (NumberFormatException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}		
+//	}
 
 	private ArrayList<LoggedStation> getStationLogResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
 		ArrayList<LoggedStation> loggedStations = new ArrayList<LoggedStation>();

@@ -76,6 +76,7 @@
 										<thead>
 											<tr>
 												<th>Vare</th>
+												<th>Lager</th>
 												<th>Indkøbspris</th>
 												<th>Omsætningspris</th>
 												<th>Marker</th>
@@ -83,14 +84,29 @@
 										</thead>
 										<tbody>
 											<c:forEach var="inventory" items="${allInventory}">
+											<c:if test="${!inventory.storageOpen}">
+												<c:set var="status" value="disabled" />
+											</c:if>
 											<input type="hidden" value="${inventory.id}">
 												<tr>
-													<td><label for="${inventory.name}">${inventory.name}</label></td>
-													<td><input type="number" class="form-control input-sm" placeholder="Indkøbspris"
-										name="uPrice" value="${inventory.price}" onblur="update(${inventory.id}, 'uPrice', '${inventory.name}')" id="uPrice-${inventory.id}" step="any"></td>
-													<td><input type="number" class="form-control input-sm" placeholder="Omsætningspris"
-										name="uSalesPrice" value="${inventory.salesPrice}" onblur="update(${inventory.id}, 'uSalesPrice', '${inventory.name}')" id="uSalesPrice-${inventory.id}" step="any"></td>
-													<td><input type="checkbox" id="${inventory.name}" name="i" value="${inventory.id}"></td>
+													<td>
+														<label for="${inventory.name}">${inventory.name}</label>
+													</td>
+													<td>
+														${inventory.belongsToStorage}
+													</td>
+													<td>
+														<input type="number" class="form-control input-sm" placeholder="Indkøbspris"
+										name="uPrice" value="${inventory.price}" onblur="update(${inventory.id}, 'uPrice', '${inventory.name}')" id="uPrice-${inventory.id}" step="any" ${status}>
+										
+													</td>
+													<td>
+														<input type="number" class="form-control input-sm" placeholder="Omsætningspris"
+										name="uSalesPrice" value="${inventory.salesPrice}" onblur="update(${inventory.id}, 'uSalesPrice', '${inventory.name}')" id="uSalesPrice-${inventory.id}" step="any" ${status}>
+													</td>
+													<td>
+														<input type="checkbox" id="${inventory.name}" name="i" value="${inventory.id}">
+													</td>
 												</tr>
 											</c:forEach>
 										</tbody>
