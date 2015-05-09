@@ -60,7 +60,7 @@
 								<div>*Decimaler angives efter punktum (00.00)</div>
 								<br>
 								<div class="form-group">
-									<button type="submit" class="btn btn-primary btn-lg">Tilføj vare</button>
+									<button type="submit" class="btn btn-primary btn-lg btn-block">Tilføj vare</button>
 								</div>
 							</form>
 						</div>
@@ -70,7 +70,7 @@
 				<div class="panel-footer">
 					<p class="lead">Vareliste</p>
 					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
+						<div class="col-sm-12">
 							<form action="delete" method="POST">
 								<table class="table table-condensed table-striped table-hover">
 										<thead>
@@ -123,7 +123,7 @@
 										</tbody>
 									</table>
 								<div class="form-group">
-									<input type="submit" class="btn btn-danger btn-lg" value="Slet valgte">
+									<input type="submit" class="btn btn-danger btn-lg pull-right" value="Slet valgte">
 								</div>
 							</form>
 						</div>
