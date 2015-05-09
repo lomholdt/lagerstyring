@@ -62,19 +62,17 @@
 							</div>
 						</div>
 					</div>
-					<div class="panel-footer">
-						<p class="lead">Godkend lukning</p>
-						<p>Tryk "gem" for at gemme slut tal uden at lukke rapporten.
-							Tryk "Gem og luk" for at gemme slut tal og lukke rapporten</p>
-						<br>
+					<div class="panel-footer-grey">
 						<div class="row">
 							<div class="col-sm-12">
-								<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
+								<a class="btn btn-default btn-lg pull-left" href="count" role="button">Annullér</a>
 								<input type="hidden" value="${storage.id}" name="sid"> <input
 									type="hidden" value="update" name="update">
+									<div class="pull-right">
 								<button type="button" class="btn btn-primary btn-lg" id="save">Gem</button>
 								<button type="button" class="btn btn-primary btn-lg"
 									onclick="conf()">Gem og luk</button>
+									</div>
 							</div>
 						</div>
 					</div>
