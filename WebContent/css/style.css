@@ -163,6 +163,14 @@ h1 {
   background-color: #FFFFFF;
 }
 
+.panel-footer-grey {
+    padding: 10px 15px;
+    background-color: #F5F5F5;
+    border-top: 1px solid #DDD;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
 /*
 5.-------BUTTONS--------
 */

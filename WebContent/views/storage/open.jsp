@@ -46,14 +46,13 @@
 							</div>
 						</div>
 					</div> <!-- INVENTORY END  -->
-					<div class="panel-footer">
-						<p class="lead">Godkend åbning</p>
+					<div class="panel-footer-grey">
 						<div class="row">
-							<div class="col-sm-8 col-sm-offset-2">
-							<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
+							<div class="col-sm-12">
+							<a class="btn btn-default btn-lg pull-left" href="count" role="button">Annullér</a>
 								<input type="hidden" value="${storage.id}" name="sid">
 								<input type="hidden" value="update" name="update">
-								<button type="button" class="btn btn-primary btn-lg" onclick="conf()">Godkend start-tal</button>
+								<button type="button" class="btn btn-primary btn-lg pull-right" onclick="conf()">Godkend start-tal</button>
 							</div>
 						</div>
 					</div>
