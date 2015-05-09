@@ -23,39 +23,36 @@
 					</div>
 					<div class="panel-body">
 						<br>
-						<div class="row" id="inventory">
-							<div class="col-sm-10 col-sm-offset-1">
-							
-							
-					
-	
-							
-								<!-- KATEGORIER -->
-								<c:set var="category" value="${storage.inventory.get(0).category}" />
-									<p class="lead">${category}</p>
-								
-								<c:forEach var="inventory" items="${storage.inventory}">
-									<c:if test="${category ne inventory.category}">
-									<hr>
-										<p class="lead">${inventory.category}</p>
-										<c:set var="category" value="${inventory.category}" />
-									</c:if>
-									
-									
-									<!-- INVENTORY -->
-									<div class="form-group inventory"><div id="expected-inventory">Forventet: <span id="${inventory.id}-inventory-expected">${inventory.unitsAtOpen + inventory.movesSoFar}</span></div>
-										<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label>
-										<div class="input-group col-sm-8">
-										
-											<input type="number" step="any" class="form-control"
-												placeholder="Antal" id="${inventory.id}"
-												name="${inventory.id}" min="0" value="<c:if test="${inventory.tempUnitsSet}">${inventory.tempUnits}</c:if>">
-												<span id="${inventory.id}-diff" class="diff input-group-addon"></span>
-										</div>
-									</div>
-								</c:forEach>
-							</div>
-						</div>
+					        <div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+            
+            
+          <c:forEach var="inventory" items="${storage.inventory}">
+                  <c:if test="${category ne inventory.category}">
+                  <hr>
+                    <p class="lead">${inventory.category}</p>
+                    <c:set var="category" value="${inventory.category}" />
+                  </c:if>
+  
+      <div class="form-group inventory">
+       
+          <label for="${inventory.id}" class="control-label col-sm-2">${inventory.name}</label>
+          <div class="col-md-4">
+           <input type="number" step="any" class="form-control" placeholder="Antal" id="${inventory.id}" name="${inventory.id}" min="0" value="<c:if test="${inventory.tempUnitsSet}">${inventory.tempUnits}</c:if>"></div>
+          
+           <label class="control-label col-sm-1" id="expected-inventory"></label>
+          <div class="col-md-2">
+           <input type="number" disabled="disabled" id="${inventory.id}-inventory-expected" class="form-control" placeholder="${inventory.unitsAtOpen + inventory.movesSoFar}">
+          </div>
+          
+          <div class="col-md-2">
+           <input type="number" class="form-control" disabled="disabled" >
+          </div>
+          
+      </div>
+      </c:forEach>
+      </div>
+      </div>
 					</div>
 					<div class="panel-footer">
 						<p class="lead">Godkend lukning</p>
