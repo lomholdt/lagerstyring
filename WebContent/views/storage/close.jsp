@@ -32,7 +32,7 @@
 							
 								<!-- KATEGORIER -->
 								<c:set var="category" value="${storage.inventory.get(0).category}" />
-								<p class="lead">${category}</p>
+									<p class="lead">${category}</p>
 								
 								<c:forEach var="inventory" items="${storage.inventory}">
 									<c:if test="${category ne inventory.category}">

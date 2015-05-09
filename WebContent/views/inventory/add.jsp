@@ -112,7 +112,7 @@
 										name="uSalesPrice" value="${inventory.salesPrice}" onblur="update(${inventory.id}, 'uSalesPrice', '${inventory.name}')" id="uSalesPrice-${inventory.id}" step="any" ${status}>
 													</td>
 													<td>
-														<input type="checkbox" id="${inventory.name}" name="i" value="${inventory.id}">
+														<input type="checkbox" id="${inventory.name}" name="i" value="${inventory.id}" ${status}>
 													</td>
 												</tr>
 											</c:forEach>
