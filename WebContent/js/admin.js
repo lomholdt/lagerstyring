@@ -10,6 +10,9 @@ $( document ).ready(function() {
 	$("#newStorageSelector").change(getCompanyStorages);
 	getCompanyStorages();
 	
+	$("#newCategorySelector").change(getCompanyCategories);
+	getCompanyCategories();
+	
 });
 
 function toggleCompanyStatus(event){
@@ -91,3 +94,22 @@ function getCompanyStorages(){
 }
 
 
+function getCompanyCategories(){
+	var selectedId = $("#newCategorySelector").find(":selected").attr("id");
+	
+	$.post("/lagerstyring/getcompanycategories",
+			{
+				companyId: selectedId
+			},
+			function(data){
+				var json = JSON.parse(data);
+				var categoryOverview = $("#categories-overview");
+				$(categoryOverview).empty();
+				for (var i = 0; i < json.length; i++) {
+					var row = $("<tr></tr>").appendTo(categoryOverview);
+					$("<td>" + json[i].category + "</td>").appendTo(row);
+					
+				}
+			});
+
+}

@@ -311,4 +311,61 @@ public class AdminStatements extends DBMain {
         }
 	}
 
+	public boolean categoryExists(String categoryName, int companyId) throws SQLException {
+    	PreparedStatement statement = null;
+    	ResultSet rs = null;
+		Connection connection = ds.getConnection();
+		try {
+			statement = connection.prepareStatement("SELECT categories.category "
+					+ "FROM categories "
+					+ "WHERE categories.company_id = ? "
+					+ "AND categories.category = ?;");
+			try {
+				// Do stuff with the statement
+				statement.setInt(1, companyId);
+				statement.setString(2, categoryName);
+				rs = statement.executeQuery();
+				if (rs.next()){
+					return true;					
+				}
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		return false;
+	}
+
+	public void addNewCategory(String categoryCompany, int companyId) throws SQLException {
+	   	PreparedStatement statement = null;
+    	ResultSet rs = null;
+		Connection connection = ds.getConnection();
+		try {
+			statement = connection.prepareStatement("INSERT INTO categories(company_id, category) VALUES(?, ?);");
+			statement.setInt(1, companyId);
+			statement.setString(2, categoryCompany);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+            try { if(null!=rs)rs.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+	}
+
 }

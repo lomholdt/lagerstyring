@@ -181,9 +181,18 @@ public class AdminController extends HttpServlet {
 		else if(categoryCompany != null && !categoryCompany.isEmpty()){
 			try {
 				// add the new category to company
+				int companyId = new UserStatements().getCompanyId(categoryCompany);
+				if(as.categoryExists(newCategoryName, companyId)){
+					// category already exists
+					request.setAttribute("error", Messages.ERROR_CATEGORY_ALREADY_EXISTS);
+					doGet(request, response);
+					return;
+				}
 				
-				
-				
+				as.addNewCategory(newCategoryName, companyId);
+				request.setAttribute("msg", Messages.addNewCategorySuccess(newCategoryName, categoryCompany));
+				doGet(request, response);
+				return;
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -196,5 +205,6 @@ public class AdminController extends HttpServlet {
 		request.setAttribute("error", Messages.ERROR_SOMETHING_WENT_WRONG);
 		doGet(request, response);
 	}
+
 
 }

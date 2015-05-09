@@ -7,9 +7,6 @@ function setDiff(){
 			var inputValue = this.value;
 			var expectedUnits = document.getElementById(this.id + "-inventory-expected").value;
 			
-			console.log("Input Value: " + inputValue);
-			console.log("Expected: " + expectedUnits);
-			
 			var diffCounter = document.getElementById(this.id + "-diff");
 			if(inputValue == ''){
 				var result = "";
