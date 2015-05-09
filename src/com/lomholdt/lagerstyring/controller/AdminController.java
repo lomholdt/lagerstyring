@@ -91,6 +91,8 @@ public class AdminController extends HttpServlet {
 		String newStationImportance = request.getParameter("newStationImportance");
 		String storageCompany = request.getParameter("storageCompany");
 		String newStorageName = request.getParameter("newStorageName");
+		String categoryCompany = request.getParameter("categoryCompany");
+		String newCategoryName = request.getParameter("newCategoryName");
 		
 		
 		
@@ -140,7 +142,7 @@ public class AdminController extends HttpServlet {
 				newStationName != null && !newStationName.isEmpty() &&
 				newStationImportance != null && !newStationImportance.isEmpty()){
 			try {
-				if(new AdminStatements().addStationToCompany(stationCompany, newStationName, newStationImportance)){
+				if(as.addStationToCompany(stationCompany, newStationName, newStationImportance)){
 					request.setAttribute("msg", newStationImportance + " station " + newStationName + " succesfully added to " + stationCompany);
 					doGet(request, response);
 					return;
@@ -161,7 +163,6 @@ public class AdminController extends HttpServlet {
 				newStorageName != null && !newStorageName.isEmpty()){
 			try {
 				// create the new storage for the company if it does not exists
-				AdminStatements as = new AdminStatements();
 				if(!as.storageExists(storageCompany, newStorageName)){
 					int companyId = new UserStatements().getCompanyId(storageCompany);
 					as.createNewStorage(newStorageName, companyId);
@@ -177,10 +178,22 @@ public class AdminController extends HttpServlet {
 				
 			}
 		}
+		else if(categoryCompany != null && !categoryCompany.isEmpty()){
+			try {
+				// add the new category to company
+				
+				
+				
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 		
 		
 		
-		request.setAttribute("error", "Something went wrong. Please try again.");
+		request.setAttribute("error", Messages.ERROR_SOMETHING_WENT_WRONG);
 		doGet(request, response);
 	}
 

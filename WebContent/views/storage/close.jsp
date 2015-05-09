@@ -26,7 +26,7 @@
 					<div class="panel-body">
 						<br>
 						<div class="row">
-							<div class="col-sm-10 col-sm-offset-1">
+							<div class="col-sm-10 col-sm-offset-1" id="inventory">
 
 
 								<c:forEach var="inventory" items="${storage.inventory}">
@@ -40,13 +40,13 @@
 
 										<label for="${inventory.id}" class="control-label col-sm-2">${inventory.name}</label>
 										<div class="col-md-4">
-											<input type="number" step="any" class="form-control"
+											<input type="number" step="any" class="form-control close-input"
 												placeholder="Antal" id="${inventory.id}"
 												name="${inventory.id}" min="0"
-												value='<c:if test="${inventory.tempUnitsSet}">${inventory.tempUnits}</c:if>'>
+												value="<c:if test="${inventory.tempUnitsSet}">${inventory.tempUnits}</c:if>">
 										</div>
 
-										<label class="control-label col-sm-1" id="expected-inventory"></label>
+										<label class="control-label col-sm-1"></label>
 										<div class="col-md-2">
 											<input type="number" disabled="disabled"
 												id="${inventory.id}-inventory-expected" class="form-control"
@@ -54,7 +54,7 @@
 										</div>
 
 										<div class="col-md-2">
-											<input type="number" class="form-control" disabled="disabled">
+											<input type="number" class="form-control" disabled="disabled" id="${inventory.id}-diff">
 										</div>
 
 									</div>

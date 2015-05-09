@@ -12,6 +12,7 @@ public abstract class Messages {
 	public static final String ERROR_NO_STORAGE_CHOSEN = "Du skal vælge et lager først, prøv igen.";
 	public static final String ERROR_DID_NOT_FILL_OUT_ALL_FIELDS = "Der opstod en fejl. Har du udfyldt alle felterne korrekt?";
 	public static final String ERROR_CANNOT_CLOSE_WITH_EMPTY_FIELDS = "Du kan ikke lukke med tomme felter.";
+	public static final String ERROR_SOMETHING_WENT_WRONG = "Der opstod en fejl.";
 	
 
 	/**
