@@ -34,6 +34,8 @@
 						aria-controls="messages" role="tab" data-toggle="tab">Station</a></li>
 					<li role="presentation"><a href="#lager"
 						aria-controls="settings" role="tab" data-toggle="tab">Lager</a></li>
+						<li role="presentation"><a href="#kategori"
+						aria-controls="settings" role="tab" data-toggle="tab">Kategorier</a></li>
 				</ul>
 				<hr>
 			</div>
@@ -207,19 +209,19 @@
 								<div class="row"><hr></div>
 									<p class="lead">Stationer</p>
 									<div class="row">
-								<div class="col-sm-8 col-sm-offset-2">
-								<table class="table table-striped table-condensed">
-										<thead>
-											<tr>
-												<th>Station</th>
-												<th>Prioritet</th>
-											</tr>
-										</thead>
-										<tbody id="stations-overview">
-											
-										</tbody>
-									</table>
-								</div>
+										<div class="col-sm-8 col-sm-offset-2">
+										<table class="table table-striped table-condensed">
+												<thead>
+													<tr>
+														<th>Station</th>
+														<th>Prioritet</th>
+													</tr>
+												</thead>
+												<tbody id="stations-overview">
+													
+												</tbody>
+											</table>
+										</div>
 									</div>
 						</div>
 					</div>
@@ -276,6 +278,77 @@
 						</div>
 					</div>
 				</div>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<div role="tabpanel" class="tab-pane" id="kategori">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Tilføj Kategorier</h3>
+						</div>
+						<div class="panel-body">
+						<p class="lead">Tilføj Kategorier</p>
+						<div class="row">
+							<div class="col-sm-8 col-sm-offset-2">
+								<form method="POST" action="admin">
+									<div class="form-group">
+										<select class="form-control" name="categoryCompany" id="newCategorySelector">
+											<c:forEach var="company" items="${companies}">
+												<option id="${company.id}">${company.name}</option>
+											</c:forEach>
+										</select>
+									</div>
+	
+									<div class="form-group">
+										<input type="text" class="form-control" placeholder="Kategori navn"
+											name="newCategoryName">
+									</div>
+	
+									<button type="submit" class="btn btn-primary btn-lg btn-block">Tilføj Ny Kategori</button>
+								</form>
+							</div>
+						</div>
+							<div class="row"><hr></div>
+								<p class="lead">Kategorier</p>
+								<div class="row">
+									<div class="col-sm-8 col-sm-offset-2">
+										<table class="table table-striped table-condensed">
+											<thead>
+												<tr>
+													<th>Kategori</th>
+													
+													
+												</tr>
+											</thead>
+											<tbody id="categories-overview">
+												
+											</tbody>
+										</table>
+									</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				
+				
+				
+				
+				
 			</div>
 		</div>
 	</div>

@@ -17,7 +17,7 @@ public abstract class Messages {
 	/**
 	 * OK MESSAGES
 	 */
-	public static final String OK_STORAGE_CLOSED_SUCCESSFULLY = "Du kan ikke lukke med tomme felter.";
+	public static final String OK_STORAGE_CLOSED_SUCCESSFULLY = "Lageret er nu lukket.";
 	
 	private Messages(){ } // Don't instantiate this class
 

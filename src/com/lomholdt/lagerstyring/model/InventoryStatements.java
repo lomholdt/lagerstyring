@@ -937,9 +937,11 @@ public class InventoryStatements extends DBMain {
 		Connection connection = ds.getConnection();
 		ArrayList<Inventory> al = new ArrayList<Inventory>();
 		try {
-			statement = connection.prepareStatement("SELECT inventory.id, inventory.name, inventory.price, inventory.sales_price, storages.is_open, storages.name AS storage_name FROM inventory "
+			statement = connection.prepareStatement("SELECT inventory.id, inventory.name, inventory.price, categories.category, inventory.sales_price, storages.is_open, storages.name AS storage_name FROM inventory "
 					+ "JOIN storages ON storages.id = inventory.storage_id "
-					+ "AND storages.company_id = ?;");
+					+ "AND storages.company_id = ? "
+					+ "LEFT JOIN inventory_categories ON inventory_categories.inventory_id = inventory.id "
+					+ "LEFT JOIN categories ON categories.id = inventory_categories.category_id;");
 			try {
 				statement.setInt(1, companyId);
 				rs = statement.executeQuery();
@@ -951,6 +953,7 @@ public class InventoryStatements extends DBMain {
 					i.setSalesPrice(rs.getDouble("sales_price"));
 					i.setStorageOpen(rs.getBoolean("is_open"));
 					i.setBelongsToStorage(rs.getString("storage_name"));
+					i.setCategory(rs.getString("category"));
 					al.add(i);
 				}
 			} catch(Exception e) {

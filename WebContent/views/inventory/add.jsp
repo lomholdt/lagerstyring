@@ -79,6 +79,7 @@
 												<th>Lager</th>
 												<th>Indkøbspris</th>
 												<th>Omsætningspris</th>
+												<th>Kategori</th>
 												<th>Marker</th>
 											</tr>
 										</thead>
@@ -100,7 +101,7 @@
 														<label for="${inventory.name}">${inventory.name}</label>
 													</td>
 													<td>
-														${inventory.belongsToStorage}
+														<span>${inventory.belongsToStorage}</span>
 													</td>
 													<td>
 														<input type="number" class="form-control input-sm" placeholder="Indkøbspris"
@@ -110,6 +111,9 @@
 													<td>
 														<input type="number" class="form-control input-sm" placeholder="Omsætningspris"
 										name="uSalesPrice" value="${inventory.salesPrice}" onblur="update(${inventory.id}, 'uSalesPrice', '${inventory.name}')" id="uSalesPrice-${inventory.id}" step="any" ${status}>
+													</td>
+													<td>
+														<span>${inventory.category}</span>
 													</td>
 													<td>
 														<input type="checkbox" id="${inventory.name}" name="i" value="${inventory.id}" ${status}>
