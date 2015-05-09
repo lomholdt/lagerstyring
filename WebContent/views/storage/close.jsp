@@ -5,7 +5,8 @@
 
 
 <add:wrap title="Luk Lager">
-<script src="${pageContext.request.contextPath}/js/save.js"></script>
+	<script src="${pageContext.request.contextPath}/js/save.js"
+		type="text/javascript"></script>
 	<c:if test="${msg != null}">
 		<div class="alert alert-success">${msg}</div>
 	</c:if>
@@ -15,56 +16,65 @@
 
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2">
-		<h1>${storage.name}</h1>
-			<form class="form-horizontal" method="POST" action="close" id="closeStorageForm">
+			<h1>${storage.name}</h1>
+			<form class="form-horizontal" method="POST" action="close"
+				id="closeStorageForm">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">Slut tal</h3>
 					</div>
 					<div class="panel-body">
 						<br>
-					        <div class="row">
-    <div class="col-sm-10 col-sm-offset-1">
-            
-            
-          <c:forEach var="inventory" items="${storage.inventory}">
-                  <c:if test="${category ne inventory.category}">
-                  <hr>
-                    <p class="lead">${inventory.category}</p>
-                    <c:set var="category" value="${inventory.category}" />
-                  </c:if>
-  
-      <div class="form-group inventory">
-       
-          <label for="${inventory.id}" class="control-label col-sm-2">${inventory.name}</label>
-          <div class="col-md-4">
-           <input type="number" step="any" class="form-control" placeholder="Antal" id="${inventory.id}" name="${inventory.id}" min="0" value="<c:if test="${inventory.tempUnitsSet}">${inventory.tempUnits}</c:if>"></div>
-          
-           <label class="control-label col-sm-1" id="expected-inventory"></label>
-          <div class="col-md-2">
-           <input type="number" disabled="disabled" id="${inventory.id}-inventory-expected" class="form-control" placeholder="${inventory.unitsAtOpen + inventory.movesSoFar}">
-          </div>
-          
-          <div class="col-md-2">
-           <input type="number" class="form-control" disabled="disabled" >
-          </div>
-          
-      </div>
-      </c:forEach>
-      </div>
-      </div>
+						<div class="row">
+							<div class="col-sm-10 col-sm-offset-1">
+
+
+								<c:forEach var="inventory" items="${storage.inventory}">
+									<c:if test="${category ne inventory.category}">
+										<hr>
+										<p class="lead">${inventory.category}</p>
+										<c:set var="category" value="${inventory.category}" />
+									</c:if>
+
+									<div class="form-group inventory">
+
+										<label for="${inventory.id}" class="control-label col-sm-2">${inventory.name}</label>
+										<div class="col-md-4">
+											<input type="number" step="any" class="form-control"
+												placeholder="Antal" id="${inventory.id}"
+												name="${inventory.id}" min="0"
+												value='<c:if test="${inventory.tempUnitsSet}">${inventory.tempUnits}</c:if>'>
+										</div>
+
+										<label class="control-label col-sm-1" id="expected-inventory"></label>
+										<div class="col-md-2">
+											<input type="number" disabled="disabled"
+												id="${inventory.id}-inventory-expected" class="form-control"
+												placeholder="${inventory.unitsAtOpen + inventory.movesSoFar}">
+										</div>
+
+										<div class="col-md-2">
+											<input type="number" class="form-control" disabled="disabled">
+										</div>
+
+									</div>
+								</c:forEach>
+							</div>
+						</div>
 					</div>
 					<div class="panel-footer">
 						<p class="lead">Godkend lukning</p>
-						<p>Tryk "gem" for at gemme slut tal uden at lukke rapporten. Tryk "Gem og luk" for at gemme slut tal og lukke rapporten</p>
+						<p>Tryk "gem" for at gemme slut tal uden at lukke rapporten.
+							Tryk "Gem og luk" for at gemme slut tal og lukke rapporten</p>
 						<br>
 						<div class="row">
 							<div class="col-sm-12">
 								<a class="btn btn-default btn-lg" href="count" role="button">Annullér</a>
-								<input type="hidden" value="${storage.id}" name="sid">
-								<input type="hidden" value="update" name="update">
+								<input type="hidden" value="${storage.id}" name="sid"> <input
+									type="hidden" value="update" name="update">
 								<button type="button" class="btn btn-primary btn-lg" id="save">Gem</button>
-								<button type="button" class="btn btn-primary btn-lg" onclick="conf()">Gem og luk</button>
+								<button type="button" class="btn btn-primary btn-lg"
+									onclick="conf()">Gem og luk</button>
 							</div>
 						</div>
 					</div>
@@ -168,7 +178,7 @@
 			</div>
 		</div>
 	</c:if>
-		<script>
+	<script type="text/javascript">
 		function conf(){
 			var form = document.getElementById("closeStorageForm");
 			var confi = confirm("Vil du lukke lageret?");
@@ -178,5 +188,6 @@
 		}
 	
 	</script>
-	<script src="${pageContext.request.contextPath}/js/diff.js"></script>
+	<script src="${pageContext.request.contextPath}/js/diff.js"
+		type="text/javascript"></script>
 </add:wrap>
