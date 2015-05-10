@@ -88,8 +88,8 @@
 					        Vil du lukke lageret?
 					      </div>
 					      <div class="modal-footer">
-					        <button type="button" class="btn btn-default" data-dismiss="modal">Annuller</button>
-					        <button type="submit" class="btn btn-primary">Luk Lager</button>
+					        <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Annuller</button>
+					        <button type="submit" class="btn btn-primary btn-lg">Luk Lager</button>
 					      </div>
 					    </div>
 					  </div>

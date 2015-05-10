@@ -64,8 +64,8 @@
 					        Vil du åbne lageret?
 					      </div>
 					      <div class="modal-footer">
-					        <button type="button" class="btn btn-default" data-dismiss="modal">Annuller</button>
-					        <button type="submit" class="btn btn-primary">Åben Lager</button>
+					        <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Annullér</button>
+					        <button type="submit" class="btn btn-primary btn-lg">Åben Lager</button>
 					      </div>
 					    </div>
 					  </div>
