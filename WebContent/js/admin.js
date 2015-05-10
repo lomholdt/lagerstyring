@@ -199,12 +199,8 @@ function getDropdownOfCategories(selectedCategory){
 
 
 function updateCategory(event){
-	console.log("Trying to update.");
 	var id = this.value;
 	var iid = $(this).parent().parent().attr("id");
-	
-	console.log("Id: " + id);
-	console.log("iid: " + iid);
 	
 	$.post("/lagerstyring/updatecategory",
 			{
@@ -212,7 +208,7 @@ function updateCategory(event){
 				categoryId: id
 			},
 			function(data){
-				//$(event.target).parent().parent().remove();
+
 				$.toaster({ priority : 'success', title : 'Vare opdateret', message : "Varen er blevet opdateret."});
 			});
 	
