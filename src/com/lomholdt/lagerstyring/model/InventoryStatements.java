@@ -1207,7 +1207,7 @@ public class InventoryStatements extends DBMain {
 					+ "LEFT JOIN temporary_units ON temporary_units.inventory_id = inventory.id "
 					+ "AND temporary_units.storage_id = ? "
 					+ "WHERE inventory.storage_id = ? "
-					+ "GROUP BY inventory.id ORDER BY categories.category;");
+					+ "GROUP BY inventory.id ORDER BY categories.category, inventory.name;");
 			
 			statement.setTimestamp(1, openedAtTime);
 			statement.setTimestamp(2, openedAtTime);
