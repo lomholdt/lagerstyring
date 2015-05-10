@@ -200,8 +200,8 @@ function getDropdownOfCategories(selectedCategory){
 
 function updateCategory(event){
 	console.log("Trying to update.");
-	var id = this.id;
-	var iid = $(this).parent().attr("id");
+	var id = this.value;
+	var iid = $(this).parent().parent().attr("id");
 	
 	console.log("Id: " + id);
 	console.log("iid: " + iid);

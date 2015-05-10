@@ -67,11 +67,15 @@ public class UpdateCategory extends HttpServlet {
 			
 			InventoryStatements is = new InventoryStatements();
 			
+			System.out.println("categoryId is: " + categoryId);
+			
 			if(categoryId.equals("none")){
 				// delete category for inventory
+				System.out.println("Deleting");
 				is.deleteInventoryCategory(Integer.parseInt(inventoryId));
 			}
 			else{
+				System.out.println("Updating");
 				is.updateCategory(Integer.parseInt(inventoryId), Integer.parseInt(categoryId));
 			}
 		} catch (Exception e) {

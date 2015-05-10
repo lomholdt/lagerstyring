@@ -1719,7 +1719,7 @@ public class InventoryStatements extends DBMain {
 		try {
 			statement = connection.prepareStatement("DELETE FROM inventory_categories WHERE inventory_categories.inventory_id = ?;");
 			statement.setInt(1, inventoryId);
-			statement.executeBatch();
+			statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
