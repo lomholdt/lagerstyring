@@ -51,12 +51,12 @@ public class CloseStorageController extends HttpServlet {
 		InventoryStatements is = new InventoryStatements();
 		try {
 			if(user == null || !auth.is("user", user.getId())){
-				FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_NO_PERMISSION_TO_VIEW_PAGE);
 				response.sendRedirect("");
 				return;
 			}
-			if(!is.userOwnsStorage(Integer.parseInt(storageId), user.getId())){
-				FlashMessage.setFlashMessage(request, "error", "You do not have permission to close this storage.");
+			if(storageId == null || !is.userOwnsStorage(Integer.parseInt(storageId), user.getId())){
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_NO_PERMISSION_TO_CLOSE_STORAGE);
 				response.sendRedirect("count");
 				return;
 			}
@@ -65,10 +65,10 @@ public class CloseStorageController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		if(storageId != null && !storageId.isEmpty()){
+		if(!storageId.isEmpty()){
 			try {
 				if(!is.storageIsOpen(Integer.parseInt(storageId))){
-					FlashMessage.setFlashMessage(request, "error", "The storage is already closed");
+					FlashMessage.setFlashMessage(request, "error", Messages.ERROR_STORAGE_IS_NOT_OPEN);
 					response.sendRedirect("count");
 					return;
 				}

@@ -26,15 +26,11 @@
 								<p class="lead">${category}</p>
 								<c:forEach var="inventory" items="${storage.inventory}">
 								
-								
 								<c:if test="${category ne inventory.category}">
 								<hr>
 									<p class="lead">${inventory.category}</p>
 									<c:set var="category" value="${inventory.category}" />
 								</c:if>
-								
-								
-								
 								
 									<div class="form-group">
 										<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label> 
@@ -52,10 +48,29 @@
 							<a class="btn btn-default btn-lg pull-left" href="count" role="button">Annullér</a>
 								<input type="hidden" value="${storage.id}" name="sid">
 								<input type="hidden" value="update" name="update">
-								<button type="button" class="btn btn-primary btn-lg pull-right" onclick="conf()">Godkend start-tal</button>
+								<button type="button" class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#saveAndOpen">Godkend start-tal</button>
 							</div>
 						</div>
 					</div>
+					<!-- MODAL START -->
+					<div class="modal fade" id="saveAndOpen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					  <div class="modal-dialog">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h4 class="modal-title" id="myModalLabel">Åben ${storage.name}</h4>
+					      </div>
+					      <div class="modal-body">
+					        Vil du åbne lageret?
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-default" data-dismiss="modal">Annuller</button>
+					        <button type="submit" class="btn btn-primary">Åben Lager</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+					<!-- MODAL END -->
 				</div>
 			</form>
 		</div>

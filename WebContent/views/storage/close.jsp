@@ -71,11 +71,30 @@
 									<div class="pull-right">
 								<button type="button" class="btn btn-primary btn-lg" id="save">Gem</button>
 								<button type="button" class="btn btn-primary btn-lg"
-									onclick="conf()">Gem og luk</button>
+									data-toggle="modal" data-target="#saveAndClose">Gem og luk</button>
 									</div>
 							</div>
 						</div>
 					</div>
+					<!-- MODAL START -->
+					<div class="modal fade" id="saveAndClose" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					  <div class="modal-dialog">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h4 class="modal-title" id="myModalLabel">Luk ${storage.name}</h4>
+					      </div>
+					      <div class="modal-body">
+					        Vil du lukke lageret?
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-default" data-dismiss="modal">Annuller</button>
+					        <button type="submit" class="btn btn-primary">Luk Lager</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+					<!-- MODAL END -->
 				</div>
 			</form>
 		</div>
@@ -175,17 +194,8 @@
 				</div>
 			</div>
 		</div>
-	</c:if>
-	<script type="text/javascript">
-		function conf(){
-			var form = document.getElementById("closeStorageForm");
-			var confi = confirm("Vil du lukke lageret?");
-			if(confi){
-				form.submit();
-			}
-		}
+	</c:if>	
 	
-	</script>
 	<script src="${pageContext.request.contextPath}/js/diff.js"
 		type="text/javascript"></script>
 </add:wrap>
