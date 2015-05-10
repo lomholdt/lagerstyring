@@ -941,7 +941,7 @@ public class InventoryStatements extends DBMain {
 					+ "JOIN storages ON storages.id = inventory.storage_id "
 					+ "AND storages.company_id = ? "
 					+ "LEFT JOIN inventory_categories ON inventory_categories.inventory_id = inventory.id "
-					+ "LEFT JOIN categories ON categories.id = inventory_categories.category_id ORDER BY storages.name, categories.category;");
+					+ "LEFT JOIN categories ON categories.id = inventory_categories.category_id ORDER BY storages.name, inventory.name;");
 			try {
 				statement.setInt(1, companyId);
 				rs = statement.executeQuery();
