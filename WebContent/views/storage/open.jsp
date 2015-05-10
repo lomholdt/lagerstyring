@@ -75,16 +75,4 @@
 			</form>
 		</div>
 	</div>
-	
-	
-	<script>
-		function conf(){
-			var form = document.getElementById("openStorageForm");
-			var confi = confirm("Vil du åbne lageret?");
-			if(confi){
-				form.submit();
-			}
-		}
-	
-	</script>
 </add:wrap>
