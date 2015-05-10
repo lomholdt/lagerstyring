@@ -90,7 +90,7 @@
 												<tr class="company <c:choose><c:when test="${company.active}">success</c:when><c:otherwise>danger</c:otherwise></c:choose>" id="${company.id}-company">
 													<td>${company.name}</td>
 													<td>${company.createdAt}</td>
-													<td><input type="checkbox" <c:if test="${company.active}">checked="checked"</c:if> id=${company.id}-status value="${company.id}" class="company-status"></td>
+													<td><span>${company.active}</span> <input type="checkbox" <c:if test="${company.active}">checked="checked"</c:if> id=${company.id}-status value="${company.id}" class="company-status"></td>
 												</tr>
 											</c:forEach>
 										</tbody>

@@ -941,7 +941,7 @@ public class InventoryStatements extends DBMain {
 					+ "JOIN storages ON storages.id = inventory.storage_id "
 					+ "AND storages.company_id = ? "
 					+ "LEFT JOIN inventory_categories ON inventory_categories.inventory_id = inventory.id "
-					+ "LEFT JOIN categories ON categories.id = inventory_categories.category_id ORDER BY storages.name;");
+					+ "LEFT JOIN categories ON categories.id = inventory_categories.category_id ORDER BY storages.name, categories.category;");
 			try {
 				statement.setInt(1, companyId);
 				rs = statement.executeQuery();
@@ -1207,7 +1207,7 @@ public class InventoryStatements extends DBMain {
 					+ "LEFT JOIN temporary_units ON temporary_units.inventory_id = inventory.id "
 					+ "AND temporary_units.storage_id = ? "
 					+ "WHERE inventory.storage_id = ? "
-					+ "GROUP BY inventory.id;");
+					+ "GROUP BY inventory.id ORDER BY categories.category;");
 			
 			statement.setTimestamp(1, openedAtTime);
 			statement.setTimestamp(2, openedAtTime);
