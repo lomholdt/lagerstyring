@@ -313,7 +313,7 @@
 									</div>
 	
 									<div class="form-group">
-										<input type="text" class="form-control" placeholder="Kategori navn"
+										<input type="text" class="form-control" placeholder="Kategorinavn"
 											name="newCategoryName">
 									</div>
 	
