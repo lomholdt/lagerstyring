@@ -49,12 +49,12 @@
 										<label class="control-label col-sm-1"></label>
 										<div class="col-md-2">
 											<input type="number" disabled="disabled"
-												id="${inventory.id}-inventory-expected" class="form-control"
+												data-toggle="tooltip" data-placement="bottom" title="Forventet antal" id="${inventory.id}-inventory-expected" class="form-control"
 												value="${inventory.unitsAtOpen + inventory.movesSoFar}">
 										</div>
 
 										<div class="col-md-2">
-											<input type="number" class="form-control" disabled="disabled" id="${inventory.id}-diff">
+											<input type="number" class="form-control" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title="Difference" id="${inventory.id}-diff">
 										</div>
 
 									</div>
