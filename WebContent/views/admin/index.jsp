@@ -49,7 +49,7 @@
 
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Opret virksomhed</h3>
+							<h3 class="panel-title">Ændre virksomhed</h3>
 						</div>
 						<div class="panel-body">
 
@@ -83,6 +83,7 @@
 												<th>Virksomhed</th>
 												<th>Oprettet</th>
 												<th>Aktiv</th>
+												<th>Slet</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -91,6 +92,7 @@
 													<td>${company.name}</td>
 													<td>${company.createdAt}</td>
 													<td><span>${company.active}</span> <input type="checkbox" <c:if test="${company.active}">checked="checked"</c:if> id=${company.id}-status value="${company.id}" class="company-status"></td>
+													<td><button type="button" data-toggle="modal" data-target="#deleteModal" data-companyname="${company.name}" data-company="${company.id}" class="btn btn-danger btn-xs">Slet Firma</button></td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -100,8 +102,30 @@
 							</div>
 						</div>
 					</div>
+					<!-- Modal -->
+					<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					  <div class="modal-dialog">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h4 class="modal-title" id="myModalLabel">Vil du slette firmaet?</h4>
+					      </div>
+					      <div class="modal-body">
+					        
+					      </div>
+					      <div>
+					      <span>Indtast firmaets navn for at slette</span>
+					      <input type="text" class="form-control" id="company-confirmation" placeholder="Firmanavn">
+					      <input type="hidden" id="confirmation-name">
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-default" data-dismiss="modal">Annuller</button>
+					        <button type="button" class="btn btn-danger" id="deleteConfirm">Slet Firma</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
 				</div>
-
 
 				<div role="tabpanel" class="tab-pane" id="bruger">
 					<!-- TILFØJ BRUGER TIL VIRKSOMHED -->
@@ -256,44 +280,28 @@
 							</div>
 						</div>
 							<div class="row"><hr></div>
-								<p class="lead">Lagre</p>
-								<div class="row">
-									<div class="col-sm-8 col-sm-offset-2">
-										<table class="table table-striped table-condensed">
-											<thead>
-												<tr>
-													<th>Lagernavn</th>
-													<th>Status</th>
-													<th>Sidst Ændret</th>
-													<th>Lavet</th>
-													
-												</tr>
-											</thead>
-											<tbody id="storages-overview">
+							<p class="lead">Lagre</p>
+							<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
+									<table class="table table-striped table-condensed">
+										<thead>
+											<tr>
+												<th>Lagernavn</th>
+												<th>Status</th>
+												<th>Sidst Ændret</th>
+												<th>Lavet</th>
 												
-											</tbody>
-										</table>
-									</div>
+											</tr>
+										</thead>
+										<tbody id="storages-overview">
+											
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 				<div role="tabpanel" class="tab-pane" id="kategori">
 					<div class="panel panel-default">
 						<div class="panel-heading">
@@ -329,8 +337,7 @@
 											<thead>
 												<tr>
 													<th>Kategori</th>
-													
-													
+													<th>Slet Kategori</th>
 												</tr>
 											</thead>
 											<tbody id="categories-overview">
@@ -338,9 +345,7 @@
 											</tbody>
 										</table>
 									</div>
-							</div>
-							
-							
+								</div>
 								<div class="row"><hr></div>
 								<p class="lead">Inventar</p>
 								<div class="row">
@@ -349,8 +354,7 @@
 											<thead>
 												<tr>
 													<th>Inventar</th>
-													
-													
+													<th>Kategori</th>
 												</tr>
 											</thead>
 											<tbody id="inventory-overview">
@@ -362,13 +366,6 @@
 						</div>
 					</div>
 				</div>
-				
-				
-				
-				
-				
-				
-				
 			</div>
 		</div>
 	</div>

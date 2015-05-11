@@ -28,6 +28,28 @@ public class AdminStatements extends DBMain {
 		}
 		return false;
 	}
+	
+	public boolean deleteCompany(int companyId) throws SQLException{
+    	PreparedStatement statement = null;
+		Connection connection = ds.getConnection();
+		try {
+			statement = connection.prepareStatement("DELETE FROM companies WHERE companies.id = ?");
+			statement.setInt(1, companyId);
+			statement.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try { if(null!=statement)statement.close();} catch (SQLException e) 
+			{e.printStackTrace();}
+			try { if(null!=connection)connection.close();} catch (SQLException e) 
+			{e.printStackTrace();}
+		}
+		return false;
+	}
+	
+	
 
 	public boolean companyExists(String companyName) throws SQLException {
     	PreparedStatement statement = null;

@@ -1,7 +1,5 @@
 function update(inventoryId, priceType, inventoryName){
 	var price = document.getElementById(priceType + "-" + inventoryId);
-	console.log(price.value);
-	console.log(priceType);
 	var typeValue = priceType;
 	$.post("/lagerstyring/updateprice",
 			{

@@ -84,41 +84,24 @@ public class UpdatePriceController extends HttpServlet {
 		
 		
 		try {
-//			if(uPrice != null) uPrice = uPrice.replaceAll(",", "."); // if input uses comma replace with compatible dot
-//			if(uSalesPrice != null) uSalesPrice = uSalesPrice.replaceAll(",", ".");
 			if(newValue != null) newValue = newValue.replaceAll(",", ".");
 			
-			System.out.println("type: " + newValue);
-			//System.out.println("uSalesPrice: " + uSalesPrice);
-
-			if (newValue != null && !newValue.isEmpty()){ // update price
+			if (!newValue.isEmpty()){ // update price
 				Matcher up = p.matcher(newValue);
 				if(up.matches()){
 					if(type.equals("uPrice")){
-						System.out.println("Updating uprice");
 						is.updatePrice(Double.parseDouble(newValue), Integer.parseInt(inventoryId));						
 					}
 					else if(type.equals("uSalesPrice")){
-						System.out.println("Updating sales price");
 						is.updateSalesPrice(Double.parseDouble(newValue), Integer.parseInt(inventoryId));
 					}
 					
 				}
 				
-			}
-//			else if(uSalesPrice != null && !uSalesPrice.isEmpty()){ // update uSalesPrice
-//				Matcher sp = p.matcher(uSalesPrice);
-//				if(sp.matches()){
-//				}
-//			}			
+			}		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
-		
-		
-		
-		
 		
 	}
 

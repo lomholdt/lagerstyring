@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS inventory_log(
 	performed_action varchar(500) NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (storage_id) REFERENCES storages(id) ON DELETE CASCADE,
-	FOREIGN KEY (station_id) REFERENCES stations(id)
+	-- FOREIGN KEY (station_id) REFERENCES stations(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS storage_log(

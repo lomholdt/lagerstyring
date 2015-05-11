@@ -19,6 +19,26 @@ $( document ).ready(function() {
 	getCompanyInventory();
 	
 	
+	
+	$('#deleteModal').on('show.bs.modal', function (event) {
+		  var button = $(event.relatedTarget); // Button that triggered the modal
+		  var companyId = button.data('company'); // Extract info from data-* attributes
+		  var companyName = button.data('companyname');
+		  
+		  var modal = $(this);
+		  modal.find('.modal-title').text('Vil du virkelig slette ' + companyName + "?");
+		  modal.find('.modal-body input').val(companyId);
+		  modal.find('.modal-body').text("Du er ved at slette firmaet " + companyName + ". Er du sikker på, at du vil fortsætte?")
+		  modal.find("#deleteConfirm").attr("id", companyId);
+		  modal.find("#confirmation-name").val(companyName);
+		  
+		  
+		});
+		
+	$("#deleteConfirm").click(confirmDeleteCompany);
+	
+	
+	
 });
 
 function toggleCompanyStatus(event){
@@ -213,3 +233,42 @@ function updateCategory(event){
 			});
 	
 }
+
+
+function deleteCompany(companyId){
+	var cid = companyId;
+	
+	$.post("/lagerstyring/deletecompany",
+			{
+				companyId: cid
+			},
+			function(data){
+				$('#deleteModal').modal('hide');
+				$("#"+cid+"-company").remove();
+				$.toaster({ priority : 'success', title : 'Firmaet blev slettet', message : "Det valgte firma er nu slettet."});
+			})
+}
+
+
+
+function confirmDeleteCompany(event){
+	var companyConfirmation = $("#company-confirmation").val();
+	var companyName = $("input#confirmation-name").val();
+	var cid = this.id;
+	
+	console.log(companyConfirmation);
+	console.log($(".modal-body").text());
+	
+	if(companyName == companyConfirmation){
+		deleteCompany(cid);
+	}
+	else{
+		$.toaster({priority: "warning", title: "Fejl", message: "Firmaet blev IKKE slettet. Navn matcher ikke."});
+	}
+	
+	
+}
+
+
+
+

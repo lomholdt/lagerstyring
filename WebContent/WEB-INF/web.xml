@@ -241,7 +241,7 @@
     <servlet-name>GetCompanyInventory</servlet-name>
     <url-pattern>/getcompanyinventory</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>UpdateCategory</servlet-name>
     <servlet-class>
             com.lomholdt.lagerstyring.api.UpdateCategory
@@ -250,6 +250,16 @@
   <servlet-mapping>
     <servlet-name>UpdateCategory</servlet-name>
     <url-pattern>/updatecategory</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <servlet-name>DeleteCompany</servlet-name>
+    <servlet-class>
+            com.lomholdt.lagerstyring.api.DeleteCompany
+        </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteCompany</servlet-name>
+    <url-pattern>/deletecompany</url-pattern>
   </servlet-mapping>
   <resource-ref>
     <description>DB Connection</description>
