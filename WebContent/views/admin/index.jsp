@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <admin:wrap title="Admin">
-<script src="${pageContext.request.contextPath}/js/admin.js"></script>
+<script charset="UTF-8" src="${pageContext.request.contextPath}/js/admin.js"></script>
 
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2">

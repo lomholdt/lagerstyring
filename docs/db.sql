@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS inventory_snapshot(
 	units_at_open int(11) NOT NULL,
 	units_at_close int(11) NOT NULL DEFAULT 0,
 	PRIMARY KEY (id),
-	FOREIGN KEY (inventory_id) REFERENCES inventory(id),
+	-- FOREIGN KEY (inventory_id) REFERENCES inventory(id),
 	FOREIGN KEY (archive_log_id) REFERENCES archive_log(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -162,17 +162,22 @@ CREATE TABLE IF NOT EXISTS temporary_units(
 	temp_units DOUBLE NOT NULL,
 	storage_id int(11) NOT NULL,
 	PRIMARY KEY (inventory_id),
-	FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
+	FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE,
 	FOREIGN KEY (storage_id) REFERENCES storages(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+/**
+ * Tvivlsom foregin key som ikke fungerer efter planen. 
+ */
+ALTER TABLE inventory_snapshot DROP FOREIGN KEY inventory_snapshot_ibfk_1;
 
 
 
 /*****************************************************
  INSERT DUMMY DATA HERE
  *****************************************************/
-INSERT INTO companies (name) VALUES ("LagerStyring A/S");
+INSERT INTO companies (name) VALUES ("Allo");
 INSERT INTO users (username, password, company_id) VALUES ("admin", "3c11440050cbedc97d35541159636783b81482d81880a4ef22cc7e6c460bdcb8", 1);
 INSERT INTO roles (user_id, role) VALUES (LAST_INSERT_ID(), "admin");
 INSERT INTO roles (user_id, role) VALUES (LAST_INSERT_ID(), "manager");

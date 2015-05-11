@@ -1,9 +1,13 @@
 function update(inventoryId, priceType, inventoryName){
 	var price = document.getElementById(priceType + "-" + inventoryId);
+	console.log(price.value);
+	console.log(priceType);
+	var typeValue = priceType;
 	$.post("/lagerstyring/updateprice",
 			{
 				inventoryId: encodeURIComponent(inventoryId),
-				priceType: price.value
+				type: typeValue,
+				newValue: price.value
 			},
 			function(data, textStatus){
 				if(textStatus == "success"){
@@ -12,6 +16,5 @@ function update(inventoryId, priceType, inventoryName){
 				else{
 					$.toaster({ priority : 'danger', title : 'Fejl', message : "Kunne ikke opdatere prisen på " + inventoryName + " til " + inventoryPrice});
 				}
-		
 	});
 }

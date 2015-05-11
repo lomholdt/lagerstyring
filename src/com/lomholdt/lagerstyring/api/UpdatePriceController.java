@@ -45,13 +45,17 @@ public class UpdatePriceController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		String uPrice = request.getParameter("uPrice");
-		String uSalesPrice = request.getParameter("uSalesPrice");
+//		String uPrice = request.getParameter("uPrice");
+//		String uSalesPrice = request.getParameter("uSalesPrice");
+		String newValue = request.getParameter("newValue");
+		String type = request.getParameter("type");
 		String inventoryId = request.getParameter("inventoryId");
 		Pattern p = Pattern.compile("(\\d)+([,\\.])?(\\d)*");
 		InventoryStatements is = new InventoryStatements();
+		
 		try {
 			if(user == null || !auth.is("manager", user.getId())){
+				System.out.println("1");
 				FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
 				response.sendRedirect("count");
 				return;
@@ -60,39 +64,53 @@ public class UpdatePriceController extends HttpServlet {
 				return;
 			}
 			else if(!is.userOwnsInventory(user.getCompanyId(), Integer.parseInt(inventoryId))){
+				System.out.println("2");
 				FlashMessage.setFlashMessage(request, "error", "You do not have permission to perform this action.");
 				response.sendRedirect("count");
 				return;
 			
 			}
 			if(is.inventoriesStorageIsOpen(Integer.parseInt(inventoryId))){
+				System.out.println("3");
 				FlashMessage.setFlashMessage(request, "error", "Please close storages before changeing price");
 				response.sendRedirect("inventory");
 				return;
 			}
 		} catch (Exception e1) {
+			System.out.println("ERROR");
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
 		
 		try {
-			if(uPrice != null) uPrice = uPrice.replaceAll(",", "."); // if input uses comma replace with compatible dot
-			if(uSalesPrice != null) uSalesPrice = uSalesPrice.replaceAll(",", ".");
+//			if(uPrice != null) uPrice = uPrice.replaceAll(",", "."); // if input uses comma replace with compatible dot
+//			if(uSalesPrice != null) uSalesPrice = uSalesPrice.replaceAll(",", ".");
+			if(newValue != null) newValue = newValue.replaceAll(",", ".");
+			
+			System.out.println("type: " + newValue);
+			//System.out.println("uSalesPrice: " + uSalesPrice);
 
-			if (uPrice != null && !uPrice.isEmpty()){ // update price
-				Matcher up = p.matcher(uPrice);
+			if (newValue != null && !newValue.isEmpty()){ // update price
+				Matcher up = p.matcher(newValue);
 				if(up.matches()){
-					is.updatePrice(Double.parseDouble(uPrice), Integer.parseInt(inventoryId));					
+					if(type.equals("uPrice")){
+						System.out.println("Updating uprice");
+						is.updatePrice(Double.parseDouble(newValue), Integer.parseInt(inventoryId));						
+					}
+					else if(type.equals("uSalesPrice")){
+						System.out.println("Updating sales price");
+						is.updateSalesPrice(Double.parseDouble(newValue), Integer.parseInt(inventoryId));
+					}
+					
 				}
 				
 			}
-			else if(uSalesPrice != null && !uSalesPrice.isEmpty()){ // update uSalesPrice
-				Matcher sp = p.matcher(uSalesPrice);
-				if(sp.matches()){
-					is.updateSalesPrice(Double.parseDouble(uSalesPrice), Integer.parseInt(inventoryId));					
-				}
-			}			
+//			else if(uSalesPrice != null && !uSalesPrice.isEmpty()){ // update uSalesPrice
+//				Matcher sp = p.matcher(uSalesPrice);
+//				if(sp.matches()){
+//				}
+//			}			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
