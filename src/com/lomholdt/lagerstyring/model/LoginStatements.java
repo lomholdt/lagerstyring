@@ -85,7 +85,7 @@ public class LoginStatements extends DBMain {
 				currentUser.setCompanyName(rs.getString("companyName"));
 				
 				Set<String> roles = getUserRoles(rs.getInt("id"));
-				currentUser.setRole(roles);
+				currentUser.setRoles(roles);
 				return currentUser;
 			}
 		} catch (Exception e){

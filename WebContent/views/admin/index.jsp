@@ -177,6 +177,7 @@
 											<thead>
 												<tr>
 													<th>Brugernavn</th>
+													<th>Roller</th>
 													<th>Firma</th>
 													<th>Medlem Siden</th>
 													

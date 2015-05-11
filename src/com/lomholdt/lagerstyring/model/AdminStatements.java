@@ -175,6 +175,8 @@ public class AdminStatements extends DBMain {
 				u.setCompanyName(rs.getString("company"));
 				u.setMemberSince(rs.getTimestamp("created_at"));
 				
+				u.setRoles(new LoginStatements().getUserRoles(rs.getInt("id")));
+				
 				al.add(u);
 			}
 		} catch (Exception e) {

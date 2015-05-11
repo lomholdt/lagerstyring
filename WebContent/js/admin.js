@@ -71,6 +71,10 @@ function getCompanyUsers(){
 				for (var i = 0; i < json.length; i++) {
 					var row = $("<tr></tr>").appendTo(usersOverview);
 					$("<td>" + json[i].username + "</td>").appendTo(row);
+					
+					$("<td>" + json[i].roles + "</td>").appendTo(row);
+					
+					
 					$("<td>" + json[i].companyName + "</td>").appendTo(row);
 					$("<td>" + json[i].memberSince + "</td>").appendTo(row);
 				}
