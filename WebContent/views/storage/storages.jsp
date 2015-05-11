@@ -40,14 +40,17 @@
 						<div class="row">
 							<div class="col-xs-6">
 								<form method="POST" action="open">
+									<c:if test="${storage.inventoryCount eq 0}">
+										<c:set var="status" value="disabled" />									
+									</c:if>
 									<input type="hidden" value="${storage.id}" name="sid">
-									<button type="submit" class="btn btn-primary btn-lg btn-block">Start tal</button>
+									<button type="submit" class="btn btn-primary btn-lg btn-block" ${status}>Start tal</button>
 								</form>
 							</div>
 							<div class="col-xs-6">
 								<form method="POST" action="close">
 									<input type="hidden" value="${storage.id}" name="sid">
-									<button type="submit" class="btn btn-default btn-lg btn-block">Slut tal</button>
+									<button type="submit" class="btn btn-default btn-lg btn-block" ${status}>Slut tal</button>
 								</form>
 							</div>
 						</div>

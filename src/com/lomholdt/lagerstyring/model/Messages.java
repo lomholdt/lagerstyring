@@ -17,6 +17,7 @@ public abstract class Messages {
 	public static final String ERROR_CATEGORY_ALREADY_EXISTS = "Kategorien findes allerede.";
 	public static final String ERROR_STORAGE_IS_NOT_OPEN = "Lageret er ikke åben.";
 	public static final String ERROR_STORAGE_IS_NOT_CLOSED = "Lageret er ikke lukket.";
+	public static final String ERROR_OCCURED_WHILE_DELETING = "Der opstod en fejl ved sletning af varer.";
 	
 	
 
@@ -27,12 +28,16 @@ public abstract class Messages {
 	public static final String OK_STORAGE_OPENED_SUCCESSFULLY = "Lageret er nu åbent.";
 	
 	public static final String OK_CATEGORY_ADDED_TO_COMPANY = "Kategorien %s blev tilføjet til %s";
+	public static final String OK_INVENTORY_DELETED = "Følgende varer blev fjernet <br> %s";
 	
 	private Messages(){ } // Don't instantiate this class
 
-	public static String addNewCategorySuccess(String categoryCompany,
-			String companyName) {
+	public static String addNewCategorySuccess(String categoryCompany, String companyName) {
 		return String.format(OK_CATEGORY_ADDED_TO_COMPANY, categoryCompany, companyName);
+	}
+
+	public static String deletedInventory(String deleteMsg) {
+		return String.format(OK_INVENTORY_DELETED, deleteMsg);
 	}
 
 }

@@ -15,6 +15,7 @@ public class Storage {
 	private ArrayList<Inventory> inventory = new ArrayList<Inventory>();
 	private Timestamp openedAt;
 	private Timestamp createdAt;
+	private int inventoryCount;
 	
 	public int getId() {
 		return id;
@@ -59,8 +60,6 @@ public class Storage {
 	}
 	
 	public void setOpenedAt(Timestamp updatedAt) {
-//		openedAt = Calendar.getInstance().;
-//		openedAt.setTime(new Date(updatedAt.getTime())); 
 		openedAt = updatedAt;
 	}
 	public Timestamp getCreatedAt() {
@@ -68,5 +67,12 @@ public class Storage {
 	}
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
+	}
+	public int getInventoryCount() {
+		return inventoryCount;
+	}
+	public void setInventoryCount(int inventoryCount) {
+		System.out.println(inventoryCount);
+		this.inventoryCount = inventoryCount;
 	}
 }

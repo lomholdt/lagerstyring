@@ -61,7 +61,6 @@ public class CloseStorageController extends HttpServlet {
 				return;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -83,7 +82,7 @@ public class CloseStorageController extends HttpServlet {
 			}
 		}
 		else{
-			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
+			FlashMessage.setFlashMessage(request, "error", Messages.ERROR_NO_STORAGE_CHOSEN);
 			response.sendRedirect("count");
 			return;
 		}
@@ -106,8 +105,6 @@ public class CloseStorageController extends HttpServlet {
 		}
 	}
 
-	
-	
 	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -155,14 +152,6 @@ public class CloseStorageController extends HttpServlet {
 
 		try {
 			
-//			String tempSave = request.getParameter("save");
-//			if(tempSave != null && !tempSave.isEmpty()){ // Only save, don't close!
-//				System.out.println("Temp saving units...");
-//				tempSaveUnits(request);
-//				System.out.println("Temp saving done...");
-//				return;
-//			}
-			
 			// Update all the values and close
 			int archiveLogId = is.getLatestArchiveLogId(Integer.parseInt(storageId));
 			for(Map.Entry<String, String[]> entry : m.entrySet()){
@@ -184,49 +173,18 @@ public class CloseStorageController extends HttpServlet {
 		}
 	}
 
-	
-//	private void tempSaveUnits(HttpServletRequest request) {
-//			try {
-//				Map<String, String[]> m  = request.getParameterMap();
-//				InventoryStatements is = new InventoryStatements();
-//				for(Map.Entry<String, String[]> entry : m.entrySet()){
-//					System.out.println("Key: " + entry.getKey());
-//					if(entry.getKey().equals("sid") || entry.getKey().equals("update") || entry.getKey().equals("save")) continue;
-//					// TODO Need to secure that updated id's belong to the user updating!
-//				is.updateUnitsAt(Integer.parseInt(entry.getKey()), Double.parseDouble(entry.getValue()[0]));
-//				}
-//			} catch (NumberFormatException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}		
-//	}
-
 	private ArrayList<LoggedStation> getStationLogResults(HttpServletRequest request, HttpServletResponse response, User user, String storageId) throws IOException{
 		ArrayList<LoggedStation> loggedStations = new ArrayList<LoggedStation>();
 		String inventoryName = request.getParameter("inventoryName");
 		String stationName = request.getParameter("stationName");
-		
-		
-//		if(search == null || search.isEmpty() || 
-//				from == null || from.isEmpty() ||
-//				to == null || to.isEmpty()){
-//			System.out.println("Returning null");
-//			return loggedStations;
-//		}
-				
+						
 		InventoryStatements is = new InventoryStatements();
 		UserStatements us = new UserStatements();
 
-		
 		try {			
 			Storage s = is.getStorage(Integer.parseInt(storageId));
 			Timestamp fromDate = s.getOpenedAt();
 			Timestamp toDate = new Timestamp(Calendar.getInstance().getTimeInMillis());
-			
-			
 			
 			request.setAttribute("fromTimestamp", new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(fromDate));
 			request.setAttribute("toTimestamp", new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(toDate));
@@ -242,8 +200,7 @@ public class CloseStorageController extends HttpServlet {
 				}
 				else{
 					ls = is.getLoggedItems(fromDate, toDate, station.getId(), Integer.parseInt(storageId));					
-				}
-				
+				}		
 				
 				if(!stationName.equals("allStations")){
 					if (ls.getLoggedInventory().size() != 0 && station.getName().equals(stationName)) loggedStations.add(ls);
@@ -254,9 +211,7 @@ public class CloseStorageController extends HttpServlet {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
+		}	
 		return loggedStations;
 	}
-	
 }

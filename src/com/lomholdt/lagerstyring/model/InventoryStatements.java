@@ -1121,7 +1121,10 @@ public class InventoryStatements extends DBMain {
 		ArrayList<Storage> al = new ArrayList<Storage>();
 		Connection connection = ds.getConnection();;
     	try {
-    		statement = connection.prepareStatement("SELECT storages.id, storages.name, storages.company_id, storages.is_open, storages.updated_at, storages.created_at FROM storages WHERE company_id = ?;");
+    		statement = connection.prepareStatement("SELECT storages.id, storages.name, storages.company_id, storages.is_open, storages.updated_at, storages.created_at, COUNT(inventory.id) AS inventoryCount "
+    				+ "FROM storages "
+    				+ "LEFT JOIN inventory ON inventory.storage_id = storages.id "
+    				+ "WHERE company_id = ? GROUP BY storages.id, storages.name, storages.company_id, storages.is_open, storages.updated_at, storages.created_at;");
     		statement.setInt(1, companyId);
     		rs = statement.executeQuery();
     		while(rs.next()) {
@@ -1132,6 +1135,7 @@ public class InventoryStatements extends DBMain {
     			st.setIsOpen(rs.getBoolean("is_open"));
     			st.setOpenedAt(rs.getTimestamp("updated_at"));
     			st.setCreatedAt(rs.getTimestamp("created_at"));
+    			st.setInventoryCount(rs.getInt("inventoryCount"));
 
     			al.add(st);
     		}

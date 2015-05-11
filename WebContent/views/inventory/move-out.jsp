@@ -9,11 +9,13 @@
 	<c:if test="${error != null}">
 		<div class="alert alert-danger">${error}</div>
 	</c:if>
+	
+	<c:if test="${storage.inventory.size() > 0}">
 	<div class="row">
 			<div class="col-sm-6 col-sm-offset-1">
-<h1>${storage.name}</h1>
-</div>
-</div>
+				<h1>${storage.name}</h1>
+			</div>
+	</div>
 	<div class="row">
 		<!-- Form start -->
 		<form class="form-horizontal" method="POST" action="moveout">
@@ -92,4 +94,5 @@
 		</form>
 		<!-- Form slut-->
 	</div>
+	</c:if>
 </moveOut:wrap>

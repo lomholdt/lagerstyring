@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.lomholdt.lagerstyring.model.Authenticator;
 import com.lomholdt.lagerstyring.model.FlashMessage;
 import com.lomholdt.lagerstyring.model.InventoryStatements;
+import com.lomholdt.lagerstyring.model.Messages;
 import com.lomholdt.lagerstyring.model.User;
 
 /**
@@ -68,7 +69,7 @@ public class DeleteInventoryController extends HttpServlet {
 					is.deleteInventory(Integer.parseInt(inventoryId));
 					deleteMsg += inventoryName + " <br>";
 				}
-				FlashMessage.setFlashMessage(request, "msg", "Succesfully deleted <br>" + deleteMsg);
+				FlashMessage.setFlashMessage(request, "msg", Messages.deletedInventory(deleteMsg));
 				response.sendRedirect("inventory");					
 				return;
 			} catch (Exception e) {
@@ -77,10 +78,9 @@ public class DeleteInventoryController extends HttpServlet {
 		}
 		else{
 			// get him outta here!
-			FlashMessage.setFlashMessage(request, "error", "An error occured while deleting");
+			FlashMessage.setFlashMessage(request, "error", Messages.ERROR_OCCURED_WHILE_DELETING);
 			response.sendRedirect("inventory");
 			return;
 		}
 	}
-
 }

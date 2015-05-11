@@ -62,9 +62,7 @@ public class OpenStorageController extends HttpServlet {
 			request.setAttribute("storage", storage);
 		} catch (Exception e) {
 			// TODO: handle exception
-		}
-
-		
+		}		
 		RequestDispatcher view = request.getRequestDispatcher("views/storage/open.jsp");
 		view.forward(request, response);
 	}

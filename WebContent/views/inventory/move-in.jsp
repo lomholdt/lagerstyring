@@ -12,7 +12,8 @@
 </div>
 </div>
 
-<div class="row">
+<c:if test="${storage.inventory.size() > 0}">
+	<div class="row">
 		<!-- Form start -->
 		<form class="form-horizontal" method="POST" action="movein">
 			<!-- Lager afgangspanel -->
@@ -92,4 +93,5 @@
 		</form>
 		<!-- Form slut-->
 	</div>
+	</c:if>
 </moveIn:wrap>

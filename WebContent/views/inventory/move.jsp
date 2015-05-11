@@ -29,15 +29,19 @@
 							<div class="panel-body">
 								<div class="row">
 									<div class="col-xs-6">
-										<form method="GET" action="moveout">
+										<form method="POST" action="moveout">
+										<c:if test="${storage.inventoryCount eq 0}">
+											<c:set var="status" value="disabled" />									
+										</c:if>
+										
 												<input type="hidden" value="${storage.id}" name="sid">
-												<button type="submit" class="btn btn-primary btn-lg btn-block">Afgang <span class="glyphicon glyphicon-log-out"></span></button>
+												<button type="submit" class="btn btn-primary btn-lg btn-block" ${status}>Afgang <span class="glyphicon glyphicon-log-out"></span></button>
 										</form>
 									</div>
 									<div class="col-xs-6">
-									<form method="GET" action="movein">
+									<form method="POST" action="movein">
 												<input type="hidden" value="${storage.id}" name="sid">
-												<button type="submit" class="btn btn-default btn-lg btn-block">Tilgang <span class="glyphicon glyphicon-log-in"></span></button>
+												<button type="submit" class="btn btn-default btn-lg btn-block" ${status}>Tilgang <span class="glyphicon glyphicon-log-in"></span></button>
 										</form>
 									</div>
 								</div>

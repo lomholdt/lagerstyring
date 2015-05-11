@@ -96,19 +96,23 @@ public class MoveOutController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
+		String storageId = request.getParameter("sid");
+		String stationId = request.getParameter("stationId");
+		String isUpdate = request.getParameter("update");
 		try {
 			if(user == null || !auth.is("user", user.getId())){
 				FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
 				response.sendRedirect("");
 				return;
 			}
+			if(isUpdate == null || isUpdate.isEmpty()){
+				doGet(request, response);
+				return;
+			}
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
-		String storageId = request.getParameter("sid");
-		String stationId = request.getParameter("stationId");
 		
 		if(storageId == null || storageId.isEmpty()) {
 			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
