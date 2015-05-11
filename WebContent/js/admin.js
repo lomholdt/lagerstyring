@@ -27,8 +27,7 @@ $( document ).ready(function() {
 		  
 		  var modal = $(this);
 		  modal.find('.modal-title').text('Vil du virkelig slette ' + companyName + "?");
-		  modal.find('.modal-body input').val(companyId);
-		  modal.find('.modal-body').text("Du er ved at slette firmaet " + companyName + ". Er du sikker på, at du vil fortsætte?")
+		  modal.find('.modal-dynamic').text("Du er ved at slette firmaet " + companyName + ". Er du sikker på, at du vil fortsætte?")
 		  modal.find("#deleteConfirm").attr("id", companyId);
 		  modal.find("#confirmation-name").val(companyName);
 		  

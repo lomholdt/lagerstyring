@@ -111,12 +111,14 @@
 					        <h4 class="modal-title" id="myModalLabel">Vil du slette firmaet?</h4>
 					      </div>
 					      <div class="modal-body">
-					        
-					      </div>
-					      <div>
-					      <span>Indtast firmaets navn for at slette</span>
-					      <input type="text" class="form-control" id="company-confirmation" placeholder="Firmanavn">
-					      <input type="hidden" id="confirmation-name">
+						      <div class="modal-dynamic"><!-- MODAL DYNAMIC TEXT --></div>
+						     
+								<div>Indtast firmaets navn for at slette:</div>
+						      
+							      <div class="form-group">
+								      <input type="text" class="form-control" id="company-confirmation" placeholder="Firmanavn">
+								      <input type="hidden" id="confirmation-name">
+							      </div>
 					      </div>
 					      <div class="modal-footer">
 					        <button type="button" class="btn btn-default" data-dismiss="modal">Annuller</button>
