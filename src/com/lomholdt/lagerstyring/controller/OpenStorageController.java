@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.lomholdt.lagerstyring.model.Authenticator;
 import com.lomholdt.lagerstyring.model.FlashMessage;
 import com.lomholdt.lagerstyring.model.InventoryStatements;
+import com.lomholdt.lagerstyring.model.Messages;
 import com.lomholdt.lagerstyring.model.Storage;
 import com.lomholdt.lagerstyring.model.User;
 
@@ -42,12 +43,12 @@ public class OpenStorageController extends HttpServlet {
 		InventoryStatements is = new InventoryStatements();
 		try {
 			if(user == null || !auth.is("user", user.getId())){
-				FlashMessage.setFlashMessage(request, "error", "You Do not have permission to see this page.");
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_NO_PERMISSION_TO_VIEW_PAGE);
 				response.sendRedirect("");
 				return;
 			}
 			if(!is.userOwnsStorage(Integer.parseInt(storageId), user.getId())){
-				FlashMessage.setFlashMessage(request, "error", "You do not have permission to open this storage.");
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_NO_PERMISSION_TO_OPEN_STORAGE);
 				response.sendRedirect("");
 				return;
 			}
@@ -79,12 +80,12 @@ public class OpenStorageController extends HttpServlet {
 		InventoryStatements is = new InventoryStatements();
 		try {
 			if(user == null || !auth.is("user", user.getId())){
-				FlashMessage.setFlashMessage(request, "error", "You do not have permission to see this page.");
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_NO_PERMISSION_TO_VIEW_PAGE);
 				response.sendRedirect("");
 				return;
 			}
 			if(!is.userOwnsStorage(Integer.parseInt(storageId), user.getId())){
-				FlashMessage.setFlashMessage(request, "error", "You do not have permission to open this storage.");
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_NO_PERMISSION_TO_OPEN_STORAGE);
 				response.sendRedirect("count");
 				return;
 			}
@@ -99,14 +100,14 @@ public class OpenStorageController extends HttpServlet {
 
 				
 		if(storageId == null || storageId.isEmpty()) {
-			FlashMessage.setFlashMessage(request, "error", "No storage was chosen, please try again.");
+			FlashMessage.setFlashMessage(request, "error", Messages.ERROR_NO_STORAGE_CHOSEN);
 			response.sendRedirect("count");
 			return;
 		}
 		
 		try {
 			if(is.storageIsOpen(Integer.parseInt(storageId))){
-				FlashMessage.setFlashMessage(request, "error", "The storage is already open");
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_STORAGE_IS_NOT_CLOSED);
 				response.sendRedirect("count");
 				return;
 			}
@@ -126,7 +127,7 @@ public class OpenStorageController extends HttpServlet {
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
 			if(entry.getValue()[0].equals("")){
 				request.setAttribute("sid", storageId);
-				FlashMessage.setFlashMessage(request, "error", "Empty input is not allowed");
+				FlashMessage.setFlashMessage(request, "error", Messages.ERROR_CANNOT_CLOSE_WITH_EMPTY_FIELDS);
 				response.sendRedirect("count"); 
 				return;
 			}
@@ -151,7 +152,7 @@ public class OpenStorageController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		FlashMessage.setFlashMessage(request, "msg", "Lageret er nu Åbnet");
+		FlashMessage.setFlashMessage(request, "msg", Messages.OK_STORAGE_OPENED_SUCCESSFULLY);
 		response.sendRedirect("count");
 	}
 
