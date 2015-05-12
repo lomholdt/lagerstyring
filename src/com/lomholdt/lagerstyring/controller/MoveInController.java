@@ -3,6 +3,7 @@ package com.lomholdt.lagerstyring.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -146,13 +147,14 @@ public class MoveInController extends HttpServlet {
 		
 		// Update the values that are not zero
 		String inventoryOverview = "";
+		Map<Integer, Double> values = new HashMap<>();
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
 			if(entry.getKey().equals("sid") || entry.getKey().equals("stationId") || entry.getKey().equals("update")) continue;
 			// TODO Need to secure that updated id's belong to the user updating!
 			if(!entry.getValue()[0].equals("0") && !entry.getValue()[0].isEmpty()){
 				// INCREMENT THIS AMOUNT FROM DATABASE
 				try {
-					is.incrementUnits(Integer.parseInt(entry.getKey()), Double.parseDouble(entry.getValue()[0]));
+					values.put(Integer.parseInt(entry.getKey()), Double.parseDouble(entry.getValue()[0]));
 					String inventoryName = is.getInventoryName(Integer.parseInt(entry.getKey()));
 					String amount = entry.getValue()[0];
 					inventoryOverview += String.format("%s %s <br>", amount, inventoryName);
@@ -172,6 +174,7 @@ public class MoveInController extends HttpServlet {
 		}
 
 		try {
+			is.incrementUnits(values);
 			String msg = "<h5>"+"Tilgang gennemført fra " + is.getStation(Integer.parseInt(stationId)).getName() + " til " + is.getStorage(Integer.parseInt(storageId)).getName() + "</h5>" + inventoryOverview;
 			FlashMessage.setFlashMessage(request, "msg", msg);
 			response.sendRedirect("move");	

@@ -84,8 +84,8 @@ public class LoggedSummedInventory {
 		double result = closedAt - (inventoryStartValue - sumOfMoves());
 		return RoundDouble.round(result, ROUND_TO);
 	}
-	private int sumOfMoves(){
-		int sum = 0;
+	private double sumOfMoves(){
+		double sum = 0;
 		for (Double move : moves) {
 			if (move < 0){ sum += Math.abs(move); }
 			else{ sum -= move; }

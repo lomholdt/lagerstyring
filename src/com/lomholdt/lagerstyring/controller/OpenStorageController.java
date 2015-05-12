@@ -1,6 +1,7 @@
 package com.lomholdt.lagerstyring.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -131,16 +132,18 @@ public class OpenStorageController extends HttpServlet {
 			}
 		}
 
+		Map<Integer, Double> values = new HashMap<>();
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
 			if(entry.getKey().equals("sid") || entry.getKey().equals("update")) continue;
 			try {
+				values.put(Integer.parseInt(entry.getKey()), Double.parseDouble(entry.getValue()[0]));
 				// TODO Need to secure that updated id's belong to the user updating!
-				is.updateUnitsAt(Integer.parseInt(entry.getKey()), Double.parseDouble(entry.getValue()[0]));				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		try {
+			is.updateUnitsAt(values);				
 			is.changeStorageStatus(Integer.parseInt(storageId));			
 			is.getStorage(Integer.parseInt(storageId));
 			String storageName = is.getStorageName(Integer.parseInt(storageId));

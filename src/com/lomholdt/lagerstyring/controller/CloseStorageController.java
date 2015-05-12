@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -154,12 +155,14 @@ public class CloseStorageController extends HttpServlet {
 			
 			// Update all the values and close
 			int archiveLogId = is.getLatestArchiveLogId(Integer.parseInt(storageId));
+			Map<Integer, Double> values = new HashMap<>();
 			for(Map.Entry<String, String[]> entry : m.entrySet()){
 				if(entry.getKey().equals("sid") || entry.getKey().equals("update")) continue;
 				// TODO Need to secure that updated id's belong to the user updating!
-				is.updateUnitsAt(Integer.parseInt(entry.getKey()), Double.parseDouble(entry.getValue()[0]));
-				is.setInventoryAtClose(Integer.parseInt(storageId), archiveLogId, Integer.parseInt(entry.getKey()));
+				values.put(Integer.parseInt(entry.getKey()), Double.parseDouble(entry.getValue()[0]));
 			}
+			is.updateUnitsAt(values);
+			is.setInventoryAtClose(Integer.parseInt(storageId), archiveLogId, values);
 			is.changeStorageStatus(Integer.parseInt(storageId));
 			is.addToStorageLog(is.getStorageName(Integer.parseInt(storageId)), Integer.parseInt(storageId), "Luk");
 			

@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 
 public class InventoryStatements extends DBMain {
@@ -330,18 +331,21 @@ public class InventoryStatements extends DBMain {
 	}
 	
 		
-	public void setInventoryAtClose(int storageId, int archiveLogId, int inventoryId) throws Exception{
+	public void setInventoryAtClose(int storageId, int archiveLogId, Map<Integer, Double> values) throws Exception{
 		PreparedStatement statement = null;
-		ResultSet rs = null;
 		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement("UPDATE inventory_snapshot SET units_at_close = (SELECT inventory.units FROM inventory WHERE inventory.id = ?) WHERE inventory_snapshot.archive_log_id = ? AND inventory_snapshot.inventory_id = ?");
 			try {
-				// Do stuff with the statement
-				statement.setInt(1, inventoryId);
-				statement.setInt(2, archiveLogId);
-				statement.setInt(3, inventoryId);
-				statement.executeUpdate();
+				
+				
+				for (Entry<Integer, Double> entry : values.entrySet()) {
+					statement.setInt(1, entry.getKey());
+					statement.setInt(2, archiveLogId);
+					statement.setInt(3, entry.getKey());
+					statement.addBatch();
+				}
+				statement.executeBatch();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}				
@@ -350,8 +354,6 @@ public class InventoryStatements extends DBMain {
 			e.printStackTrace();
 		}
 		finally {
-            try { if(null!=rs)rs.close();} catch (SQLException e) 
-            {e.printStackTrace();}
             try { if(null!=statement)statement.close();} catch (SQLException e) 
             {e.printStackTrace();}
             try { if(null!=connection)connection.close();} catch (SQLException e) 
@@ -1285,14 +1287,20 @@ public class InventoryStatements extends DBMain {
 	
 	
 	
-	public boolean updateUnitsAt(int inventoryId, double newAmount) throws Exception{
+	public boolean updateUnitsAt(Map<Integer, Double> values) throws Exception{ // takes inventory id and newValue
 		PreparedStatement statement = null;
 		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement("UPDATE inventory SET units = ? WHERE inventory.id = ?");
-			statement.setDouble(1, newAmount);
-			statement.setInt(2, inventoryId);
-			statement.executeUpdate();
+			
+			
+			for (Entry<Integer, Double> entry : values.entrySet()) {
+				statement.setDouble(1, entry.getValue());
+				statement.setInt(2, entry.getKey());
+				statement.addBatch();
+			}
+			
+			statement.executeBatch();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1306,14 +1314,18 @@ public class InventoryStatements extends DBMain {
 		return false;	
 	}
 	
-	public boolean incrementUnits(int inventoryId, double amount) throws Exception{
+	public boolean incrementUnits(Map<Integer, Double> values) throws Exception{ // integer id and new value
 		PreparedStatement statement = null;
 		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement("UPDATE inventory SET units = units + ? WHERE inventory.id = ?");
-			statement.setDouble(1, amount);
-			statement.setInt(2, inventoryId);
-			statement.executeUpdate();
+			
+			for (Entry<Integer, Double> entry : values.entrySet()) {
+				statement.setDouble(1, entry.getValue());
+				statement.setInt(2, entry.getKey());
+				statement.addBatch();
+			}
+			statement.executeBatch();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1326,14 +1338,18 @@ public class InventoryStatements extends DBMain {
 		return false;	
 	}
 	
-	public boolean decrementUnits(int inventoryId, double amount) throws Exception{
+	public boolean decrementUnits(Map<Integer, Double> values) throws Exception{ // takes inventory id and amount
 		PreparedStatement statement = null;
 		Connection connection = ds.getConnection();;
 		try {
 			statement = connection.prepareStatement("UPDATE inventory SET units = units - ? WHERE inventory.id = ?");
-			statement.setDouble(1, amount);
-			statement.setInt(2, inventoryId);
-			statement.executeUpdate();
+			
+			for (Entry<Integer, Double> entry : values.entrySet()) {
+				statement.setDouble(1, entry.getValue());
+				statement.setInt(2, entry.getKey());
+				statement.addBatch();				
+			}
+			statement.executeBatch();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
