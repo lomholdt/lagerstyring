@@ -58,6 +58,7 @@
 						<p class="lead">Primære stationer</p>
 						<div class="col-sm-10 col-sm-offset-1">
 						<input type="hidden" value="${storage.id}" name="sid">
+						<input type="hidden" value="update" name="update">
 							<c:forEach var="primaryStation" items="${primaryStations}">
 										<div class="form-group">
 											<button type="submit"

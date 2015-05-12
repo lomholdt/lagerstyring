@@ -146,7 +146,7 @@ public class MoveOutController extends HttpServlet {
 		// Update the values that are not zero
 		String inventoryOverview = "";
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
-			if(entry.getKey().equals("sid") || entry.getKey().equals("stationId")) continue;
+			if(entry.getKey().equals("sid") || entry.getKey().equals("stationId") || entry.getKey().equals("update")) continue;
 			// TODO Need to secure that updated id's belong to the user updating!
 			if(!entry.getValue()[0].equals("0") && !entry.getValue()[0].isEmpty()){
 				// DECREMENT THIS AMOUNT FROM DATABASE

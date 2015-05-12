@@ -71,6 +71,7 @@
 						<p class="lead">Diverse</p>
 						<div class="col-sm-10 col-sm-offset-1">
 						<input type="hidden" value="${storage.id}" name="sid">
+						<input type="hidden" value="update" name="update">
 	
 								<c:forEach var="secondaryStation" items="${secondaryStations}">
 										<div class="form-group">

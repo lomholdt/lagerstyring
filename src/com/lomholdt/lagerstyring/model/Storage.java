@@ -72,7 +72,6 @@ public class Storage {
 		return inventoryCount;
 	}
 	public void setInventoryCount(int inventoryCount) {
-		System.out.println(inventoryCount);
 		this.inventoryCount = inventoryCount;
 	}
 }

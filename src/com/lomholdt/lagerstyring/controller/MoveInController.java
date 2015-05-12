@@ -147,18 +147,18 @@ public class MoveInController extends HttpServlet {
 		// Update the values that are not zero
 		String inventoryOverview = "";
 		for(Map.Entry<String, String[]> entry : m.entrySet()){
-			if(entry.getKey().equals("sid") || entry.getKey().equals("stationId")) continue;
+			if(entry.getKey().equals("sid") || entry.getKey().equals("stationId") || entry.getKey().equals("update")) continue;
 			// TODO Need to secure that updated id's belong to the user updating!
 			if(!entry.getValue()[0].equals("0") && !entry.getValue()[0].isEmpty()){
 				// INCREMENT THIS AMOUNT FROM DATABASE
 				try {
-					is.incrementUnits(Integer.parseInt(entry.getKey()), Integer.parseInt(entry.getValue()[0]));
+					is.incrementUnits(Integer.parseInt(entry.getKey()), Double.parseDouble(entry.getValue()[0]));
 					String inventoryName = is.getInventoryName(Integer.parseInt(entry.getKey()));
 					String amount = entry.getValue()[0];
 					inventoryOverview += String.format("%s %s <br>", amount, inventoryName);
 					is.addToInventoryLog(Integer.parseInt(entry.getKey()), 
 							inventoryName, 
-							Integer.parseInt(amount), 
+							Double.parseDouble(amount), 
 							Integer.parseInt(storageId), 
 							Integer.parseInt(stationId),
 							"Tilgang",

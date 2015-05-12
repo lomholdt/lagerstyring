@@ -35,7 +35,7 @@
 									<div class="form-group">
 										<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label> 
 										<div class="col-sm-8">
-										<input type="number" step="any" class="form-control" placeholder="Antal" name="${inventory.id}" min="0" value="${inventory.units}">
+										<input type="number" step="any" class="form-control" placeholder="Antal" name="${inventory.id}" min="0" value="${inventory.unitsAtOpen}">
 									 </div>
 									</div>
 								</c:forEach>
