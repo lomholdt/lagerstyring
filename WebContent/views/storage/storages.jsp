@@ -3,6 +3,8 @@
 
 
 <add:wrap title="Optælling">
+	<script src="${pageContext.request.contextPath}/js/noinventory.js"
+		type="text/javascript"></script>
 
 	<c:if test="${msg != null}">
 		<div class="alert alert-success">${msg}</div>
