@@ -126,23 +126,8 @@ public class MoveOutController extends HttpServlet {
 			return;
 		}
 
-
-
-		Map<String, String[]> m  = request.getParameterMap();
-		
+		Map<String, String[]> m  = request.getParameterMap();		
 		InventoryStatements is = new InventoryStatements();
-		// Must ensure no impossible decrements and ignore empty and 0 input
-//		for(Map.Entry<String, String[]> entry : m.entrySet()){
-//			if(entry.getKey().equals("sid") || entry.getKey().equals("stationId")) continue;
-//			if(entry.getValue()[0].equals("0") || entry.getValue()[0].isEmpty()) continue;
-//			int newValue = is.currentInventoryUnits(Integer.parseInt(entry.getKey())) - Integer.parseInt(entry.getValue()[0]);
-//			if (newValue < 0){
-//				// CANNOT DECREMENT TO LESS THAN ZERO - ABORT
-//				FlashMessage.setFlashMessage(request, "error", "Cannot decrement to less than 0");
-//				response.sendRedirect("move"); 
-//				return;
-//			}
-//		}
 		
 		// Update the values that are not zero
 		String inventoryOverview = "";
@@ -173,14 +158,10 @@ public class MoveOutController extends HttpServlet {
 			}
 		}
 		
-		
-
 		try {
 			
 			is.decrementUnits(values);
-			
-			
-			
+				
 			String msg = "<h5>Afgang gennemført fra " + is.getStorage(Integer.parseInt(storageId)).getName() + " til " + is.getStation(Integer.parseInt(stationId)).getName() + "</h5>" + inventoryOverview;
 			FlashMessage.setFlashMessage(request, "msg", msg);
 			response.sendRedirect("move");	
