@@ -57,7 +57,6 @@
 									<input type="number" class="form-control" placeholder="Omsætningspris*"
 										name="salesPrice" step="any">
 								</div>
-								<div>*Decimaler angives efter punktum (00.00)</div>
 								<br>
 								<div class="form-group">
 									<button type="submit" class="btn btn-primary btn-lg btn-block">Tilføj vare</button>
