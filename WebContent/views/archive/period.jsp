@@ -97,15 +97,16 @@
 			<!-- OVERSIGT START -->
 			<div class="row">
 				<div class="col-sm-12">
-				<h1>${storage.name}<small> // ${from}</small> <span onclick="window.print()" class="btn btn-default btn-xs pull-right udskriv">Udskriv rapport</span> </h1>
+				<h1>${storage.name}<small> - ${from}</small></h1>
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 class="panel-title">
-								Oversigt <span id="export" class="btn btn-default btn-xs pull-right">Excel</span>
+								Oversigt <span onclick="window.print()" class="btn btn-default btn-xs pull-right udskriv">Udskriv rapport</span><span id="export" class="btn btn-default btn-xs pull-right">Excel</span>
 
 							</h3>
 						</div>
 						<div class="panel-body">
+						<div class="table-responsive">
 							<table id="overview" class="table table-striped excel" data-sortable>
 								<thead>
 									<tr class="meta-excel-export-info">
@@ -164,6 +165,7 @@
 									</tr>
 								</thead>
 							</table>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -185,13 +187,8 @@
 									items="${loggedStorage.loggedStations}">
 									<c:set var="stationTotal" value="0" />
 									<div class="row">
-										<div class="col-sm-10 col-sm-offset-1">
-											<h4>${loggedStation.station.name}</h4>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-sm-10 col-sm-offset-1">
+										<div class="col-sm-12">
+										<h4>${loggedStation.station.name}</h4>
 											<table class="table table-striped excel" data-sortable>
 												<thead>
 													<tr>

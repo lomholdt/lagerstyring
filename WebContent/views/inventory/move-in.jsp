@@ -84,7 +84,7 @@
 						<p class="lead">Annullér</p>
 						<div class="col-sm-10 col-sm-offset-1">
 							<div class="form-group">
-								<a class="btn btn-default btn-lg btn-block" href="move" role="button">Annullér</a>	
+								<a class="btn btn-default btn-lg btn-block" href="move" role="button">Tilbage</a>	
 							</div>
 						</div>
 						

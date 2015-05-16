@@ -54,10 +54,10 @@
 					<div class="panel-footer-grey">
 						<div class="row">
 							<div class="col-sm-12">
-							<a class="btn btn-default btn-lg pull-left" href="count" role="button">Annullér</a>
+							<a class="btn btn-default btn-lg pull-left" href="count" role="button">Tilbage</a>
 								<input type="hidden" value="${storage.id}" name="sid">
 								<input type="hidden" value="update" name="update">
-								<button type="button" class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#saveAndOpen">Godkend start-tal</button>
+								<button type="button" class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#saveAndOpen">Gem og åbn</button>
 							</div>
 						</div>
 					</div>

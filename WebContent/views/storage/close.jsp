@@ -26,12 +26,12 @@
 					<div class="panel-body">
 						<br>
 						<div class="row">
-							<div class="col-sm-11 col-sm-offset-1" id="inventory">
+							<div class="col-sm-10 col-sm-offset-1" id="inventory">
 
 
 								<c:forEach var="inventory" items="${storage.inventory}">
 									<c:if test="${category ne inventory.category}">
-										<hr>
+									<hr>
 										<p class="lead">${inventory.category}</p>
 										<c:set var="category" value="${inventory.category}" />
 									</c:if>
@@ -45,15 +45,13 @@
 												name="${inventory.id}" min="0"
 												value="<c:if test="${inventory.tempUnitsSet}">${inventory.tempUnits}</c:if>">
 										</div>
-
-										<label class="control-label col-sm-1"></label>
-										<div class="col-md-2">
+										<div class="col-md-3">
 											<input type="number" disabled="disabled"
 												data-toggle="tooltip" data-placement="bottom" title="Forventet antal" id="${inventory.id}-inventory-expected" class="form-control"
 												value="${inventory.unitsAtOpen + inventory.movesSoFar}">
 										</div>
 
-										<div class="col-md-2">
+										<div class="col-md-3">
 											<input type="number" class="form-control" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title="Difference" id="${inventory.id}-diff">
 										</div>
 
@@ -65,7 +63,7 @@
 					<div class="panel-footer-grey">
 						<div class="row">
 							<div class="col-sm-12">
-								<a class="btn btn-default btn-lg pull-left" href="count" role="button">Annullér</a>
+								<a class="btn btn-default btn-lg pull-left" href="count" role="button">Tilbage</a>
 								<input type="hidden" value="${storage.id}" name="sid"> <input
 									type="hidden" value="update" name="update">
 									<div class="pull-right">
