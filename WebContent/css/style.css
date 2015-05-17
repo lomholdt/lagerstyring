@@ -70,7 +70,7 @@ font-weight: bold;
 }
 
 .navbar-default .navbar-brand {
-    color: #34495e;
+    color: #202C3A;
     font-weight: 700;
     letter-spacing: .5rem;
 }
@@ -145,7 +145,7 @@ h1 {
 
 .panel-default > .panel-heading {
   color: #333333;
-  background-color: #34495e;
+  background-color: #202C3A;
 }
 
 .panel-heading {
@@ -182,18 +182,18 @@ h1 {
 }
 
 .btn-primary {
-    background: #5fcf80;
+    background: #03BA81;
     color: #ffffff;
-    border-color:#5fcf80;
+    border-color:#03BA81;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
-    background: #50B56D;
-    border-color:#50B56D;
+    background: #03AE79;
+    border-color:#03AE79;
 }
  
 .btn-primary:active, .btn-primary.active {
-    background: #5fcf80;
+    background: #03BA81;
     box-shadow: none;
 }
 
@@ -247,7 +247,7 @@ label {
 */
 
 .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
-    color: #34495e;
+    color: #202C3A;
     background-color: transparent;
     font-weight: bold;
     text-transform: uppercase;
