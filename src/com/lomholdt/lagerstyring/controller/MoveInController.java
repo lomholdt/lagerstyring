@@ -150,7 +150,8 @@ public class MoveInController extends HttpServlet {
 							Integer.parseInt(stationId),
 							"Tilgang",
 							is.getInventoryPrice(Integer.parseInt(entry.getKey())),
-							is.getInventorySalesPrice(Integer.parseInt(entry.getKey())));
+							is.getInventorySalesPrice(Integer.parseInt(entry.getKey())),
+							user.getUsername());
 				} catch (Exception e) {
 					System.out.println("Could not add to log");
 					e.printStackTrace();

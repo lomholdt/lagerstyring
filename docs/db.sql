@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS categories(
 	id int(11) NOT NULL AUTO_INCREMENT,
 	company_id int(11) NOT NULL,
 	category varchar(100) NOT NULL,
-	PRIMARY KEY (id),
+	PRIMARY KEY (id),	
 	FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -173,6 +173,10 @@ CREATE TABLE IF NOT EXISTS temporary_units(
 ALTER TABLE inventory_snapshot DROP FOREIGN KEY inventory_snapshot_ibfk_1;
 
 
+/**
+ * Indsæt brugernavn ved afgang og tilgang
+ */
+ALTER TABLE 
 
 /*****************************************************
  INSERT DUMMY DATA HERE

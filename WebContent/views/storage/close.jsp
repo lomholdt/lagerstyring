@@ -169,6 +169,7 @@
 												<th>Varenavn</th>
 												<th>Antal</th>
 												<th>Handling</th>
+												<th>Udført af</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -179,6 +180,7 @@
 													<td>${loggedInventory.name}</td>
 													<td>${loggedInventory.units}</td>
 													<td>${loggedInventory.performedAction}</td>
+													<td>${loggedInventory.performedBy}</td>
 												</tr>
 											</c:forEach>
 										</tbody>

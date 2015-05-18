@@ -181,6 +181,7 @@ function getCompanyInventory(){
 					$(row).attr("id", current.id);
 					
 					$("<td>" + current.name + "</td>").appendTo(row);
+					$("<td>" + current.belongsToStorage + "</td>").appendTo(row);
 					var category = $("<td></td>").appendTo(row);
 					$(category).append(getDropdownOfCategories(current.category));
 					

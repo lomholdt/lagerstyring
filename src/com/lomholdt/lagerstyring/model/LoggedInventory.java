@@ -12,6 +12,7 @@ public class LoggedInventory {
 	private String performedAction;
 	private double price;
 	private double salesPrice;
+	private String performedBy;
 	
 	public Calendar getCreatedAt() {
 		return createdAt;
@@ -49,5 +50,11 @@ public class LoggedInventory {
 	}
 	public void setSalesPrice(double salesPrice) {
 		this.salesPrice = salesPrice;
+	}
+	public String getPerformedBy() {
+		return performedBy;
+	}
+	public void setPerformedBy(String performedBy) {
+		this.performedBy = performedBy;
 	}
 }

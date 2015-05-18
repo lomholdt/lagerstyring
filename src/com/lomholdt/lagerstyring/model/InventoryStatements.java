@@ -397,7 +397,7 @@ public class InventoryStatements extends DBMain {
 		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement(""
-					+ "SELECT inventory_log.created_at, inventory_log.name, inventory_log.units, inventory_log.price, inventory_log.performed_action "
+					+ "SELECT inventory_log.created_at, inventory_log.name, inventory_log.units, inventory_log.price, inventory_log.performed_action, inventory_log.performed_by "
 					+ "FROM inventory_log "
 					+ "WHERE inventory_log.created_at >= ? "
 					+ "AND inventory_log.created_at <= ? "
@@ -417,6 +417,7 @@ public class InventoryStatements extends DBMain {
 					li.setUnits(rs.getDouble("units"));
 					li.setPerformedAction(rs.getString("performed_action"));
 					li.setPrice(rs.getDouble("price"));
+					li.setPerformedBy(rs.getString("performed_by"));
 					
 					ls.addToLoggedInventory(li);
 				}
@@ -449,7 +450,7 @@ public class InventoryStatements extends DBMain {
 		Connection connection = ds.getConnection();
 		try {
 			statement = connection.prepareStatement(""
-					+ "SELECT inventory_log.created_at, inventory_log.name, inventory_log.units, inventory_log.price, inventory_log.performed_action "
+					+ "SELECT inventory_log.created_at, inventory_log.name, inventory_log.units, inventory_log.price, inventory_log.performed_action, inventory_log.performed_by "
 					+ "FROM inventory_log "
 					+ "WHERE inventory_log.created_at >= ? "
 					+ "AND inventory_log.created_at <= ? "
@@ -468,6 +469,7 @@ public class InventoryStatements extends DBMain {
 					li.setUnits(rs.getDouble("units"));
 					li.setPerformedAction(rs.getString("performed_action"));
 					li.setPrice(rs.getDouble("price"));
+					li.setPerformedBy(rs.getString("performed_by"));
 					
 					ls.addToLoggedInventory(li);
 				}
@@ -980,20 +982,21 @@ public class InventoryStatements extends DBMain {
 	
 	
 
-	public boolean addToInventoryLog(int inventoryId, String name, double units, int storageId, int stationId, String performed_action, double price, double salesPrice) throws Exception{
+	public boolean addToInventoryLog(int inventoryId, String name, double units, int storageId, int stationId, String performedAction, double price, double salesPrice, String performedBy) throws Exception{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		Connection connection = ds.getConnection();
 		try {
-			statement = connection.prepareStatement("INSERT INTO inventory_log (inventory_id, name, units, storage_id, station_id, performed_action, price, sales_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+			statement = connection.prepareStatement("INSERT INTO inventory_log (inventory_id, name, units, storage_id, station_id, performed_action, price, sales_price, performed_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			statement.setInt(1, inventoryId);
 			statement.setString(2, name);
 			statement.setDouble(3, units);
 			statement.setInt(4, storageId);
 			statement.setInt(5, stationId);
-			statement.setString(6, performed_action);
+			statement.setString(6, performedAction);
 			statement.setDouble(7, price);
 			statement.setDouble(8, salesPrice);
+			statement.setString(9, performedBy);
 			statement.executeUpdate();
 			return true;
 		}

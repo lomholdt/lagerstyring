@@ -357,6 +357,7 @@
 											<thead>
 												<tr>
 													<th>Inventar</th>
+													<th>Lager</th>
 													<th>Kategori</th>
 												</tr>
 											</thead>

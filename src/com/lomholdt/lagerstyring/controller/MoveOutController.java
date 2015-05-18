@@ -151,7 +151,8 @@ public class MoveOutController extends HttpServlet {
 							Integer.parseInt(stationId),
 							"Afgang", 
 							is.getInventoryPrice(Integer.parseInt(entry.getKey())),
-							is.getInventorySalesPrice(Integer.parseInt(entry.getKey())));
+							is.getInventorySalesPrice(Integer.parseInt(entry.getKey())),
+							user.getUsername());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
