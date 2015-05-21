@@ -122,9 +122,9 @@
 										<th>Diff.</th>
 										<th>Salg</th>
 										<th>Indkøbspris</th>
-										<th>Omsætningspris</th>
+										<th>Salgspris</th>
 										<th>Indkøb-kr.</th>
-										<th>Omsætning-kr.</th>
+										<th>Salg-kr.</th>
 									</tr>
 								</thead>
 								<c:forEach var="loggedInventory" items="${loggedInventory}">

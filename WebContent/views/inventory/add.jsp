@@ -76,7 +76,7 @@
 												<th>Vare</th>
 												<th>Lager</th>
 												<th>Indkøbspris</th>
-												<th>Omsætningspris</th>
+												<th>Salgspris</th>
 												<th>Kategori</th>
 												<th>Marker</th>
 											</tr>
