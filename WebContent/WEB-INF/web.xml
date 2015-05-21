@@ -40,14 +40,6 @@
     <url-pattern>/choose</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>ReportController</servlet-name>
-    <servlet-class>com.lomholdt.lagerstyring.controller.ReportController</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ReportController</servlet-name>
-    <url-pattern>/report</url-pattern>
-  </servlet-mapping>
-  <servlet>
     <servlet-name>PeriodController</servlet-name>
     <servlet-class>com.lomholdt.lagerstyring.controller.PeriodController</servlet-class>
   </servlet>

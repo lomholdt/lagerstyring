@@ -86,7 +86,7 @@ public class PeriodController extends HttpServlet {
 				// default the dates
 				// FROM
 				Calendar cal = Calendar.getInstance();
-				cal.add(Calendar.MONTH, -1);
+				cal.add(Calendar.DAY_OF_MONTH, -7);
 				Date f = new Date(cal.getTimeInMillis());
 				fromDate = f.toString();
 				
