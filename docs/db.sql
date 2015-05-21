@@ -176,7 +176,7 @@ ALTER TABLE inventory_snapshot DROP FOREIGN KEY inventory_snapshot_ibfk_1;
 /**
  * Indsæt brugernavn ved afgang og tilgang
  */
-ALTER TABLE 
+ALTER TABLE inventory_log ADD performed_by varchar(300) NOT NULL;
 
 /*****************************************************
  INSERT DUMMY DATA HERE
