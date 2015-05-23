@@ -21,7 +21,7 @@
 						<div class="row">
 							<div class="col-md-2">
 								<div class="form-group">
-									<h4>Lager</h4>
+									<h3>Lager</h3>
 
 									<a class="btn btn-default btn-sm" href="choose" role="button">${storage.name}
 										<span class="glyphicon glyphicon-remove"></span>
@@ -31,7 +31,7 @@
 							<div class="col-md-5">
 
 								<form class="form-inline" method="GET" action="period">
-									<h4>Rapport arkiv</h4>
+									<h3>Rapport arkiv</h3>
 									<div class="form-group">
 										<label for="from">Fra</label> <input type="date"
 											class="form-control input-sm" name="from" value="${fromTime}">
@@ -48,7 +48,7 @@
 							</div>
 							<div class="col-md-5">
 								<form class="form-inline" method="POST" action="period">
-									<h4>Vælg rapport</h4>
+									<h3>Vælg rapport</h3>
 									<div class="form-group">
 										<select class="form-control input-sm" name="period">
 											<c:forEach var="logBook" items="${logBooks}">
@@ -100,12 +100,15 @@
 				<h1>${storage.name}<small> - ${from}</small></h1>
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">
+							<h2>
 								Oversigt <span onclick="window.print()" class="btn btn-default btn-xs pull-right udskriv">Udskriv rapport</span><span id="export" class="btn btn-default btn-xs pull-right">Excel</span>
 
-							</h3>
+							</h2>
 						</div>
 						<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-10 col-sm-offset-1">
+								<h3>${storage.name}</h3>
 						<div class="table-responsive">
 							<table id="overview" class="table table-striped excel" data-sortable>
 								<thead>
@@ -166,6 +169,9 @@
 								</thead>
 							</table>
 							</div>
+							</div>
+							
+							</div>
 						</div>
 					</div>
 				</div>
@@ -178,17 +184,19 @@
 					<div class="col-sm-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h3 class="panel-title">
+								<h2>
 									Stationer 
-								</h3>
+								</h2>
 							</div>
 							<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-10 col-sm-offset-1">
 								<c:forEach var="loggedStation"
 									items="${loggedStorage.loggedStations}">
 									<c:set var="stationTotal" value="0" />
 									<div class="row">
 										<div class="col-sm-12">
-										<h4>${loggedStation.station.name}</h4>
+										<h3>${loggedStation.station.name}</h3>
 											<table class="table table-striped excel" data-sortable>
 												<thead>
 													<tr>
@@ -230,6 +238,8 @@
 										<hr>
 									</div>
 								</c:forEach>
+								</div>
+								</div>
 							</div>
 						</div>
 					</div>

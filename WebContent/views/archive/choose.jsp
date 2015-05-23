@@ -15,9 +15,9 @@
 			<form method="POST" action="period">
 				<div class="panel panel-default">
 					<div class="panel-body">
-						<p class="lead">Vælg lager</p>
 						<div class="row">
 							<div class="col-sm-8 col-sm-offset-2">
+								<h3>Vælg lager</h3>
 								<div class="form-group">
 									<select class="form-control" name="storageId">
 										<!--  <option value="allStorages">Alle Lagre</option> -->

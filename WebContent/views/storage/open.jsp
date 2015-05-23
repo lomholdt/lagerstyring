@@ -16,19 +16,19 @@
 			<form class="form-horizontal" method="POST" action="open" id="openStorageForm">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Start tal</h3>
+						<h2>Start tal</h2>
 					</div>
 					<div class="panel-body"> <!-- INVENTORY START  -->
-						<br>
-						<div class="row"> 
-							<div class="col-sm-10 col-sm-offset-1">
+					<div class="row">
+								<div class="col-sm-10 col-sm-offset-1">
 								<c:set var="category" value="${storage.inventory.get(0).category}" />
-								<p class="lead">${category}</p>
+								<h3>${category}</h3>
 								<c:forEach var="inventory" items="${storage.inventory}">
+								
 								
 								<c:if test="${category ne inventory.category}">
 								<hr>
-									<p class="lead">${inventory.category}</p>
+									<h3>${inventory.category}</h3>
 									<c:set var="category" value="${inventory.category}" />
 								</c:if>
 								
@@ -41,17 +41,21 @@
 									</c:otherwise>
 								</c:choose>
 
+
 									<div class="form-group">
-										<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label> 
+										<label for="${inventory.id}" class="col-sm-4 control-label">${inventory.name}</label> 
 										<div class="col-sm-8">
 										<input type="number" step="any" class="form-control" placeholder="Antal" name="${inventory.id}" min="0" value="${startValue}">
 									 </div>
 									</div>
+						
+									
+									
 								</c:forEach>
-							</div>
-						</div>
+									 </div>
+</div>		
 					</div> <!-- INVENTORY END  -->
-					<div class="panel-footer-grey">
+					<div class="panel-footer">
 						<div class="row">
 							<div class="col-sm-12">
 							<a class="btn btn-default btn-lg pull-left" href="count" role="button">Tilbage</a>

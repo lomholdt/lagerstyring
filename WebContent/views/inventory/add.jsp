@@ -18,13 +18,13 @@
 			<h1>Indstillinger</h1>
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Opret vare</h3>
+					<h2>Opret vare</h2>
 				</div>
 
 				<div class="panel-body">
-					<p class="lead">Tilføj vare</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
+						<h3>Tilføj vare</h3>
 							<form method="POST" action="inventory#vareliste">
 								<div class="form-group">
 									<select class="form-control" name="storage">
@@ -61,14 +61,14 @@
 									<button type="submit" class="btn btn-primary btn-lg btn-block">Tilføj vare</button>
 								</div>
 							</form>
+							
 						</div>
 					</div>
-				</div>
-				<a id="vareliste"></a>
-				<div class="panel-footer">
-					<p class="lead">Vareliste</p>
+					<hr>
+						<a id="vareliste"></a>
 					<div class="row">
 						<div class="col-sm-12">
+						<h3 >Vareliste</h3>
 							<form action="delete" method="POST">
 								<table class="table table-condensed table-striped table-hover">
 										<thead>
