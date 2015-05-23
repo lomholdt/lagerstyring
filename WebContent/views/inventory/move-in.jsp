@@ -20,22 +20,20 @@
 			<div class="col-sm-6 col-sm-offset-1">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Tilgang</h3>
+						<h2>Tilgang</h2>
 					</div>
 					<div class="panel-body">
-						<br>
-						<div class="col-sm-10 col-sm-offset-1">
+					<div class="row">
+								<div class="col-sm-10 col-sm-offset-1">
 							
 							<c:set var="category" value="${storage.inventory.get(0).category}" />
-							<p class="lead">${category}</p>
-							
+							<h3>${category}</h3>
 							<c:forEach var="inventory" items="${storage.inventory}">
 								<c:if test="${category ne inventory.category}">
 								<hr>
-									<p class="lead">${inventory.category}</p>
+									<h3>${inventory.category}</h3>
 									<c:set var="category" value="${inventory.category}" />
 								</c:if>
-									
 									<div class="form-group">
 										<label for="${inventory.id}" class="col-sm-3 control-label">${inventory.name}</label> 
 										<div class="col-sm-8">
@@ -44,7 +42,8 @@
 										</div>
 									</div>
 							</c:forEach>
-						</div>
+					</div>
+					</div>		
 					</div>
 				</div>
 			</div>
@@ -52,42 +51,30 @@
 			<div class="col-sm-4">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Godkend station</h3>
+						<h2>Godkend station</h2>
 					</div>
 					<div class="panel-body">
-						<p class="lead">Primære stationer</p>
-						<div class="col-sm-10 col-sm-offset-1">
+					<div class="row">
+								<div class="col-sm-10 col-sm-offset-1">
+						<h3>Primære stationer</h3>
 						<input type="hidden" value="${storage.id}" name="sid">
 						<input type="hidden" value="update" name="update">
 							<c:forEach var="primaryStation" items="${primaryStations}">
-										<div class="form-group">
 											<button type="submit"
 												class="btn btn-primary btn-lg btn-block" name="stationId"
 												value="${primaryStation.id}">${primaryStation.name}</button>
-										</div>
 							</c:forEach>
-						</div>
-						
-						<p class="lead">Diverse</p>
-						<div class="col-sm-10 col-sm-offset-1">
+						<h3>Diverse</h3>
 						<input type="hidden" value="${storage.id}" name="sid">
-	
 								<c:forEach var="secondaryStation" items="${secondaryStations}">
-										<div class="form-group">
 											<button type="submit"
 												class="btn btn-default btn-lg btn-block" name="stationId"
 												value="${secondaryStation.id}">${secondaryStation.name}</button>
-										</div>
 							</c:forEach>
-						</div>
-						
-						<p class="lead">Annullér</p>
-						<div class="col-sm-10 col-sm-offset-1">
-							<div class="form-group">
-								<a class="btn btn-default btn-lg btn-block" href="move" role="button">Tilbage</a>	
-							</div>
-						</div>
-						
+						<h3>Annullér</h3>
+								<a class="btn btn-default btn-lg btn-block" href="move" role="button">Tilbage</a>
+					</div>
+					</div>				
 					</div>
 				</div>
 			</div>

@@ -49,14 +49,12 @@
 
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Ændre virksomhed</h3>
+							<h2>Ændre virksomhed</h2>
 						</div>
 						<div class="panel-body">
-
-							<p class="lead">Tilføj Virksomhed</p>
 							<div class="row">
-								<div class="col-sm-8 col-sm-offset-2">
-
+								<div class="col-sm-10 col-sm-offset-1">
+								<h3>Tilføj Virksomhed</h3>
 									<form method="POST" action="admin">
 										<div class="form-group">
 											<input type="text" class="form-control"
@@ -64,7 +62,7 @@
 										</div>
 										<div class="form-group">
 											<button type="submit"
-												class="btn btn-primary btn-lg btn-block">Opret Ny
+												class="btn btn-primary btn-lg pull-right">Opret Ny
 												Virksomhed</button>
 										</div>
 									</form>
@@ -72,11 +70,9 @@
 								
 							</div>
 							<div class="row"><hr></div>
-
-
-							<p class="lead">Virksomheder</p>
 							<div class="row">
-								<div class="col-sm-8 col-sm-offset-2">
+								<div class="col-sm-10 col-sm-offset-1">						
+							<h3>Virksomheder</h3>
 									<table class="table table-striped table-condensed">
 										<thead>
 											<tr>
@@ -134,13 +130,13 @@
 
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Opret bruger</h3>
+							<h2>Opret bruger</h2>
 						</div>
 						<div class="panel-body">
 							<form method="POST" action="admin">
-							<p class="lead">Tilføj ny bruger</p>
 								<div class="row">
 								<div class="col-sm-8 col-sm-offset-2">
+								<h3>Tilføj ny bruger</h3>
 								<div class="form-group">
 									<select class="form-control" name="userCompany" id="newUserSelector">
 										<c:forEach var="company" items="${companies}">
@@ -170,9 +166,9 @@
 									</div>
 									</div>
 									<div class="row"><hr></div>
-									<p class="lead">Brugere</p>
 									<div class="row">
 								<div class="col-sm-8 col-sm-offset-2" id="users">
+								<h3>Brugere</h3>
 									<table class="table table-striped table-condensed">
 											<thead>
 												<tr>
@@ -200,12 +196,12 @@
 				<div role="tabpanel" class="tab-pane" id="station">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Opret station</h3>
+							<h2>Opret station</h2>
 						</div>
 						<div class="panel-body">
-						<p class="lead">Tilføj Station</p>
 						<div class="row">
 								<div class="col-sm-8 col-sm-offset-2">
+								<h3>Tilføj Station</h3>
 							<form method="POST" action="admin">
 								<div class="form-group">
 									<select class="form-control" name="stationCompany" id="newStationSelector">
@@ -234,9 +230,9 @@
 							</div>
 							</div>
 								<div class="row"><hr></div>
-									<p class="lead">Stationer</p>
 									<div class="row">
 										<div class="col-sm-8 col-sm-offset-2">
+										<h3>Stationer</h3>
 										<table class="table table-striped table-condensed">
 												<thead>
 													<tr>
@@ -257,12 +253,12 @@
 				<div role="tabpanel" class="tab-pane" id="lager">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Opret lager</h3>
+							<h2>Opret lager</h2>
 						</div>
 						<div class="panel-body">
-						<p class="lead">Tilføj Lager</p>
 						<div class="row">
 							<div class="col-sm-8 col-sm-offset-2">
+							<h3>Tilføj Lager</h3>
 								<form method="POST" action="admin">
 									<div class="form-group">
 										<select class="form-control" name="storageCompany" id="newStorageSelector">
@@ -283,9 +279,9 @@
 							</div>
 						</div>
 							<div class="row"><hr></div>
-							<p class="lead">Lagre</p>
 							<div class="row">
 								<div class="col-sm-8 col-sm-offset-2">
+															<h3>Lagre</h3>
 									<table class="table table-striped table-condensed">
 										<thead>
 											<tr>
@@ -308,12 +304,12 @@
 				<div role="tabpanel" class="tab-pane" id="kategori">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Tilføj Kategorier</h3>
+							<h2>Tilføj Kategorier</h2>
 						</div>
 						<div class="panel-body">
-						<p class="lead">Tilføj Kategorier</p>
 						<div class="row">
 							<div class="col-sm-8 col-sm-offset-2">
+							<h3>Tilføj Kategorier</h3>
 								<form method="POST" action="admin">
 									<div class="form-group">
 										<select class="form-control" name="categoryCompany" id="newCategorySelector">
@@ -333,9 +329,9 @@
 							</div>
 						</div>
 							<div class="row"><hr></div>
-								<p class="lead">Kategorier</p>
 								<div class="row">
 									<div class="col-sm-8 col-sm-offset-2">
+														<h3>Kategorier</h3>
 										<table class="table table-striped table-condensed">
 											<thead>
 												<tr>
@@ -350,9 +346,9 @@
 									</div>
 								</div>
 								<div class="row"><hr></div>
-								<p class="lead">Inventar</p>
 								<div class="row">
 									<div class="col-sm-8 col-sm-offset-2">
+									<h3 class="lead">Inventar</h3>
 										<table class="table table-striped table-condensed">
 											<thead>
 												<tr>

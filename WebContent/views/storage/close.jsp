@@ -21,21 +21,18 @@
 				id="closeStorageForm">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Slut tal</h3>
+						<h2>Slut tal</h2>
 					</div>
 					<div class="panel-body">
-						<br>
-						<div class="row">
-							<div class="col-sm-10 col-sm-offset-1" id="inventory">
-
-
+							<div class="row">
+								<div class="col-sm-10 col-sm-offset-1">
+							<div id="inventory">
 								<c:forEach var="inventory" items="${storage.inventory}">
 									<c:if test="${category ne inventory.category}">
 									<hr>
-										<p class="lead">${inventory.category}</p>
+										<h3>${inventory.category}</h3>
 										<c:set var="category" value="${inventory.category}" />
 									</c:if>
-
 									<div class="form-group inventory">
 
 										<label for="${inventory.id}" class="control-label col-sm-2">${inventory.name}</label>
@@ -58,9 +55,10 @@
 									</div>
 								</c:forEach>
 							</div>
+							</div>
+							</div>
 						</div>
-					</div>
-					<div class="panel-footer-grey">
+					<div class="panel-footer">
 						<div class="row">
 							<div class="col-sm-12">
 								<a class="btn btn-default btn-lg pull-left" href="count" role="button">Tilbage</a>
@@ -103,15 +101,15 @@
 			<div class="col-sm-8 col-sm-offset-2">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Logbog</h3>
+						<h2>Søg i logbog</h2>
 					</div>
 					<div class="panel-body">
-						<p class="lead">
+					<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
+						<h3>
 							Søg i logbogen
 							<c:if test="${fromTimestamp ne null}">(fra ${fromTimestamp} til ${toTimestamp})</c:if>
-						</p>
-						<div class="row">
-							<div class="col-sm-8 col-sm-offset-2">
+						</h3>
 								<div class="form-group">
 									<select class="form-control" name="inventoryName">
 										<option value="allInventory">Alle varer</option>
@@ -136,10 +134,9 @@
 										class="btn btn-primary btn-lg btn-block">Se lager
 										rapport</button>
 								</div>
-							</div>
-						</div>
 					</div>
-
+				</div>
+					</div>
 				</div>
 			</div>
 		</form>
@@ -149,18 +146,13 @@
 			<div class="col-sm-8 col-sm-offset-2">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Lager rapport</h3>
+						<h2>Lager Logbog</h2>
 					</div>
 					<div class="panel-body">
+					<div class="row">
+								<div class="col-sm-10 col-sm-offset-1">
 						<c:forEach var="loggedStation" items="${logResults}">
-							<div class="row">
-								<div class="col-sm-10 col-sm-offset-1">
-									<h4>${loggedStation.station.name}</h4>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-sm-10 col-sm-offset-1">
+									<h3>${loggedStation.station.name}</h3>
 								<div class="table-responsive">
 									<table class="table table-striped" data-sortable>
 										<thead>
@@ -186,12 +178,12 @@
 										</tbody>
 									</table>
 								</div>	
-								</div>
-							</div>
 							<div class="row">
 								<hr>
 							</div>
 						</c:forEach>
+					</div>
+					</div>	
 					</div>
 				</div>
 			</div>

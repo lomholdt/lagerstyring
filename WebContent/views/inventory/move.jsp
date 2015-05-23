@@ -14,7 +14,7 @@
 						<div class="panel panel-default">
 		                    <div class="panel-heading">
 		                        <div class="row">
-		                           <div class="col-sm-12"><h3 class="panel-title">${storage.name} 
+		                           <div class="col-sm-12"><h2>${storage.name} 
 			                           <c:choose>
 											<c:when test="${storage.isOpen()}">
 												<span class="label label-success pull-right">Åbent ${storage.openedAtHtml}</span>
@@ -22,7 +22,7 @@
 											<c:otherwise>
 												<span class="label label-danger pull-right">Lukket ${storage.openedAtHtml}</span>
 											</c:otherwise>
-										</c:choose> </h3> 
+										</c:choose> </h2> 
 									</div>
 		                       </div>
 		                   </div>
