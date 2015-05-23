@@ -1,7 +1,19 @@
-#search {
-	display: none;	
+#overview {
+	font-size: 8px;
+}
+
+h1 {
+	font-size: 21px;
+}
+
+#search{
+	display:none;
+}
+
+#export{
+	display:none;
 }
 
 .udskriv{
-	display: none;
+	display:none;
 }

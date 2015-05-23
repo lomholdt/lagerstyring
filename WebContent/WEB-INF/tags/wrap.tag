@@ -16,7 +16,8 @@
 		<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/css/style.css">
 		
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-2.1.3.min.js"></script>
-		<script src="${pageContext.request.contextPath}/js/jquery.toaster.js"></script>	
+		<script src="${pageContext.request.contextPath}/js/jquery.toaster.js"></script>
+		<script src="${pageContext.request.contextPath}/js/events.js"></script>	
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 		<!-- /.table sort javascript -->
 		<script src="${pageContext.request.contextPath}/js/sortable.js"></script>
